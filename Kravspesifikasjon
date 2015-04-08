@@ -33,8 +33,10 @@
 -
 -
 -Hvilket utviklingsverktøy skal brukes?(TextPad, Eclipse, Netbeans?)
--
--
+- Vi ska använda oss utav TextPad och Netbeans, för vi har olika operativsystem och textpad är bara kompatibelt med windows.
+  Om det skapar problem för oss byter samtliga till Netbeans. Utöver dessa IDE:n kommer github användas flitigt för att dela kod
+  effektivt.
+  
 -Systemkrav til maskinen programmet skal kjøres på
 -
 -
