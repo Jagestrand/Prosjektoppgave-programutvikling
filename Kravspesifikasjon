@@ -38,14 +38,16 @@
   effektivt.
   
 -Systemkrav til maskinen programmet skal kjøres på
--
--
+Programmet kommer att testas på skoldatorerna som använder sig av windows 7. 
+Sedan kommer det även testas på mac som använder OS X Yoshmite, 
+men det bör även vara kompatibelt med äldre system med den senaste versionen av java 8.
+
 -Opplysninger om Java-versjon (NB må bruke java 1.8)
--
+-Vi ska använda den senaste versionen av java 8. 
 -
 -Fremdriftsplan med milepæler
 -Kravspesifikasjoner må være ferdig innen mandag 13. april. 
 -
 -
 -Planlagt arbeidsfordeling. (NB! Programmeringsoppgavene skal fordeles tilnærmet likt mellom gruppens medlemmer.)
--
+- Vi fördelar projektarbetet så att alla får lika stort ansvar och koda. 
