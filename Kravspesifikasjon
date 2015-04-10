@@ -33,7 +33,8 @@ Etter dette vil programmet reagere etter om man logger inn som kunde eller ansat
 - <Tegning>
 -
 -Hva slags datastruktur er valgt? (NB! Dere skal bruke Collection-rammeverket)
--<Skriv noe her>
+-Vi har planlagt å bruke TreeSet som vår hovedsakelige datastruktur. Dette skyldes at TreeSet, etter vår mening, er bedre til å holde orden og sortere data som legges inn i listene. Når man lager et register er det underforstått at man vil ha en oversiktlig liste, noe TreeSet vil gi oss. De fleste andre datastrukturene har ikke denne egenskapen og er derfor ikke like ideelle for vårt formål.
+
 -
 -Beskrivelse av datastrukturen ved hjelp av figurer
 -<Tegning>
