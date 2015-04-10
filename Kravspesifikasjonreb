@@ -1,0 +1,190 @@
+
+
+
+
+
+
+
+
+
+Kravspesifikasjon
+Programutvikling
+
+Even Nerheim - s199184 - Dataingeniør - HINGDATA14HA
+William Jagestrand - s929570 - Tretermin data - HINGDATA14HA
+Rebwar Eliassi - s183736 - Informasjonsteknologi - HINGDATA14HA
+
+
+
+
+
+
+
+
+
+FORORD
+Vi har tatt for oss alternativ 3. som vår hovedprosjekt i Programutvikling. Her ønsker vi å lage et program som har et reelt fremvisning. Programmet skal kunne registere selskapets kunder, lage ulike forsikringer, registrere skader og betale ut erstatninger. Samt enkelt finne frem informasjon og generere ulike typer statistikk og historikk. Forsikringsselskapet har samtidig planer om at utvide forretningen sin. Derfor må programmet settes på en slik måte at det senere kan bygges ut, utvide forsikringstyper etc, uten å måtte foreta betydelige forandringer på den tidligere utgaven av programmet.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Innholdsfortegnelse
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hva skal programmet utføre? Hva slags funksjonalitet skal det ha?(use-case)
+ 	
+Programmet er elektronisk forsikringsregister i Java for ansatte og kunder. Kunder har mulighet for å registrere seg som kunde hos selskapet og på senere tid kunne forandre på sin personlige informasjon. Kunder kan registrere nye forsikringsavtaler med selskapet for bil-, båt-, innbo-, hus- og hytteforsikring. Kunder kan også legge inn skademelding for de forskjellige forsikringene de har og ha mulighet for å oppheve forsikringsavtaler de allerede har. 
+
+De ansatte kan se all informasjon om alle kunder og deres forsikringer i systemet og ha en søkemotor for å finne fram på en enkel måte. Ansatte kan også avslutte kundeforhold, men fremdeles ha informasjonen kunden hadde lagret da forholdet ble avsluttet. Avslutning av kundeforhold vil også avslutte kundens bruker i programmet.
+
+Prioriteringsrekkefølge: Hva må kunne utføres, og hva kan gjøres hvis dere får tid?
+
+Programmet må kunne utføre innlogging og registrering for ansatte ved forsikringsselskapet og kunder. Programmet må kunne lagre informasjon om kundene på en oversiktlig måte slik at kun kundene selv og de ansatte kan se det. Enkel registrering av forsikringer må være en mulighet for kundene, samt en ryddig oversikt over all informasjon relatert til disse forsikringene. 
+Den samme informasjonen vil bli gjort tilgjengelig for de ansatte, samt en søkemotor som finner informasjonen man søker. Kunder skal selv k...(line truncated)...
+Oversikt over forsikringsselskapets inntekter og utgifter vil bli tatt med hvis det blir tid nok. Statistikk vil ikke bli høyt prioritert for denne oppgaven. 
+Skisse over brukergrensesnittet
+
+Hvordan skal programmet bygges opp? Hvilke moduler kan det deles inn i?
+
+Programmet skal bygges opp med en sentralklasse «Register» som gjør det meste programmet skal gjøre og tar i mot informasjon fra andre klasser. Det blir enklere å se gjennom kodene til de andre klassene ved å ha den sentralklassen i midten av programmet.
+Først i prosessen vil en fil se om et register allerede finnes og hente det, eller opprette et nytt register som kan fylles. Når registeret, hoveddelen av programmet, er på plass vil «Hovedvindu», innloggingsvinduet og basisen for brukergrensesnittet, bli hentet frem.
+Etter dette vil programmet reagere etter om man logger inn som kunde eller ansatt. Panelbytte vil bli utført av hovedvinduet.
+
+
+Hvilke klasser (egendefinerte) skal brukes/programmeres?
+
+ForsikringsKunde, Kundeliste, KjøretøyForsikring, BilForsikring, BåtForsikring, Billiste, Båtliste, BoligForsikring, HusForsikring, Husliste, FritidsForsikring, Fritidsliste, Forsikringsliste, Skademelding, SkademeldingBil, Skadeliste, ForsikringsArkiv, Driverprogram, Hovedvindu, KundeSnitt, AnsattSnitt, OppstartSnitt.
+
+Hvordan er klassene relatert til hverandre? Super-/subklasser?
+
+Superklasser: Kjøretøyforsikring er superklasse for bil- og båtforsikring, Boligforsikring er superklasse for innbo- og fritidsboligforsikring, Skademelding er superklasse for SkademeldingBil. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Beskrivelse av klassehierarkiet ved hjelp av figurer
+Forsikring  	
+	Kjøretøyforsikring	
+-	Båtforsikring
+-	Bilforsikring
+	Boligforsikring
+-	Innboforsikring
+-	Fritidsboligforsikring
+
+
+-	Kunden har sin forsikring hos forsikringsselskapet 
+-	Kunden eier to forskjellige hovedforsikringer typer
+-	Kunden bruker Innbo- Kjøretøyforsikring (hovedforsikring) på eiendelene sine
+Under forsikring så har vi valgt å ha to superklasser, som begge har to subklasser under seg. Kunden har sin forsikring hos et forsikringsselskapet og eier to ulike typer forsikringer, som gjelder for forskjellige eiendeler for vedkommende.... 
+Hva slags datastruktur er valgt?(NB! Dere skal bruke Collection-rammeverket)
+
+
+Hva slags datastruktur er valgt?(NB! Dere skal bruke Collection-rammeverket)
+Beskrivelse av datastrukturen ved hjelp av figurer
+
+
+
+
+
+
+
+Hvilket utviklingsverktøy skal brukes?(TextPad, Eclipse, Netbeans?)
+
+Vi ska använda oss utav TextPad och Netbeans, för vi har olika operativsystem och textpad är bara kompatibelt med windows. Men det bör även vara kompatibelt med äldre system med den senaste versionen 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Systemkrav til maskinen programmet skal kjøres på
+
+Programmet kommer att testas på skoldatorerna som använder sig av windows 7. 
+Sedan kommer det även testas på mac som använder OS X Yoshmite, 
+men det bör även vara kompatibelt med äldre system med den senaste versionen av java 8.
+
+Opplysninger om Java-versjon (NB må bruke java 1.8)
+
+-Vi ska använda den senaste versionen av java 8. 
+
+
+
+Fremdriftsplan med milepæler
+
+Prototype for startsiden må være ferdig innen de første dagene, men uten funksjonalitet.
+Innen andre uke må et utkast av hovedsidene for kunde og ansatt være ferdig til å forandres på.
+Raskt etter må registrering av ansatte og kunder være mulig
+Snart etter må forsikringsregistrering fungere
+Programmet må være ferdig innen 20. mai, så målet er 15. mai også legge inn den resterende informasjonen i systemet.
+
+Planlagt arbeidsfordeling. (NB! Programmeringsoppgavene skal fordeles tilnærmet likt mellom gruppens medlemmer.)
+
+Det er planlagt at alle i gruppen skal ha like mye å gjøre. Dette betyr at alle vil ha like mange filer å programmere, men vil få hjelp dersom en fil viser seg vanskeligere/større enn forventet. Det vil bli begått testing på alle medlemmenes maskiner, mens dokumentasjon også vil bli fordelt jevnt mellom medlemmene. 
+Feiltesting vil bli gjort av alle frem til programmet er satt ordentlig sammen, da vil én heller bli pekt ut til å ta seg av denne oppgaven. Even vil ta seg av å legge inn informasjon i programmet (kunder, forsikringer, ansatte osv.).
+
