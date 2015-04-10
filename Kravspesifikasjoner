@@ -1,0 +1,49 @@
+Kravspesifikasjoner for prosjektoppgave 2015
+
+Even Nerheim - s199184 - Dataingeniør - HINGDATA14HA
+William Jagestrand - s929570 - Tretermin data - HINGDATA14HA
+Rebwar Eliassi - s - Informasjonsteknologi - HINGDATA14HA
+
+
+Hva skal programmet utføre? Hva slags funksjonalitet skal det ha?(use-case)
+
+
+Prioriteringsrekkefølge: Hva må kunne utføres, og hva kan gjøres hvis dere får tid?
+Programmet må kunne utføre registrering av kunde, i tillegg til registrering av forsikring for bil, båt, innbo og/eller fritidsbolig. Forsikringsselskapets inntekter og utgifter vil bli tatt med hvis det blir tid nok, men vil ikke være en førsteprioritet. Det samme går for statistikk.
+
+Skisse over brukergrensesnittet
+<Legg ved tegninger>
+
+Hvordan skal programmet bygges opp? Hvilke moduler kan det deles inn i?
+<Moduler?>
+
+Hvilke klasser (egendefinerte) skal brukes/programmeres?
+ForsikringsKunde, KjøretøyForsikring, BilForsikring, BåtForsikring, BoligForsikring, InnboForsikring, FritidsForsikring, Skademelding
+
+Hvordan er klassene relatert til hverandre? Super-/subklasser?
+Superklasser: Kjøretøyforsikring ( for bil- og båtforsikring) og boligforsikring( for innbo- og fritidsboligforsikring)
+
+Beskrivelse av klassehierarkiet ved hjelp av figurer
+
+
+Hva slags datastruktur er valgt? (NB! Dere skal bruke Collection-rammeverket)
+
+
+Beskrivelse av datastrukturen ved hjelp av figurer
+
+
+Hvilket utviklingsverktøy skal brukes?(TextPad, Eclipse, Netbeans?)
+
+
+Systemkrav til maskinen programmet skal kjøres på
+
+
+Opplysninger om Java-versjon (NB må bruke java 1.8)
+
+
+Fremdriftsplan med milepæler
+Kravspesifikasjoner må være ferdig innen mandag 13. april. 
+
+
+Planlagt arbeidsfordeling. (NB! Programmeringsoppgavene skal fordeles tilnærmet likt mellom gruppens medlemmer.)
+
