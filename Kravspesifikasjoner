@@ -6,44 +6,51 @@ Rebwar Eliassi - s - Informasjonsteknologi - HINGDATA14HA
 
 
 Hva skal programmet utføre? Hva slags funksjonalitet skal det ha?(use-case)
-
+Programmet er elektronisk forsikringsregister i Java for ansatte og kunder. Kunder har mulighet for å registrere seg som kunde hos selskapet og på senere tid kunne forandre på sin personlige informasjon. Kunder kan registrere nye forsikringsavtaler med selskapet for bil-, båt-, innbo-, hus- og hytteforsikring. Kunder kan også legge inn skademelding for de forskjellige forsikringene de har og ha mulighet for å oppheve forsikringsavtaler de allerede har. 
+De ansatte kan se all informasjon om alle kunder og deres forsikringer i systemet og ha en søkemotor for å finne fram på en enkel måte. Ansatte kan også avslutte kundeforhold, men fremdeles ha informasjonen kunden hadde lagret da forholdet ble avsluttet. Avslutning av kundeforhold vil også avslutte kundens bruker i programmet.
 
 Prioriteringsrekkefølge: Hva må kunne utføres, og hva kan gjøres hvis dere får tid?
-Programmet må kunne utføre registrering av kunde, i tillegg til registrering av forsikring for bil, båt, innbo og/eller fritidsbolig. Forsikringsselskapets inntekter og utgifter vil bli tatt med hvis det blir tid nok, men vil ikke være en førsteprioritet. Det samme går for statistikk.
+Programmet må kunne utføre innlogging og registrering for ansatte ved forsikringsselskapet og kunder. Programmet må kunne lagre informasjon om kundene på en oversiktlig måte slik at kun kundene selv og de ansatte kan se det. Enkel registrering av forsikringer må være en mulighet for kundene, samt en ryddig oversikt over all informasjon relatert til disse forsikringene. Den samme informasjonen vil bli gjort tilgjengelig for de ansatte, samt en søkemotor som finner informasjonen man søker. Kunder skal selv kunne registrere skademeldinger relatert til sine forsikringer i tillegg til å kunne oppheve forsikringstyper hos forsikringsselskapet. De ansatte skal ha mulighet for å si opp kundeforhold, men likevel beholde informasjon om kunden, selv om kunden da ikke vil kunne logge seg inn igjen. Kunde og ansatt må ha forskjellige brukergrensesnitt når de har logget inn.
+Oversikt over forsikringsselskapets inntekter og utgifter vil bli tatt med hvis det blir tid nok. Statistikk vil ikke bli høyt prioritert for denne oppgaven. 
 
 Skisse over brukergrensesnittet
 <Legg ved tegninger>
 
 Hvordan skal programmet bygges opp? Hvilke moduler kan det deles inn i?
-<Moduler?>
+Programmet skal bygges opp med en sentralklasse «Register» som gjør det meste programmet skal gjøre og tar i mot informasjon fra andre klasser. Det blir enklere å se gjennom kodene til de andre klassene ved å ha den sentralklassen i midten av programmet.
+Først i prosessen vil en fil se om et register allerede finnes og hente det, eller opprette et nytt register som kan fylles. Når registeret, hoveddelen av programmet, er på plass vil «Hovedvindu», innloggingsvinduet og basisen for brukergrensesnittet, bli hentet frem.
+Etter dette vil programmet reagere etter om man logger inn som kunde eller ansatt. Panelbytte vil bli utført av hovedvinduet.
 
 Hvilke klasser (egendefinerte) skal brukes/programmeres?
-ForsikringsKunde, KjøretøyForsikring, BilForsikring, BåtForsikring, BoligForsikring, InnboForsikring, FritidsForsikring, Skademelding
+ForsikringsKunde, Kundeliste, KjøretøyForsikring, BilForsikring, BåtForsikring, Billiste, Båtliste, BoligForsikring, HusForsikring, Husliste, FritidsForsikring, Fritidsliste, Forsikringsliste, Skademelding, SkademeldingBil, Skadeliste, ForsikringsArkiv, Driverprogram, Hovedvindu, KundeSnitt, AnsattSnitt, RegKundeSnitt, RegAnsattSnitt, OppstartSnitt, SkadeSnitt, 
 
 Hvordan er klassene relatert til hverandre? Super-/subklasser?
-Superklasser: Kjøretøyforsikring ( for bil- og båtforsikring) og boligforsikring( for innbo- og fritidsboligforsikring)
+Superklasser: Kjøretøyforsikring (for bil- og båtforsikring) og boligforsikring (for innbo- og fritidsboligforsikring)
 
 Beskrivelse av klassehierarkiet ved hjelp av figurer
-
+< Tegning >
 
 Hva slags datastruktur er valgt? (NB! Dere skal bruke Collection-rammeverket)
-
+TreeMap
 
 Beskrivelse av datastrukturen ved hjelp av figurer
-
+< Tegning >
 
 Hvilket utviklingsverktøy skal brukes?(TextPad, Eclipse, Netbeans?)
-
+Textpad vil bli brukt av alle medlemmene. Eclipse vil brukes av Even og Rebwar, mens William koder i Netbeans. 
 
 Systemkrav til maskinen programmet skal kjøres på
-
+Programmet vil hovedsakelig bli kodet på to operativsystemer: Windows 8 (brukt av Even og Rebwar) og OS X 10.x.x (brukt av William). 
 
 Opplysninger om Java-versjon (NB må bruke java 1.8)
 
 
 Fremdriftsplan med milepæler
-Kravspesifikasjoner må være ferdig innen mandag 13. april. 
+Kravspesifikasjoner må være ferdig innen mandag 13. april.
+Vi ønsker å få en prototype startside ferdig innen første ukes slutt, og derfra jobbe videre med funksjoner. 
 
+Programmet må være ferdig innen 20. mai
 
 Planlagt arbeidsfordeling. (NB! Programmeringsoppgavene skal fordeles tilnærmet likt mellom gruppens medlemmer.)
-
+Det er planlagt at alle i gruppen skal ha like mye å gjøre. Dette betyr at alle vil ha like mange filer å programmere, men vil få hjelp dersom en fil viser seg vanskeligere/større enn forventet. Det vil bli begått testing på alle medlemmenes maskiner, mens dokumentasjon også vil bli fordelt jevnt mellom medlemmene. 
+Feiltesting vil bli gjort av alle frem til programmet er satt ordentlig sammen, da vil én heller bli pekt ut til å ta seg av denne oppgaven. Even vil ta seg av å legge inn informasjon i programmet (kunder, forsikringer, ansatte osv.).
