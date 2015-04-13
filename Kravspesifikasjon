@@ -45,9 +45,11 @@ Etter dette vil programmet reagere etter om man logger inn som kunde eller ansat
   effektivt.
   
 -Systemkrav til maskinen programmet skal kjøres på
-Programmet kommer att testas på skoldatorerna som använder sig av windows 7. 
+Vi kommer utveckla programmet på Mac och Windows. Programmet kommer att testas på skoldatorerna som använder sig av Windows 7. 
 Sedan kommer det även testas på mac som använder OS X Yoshmite, 
-men det bör även vara kompatibelt med äldre system med den senaste versionen av java 8.
+men det bör även vara kompatibelt med äldre system med den senaste versionen av java 8. Vi ska använda Netbeans och Textpad 
+för att utveckla programmet. Det vill säga att den senaste versionen av Textpad/Netbeans blir använd. I tillägg tar vi i bruk
+Java SDK 1.8 som är en nödvändighet för att programmet ska kunna köras.
 
 -Opplysninger om Java-versjon (NB må bruke java 1.8)
 -Vi ska använda den senaste versionen av java 8. 
