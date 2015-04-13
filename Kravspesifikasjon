@@ -55,14 +55,15 @@ Java SDK 1.8 som är en nödvändighet för att programmet ska kunna köras.
 -Vi ska använda den senaste versionen av java 8. 
 -
 -Fremdriftsplan med milepæler
--Kravspesifikasjoner må være ferdig innen mandag 13. april. 
--Prototype for startsiden må være ferdig innen de første dagene, men uten funksjonalitet.
+-Kravspesifikasjoner må være ferdig innen mandag 13. april.
+-Prototype for startsiden må være ferdig innen de første dagene, men uten funksjonalitet. 
 -Innen andre uke må et utkast av hovedsidene for kunde og ansatt være ferdig til å forandres på.
--Raskt etter må registrering av ansatte og kunder være mulig
--Snart etter må forsikringsregistrering fungere
--
--
+-Innen slutten på andre uke må de første informasjonsfeltene fungere med listene.
+-I tredje uke må alle informasjonsfeltene være ferdige og funksjonelle
+-I fjerde uke register og søking ferdig i løpet av uken/starten av uken etter.
+-I femte uke hele programmet settes sammen og feilsjekkingen starter i tillegg til hva enn ekstra vi får tatt med
 -Programmet må være ferdig innen 20. mai, så målet er 15. mai også legge inn den resterende informasjonen i systemet.
+-Dokumentasjonen er planlagt å være ferdig innen 16. eller 18. mai for dobbelsjekking før levering.
 -
 -Planlagt arbeidsfordeling. (NB! Programmeringsoppgavene skal fordeles tilnærmet likt mellom gruppens medlemmer.)
 - Det er planlagt at alle i gruppen skal ha like mye å gjøre. Dette betyr at alle vil ha like mange filer å programmere, men vil få hjelp dersom en fil viser seg vanskeligere/større enn forventet. Det vil bli begått testing på alle medlemmenes maskiner, mens dokumentasjon også vil bli fordelt jevnt mellom medlemmene. 
