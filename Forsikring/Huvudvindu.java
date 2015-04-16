@@ -78,7 +78,7 @@ public class Huvudvindu extends JFrame
     public void swapPanel(JPanel in)
     {
         panel.add(in);
-        tilbake.setEnabled(panel.hashBack());
+        tilbake.setEnabled(panel.hasTilbake());
         container.remove(layout.getLayoutComponent(BorderLayout.CENTER));
         mittenPos = in;
         container.add(mittenPos, BorderLayout.CENTER);
