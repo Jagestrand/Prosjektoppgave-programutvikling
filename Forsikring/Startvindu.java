@@ -6,7 +6,7 @@ public class Startvindu extends JPanel
 {
 	private final String ADMIN = "admin", ADMIN_PASS = "123456";
 	private String adminPass;
-	private Vindu vindu;	//HovedVindu
+	private Huvudvindu vindu;	//HovedVindu
 	private JLabel brukerLabel, passLabel, fNavnLabel, eNavnLabel, passord1Label, passord2Label, tilfNrLabel;
 	private JTextField bruker, passord, fNavn, eNavn, persNr, passord1, passord2, tlfNr;
 	private JButton logginn, regKunde;
@@ -14,7 +14,7 @@ public class Startvindu extends JPanel
 	//private Register register;
 	private JTextArea info;
 
-	public Startvindu( Vindu v )
+	public Startvindu( Huvudvindu v )
 	{
 		bruker = new JTextField( 10 );
 		passord = new JTextField( 10 );

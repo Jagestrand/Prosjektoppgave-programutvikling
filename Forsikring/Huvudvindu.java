@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 public class Huvudvindu extends JFrame
 {
-    private Register register;
+
     private MainListener lytter;
     private WinListener wLytter; 
     private BorderLayout layout;
@@ -13,10 +13,10 @@ public class Huvudvindu extends JFrame
     private JButton tilbake, loggaut;
     private JPanel tilbakePos, loggautPos, knappLayoutPos, mittenPos;
     
-    public Huvudvindu(Register reg)
+    public Huvudvindu()
     {
         super("Forsikring");
-        register = reg;
+
         wLytter = new WinListener();
         lytter = new MainListener();
         
@@ -67,10 +67,7 @@ public class Huvudvindu extends JFrame
         swapPanel(new Startvindu(this) );
         loggaut.setVisible(false);
     }
-    public Register getRegister()
-    {
-        return register;
-    }
+
     public PanelStack getPanelStack()
     {
         return panel; 
