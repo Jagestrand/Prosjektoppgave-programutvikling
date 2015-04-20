@@ -4,21 +4,21 @@ import javax.swing.*;
 
 public class Register implements Serializable
 {
-	private static final long serialVersionUID = 42L;
+	private static final long serialVersionUID = 42L;/*
 	private ForsikringsReg forReg;
 	private AnsattReg ansReg;
 	private KundeReg kunReg;
-	private SkadeReg skaReg;
+	private SkadeReg skaReg;*/
 	private Datasjef data;
 
 	public Register( Datasjef dataer )
 	{
-		data = dataer;
+		data = dataer;/*
 		forReg = new ForsikringsReg();
 		ansReg = new AnsattReg();
 		kunReg = new KundeReg();
-		skaReg = new SkadeReg();
-	}
+		skaReg = new SkadeReg();*/
+	}/*
 
 	public ForsikringsReg getForsikringer()
 	{
@@ -329,7 +329,7 @@ public class Register implements Serializable
 	public void setNåSkadeNr()
 	{
 		skaReg.setNåNr();
-	}
+	}*/
 
 	public void exit()
 	{
