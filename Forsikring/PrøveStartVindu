@@ -9,7 +9,6 @@ public class PrøveStartVindu
 			{
 				Datasjef data = new Datasjef();
 				Register reg = data.lesRegisterFil();
-				//Register reg = new Register();
 				Huvudvindu vindu = new Huvudvindu(reg);
 
 				vindu.setVisible( true );
