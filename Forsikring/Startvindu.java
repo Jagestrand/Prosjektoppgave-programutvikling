@@ -5,23 +5,27 @@ import java.awt.event.*;
 public class Startvindu extends JPanel
 {
 	private final String ADMIN = "admin", ADMIN_PASS = "123456";
+	private final String passordetliksom;
 	private String adminPass;
 	private Huvudvindu vindu;	//HovedVindu
-	private JLabel brukerLabel, passLabel, fNavnLabel, eNavnLabel, passord1Label, passord2Label, tilfNrLabel;
+	private JLabel brukerLabel, passLabel, fNavnLabel, eNavnLabel, passord1Label, passord2Label, tilfNrLabel, persNrLabel;
 	private JTextField bruker, passord, fNavn, eNavn, persNr, passord1, passord2, tlfNr;
 	private JButton logginn, regKunde;
 	private Lytterklasse lytter;  //ButtonListener
-	//private Register register;
+	private Register register;
 	private JTextArea info;
+	private JPanel flow, loginFelt, regFelt, regNavnFelt, regPassFelt;
 
 	public Startvindu( Huvudvindu v )
 	{
+		passordetliksom = "123";
+		
 		bruker = new JTextField( 10 );
 		passord = new JTextField( 10 );
 
 		lytter = new Lytterklasse();
 		vindu = v;
-		//register = v.getRegister();
+		register = v.getRegister();
 
 		info = new JTextArea( "Velkommen!\nSkriv inn ditt brukernavn og passord. Hvis du ikke har bruker kan du registrere deg." );
 
@@ -69,9 +73,14 @@ public class Startvindu extends JPanel
 
 		else
 			LogginnAnsatt( pass );
+	}*/
+	
+	public void logginn()
+	{
+		JOptionPane.showMessageDialog( null, "Du er logget inn" );
 	}
 
-	public void LogginnAdmin( String pass )
+	/*public void LogginnAdmin( String pass )
 	{
 		if( Passordtest( pass ) )
 		{
@@ -80,9 +89,15 @@ public class Startvindu extends JPanel
 			return;
 		}
 		JOptionPane.showMessageDialog( null, "Feil passord" );
+	}*/
+	
+	public void LogginnAdmin( String pass )
+	{
+		String pwa = pass;
+		JOptionPane.showMessageDialog( null, "Du er logget inn" );
 	}
 
-	public void LogginnKunde( String pass )
+	/*public void LogginnKunde( String pass )
 	{
 		Kunde kunde = register.getKundeNummer( bruker.getText() );
 		if( kunde == null )
@@ -97,9 +112,15 @@ public class Startvindu extends JPanel
 			return;
 		}
 		JOptionPane.showMessageDialog( null, "Feil passord" );
+	}*/
+	
+	public void LogginnKunde( String pass )
+	{
+		String pwa = pass;
+		JOptionPane.showMessageDialog( null, "Du er logget inn" );
 	}
 
-	public void LogginnAnsatt( String pass )
+	/*public void LogginnAnsatt( String pass )
 	{
 		Ansatt ansatt = register.getAnsattNummer( bruker.getText() );
 		if( ansatt == null )
@@ -114,13 +135,24 @@ public class Startvindu extends JPanel
 			return;
 		}
 		JOptionPane.showMessageDialog( null, "Feil passord" );
+	}*/
+	
+	public void LogginnAnsatt( String pass )
+	{
+		String pwa = pass;
+		JOptionPane.showMessageDialog( null, "Du er logget inn" );
 	}
 
-	/*
+	
 	public boolean Passordtest( String p )
 	{
-		h
-	}*/
+		String pwo = p;
+		if( pwo.equals(passordetliksom) )
+		{
+			return true;
+		}
+		return false;
+	}
 
 
 
@@ -131,10 +163,11 @@ public class Startvindu extends JPanel
 			if( e.getSource() == logginn || e.getSource() == passord || e.getSource() == bruker )
 				logginn();
 
+			/*
 			else if( e.getSource() == regKunde || e.getSource() == fNavn || e.getSource() == eNavn
 			|| e.getSource() == persNr || e.getSource() == passord1 || e.getSource() == passord2
 			|| e.getSource() == tlfNr )
-				nyKunde();
+				nyKunde();*/
 		}
 	}
 }
