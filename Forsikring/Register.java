@@ -333,8 +333,8 @@ public class Register implements Serializable
 
 	public void exit()
 	{
-		forReg.saveNåNr();
-		skaReg.saveNåNr();
+		//forReg.saveNåNr();
+		//skaReg.saveNåNr();
 		data.skrivRegister(this);
 		System.exit(0);
 	}
