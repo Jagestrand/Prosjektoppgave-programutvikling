@@ -7,8 +7,9 @@ public class Driver
         EventQueue.invokeLater(new Runnable(){
             public void run()
             {
-
-                Huvudvindu window = new Huvudvindu();
+            	Datasjef data = new Datasjef();
+            	Register reg = data.lesRegisterFil();
+                Huvudvindu vindu = new Huvudvindu(reg);
             }
         });
     }

@@ -120,7 +120,7 @@ public class Startvindu extends JPanel
 		JOptionPane.showMessageDialog( null, "Du er logget inn" );
 	}
 
-	/*public void LogginnAnsatt( String pass )
+	public void LogginnAnsatt( String pass )
 	{
 		Ansatt ansatt = register.getAnsattNummer( bruker.getText() );
 		if( ansatt == null )
@@ -135,13 +135,13 @@ public class Startvindu extends JPanel
 			return;
 		}
 		JOptionPane.showMessageDialog( null, "Feil passord" );
-	}*/
-	
+	}
+	/*
 	public void LogginnAnsatt( String pass )
 	{
 		String pwa = pass;
 		JOptionPane.showMessageDialog( null, "Du er logget inn" );
-	}
+	}*/
 
 	
 	public boolean Passordtest( String p )
