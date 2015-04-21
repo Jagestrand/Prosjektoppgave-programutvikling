@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 public class Startvindu extends JPanel
 {
-	private final String ADMIN = "admin", ADMIN_PASS = "123456";
+	private final String ADMIN = "admin", KUNDE = "kunde", ANSATT = "ansatt", ADMIN_PASS = "123456";
 	private final String passordetliksom;
 	private String adminPass;
 	private Huvudvindu vindu;	//HovedVindu
@@ -74,12 +74,27 @@ public class Startvindu extends JPanel
 		else
 			LogginnAnsatt( pass );
 	}*/
-	
+	/*
 	public void logginn()
 	{
 		String pass = passord.getText();
 		JOptionPane.showMessageDialog( null, "Du er logget inn" );
 		LogginnAnsatt(pass);
+	}*/
+	
+	public void logginn()
+	{
+		String pass = passord.getText();
+		String bruk = bruker.getText();
+
+		if( bruk.toLowerCase().equals( ADMIN ) )
+			LogginnAdmin( pass );
+
+		else if( bruk.toLowerCase().equals( KUNDE ) )
+			LogginnKunde( pass );
+
+		else
+			LogginnAnsatt( pass );
 	}
 
 	/*public void LogginnAdmin( String pass )
@@ -96,7 +111,7 @@ public class Startvindu extends JPanel
 	public void LogginnAdmin( String pass )
 	{
 		String pwa = pass;
-		JOptionPane.showMessageDialog( null, "Du er logget inn" );
+		JOptionPane.showMessageDialog( null, "Du er logget inn som Admin" );
 	}
 
 	/*public void LogginnKunde( String pass )
@@ -119,7 +134,7 @@ public class Startvindu extends JPanel
 	public void LogginnKunde( String pass )
 	{
 		String pwa = pass;
-		JOptionPane.showMessageDialog( null, "Du er logget inn" );
+		JOptionPane.showMessageDialog( null, "Du er logget inn som Kunde" );
 	}
 
 	/*
