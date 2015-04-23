@@ -4,11 +4,11 @@ import javax.swing.*;
 
 public class Register implements Serializable
 {
-	private static final long serialVersionUID = 42L;/*
-	private ForsikringsReg forReg;
+	private static final long serialVersionUID = 42L;
+	//private ForsikringsReg forReg;
 	private AnsattReg ansReg;
-	private KundeReg kunReg;
-	private SkadeReg skaReg;*/
+	//private KundeReg kunReg;
+	//private SkadeReg skaReg;
 	private Datasjef data;
 
 	public Register( Datasjef dataer )
@@ -23,13 +23,13 @@ public class Register implements Serializable
 	public ForsikringsReg getForsikringer()
 	{
 		return forReg;
-	}
+	}*/
 
 	public AnsattReg getAnsatte()
 	{
 		return ansReg;
 	}
-
+	/*
 	public KundeReg getKunder()
 	{
 		return kunReg;
@@ -38,18 +38,18 @@ public class Register implements Serializable
 	public SkadeReg getSkader()
 	{
 		return skaReg;
-	}
+	}*/
 
-	public Ansatt getAnsattViaNr(String nr)
+	public Ansatt getAnsattViaNr(String nr)	//finner ansatt via ansattnr
 	{
 		AnsattReg aReg = ansReg.finnAnsattViaPersNr(nr);
 		if(aReg == null)
 			return null;
 		Iterator<Ansatt> iter = aReg.iterator();
 		return iter.next();
-	}
+	}/*
 
-	public Forsikring getForsikringViaNr(int nr)
+	public Forsikring getForsikringViaNr(int nr)	//finner forsikring via forsikringsnr
 	{
 		Forsikring fors;
 		Iterator<Forsikring> iter = fors.iterator();
@@ -62,7 +62,7 @@ public class Register implements Serializable
 		return null;
 	}
 
-	public ForsikringsReg getForsikringViaNr( ForsikringsReg reg, int nr)
+	public ForsikringsReg getForsikringViaNr( ForsikringsReg reg, int nr)	//finner forsikring via forsikringsnr, men ikke samme som over
 	{
 		if( reg == null )
 			reg = forReg;
@@ -78,7 +78,7 @@ public class Register implements Serializable
 		return ris;
 	}
 
-	public SkadeReg getSkadeViaNr( int nr )
+	public SkadeReg getSkadeViaNr( int nr )		//finner skade via skadenr
 	{
 		Skademelding ska;
 		Iterator<Skademelding> iter = ska.iterator();
@@ -91,7 +91,7 @@ public class Register implements Serializable
 		return null;
 	}
 
-	public SkadeReg getSkadeViaNr( SkadeReg reg, int nr )
+	public SkadeReg getSkadeViaNr( SkadeReg reg, int nr )	//finner skade via skadenr
 	{
 		if( reg == null )
 			reg = skaReg;
@@ -107,31 +107,31 @@ public class Register implements Serializable
 		return ade;
 	}
 
-	public void nyForsikring(Forsikring fors)
+	public void nyForsikring(Forsikring fors)	//legger inn ny forsikring
 	{
 		fors.getKunde().nyForsikring(fors);
 		//fors.getAnsatt().nyForsikring(fors);
 		forReg.add(fors);
-	}
+	}*/
 
-	public void nyAnsatt( Ansatt ans)
+	public void nyAnsatt( Ansatt ans)		//legger inn ny ansatt
 	{
 		ansReg.add(ans);
-	}
+	}/*
 
-	public void nyKunde(Kunde kun)
+	public void nyKunde(Kunde kun)		//legger inn ny kunde
 	{
 		kunReg.add(kun);
 	}
 
-	public void nySkade(Skademelding skad)
+	public void nySkade(Skademelding skad)		//legger inn ny skademelding
 	{
 		skad.getKunde().nySkade(skad);
 		//skad.getAnsatt().nySkade(skad);
 		skaReg.add(skad);
 	}
 
-	public ForsikringsReg getForsikringerFørDato(ForsikringsReg reg, Calender dato)
+	public ForsikringsReg getForsikringerFørDato(ForsikringsReg reg, Calender dato)	//finner forsikringer kjøpt før dato
 	{
 		if( reg == null )
 			reg = forReg;
@@ -147,7 +147,7 @@ public class Register implements Serializable
 		return fors;
 	}
 
-	public SkadeReg getSkademeldingFørDato(SkadeReg reg, Calender dato)
+	public SkadeReg getSkademeldingFørDato(SkadeReg reg, Calender dato)	//finner skademeldinger registrert før dato
 	{
 		if( reg == null )
 			reg = skaReg;
@@ -163,7 +163,7 @@ public class Register implements Serializable
 		return skads;
 	}
 
-	public SkadeReg getSkademeldingEtterDato(ForsikringsReg reg, Calender dato)
+	public SkadeReg getSkademeldingEtterDato(ForsikringsReg reg, Calender dato)	//finner skademeldinger registrert etter dato
 	{
 		if( reg == null )
 			reg = skaReg;
@@ -179,7 +179,7 @@ public class Register implements Serializable
 		return skads;
 	}
 
-	public ForsikringsReg getForsikringPerKunde( ForsikringsReg reg, String navn )
+	public ForsikringsReg getForsikringPerKunde( ForsikringsReg reg, String navn )	//finner forsikringer på kunde
 	{
 		KundeReg kReg = kunReg.finnKunder(navn);
 		Iterator<Kunde> kunIter = kReg.iterator();
@@ -207,7 +207,7 @@ public class Register implements Serializable
 		return fir;
 	}
 
-	public SkadeReg getSkadePerKunde( SkadeReg reg, String navn )
+	public SkadeReg getSkadePerKunde( SkadeReg reg, String navn )	//finner skader registrert på kunde
 	{
 		KundeReg kReg = kunReg.finnKunder(navn);
 		Iterator<Kunde> kunIter = kReg.iterator();
@@ -236,7 +236,7 @@ public class Register implements Serializable
 	}
 	//Denne må sees mer på, fungerer mest sannsynlig ikke:
 	public KundeReg getKunderPerForsikringKategori(ForsikringsReg reg, boolean bil, boolean båt, boolean hus, boolean innbo, boolean hytte, boolean innbo2)
-	{
+	{															//finner kunde med den type forsikring
 		if(reg == null)
 			reg = forReg;
 		if(!(bil || båt || hus || innbo || hytte || innbo2) )
@@ -264,7 +264,7 @@ public class Register implements Serializable
 	}
 	//Se mer på
 	public ForsikringsReg getForsikringViaKategori( ForsikringsReg reg, boolean bil, boolean båt, boolean hus, boolean innbo, boolean hytte, boolean innbo2)
-	{
+	{									//finner forsikringer av den kategori
 		if(reg == null)
 			reg = forReg;
 		if(!(bil || båt || hus || innbo || hytte || innbo2) )
@@ -291,14 +291,14 @@ public class Register implements Serializable
 		return frs;
 	}
 
-	public KundeReg getKundeViaNavn(KundeReg reg, String navn)
+	public KundeReg getKundeViaNavn(KundeReg reg, String navn)	//åpenbar
 	{
 		if(reg == null)
 			return kunReg.finnKunder(navn);
 		return reg.finnKunder(navn);
 	}
 
-	public KundeReg getKundePerSkadeType(KundeReg reg, String skadet)
+	public KundeReg getKundePerSkadeType(KundeReg reg, String skadet)	//finner kunder med den type skade registrert
 	{
 		if(reg == null)
 			reg = kunReg;
@@ -312,26 +312,26 @@ public class Register implements Serializable
 				kun.add(prøv.getKunde());
 		}
 		return kun;
-	}
+	}*/
 
-	public AnsattReg getAnsattViaNavn(AnsattReg reg, String navn)
+	public AnsattReg getAnsattViaNavn(AnsattReg reg, String navn)	//åpenbar
 	{
 		if(reg == null)
 			return ansReg.finnAnsatte(navn);
 		return reg.finnAnsatte(navn);
-	}
+	}/*
 
-	public void setNåForsikringsNr()
+	public void setNåForsikringsNr()	//noe med forsikringsnummer
 	{
 		forReg.setNåNr();
 	}
 
-	public void setNåSkadeNr()
+	public void setNåSkadeNr()	//noe med skadenummer
 	{
 		skaReg.setNåNr();
 	}*/
 
-	public void exit()
+	public void exit()	//avslutter program og lagrer nummere
 	{
 		//forReg.saveNåNr();
 		//skaReg.saveNåNr();
