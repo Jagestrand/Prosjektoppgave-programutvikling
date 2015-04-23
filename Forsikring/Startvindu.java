@@ -18,13 +18,13 @@ public class Startvindu extends JPanel
 
 	public Startvindu( Huvudvindu v )
 	{
+		vindu = v;
 		passordetliksom = "123";
-		
+
 		bruker = new JTextField( 10 );
-		passord = new JTextField( 10 );
+		passord = new JPasswordField( 10 );
 
 		lytter = new Lytterklasse();
-		vindu = v;
 		register = v.getRegister();
 
 		info = new JTextArea( "Velkommen!\nSkriv inn ditt brukernavn og passord. Hvis du ikke har bruker kan du registrere deg." );
@@ -38,18 +38,20 @@ public class Startvindu extends JPanel
 		bruker.addActionListener( lytter );
 		passord.addActionListener( lytter );
 
-		JPanel inputFelt = new JPanel( new GridLayout(2,2));
+		JPanel inputFelt = new JPanel( new GridLayout(1,3));
+		JPanel labelFelt = new JPanel( new GridLayout(1,2));
 		JPanel kant = new JPanel( new BorderLayout() );
-		JPanel flyt = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-		inputFelt.add( brukerLabel );
+		JPanel flyt = new JPanel( new FlowLayout( FlowLayout.LEADING ) );	//CENTER
+		labelFelt.add( brukerLabel );
 		inputFelt.add( bruker );
-		inputFelt.add( passLabel );
+		labelFelt.add( passLabel );
 		inputFelt.add( passord );
+		inputFelt.add( logginn );
 
 		setLayout( new BorderLayout() );
 		add(info, BorderLayout.PAGE_START );
-		kant.add( inputFelt, BorderLayout.CENTER );
-		kant.add( logginn, BorderLayout.PAGE_END );
+		kant.add( labelFelt, BorderLayout.CENTER );
+		kant.add( inputFelt, BorderLayout.PAGE_END );
 		flyt.add( kant );
 		add( new JScrollPane(flyt), BorderLayout.CENTER );
 		kant.setBorder( BorderFactory.createTitledBorder("Logginn" ) );
@@ -74,6 +76,7 @@ public class Startvindu extends JPanel
 		else
 			LogginnAnsatt( pass );
 	}*/
+
 	/*
 	public void logginn()
 	{
@@ -81,7 +84,7 @@ public class Startvindu extends JPanel
 		JOptionPane.showMessageDialog( null, "Du er logget inn" );
 		LogginnAnsatt(pass);
 	}*/
-	
+
 	public void logginn()
 	{
 		String pass = passord.getText();
@@ -94,27 +97,45 @@ public class Startvindu extends JPanel
 			LogginnKunde( pass );
 
 		else
-			LogginnAnsatt( pass );
+			LogginnAnsatt( bruk, pass );
 	}
 
-	/*public void LogginnAdmin( String pass )
-	{
-		if( Passordtest( pass ) )
-		{
-			JPanel ny = new AdminVindu( vindu );
-			vindu.byttPanel( ny );
-			return;
-		}
-		JOptionPane.showMessageDialog( null, "Feil passord" );
-	}*/
-	
+
+	/*
 	public void LogginnAdmin( String pass )
 	{
 		String pwa = pass;
-		JOptionPane.showMessageDialog( null, "Du er logget inn som Admin" );
+		JOptionPane.showMessageDialog( null, "Du er logget inn" );
+	}*/
+
+	/*public void LogginnAdmin( String pass )
+	{
+		String pwa = pass;
+		JPanel ny = new AdminGUI(vindu);
+		vindu.swapPanel( ny );
+	}*/
+
+
+	public void LogginnAdmin( String pass )
+	{
+		if( Passordtest( pass ) )
+		{
+			JPanel ny = new AdminGUI( vindu );
+			vindu.swapPanel( ny );
+			return;
+		}
+		JOptionPane.showMessageDialog( null, "Feil passord" );
 	}
 
-	/*public void LogginnKunde( String pass )
+	public void LogginnKunde( String pass )
+	{
+		String pwa = pass;
+		JOptionPane.showMessageDialog( null, "Du er logget inn" );
+	}
+
+
+	/*
+	public void LogginnKunde( String pass )
 	{
 		Kunde kunde = register.getKundeNummer( bruker.getText() );
 		if( kunde == null )
@@ -125,17 +146,26 @@ public class Startvindu extends JPanel
 		if( Passordtest( pass ) )
 		{
 			JPanel ny = new KundeVindu( vindu, kunde );
-			vindu.byttPanel( ny );
+			vindu.swapPanel( ny );
 			return;
 		}
 		JOptionPane.showMessageDialog( null, "Feil passord" );
 	}*/
-	
-	public void LogginnKunde( String pass )
+
+	public void LogginnAnsatt( String bruk, String pass )
 	{
+		String brk = bruk;
 		String pwa = pass;
-		JOptionPane.showMessageDialog( null, "Du er logget inn som Kunde" );
+		if( bruk.toLowerCase().equals( ANSATT ) )
+		{
+			//JOptionPane.showMessageDialog( null, "Du er logget inn" );
+			JPanel ny = new AnsattVindu(vindu);
+			vindu.swapPanel( ny );
+		}
+		else
+			JOptionPane.showMessageDialog(null, "Feil brukernavn");
 	}
+
 
 	/*
 	public void LogginnAnsatt( String pass )
@@ -149,21 +179,12 @@ public class Startvindu extends JPanel
 		if( Passordtest( pass ) )
 		{
 			JPanel ny = new AnsattVindu( vindu, ansatt );
-			vindu.byttPanel( ny );
+			vindu.swapPanel( ny );
 			return;
 		}
 		JOptionPane.showMessageDialog( null, "Feil passord" );
 	}*/
-	
-	public void LogginnAnsatt( String pass )
-	{
-		String pwa = pass;
-		//JOptionPane.showMessageDialog( null, "Du er logget inn" );
-		JPanel ny = new Ansatt(vindu);
-		vindu.swapPanel( ny );
-	}
 
-	
 	public boolean Passordtest( String p )
 	{
 		String pwo = p;
