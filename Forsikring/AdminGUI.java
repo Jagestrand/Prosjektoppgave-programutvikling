@@ -9,59 +9,104 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class AdminGUI extends JPanel
-	{
-	public static final int.....;
-	private boolean .....;
-	private int searchFor;
-	private MainWindow win;
-	private JTextArea info,....;
-	private JTextfield empName, empLastName, ...;
-
+{
+	public static final int SØK_FORSIKRING = 1, SØK_KUNDE = 2, SØK_ANSATT = 3, DATAFELT_LENGDE = 20;
+	//private boolean .....;
+	private int søkFor;
+	private Huvudvindu vindu;
+	private JLabel søkEtterLabel, ansattFornavnLabel, ansattEtternavnLabel, ansattPersNrLabel, ansattNummerLabel;
+	private JTextArea info, visAnsattInfo;
+	private JTextField ansattFornavn, ansattEtternavn, ansattPersNr, ansattNummer;
+	private ButtonGroup gruppeKnapper;
+	private JRadioButton ans;
+	private JButton søkeKnapp, nyAns, lagre, visAnsattKnapp, statButton;
+	//private RadioButtonLytter radioLytter;
+	private Lytterklasse lytter;
+	private JPanel hasLicChoose, grid, searchGrid, bord, licChoose, flow, visAnsatte, visAnsatteFlow;
 	private Register register;
 	private TModel tableModel;
 	private JTable table;
 
 
-	public AdminGUI(MainWindow w)
-		{
-			win = w;
-			register = win.getRegister();
-			radioButtonListener = new RadiobuttonListener(); ???
-			listener = new Listener();???
-			licenceListener = new LicenceListener();???
+	public AdminGUI(Huvudvindu v)
+	{
+			vindu = v;
+			register = vindu.getRegister();
+			//radioLytter = new RadioButtonLytter();
+			lytter = new Lytterklasse();
 
+			gruppeKnapper = new ButtonGroup();
+			ans = new JRadioButton("Ansatte", true);
+			//ans.addItemListener(radioLytter);
+			gruppeKnapper.add(ans);
+
+			//Setter layout:
 			setLayout(new BorderLayout() );
 			//oppretter JPaneler med ulike LayoutManagere
-		?	showEmployee = new JPanel(new BorderLayout() ); //show prescription var skrevet tidligere her
+			visAnsatte = new JPanel(new BorderLayout() ); //show prescription var skrevet tidligere her
 			grid = new JPanel (new GridLayout(4, 1) );
 			searchGrid = new JPanel(new GridLayout( 15, 1) );
-			bord = new JPanel(new BorderLAyout() );
-			licChoose = new Jpanel(new GridLayout(1, 3) );
 			bord = new JPanel(new BorderLayout() );
-			licChoose = new JPanel(new GridLayout(1, 3) );
-			hasLicChoose = new JPanel(new GridLayout(1, 3) );
+			//licChoose = new Jpanel(new GridLayout(1, 3) );
+			bord = new JPanel(new BorderLayout() );
+			//licChoose = new JPanel(new GridLayout(1, 3) );
+			//hasLicChoose = new JPanel(new GridLayout(1, 3) );
 			flow = new JPanel(new FlowLayout() );
-		?	showEmployeeFlow = new JPanel(new FlowLayout() ); //show prescription var skrevet tidligere
+			visAnsatteFlow = new JPanel(new FlowLayout() ); //show prescription var skrevet tidligere
 
-			info = new JTextArea("") //Info tekst
+			info = new JTextArea(""); //Info tekst
 
 			info.setEditable(false);
 			info.setLineWrap(true);
 			info.setWrapStyleWord(true);
-
-			searchForLabel = new JLabel("Søk etter:");
-			patNameLabel = new JLabel("Pasient navn/personnummer:");// Ansatts Navn?((legge til tooltip på disse
-			patNameLabel.setToolTipText("Søk på peronnummer for mest presise søk, evt. etternavn");//ansatt etternavn?
-
-			medNameLabel = new JLabel("Medikament navn:");
-
-			searchButton = new JButton("Søk");
-
+			visAnsattInfo = new JTextArea();
+			visAnsattInfo.setEditable(false);
+			visAnsattInfo.setVisible(false);
+			ansattFornavn = new JTextField(DATAFELT_LENGDE);
+			ansattEtternavn = new JTextField(DATAFELT_LENGDE);
+			ansattPersNr = new JTextField(11);
+			ansattNummer = new JTextField(DATAFELT_LENGDE);
+			søkEtterLabel = new JLabel("Søk etter:");
+			ansattFornavnLabel = new JLabel("Ansatt fornavn:");// Ansatts Navn?((legge til tooltip på disse
+			ansattEtternavnLabel = new JLabel("Ansatt etternavn:");
+			ansattPersNrLabel = new JLabel("Ansatt personnummer:");
+			ansattNummerLabel = new JLabel("Ansattnummer:");
+			søkeKnapp = new JButton("Søk");
+			nyAns = new JButton("Legg til en ny ansatt");
+			lagre = new JButton("Lagre endringer");
+			visAnsattKnapp = new JButton("Vis ansattinfo");
 			statButton = new JButton("Vis statistikk");
+			//Lyttere:
+
+			søkeKnapp.addActionListener(lytter);
+			ansattFornavn.addActionListener(lytter);
+			//ansattEtternavn.addActionListener(lytter);
+			//ansattPersNr.addActionListener(lytter);
+			//ansattNummer.addActionListener(lytter);
+			nyAns.addActionListener(lytter);
+			lagre.addActionListener(lytter);
+			visAnsattKnapp.addActionListener(lytter);
+			statButton.addActionListener(lytter);
+			//legger elementer til i GUI
+			grid.add(søkEtterLabel);
+			grid.add(ans);
+			searchGrid.add(ansattFornavnLabel);
+			searchGrid.add(ansattFornavn);
+			searchGrid.add(ansattEtternavnLabel);
+			searchGrid.add(ansattEtternavn);
+			searchGrid.add(ansattNummerLabel);
+			searchGrid.add(ansattNummer);
+			searchGrid.add(ansattPersNrLabel);
+			searchGrid.add(ansattPersNr);
+			searchGrid.add(søkeKnapp);
+			searchGrid.add(nyAns);
+			searchGrid.add(statButton);
 
 			bord.add(grid, BorderLayout.PAGE_START);
 			bord.add(searchGrid, BorderLayout.LINE_START);
 			flow.add(bord);
+
+
 
 			add(info, BorderLayout.PAGE_START);
 			add(new JScrollPane(flow, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.LINE_START);
@@ -70,85 +115,121 @@ public class AdminGUI extends JPanel
 			table = new JTable(tableModel);
 			//legger til elementer i hovedpanelet
 			add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
-			add(new JScrollPane(showPrescription), BorderLayout.PAGE_END);
+			add(new JScrollPane(visAnsatte), BorderLayout.PAGE_END);
 			//setter guien til å starte med resept valgt
-			radioButtonListener.itemStateChanged(null);
-			licenceListener.itemStateChanged(null);
-				}
-				public int getSearchFor()
-				{
-					return searchFor;
-				}
 
-				public void search()
-				{
-					switch(searchFor)
-					{
-						case SEARCH_PRESCRIPTION:
-							searchPrescription();
-						break;
-						case SEARCH_PATIENT:
-							searchPatient();
-						break;
-						case SEARCH_DOCTOR:
-							searchDoctor();
-						break;
-					}
-	}
+			//radioLytter.itemStateChanged(null);
+		}
+		public int getSøkFor()
+		{
+			return søkFor;
+		}
 
-	public PatientReg searchPatient()
+		public void søk()
+		{
+			søkAnsatt();
+		}
+
+	public AnsattReg søkAnsatt()
 	{
-		PatientReg res = register.getPatients();
+		AnsattReg res = register.getAnsatte();
 
-		String p = patName.getText();
-		String d = docName.getText();
-		String m = medName.getText();
-		String c = medCat.getText();
+		String ansa = ansattFornavn.getText();
+		//String afn = ansattFornavn.getText();
+		//String aen = ansattEtternavn.getText();
 
-		if(!p.isEmpty() )
-			res = register.getPatientsByName(res, p);
-		if(!d.isEmpty() )
+		if(!ansa.isEmpty() )
+			res = register.getAnsattViaNavn(res, ansa);
+		/*if(!d.isEmpty() )
 			res = register.getPatientsByDoctor(res, d);
 		if(!m.isEmpty() )
 			res = register.getPatientsByMed(res, m);
 		if(!c.isEmpty() )
-			res = register.getPatientsByCat(res, c);
-		res = register.getPatientsByGroup(res, la, lb, lc);
+			res = register.getPatientsByCat(res, c);*/
+		//res = register.getPatientsByGroup(res, la, lb, lc);
 
 		tableModel = new TModel(res);
 		table.setModel(tableModel);
 		tableModel.setTableCellEditor(table);
 		return res;
 	}
-		private class Listener implements ActionListener//knappelytter
+
+	public void nyAnsatt()
+	{
+		vindu.swapPanel(new NyAnsattGUI(vindu));
+	}
+
+	public void visAnsatt()
+	{
+		try
 		{
-			public void actionPerformed(ActionEvent e)
+			int row = table.getSelectedRow();
+			if(row == -1 )
 			{
-				if(e.getSource() == searchButton || e.getSource() == patName || e.getSource() ==  docName ||
-					e.getSource() == medName ||e.getSource() ==  medCat)
-					search();
-				else if(e.getSource() == newDoc)
-					newDoctor();
-				else if(e.getSource() == showPrescriptionButton)
-					showPrescription();
-				else if(e.getSource() == hidePrescriptionButton)
-					hidePrescription();
-				else if(e.getSource() == save)
-					tableModel.saveChanges();
-				else if(e.getSource() == statButton)
-					showStatistics();
+				JOptionPane.showMessageDialog(null, "Du må velge en ansatt");
+				return;
+			}
+			Ansatt ass = register.getAnsattViaNr( (String)tableModel.getValueAt(row, TModel.PRESCRIPTION_NR) );
+			visAnsattInfo.setText(ass.toString());
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Feil", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		visAnsattInfo.setVisible(false);
+		validate();
+	}
+
+	public void visStatistikk()
+	{
+		JOptionPane.showMessageDialog(null, "Her har du statistikken din");
+	}
+
+	/*private class RadioButtonLytter implements ItemListener
+	{
+		public void itemStateChanged(ItemEvent e)
+		{
+			if(ans.isSelected())
+			{
+				søkFor = SØK_ANSATT;
+				lagre.setVisible(true);
+				søkAnsatt();
 			}
 		}
+	}*/
+
+	/*private class Lytterklasse implements ActionListener//knappelytter
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			if(e.getSource() == søkeKnapp || e.getSource() == ansattFornavn)
+				søk();
+			else if(e.getSource() == nyAns)
+				nyAnsatt();
+			//else if(e.getSource() == showPrescriptionButton)
+			//	showPrescription();
+			//else if(e.getSource() == hidePrescriptionButton)
+			//	hidePrescription();
+			//else if(e.getSource() == save)
+			//	tableModel.saveChanges();
+			else if(e.getSource() == statButton)
+				visStatistikk();
+		}
+	}*/
+
+	private class Lytterklasse implements ActionListener//knappelytter
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			if(e.getSource() == søkeKnapp || e.getSource() == ansattFornavn)
+				søk();
+			else if(e.getSource() == nyAns)
+				nyAnsatt();
+			else if(e.getSource() == lagre)
+				tableModel.saveChanges();
+			else if(e.getSource() == statButton)
+				visStatistikk();
+		}
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
