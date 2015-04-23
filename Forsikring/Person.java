@@ -88,18 +88,18 @@ class Ansatt extends Person implements Serializable
 		adresse = adr;
 	}
 
-	public String getAdresse()
+	public String getAvdeling()
 	{
 		return adresse;
 	}
 
-	public void setAdresse(String adr)
+	public void setAvdeling(String adr)
 	{
 		adresse = adr;
 	}
 
 	public String toString()
 	{
-		return "Fornavn: " + getFornavn() + "Etternavn: " + getEtternavn() + "Personnummer: " + getPersonNr() + "Telefon: " + getTelefonNr() + "Adresse: " + getAdresse();
+		return "Fornavn: " + getFornavn() + "Etternavn: " + getEtternavn() + "Personnummer: " + getPersonNr() + "Telefon: " + getTelefonNr() + "Avdeling: " + getAvdeling();
 	}
-}
+}//Slutt på ansatt
