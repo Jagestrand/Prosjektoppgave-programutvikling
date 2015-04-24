@@ -1,0 +1,316 @@
+
+
+
+
+Prosjektoppgave
+Programutvikling
+
+Even Nerheim - s199184 - Dataingeniør - HINGDATA14HA 
+Rebwar Eliassi - s183736 - Informasjonsteknologi - HINGDATA14HA
+William Jagestrand - s929570 - Tretermin data - HINGDATA14HA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1	INNHOLDSFORTEGNELSE
+2	Forord	4
+3	Planleggingsfasen	4
+3.1	Hensikt	4
+3.1.1	Tema	4
+3.1.2	Problemstilling	4
+3.1.3	Prosessmålet vårt	4
+3.1.4	Målgruppe	4
+3.2	Innhold og struktur (starten av prosjektet)	4
+3.2.1	Begrensning av prosjektområde (hvor mye vi vil ha med)	4
+3.2.2	Kategorisering	5
+3.3	Brukergrensesnitt	5
+3.3.1	Use cases	5
+3.3.2	Teknologier	5
+3.3.3	Systemkrav	5
+3.3.4	Java Versjon	5
+3.4	Design	5
+3.4.1	Tidligere Skisser	5
+3.5	Arbeidsmetoder	7
+3.6	Organisering	7
+3.6.1	Arbeidsoppgaver	7
+3.6.2	Milepælsplan	7
+3.6.3	Planlagt arbeidsfordeling	8
+3.6.4	Aktivitetsplan fra uke 15-21	9
+3.6.5	Kommunikasjonsverktøy	9
+3.7	Oppsummering av fasen	10
+4	Produksjonsfasen	10
+4.1	Oppbyggingen av programmet	10
+4.1.1	Klasser som skal brukes	10
+4.1.2	Super-/subklasser	10
+4.1.3	Klassehierarkiet	10
+	11
+4.1.4	Datastruktur	11
+4.1.5	Datastruktur figurfremvisning (kravspesifikasjon model)	11
+4.2	Endringer av programmet	13
+4.3	Hindringer i produksjonsfasen	13
+5	Presentasjon av ferdig program	13
+5.1	Innhold, layout og brukergrensesnitt	13
+5.2	Navigering	13
+5.3	Fleksibilitet til siden	13
+5.4	Teknologier	14
+5.5	Tidslinje/dagbok	14
+5.6	Evaluering av prosjektet	14
+5.6.1	Gruppeevaluering	14
+5.6.2	Programutvikling	14
+6	Konklusjonen på prosjektet	14
+7	Kilder	14
+8	Vedlegg	14
+
+	
+
+
+
+2	FORORD 
+Vi har tatt for oss alternativ 3. som vår hovedprosjekt i Programutvikling. Her ønsker vi å lage et program som har et reelt fremvisning. Programmet skal kunne registere selskapets kunder, lage ulike forsikringer, registrere skader og betale ut erstatninger. Samt enkelt finne frem informasjon og generere ulike typer statistikk og historikk. Forsikringsselskapet har samtidig planer om at utvide forretningen sin. Derfor må programmet settes på en slik måte at det senere kan bygges ut, utvide forsikringstyper etc, uten å måtte foreta betydelige forandringer på den tidligere utgaven av programmet.
+3	PLANLEGGINGSFASEN
+3.1	HENSIKT
+3.1.1	Tema 
+3.1.2	Problemstilling 
+3.1.3	Prosessmålet vårt
+Programmet er elektronisk forsikringsregister i Java for ansatte og kunder. Kunder har mulighet for å registrere seg som kunde hos selskapet og på senere tid kunne forandre på sin personlige informasjon. Kunder kan registrere nye forsikringsavtaler med selskapet for bil-, båt-, innbo-, hus- og hytteforsikring. Kunder kan også legge inn skademelding for de forskjellige forsikringene de har og ha mulighet for å oppheve forsikringsavtaler de allerede har. 
+
+De ansatte kan se all informasjon om alle kunder og deres forsikringer i systemet og ha en søkemotor for å finne fram på en enkel måte. Ansatte kan også avslutte kundeforhold, men fremdeles ha informasjonen kunden hadde lagret da forholdet ble avsluttet. Avslutning av kundeforhold vil også avslutte kundens bruker i programmet.
+3.1.4	Målgruppe 
+
+3.2	INNHOLD OG STRUKTUR (STARTEN AV PROSJEKTET)
+3.2.1	Begrensning av prosjektområde (hvor mye vi vil ha med)
+Programmet må kunne utføre innlogging og registrering for ansatte ved forsikringsselskapet og kunder. Programmet må kunne lagre informasjon om kundene på en oversiktlig måte slik at kun kundene selv og de ansatte kan se det. Enkel registrering av forsikringer må være en mulighet for kundene, samt en ryddig oversikt over all informasjon relatert til disse forsikringene. 
+Den samme informasjonen vil bli gjort tilgjengelig for de ansatte, samt en søkemotor som finner informasjonen man søker. Kunder skal selv k...(line truncated)...
+Oversikt over forsikringsselskapets inntekter og utgifter vil bli tatt med hvis det blir tid nok. Statistikk vil ikke bli høyt prioritert for denne oppgaven. 
+
+3.2.2	Kategorisering
+3.3	BRUKERGRENSESNITT 
+3.3.1	Use cases
+
+
+
+3.3.2	Teknologier
+för vi har olika operativsystem och textpad är bara kompatibelt med windows. Men det bör även vara kompatibelt med äldre system med den senaste versionen 
+3.3.3	Systemkrav
+Vi vil utvikle programmet på Mac og Windows. Programmet kommer til å bli testet på skolepcn, som bruker seg av Windows 7. Siden vil det i tillegg bli testet på Mac som bruker OS X Yoshmite, men bør også være kompatabel med eldre systemer med den seneste versjonen av java 8. Vi skal bruke oss av Netbeans og Textpad for å utvikle programmet. Slik at det forventes at den oppgitte versjonsnumret av Netbeans/Texpad blir brukt. I tillegg tar vi oss i bruk av Java SDK 1.8 som er nødvendige for at programmet skal kjøres. 
+3.3.4	Java Versjon
+
+-Java SDK 1.8.0.25 med
+	- støtte for Lambda-uttrykk
+	- tilgjengeligheten av Stream-klassen.
+3.4	DESIGN 
+3.4.1	Tidligere Skisser 
+
+Bild 1
+
+
+
+
+
+
+
+
+
+
+På bild 1 (Kundeinfo) velger du forsikring (Bil, Båt, Hus og Fritid) for å komme frem til informasjon av den spesifike forsinkringen, se bild 2. 
+Bild 2
+
+
+
+
+
+
+
+
+
+
+
+
+Her vises informasjon på forsikringen (Forsikrings info). Når en spesifik forsikring blir valgt, blir de andre forsikringene alternativene minimert. 
+
+Bild 3
+
+Bild 3 viser Ansattens vindu, her kan den ansatte få en oversikt over forsikringens kunder. Mulig for søk og se spesifikke forsikringer, henviser til «Menybar». 
+
+
+3.5	ARBEIDSMETODER
+3.6	ORGANISERING
+
+3.6.1	Arbeidsoppgaver 
+Dette er kun en grov fordeling av arbeidsplanene våre.
+Even:
+•	java
+Rebwar:
+•	java
+William:
+•	Java
+
+3.6.2	Milepælsplan 
+Uke 15:
+•	Gruppa møtes for første gang 
+•	Setter seg inn i oppgaven 
+
+Uke 16:
+•	Fordeling av arbeidsoppgaver 
+•	Bli ferdig og levere Kravspesifikasjon til 13.04.15! 
+•	Ferdiggjøre prototype av innlogginssiden
+
+Uke 17:
+•	Begynne på våre individuelle oppgaver til programmet 
+•	Begynne på strukturen til programmet 
+•	Ferdigdesigne informasjonsfeltene
+
+Uke 18:
+•	Fortsette på de individuelle oppgavene 
+•	Informasjonsfeltene ferdig
+•	Designe videre brukergrensesnittene
+
+Uke 19:
+•	Jobbe med søkefelt
+•	Jobbe med innlogging
+•	Koble opp knappene
+•	Testing av program 
+•	Starte på sluttrapporten 
+
+Uke 20:
+•	Jobbe med sluttrapporten 
+•	Sjekkliste om alt er med
+•	Videre testing og forbedring
+•	Legge til funksjoner
+
+Uke 21:
+•	Gjøre sluttrapporten ferdig 
+•	Legge inn resterende informasjon
+•	Gjøre ferdig programmet
+
+3.6.3	Planlagt arbeidsfordeling
+
+Det er planlagt at alle i gruppen skal ha like mye å gjøre. Dette betyr at alle vil ha like mange filer å programmere, men vil få hjelp dersom en fil viser seg vanskeligere/større enn forventet. Det vil bli begått testing på alle medlemmenes maskiner, mens dokumentasjon også vil bli fordelt jevnt mellom medlemmene. 
+Feiltesting vil bli gjort av alle frem til programmet er satt ordentlig sammen, da vil én heller bli pekt ut til å ta seg av denne oppgaven. Even vil ta seg av å legge inn informasjon i programmet (kunder, forsikringer, ansatte osv.).
+
+
+
+3.6.4	Aktivitetsplan fra uke 15-21 
+
+Uke	Aktivitet	Hensikt
+15	-		-	
+16		-	
+17		
+18		-	
+19		
+20	-		-	
+21	-		-	
+
+3.6.5	Kommunikasjonsverktøy 
+Vi har valgt å bruke kommunikasjonsverktøy som vi er vant med å bruke fra før. 
+•	Facebook - er en sosial medium og et viktig verktøy hvor vi kan kommunisere og tydeliggjøre viktig informasjon. Alle i gruppen er stadig innom Facebook flere ganger om dagen, og Facebooks sin «notifikasjoner» verktøy er det første vi vanligvis besøker. Slik forsikrer vi at den viktigste informasjonen aldri går ubemerket.
+•	Vi var litt usikre på hva slags nettbasert løsning vi skulle ta i bruk for prosjektarbeidet vårt. Vi kunne velge mellom to relevante valg, enten GitHub eller DropBox. Gruppemedlemmene har tidligere erfaring med GitHub, og for at det er mer egnet for programmering og webutvikling, fikk vi inntrykk av at denne var effektiv nok for prosjektet vårt. De fleste av oss hadde brukt Github før begynnelsen av prosjektet, derfor virket det naturlig å bruke denne løsningen. Fordelene med at man kan enkelt lagre alt i en mappe i som alle har tilgang til, samt få gjenopprettet tidligere versjoner av en fil, resulterte i at vi gikk for Github som det ideale samarbeidsverktøyet for prosjektet vårt.
+3.7	OPPSUMMERING AV FASEN 
+4	PRODUKSJONSFASEN
+4.1	OPPBYGGINGEN AV PROGRAMMET
+Programmet skal bygges opp med en sentralklasse «Register» som gjør det meste programmet skal gjøre og tar i mot informasjon fra andre klasser. Det blir enklere å se gjennom kodene til de andre klassene ved å ha den sentralklassen i midten av programmet.
+Først i prosessen vil en fil se om et register allerede finnes og hente det, eller opprette et nytt register som kan fylles. Når registeret, hoveddelen av programmet, er på plass vil «Hovedvindu», innloggingsvinduet og basisen for brukergrensesnittet, bli hentet frem.
+Etter dette vil programmet reagere etter om man logger inn som kunde eller ansatt. Panelbytte vil bli utført av hovedvinduet.
+4.1.1	Klasser som skal brukes
+ForsikringsKunde, Kundeliste, KjøretøyForsikring, BilForsikring, BåtForsikring, Billiste, Båtliste, BoligForsikring, HusForsikring, Husliste, FritidsForsikring, Fritidsliste, Forsikringsliste, Skademelding, SkademeldingBil, Skadeliste, ForsikringsArkiv, Driverprogram, Hovedvindu, KundeSnitt, AnsattSnitt, OppstartSnitt.
+4.1.2	Super-/subklasser
+Superklasser: Kjøretøyforsikring er superklasse for bil- og båtforsikring, Boligforsikring er superklasse for innbo- og fritidsboligforsikring, Skademelding er superklasse for SkademeldingBil. 
+4.1.3	Klassehierarkiet
+
+	Forsikring  	
+	Kjøretøyforsikring	
+-	Båtforsikring
+-	Bilforsikring
+	Boligforsikring
+-	Innboforsikring
+-	Fritidsboligforsikring
+
+
+
+
+
+4.1.4	Datastruktur
+Vi har planlagt å bruke TreeSet som vår hovedsakelige datastruktur. Dette skyldes at TreeSet, etter vår mening, er bedre til å holde orden og sortere data som legges inn i listene. Når man lager et register er det underforstått at man vil ha en oversiktlig liste, noe TreeSet vil gi oss. De fleste andre datastrukturene har ikke denne egenskapen og er derfor ikke like ideelle for vårt formål.
+
+4.1.5	Datastruktur figurfremvisning (kravspesifikasjon model)
+
+
+
+Interface-Collection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Interface Map
+
+
+
+
+4.2	ENDRINGER AV PROGRAMMET
+4.3	HINDRINGER I PRODUKSJONSFASEN
+5	PRESENTASJON AV FERDIG PROGRAM
+5.1	INNHOLD, LAYOUT OG BRUKERGRENSESNITT
+
+5.2	NAVIGERING
+5.3	FLEKSIBILITET TIL SIDEN
+
+5.4	TEKNOLOGIER
+5.5	TIDSLINJE/DAGBOK
+5.6	EVALUERING AV PROSJEKTET
+5.6.1	Gruppeevaluering
+5.6.2	Programutvikling
+6	KONKLUSJONEN PÅ PROSJEKTET
+7	KILDER 
+
+8	VEDLEGG
+Her kommer tidslinjen/dagboken vår. Vi har dokumentert hver dag vi har jobbet sammen.
+
