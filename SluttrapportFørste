@@ -28,21 +28,6 @@ William Jagestrand - s929570 - Tretermin data - HINGDATA14HA
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 1	INNHOLDSFORTEGNELSE
 2	Forord	4
 3	Planleggingsfasen	4
@@ -119,9 +104,12 @@ Oversikt over forsikringsselskapets inntekter og utgifter vil bli tatt med hvis 
 3.3.1	Use cases
 
 
+3.3.2	Utviklingsverktøy
+Vi skal bruke oss av TextPad og Netbeans, dette ettersom vi har forskjellige operativsystem og at TextPad er kun kompatabel med Windows. Samt så må programmene være kompatable med eldre systemer, med de seneste versjonene.
+•	Netbeans - ......................
+•	TextPad - .....................
 
-3.3.2	Teknologier
-för vi har olika operativsystem och textpad är bara kompatibelt med windows. Men det bör även vara kompatibelt med äldre system med den senaste versionen 
+
 3.3.3	Systemkrav
 Vi vil utvikle programmet på Mac og Windows. Programmet kommer til å bli testet på skolepcn, som bruker seg av Windows 7. Siden vil det i tillegg bli testet på Mac som bruker OS X Yoshmite, men bør også være kompatabel med eldre systemer med den seneste versjonen av java 8. Vi skal bruke oss av Netbeans og Textpad for å utvikle programmet. Slik at det forventes at den oppgitte versjonsnumret av Netbeans/Texpad blir brukt. I tillegg tar vi oss i bruk av Java SDK 1.8 som er nødvendige for at programmet skal kjøres. 
 3.3.4	Java Versjon
@@ -236,16 +224,25 @@ Uke	Aktivitet	Hensikt
 Vi har valgt å bruke kommunikasjonsverktøy som vi er vant med å bruke fra før. 
 •	Facebook - er en sosial medium og et viktig verktøy hvor vi kan kommunisere og tydeliggjøre viktig informasjon. Alle i gruppen er stadig innom Facebook flere ganger om dagen, og Facebooks sin «notifikasjoner» verktøy er det første vi vanligvis besøker. Slik forsikrer vi at den viktigste informasjonen aldri går ubemerket.
 •	Vi var litt usikre på hva slags nettbasert løsning vi skulle ta i bruk for prosjektarbeidet vårt. Vi kunne velge mellom to relevante valg, enten GitHub eller DropBox. Gruppemedlemmene har tidligere erfaring med GitHub, og for at det er mer egnet for programmering og webutvikling, fikk vi inntrykk av at denne var effektiv nok for prosjektet vårt. De fleste av oss hadde brukt Github før begynnelsen av prosjektet, derfor virket det naturlig å bruke denne løsningen. Fordelene med at man kan enkelt lagre alt i en mappe i som alle har tilgang til, samt få gjenopprettet tidligere versjoner av en fil, resulterte i at vi gikk for Github som det ideale samarbeidsverktøyet for prosjektet vårt.
+
 3.7	OPPSUMMERING AV FASEN 
 4	PRODUKSJONSFASEN
 4.1	OPPBYGGINGEN AV PROGRAMMET
 Programmet skal bygges opp med en sentralklasse «Register» som gjør det meste programmet skal gjøre og tar i mot informasjon fra andre klasser. Det blir enklere å se gjennom kodene til de andre klassene ved å ha den sentralklassen i midten av programmet.
 Først i prosessen vil en fil se om et register allerede finnes og hente det, eller opprette et nytt register som kan fylles. Når registeret, hoveddelen av programmet, er på plass vil «Hovedvindu», innloggingsvinduet og basisen for brukergrensesnittet, bli hentet frem.
 Etter dette vil programmet reagere etter om man logger inn som kunde eller ansatt. Panelbytte vil bli utført av hovedvinduet.
+
+
 4.1.1	Klasser som skal brukes
 ForsikringsKunde, Kundeliste, KjøretøyForsikring, BilForsikring, BåtForsikring, Billiste, Båtliste, BoligForsikring, HusForsikring, Husliste, FritidsForsikring, Fritidsliste, Forsikringsliste, Skademelding, SkademeldingBil, Skadeliste, ForsikringsArkiv, Driverprogram, Hovedvindu, KundeSnitt, AnsattSnitt, OppstartSnitt.
+
+
+
 4.1.2	Super-/subklasser
 Superklasser: Kjøretøyforsikring er superklasse for bil- og båtforsikring, Boligforsikring er superklasse for innbo- og fritidsboligforsikring, Skademelding er superklasse for SkademeldingBil. 
+
+
+
 4.1.3	Klassehierarkiet
 
 	Forsikring  	
@@ -259,20 +256,19 @@ Superklasser: Kjøretøyforsikring er superklasse for bil- og båtforsikring, Bo
 
 
 
-
 4.1.4	Datastruktur
 Vi har planlagt å bruke TreeSet som vår hovedsakelige datastruktur. Dette skyldes at TreeSet, etter vår mening, er bedre til å holde orden og sortere data som legges inn i listene. Når man lager et register er det underforstått at man vil ha en oversiktlig liste, noe TreeSet vil gi oss. De fleste andre datastrukturene har ikke denne egenskapen og er derfor ikke like ideelle for vårt formål.
 
+
+
+
+
+
+
 4.1.5	Datastruktur figurfremvisning (kravspesifikasjon model)
 
-
-
 Interface-Collection
-
-
-
-
-
+
 
 
 
@@ -291,6 +287,9 @@ Interface-Collection
 
 
 Interface Map
+
+
+
 
 
 
@@ -299,15 +298,13 @@ Interface Map
 4.3	HINDRINGER I PRODUKSJONSFASEN
 5	PRESENTASJON AV FERDIG PROGRAM
 5.1	INNHOLD, LAYOUT OG BRUKERGRENSESNITT
-
 5.2	NAVIGERING
-5.3	FLEKSIBILITET TIL SIDEN
+5.3	FLEKSIBILITET TIL PROGRAMMET
 
 5.4	TEKNOLOGIER
-5.5	TIDSLINJE/DAGBOK
-5.6	EVALUERING AV PROSJEKTET
-5.6.1	Gruppeevaluering
-5.6.2	Programutvikling
+5.5	EVALUERING AV PROSJEKTET
+5.5.1	Gruppeevaluering
+5.5.2	Programutvikling
 6	KONKLUSJONEN PÅ PROSJEKTET
 7	KILDER 
 
