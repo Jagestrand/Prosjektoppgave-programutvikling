@@ -4,15 +4,14 @@ import java.util.*;
 public abstract class Person implements Serializable
 {
 	private static final long serialVersionUID = 42L;
-	protected String fornavn, etternavn, personNr, passord, telefonNr;
+	protected String fornavn, etternavn, personNr, telefonNr;
 
-	protected Person(String fNavn, String eNavn, String persNr, String tlfNr, String pord)
+	protected Person(String fNavn, String eNavn, String persNr, String tlfNr)
 	{
 		fornavn = fNavn;
 		etternavn = eNavn;
 		personNr = persNr;
 		telefonNr = tlfNr;
-		passord = pord;
 	}
 
 	public String getFornavn()
@@ -53,12 +52,13 @@ public abstract class Person implements Serializable
 class Kunde extends Person implements Serializable
 {
 	static final long serialVersionUID = 42L;
-	private String adresse;
+	private String adresse, passord;
 
 	public Kunde(String fNavn, String eNavn, String persNr, String tlfNr, String adr, String pord)
 	{
-		super(fNavn, eNavn, persNr, tlfNr, pord);
+		super(fNavn, eNavn, persNr, tlfNr);
 		adresse = adr;
+		passord = pord;
 	}
 
 	public String getAdresse()
@@ -71,21 +71,38 @@ class Kunde extends Person implements Serializable
 		adresse = adr;
 	}
 
+	public void setPassord(String pord)
+	{
+		passord = pord;
+	}
+
+	public String getPassord()
+	{
+		return passord;
+	}
+
 	public String toString()
 	{
-		return "Fornavn: " + getFornavn() + "\nEtternavn: " + getEtternavn() + "\nAdresse: " + getAdresse() + "\nTelefon: " + getTelefonNr();
+		String info = "Fornavn: " + getFornavn() + "\nEtternavn: " + getEtternavn() + "\nPersonnummer: " + getPersonNr() + "\nTelefon: " + getTelefonNr() + "\nAdresse: " + getAdresse();
+		return info;
 	}
 }	//slutt på Kunde
 
 class Ansatt extends Person implements Serializable
 {
 	static final long serialVersionUID = 42L;
-	private String adresse;
+	private String adresse, passord, ansattnr;
+	private int hjelpenr;
+	private static int nestenr = 11000;
 
 	public Ansatt(String fNavn, String eNavn, String persNr, String tlfNr, String adr, String pord)
 	{
-		super(fNavn, eNavn, persNr, tlfNr, pord);
+		super(fNavn, eNavn, persNr, tlfNr);
 		adresse = adr;
+		passord = pord;
+		hjelpenr = nestenr;
+		nestenr++;
+
 	}
 
 	public String getAvdeling()
@@ -98,8 +115,26 @@ class Ansatt extends Person implements Serializable
 		adresse = adr;
 	}
 
+	public void setPassord(String pord)
+	{
+		passord = pord;
+	}
+
+	public String getPassord()
+	{
+		return passord;
+	}
+
+	public String getAnsattNr()
+	{
+		ansattnr = Integer.toString(hjelpenr);
+		return ansattnr;
+	}
+
 	public String toString()
 	{
-		return "Fornavn: " + getFornavn() + "Etternavn: " + getEtternavn() + "Personnummer: " + getPersonNr() + "Telefon: " + getTelefonNr() + "Avdeling: " + getAvdeling();
+		StringBuilder info = new StringBuilder(80);
+		info.append("Fornavn: " + getFornavn() + "\nEtternavn: " + getEtternavn() + "\nPersonnummer: " + getPersonNr() + "\nAnsattnummer: " + getAnsattNr() + "\nTelefon: " + getTelefonNr() + "\nAvdeling: " + getAvdeling() );
+		return info.toString();
 	}
 }//Slutt på ansatt
