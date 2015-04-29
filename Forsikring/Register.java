@@ -7,17 +7,17 @@ public class Register implements Serializable
 	private static final long serialVersionUID = 42L;
 	//private ForsikringsReg forReg;
 	private AnsattReg ansReg;
-	//private KundeReg kunReg;
+	private KundeReg kunReg;
 	//private SkadeReg skaReg;
 	private Datasjef data;
 
 	public Register( Datasjef dataer )
 	{
-		data = dataer;/*
-		forReg = new ForsikringsReg();
+		data = dataer;
+		//forReg = new ForsikringsReg();
 		ansReg = new AnsattReg();
 		kunReg = new KundeReg();
-		skaReg = new SkadeReg();*/
+		//skaReg = new SkadeReg();
 	}/*
 
 	public ForsikringsReg getForsikringer()
@@ -29,25 +29,79 @@ public class Register implements Serializable
 	{
 		return ansReg;
 	}
-	/*
+
 	public KundeReg getKunder()
 	{
 		return kunReg;
 	}
-
+	/*
 	public SkadeReg getSkader()
 	{
 		return skaReg;
 	}*/
 
-	public Ansatt getAnsattViaNr(String nr)	//finner ansatt via ansattnr
+	public Ansatt getAnsattViaNr(String nr)
 	{
-		AnsattReg aReg = ansReg.finnAnsattViaPersNr(nr);
+		String mnr = nr;
+		AnsattReg aReg = ansReg.findDoctorByPersonNr(mnr);
 		if(aReg == null)
 			return null;
 		Iterator<Ansatt> iter = aReg.iterator();
 		return iter.next();
-	}/*
+	}
+
+	public Ansatt getAnsattViaAnsattNr(String nr)
+	{
+		//String anr = nr;
+		AnsattReg aReg = ansReg.findDoctorByAnsattNr(nr);
+		if(aReg == null)
+			return null;
+		else
+		{
+			Iterator<Ansatt> iter = aReg.iterator();
+			return iter.next();
+		}
+	}
+
+	public AnsattReg getAnsattViaNr(AnsattReg reg, String nr)
+	{
+		if(reg == null)
+			return ansReg.findDoctorByPersonNr(nr);
+		return reg.findDoctors(nr);
+	}
+
+	public AnsattReg getAnsattViaAvdeling(AnsattReg reg, String avde)/*returnerer en liste over alle doktorer som har skrevet resept på en med medisinn
+																i kategori c, tar imot en liste eller bruker klassens egen liste*/
+	{
+		if(reg == null)
+			return ansReg.findDoctors(avde);
+		return reg.findDoctorByAvdeling(avde);
+	}
+
+	public AnsattReg getAnsattViaNavn(AnsattReg reg, String navn)	//åpenbar
+	{
+		if(reg == null)
+			return ansReg.findDoctors(navn);	//finnAnsatte(navn);
+		return reg.findDoctors(navn);
+	}
+
+	public AnsattReg getAnsattViaAnsattNr(AnsattReg reg, String anr)
+	{
+		if(reg == null)
+			return ansReg.findDoctorByAnsattNr(anr);
+		return reg.findDoctorByAnsattNr(anr);
+	}
+
+
+
+	/*public AnsattReg getAnsattViaAnsattNr(AnsattReg reg, int anr)
+	{
+		if(reg == null)
+			return ansReg.findDoctorByAnsattNr(anr);
+		return reg.findDoctorByAnsattNr(anr);
+	}*/
+
+	/*
 
 	public Forsikring getForsikringViaNr(int nr)	//finner forsikring via forsikringsnr
 	{
@@ -114,15 +168,15 @@ public class Register implements Serializable
 		forReg.add(fors);
 	}*/
 
-	public void nyAnsatt( Ansatt ans)		//legger inn ny ansatt
+	public void nyAnsatt( Ansatt ans )		//legger inn ny ansatt
 	{
 		ansReg.add(ans);
-	}/*
+	}
 
 	public void nyKunde(Kunde kun)		//legger inn ny kunde
 	{
 		kunReg.add(kun);
-	}
+	}/*
 
 	public void nySkade(Skademelding skad)		//legger inn ny skademelding
 	{
@@ -289,8 +343,19 @@ public class Register implements Serializable
 				frs.add(prøv);
 		}
 		return frs;
+	}*/
+
+	public Kunde getKundeViaNummer(String nr)
+	{
+		String pnnr = nr;
+		KundeReg kReg = kunReg.finnKundeViaNr(pnnr);
+		if(kReg == null)
+			return null;
+		Iterator<Kunde> iter = kReg.iterator(); //feil her
+		return iter.next();
 	}
 
+	/*
 	public KundeReg getKundeViaNavn(KundeReg reg, String navn)	//åpenbar
 	{
 		if(reg == null)
@@ -313,14 +378,7 @@ public class Register implements Serializable
 		}
 		return kun;
 	}*/
-
-	public AnsattReg getAnsattViaNavn(AnsattReg reg, String navn)	//åpenbar
-	{
-		if(reg == null)
-			return ansReg.finnAnsatte(navn);
-		return reg.finnAnsatte(navn);
-	}/*
-
+	/*
 	public void setNåForsikringsNr()	//noe med forsikringsnummer
 	{
 		forReg.setNåNr();
