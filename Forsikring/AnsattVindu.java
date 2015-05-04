@@ -6,22 +6,28 @@ public class AnsattVindu extends JPanel
 {
 	private Register register;
 	private Huvudvindu window;
-	//private Listener lytter;
+	private Listener lytter;
 	private final int DATA_FIELD_LENGTH = 20;
-	private JTextField kundNavn, kundTelefon, kundAdresse, kundPersonnr, typeForsikring;
+	public static final int SØK_KUNDE = 1, SØK_FORSIKRING = 2, SØK_SKADEMELDING = 3;
+	private JTextField kundNavn, kundTelefon, kundAdresse, kundPersonnr, kundPostnr, kundPostby, typeForsikring;
 	private JTextArea informationTop, visForsikringInfo;
 	private JButton søkKnapp, visForsikringKnapp, skjulForsikringKnapp, deletaForsikringKnapp;
-	private JLabel kundNavnLabel, kundTelefonLabel, kundAdresseLabel, kundPersonnrLabel;
+	private JLabel kundNavnLabel, kundTelefonLabel, kundAdresseLabel, kundPersonnrLabel, kundPostnrLabel, kundPostbyLabel;
 	private JPanel visForsikring, visForsikringFlow, searchGrid, border, flow;
-	//private TModel tableModell;
-	//private JTable table;
+	private TModel tableModel;
+	private JTable table;
 
 	public AnsattVindu(Huvudvindu win)
 	{
+		/*
+		Denne klassen må kunne se 3 faner:
+		1. Kunder (og åpne nytt vindu med mer info)
+		2. Forsikringer (og åpne vindu med mer info)
+		3. Skademeldinger (og åpne vindu med mer info)
+		*/
 		window = win;
 		register = window.getRegister();
-		//lytter
-		//lytter = new Listener();
+		lytter = new Listener();
 		//paneler & layoutmanagere
 		setLayout(new BorderLayout());
 
@@ -45,12 +51,16 @@ public class AnsattVindu extends JPanel
 		kundTelefon = new JTextField(DATA_FIELD_LENGTH);
 		kundAdresse = new JTextField(DATA_FIELD_LENGTH);
 		kundPersonnr = new JTextField(DATA_FIELD_LENGTH);
+		kundPostnr = new JTextField(DATA_FIELD_LENGTH);
+		kundPostby = new JTextField(DATA_FIELD_LENGTH);
 
 
 		kundNavnLabel = new JLabel("Navn:");
 		kundTelefonLabel = new JLabel("Telefonnummer:");
 		kundAdresseLabel = new JLabel("Adresse:");
 		kundPersonnrLabel = new JLabel("Personummer:");
+		kundPostnrLabel = new JLabel("Postnr:");
+		kundPostbyLabel = new JLabel("Poststed:");
 		søkKnapp = new JButton("Søk");
 
 		visForsikringKnapp = new JButton("Åpne forsikring");
@@ -58,14 +68,16 @@ public class AnsattVindu extends JPanel
 		skjulForsikringKnapp.setVisible(false);
 		deletaForsikringKnapp = new JButton("Sletta forsikring");
 
-		//søkKnapp.addActionListener(lytter);
-		//kundNavn.addActionListener(lytter);
-		//kundTelefon.addActionListener(lytter);
-		//kundAdresse.addActionListener(lytter);
-		//kundPersonnr.addActionListener(lytter);
-		//visForsikringKnapp.addActionListener(lytter);
-		//skjulForsikringKnapp.addActionListener(lytter);
-		//deletaForsikringKnapp.addActionListener(lytter);
+		søkKnapp.addActionListener(lytter);
+		kundNavn.addActionListener(lytter);
+		kundTelefon.addActionListener(lytter);
+		kundAdresse.addActionListener(lytter);
+		kundPersonnr.addActionListener(lytter);
+		kundPostnr.addActionListener(lytter);
+		kundPostby.addActionListener(lytter);
+		visForsikringKnapp.addActionListener(lytter);
+		skjulForsikringKnapp.addActionListener(lytter);
+		deletaForsikringKnapp.addActionListener(lytter);
 
 		searchGrid.add(kundNavnLabel);
 		searchGrid.add(kundNavn);
@@ -75,6 +87,10 @@ public class AnsattVindu extends JPanel
 		searchGrid.add(kundAdresse);
 		searchGrid.add(kundPersonnrLabel);
 		searchGrid.add(kundPersonnr);
+		searchGrid.add(kundPostnrLabel);
+		searchGrid.add(kundPostnr);
+		searchGrid.add(kundPostbyLabel);
+		searchGrid.add(kundPostby);
 		searchGrid.add(søkKnapp);
 		visForsikringFlow.add(visForsikringKnapp);
 		visForsikringFlow.add(skjulForsikringKnapp);
@@ -86,7 +102,11 @@ public class AnsattVindu extends JPanel
 		add(informationTop, BorderLayout.PAGE_START);
 		add(new JScrollPane(flow, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.LINE_START);
 
-		//tableModel = new TModel(register.getForsikringMot);
+		tableModel = new TModel(register.getKunder());
+		table = new JTable(tableModel);
+		add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
+
+
 
 
 
@@ -98,5 +118,53 @@ public class AnsattVindu extends JPanel
 
 
 
+	}
+
+	public void søk()
+	{
+		søkKunde();
+	}
+
+	public KundeReg søkKunde()
+	{
+		KundeReg res = register.getKunder();
+
+		String kn = kundNavn.getText();
+		String pn = kundPersonnr.getText();
+		String tlf = kundTelefon.getText();
+		String adr = kundAdresse.getText();
+		String pnr = kundPostnr.getText();
+		String pb = kundPostby.getText();
+
+		if(!kn.isEmpty() )
+			res = register.getKundeViaNavn(res, kn);
+		if(!pn.isEmpty() )
+			res = register.getKundeViaNummer(res, pn);
+		if(!tlf.isEmpty() )
+			res = register.getKundeViaTelefon(res, tlf);
+		if(!adr.isEmpty() )
+			res = register.getKundeViaAdresse(res, adr);
+		if(!pnr.isEmpty() )
+			res = register.getKundeViaPostnr(res, pnr);
+		if(!pb.isEmpty() )
+			res = register.getKundeViaBy(res, pb);
+
+		tableModel = new TModel(res);
+		table.setModel(tableModel);
+		tableModel.setTableCellEditor(table);
+		return res;
+	}
+
+
+
+	private class Listener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			if( e.getSource() == søkKnapp || e.getSource() == kundNavn || e.getSource() == kundTelefon
+			|| e.getSource() == kundAdresse || e.getSource() == kundPersonnr || e.getSource() == kundPostnr
+			|| e.getSource() == kundPostby )
+				søk();
+		}
 	}
 }
