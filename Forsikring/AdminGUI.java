@@ -2,7 +2,6 @@
 Klassen definerer brukergrensesnittet for administrator, klassen utvider JPanel med felter og knapper for søkefunksjoner
 brukeren kan bruke til å søke seg frem til øsnket data. Panelet har også funskjoner for å endre data der dette er tillat
 */
-
 import javax.swing.*;
 import java.util.*;
 import java.awt.*;
@@ -13,9 +12,9 @@ public class AdminGUI extends JPanel
 	public static final int SØK_FORSIKRING = 1, SØK_KUNDE = 2, SØK_ANSATT = 3, DATAFELT_LENGDE = 20;
 	private int søkFor;
 	private Huvudvindu vindu;
-	private JLabel søkEtterLabel, ansattFornavnLabel, ansattEtternavnLabel, ansattPersNrLabel, ansattNummerLabel;
+	private JLabel søkEtterLabel, ansattFornavnLabel, ansattEtternavnLabel, ansattPersNrLabel, ansattNummerLabel, ansattAvdelingLabel;
 	private JTextArea info, visAnsattInfo;
-	private JTextField ansattFornavn, ansattEtternavn, ansattPersNr, ansattNummer;
+	private JTextField ansattFornavn, ansattEtternavn, ansattPersNr, ansattNummer, ansattAvdeling;
 	private ButtonGroup gruppeKnapper;
 	private JRadioButton ans;
 	private JButton søkeKnapp, nyAns, lagre, visAnsattKnapp, statButton;
@@ -29,14 +28,21 @@ public class AdminGUI extends JPanel
 
 	public AdminGUI(Huvudvindu v)
 	{
+			/*
+
+			Dobbelklikk på bruker skal åpne JOptionPane med info om brukern
+
+
+			*/
 			vindu = v;
 			register = vindu.getRegister();
 			//radioLytter = new RadioButtonLytter();
 			lytter = new Lytterklasse();
 
+			//avkrysningsboks
+
 			gruppeKnapper = new ButtonGroup();
 			ans = new JRadioButton("Ansatte", true);
-			//ans.addItemListener(radioLytter);
 			gruppeKnapper.add(ans);
 
 			//Setter layout:
@@ -65,11 +71,13 @@ public class AdminGUI extends JPanel
 			ansattEtternavn = new JTextField(DATAFELT_LENGDE);
 			ansattPersNr = new JTextField(11);
 			ansattNummer = new JTextField(DATAFELT_LENGDE);
+			ansattAvdeling = new JTextField(DATAFELT_LENGDE);
 			søkEtterLabel = new JLabel("Søk etter:");
 			ansattFornavnLabel = new JLabel("Ansatt fornavn:");// Ansatts Navn?((legge til tooltip på disse
 			ansattEtternavnLabel = new JLabel("Ansatt etternavn:");
 			ansattPersNrLabel = new JLabel("Ansatt personnummer:");
 			ansattNummerLabel = new JLabel("Ansattnummer:");
+			ansattAvdelingLabel = new JLabel("Avdeling:");
 			søkeKnapp = new JButton("Søk");
 			nyAns = new JButton("Legg til en ny ansatt");
 			lagre = new JButton("Lagre endringer");
@@ -79,7 +87,7 @@ public class AdminGUI extends JPanel
 
 			søkeKnapp.addActionListener(lytter);
 			ansattFornavn.addActionListener(lytter);
-			//ansattEtternavn.addActionListener(lytter);
+			ansattEtternavn.addActionListener(lytter);
 			//ansattPersNr.addActionListener(lytter);
 			//ansattNummer.addActionListener(lytter);
 			nyAns.addActionListener(lytter);
@@ -97,6 +105,8 @@ public class AdminGUI extends JPanel
 			searchGrid.add(ansattNummer);
 			searchGrid.add(ansattPersNrLabel);
 			searchGrid.add(ansattPersNr);
+			searchGrid.add(ansattAvdelingLabel);
+			searchGrid.add(ansattAvdeling);
 			searchGrid.add(søkeKnapp);
 			searchGrid.add(nyAns);
 			searchGrid.add(statButton);
@@ -110,14 +120,14 @@ public class AdminGUI extends JPanel
 			add(info, BorderLayout.PAGE_START);
 			add(new JScrollPane(flow, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.LINE_START);
 			//oppretter tabellen for visning og redigering
-			tableModel = new TModel();
+			tableModel = new TModel(register.getAnsatte()); //new TModel()
 			table = new JTable(tableModel);
 			//legger til elementer i hovedpanelet
 			add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
 			add(new JScrollPane(visAnsatte), BorderLayout.PAGE_END);
-			//setter guien til å starte med resept valgt
 
-			//radioLytter.itemStateChanged(null);
+			//vindu.tilbakePos.setVisible(false);
+
 		}
 		public int getSøkFor()
 		{
@@ -133,18 +143,26 @@ public class AdminGUI extends JPanel
 	{
 		AnsattReg res = register.getAnsatte();
 
-		String ansa = ansattFornavn.getText();
-		//String afn = ansattFornavn.getText();
-		//String aen = ansattEtternavn.getText();
+		String afn = ansattFornavn.getText();
+		String aen = ansattEtternavn.getText();
+		String apn = ansattPersNr.getText();
+		//Integer anr = Integer.valueOf( ansattNummer.getText());
+		String anr = ansattNummer.getText();
+		String avd = ansattAvdeling.getText();
 
-		if(!ansa.isEmpty() )
-			res = register.getAnsattViaNavn(res, ansa);
-		/*if(!d.isEmpty() )
-			res = register.getPatientsByDoctor(res, d);
-		if(!m.isEmpty() )
-			res = register.getPatientsByMed(res, m);
-		if(!c.isEmpty() )
-			res = register.getPatientsByCat(res, c);*/
+		if(!afn.isEmpty() )
+			res = register.getAnsattViaNavn(res, afn);
+		if(!aen.isEmpty() )
+			res = register.getAnsattViaNavn(res, aen);
+		if(!apn.isEmpty() )
+			res = register.getAnsattViaNr(res, apn);
+		if(!anr.isEmpty() )
+			res = register.getAnsattViaAnsattNr(res, anr);
+		//if(anr != null )
+		//	res = register.getAnsattViaAnsattNr(res, anr);
+		if(!avd.isEmpty() )
+			res = register.getAnsattViaAvdeling(res, avd);
+
 		//res = register.getPatientsByGroup(res, la, lb, lc);
 
 		tableModel = new TModel(res);
@@ -153,12 +171,12 @@ public class AdminGUI extends JPanel
 		return res;
 	}
 
-	public void nyAnsatt()
+	public void nyAnsatt() //
 	{
 		vindu.swapPanel(new NyAnsattGUI(vindu));
 	}
 
-	public void visAnsatt()
+	public void visAnsatt() //<en JOptionPane.showmessagedialog skal poppe opp>
 	{
 		try
 		{
@@ -220,7 +238,7 @@ public class AdminGUI extends JPanel
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(e.getSource() == søkeKnapp || e.getSource() == ansattFornavn)
+			if(e.getSource() == søkeKnapp || e.getSource() == ansattFornavn || e.getSource() == ansattEtternavn)
 				søk();
 			else if(e.getSource() == nyAns)
 				nyAnsatt();
