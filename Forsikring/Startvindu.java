@@ -10,13 +10,13 @@ public class Startvindu extends JPanel
 	private final String passordetliksom;
 	private String adminPass;
 	private Huvudvindu vindu;
-	private JLabel brukerLabel, passLabel, fNavnLabel, eNavnLabel, passord1Label, passord2Label, tlfNrLabel, persNrLabel;
-	private JTextField bruker, passord, fNavn, eNavn, persNr, passord1, passord2, tlfNr;
+	private JLabel brukerLabel, passLabel, fNavnLabel, eNavnLabel, passord1Label, passord2Label, tlfNrLabel, persNrLabel, adrLabel, postLabel, stedLabel;
+	private JTextField bruker, passord, fNavn, eNavn, persNr, passord1, passord2, tlfNr, adress, postnr, posted;
 	private JButton logginn, registrer, regKunde, avbryt;
 	private Lytterklasse lytter;
 	private Register register;
 	private JTextArea info;
-	private JPanel kant, kant2, flow, inputFelt, loginFelt, knappeFelt, pNrFelt, tlfFelt, regNavnFelt, regPassFelt;
+	private JPanel kant, kant2, flow, inputFelt, loginFelt, knappeFelt, pNrFelt, tlfFelt, adrFelt, postFelt, regNavnFelt, regPassFelt;
 
 	public Startvindu( Huvudvindu v )
 	{
@@ -85,9 +85,15 @@ public class Startvindu extends JPanel
 		persNr.setFont(font1);
 		tlfNr = new JTextField ( 20 );
 		tlfNr.setFont(font1);
-		passord1 = new JTextField( 20 );
+		adress = new JTextField( 20 );
+		adress.setFont(font1);
+		postnr = new JTextField( 20 );
+		postnr.setFont(font1);
+		posted = new JTextField( 20 );
+		posted.setFont(font1);
+		passord1 = new JPasswordField( 20 );
 		passord1.setFont(font1);
-		passord2 = new JTextField( 20 );
+		passord2 = new JPasswordField( 20 );
 		passord2.setFont(font1);
 
 		fNavnLabel = new JLabel( "Fornavn:" );
@@ -98,6 +104,12 @@ public class Startvindu extends JPanel
 		persNrLabel.setFont(font1);
 		tlfNrLabel = new JLabel( "Telefonnummer:" );
 		tlfNrLabel.setFont(font1);
+		adrLabel = new JLabel( "Adresse:" );
+		adrLabel.setFont(font1);
+		postLabel = new JLabel( "Postnr:" );
+		postLabel.setFont(font1);
+		stedLabel = new JLabel( "Poststed:" );
+		stedLabel.setFont(font1);
 		passord1Label = new JLabel( "Passord:" );
 		passord1Label.setFont(font1);
 		passord2Label = new JLabel( "Gjenta passord:" );
@@ -114,6 +126,9 @@ public class Startvindu extends JPanel
 		passord1.addActionListener( lytter );
 		passord2.addActionListener( lytter );
 		tlfNr.addActionListener( lytter );
+		adress.addActionListener( lytter );
+		postnr.addActionListener( lytter );
+		posted.addActionListener( lytter );
 		regKunde.addActionListener( lytter );
 		avbryt.addActionListener( lytter );
 
@@ -123,14 +138,18 @@ public class Startvindu extends JPanel
 		pNrFelt.setBackground(Color.gray);
 		tlfFelt = new JPanel( new GridLayout( 2, 1 ) );
 		tlfFelt.setBackground(Color.gray);
+		adrFelt = new JPanel( new GridLayout( 2, 1 ) );
+		adrFelt.setBackground(Color.gray);
+		postFelt = new JPanel( new GridLayout( 2, 2 ) );
+		postFelt.setBackground(Color.gray);
 		regPassFelt = new JPanel( new GridLayout( 2, 2 ) );
 		regPassFelt.setBackground(Color.gray);
-		GridLayout gridlayout1 = new GridLayout( 2, 1 );
+		GridLayout gridlayout1 = new GridLayout( 1, 2 );
 		gridlayout1.setVgap(10);
 		knappeFelt = new JPanel( gridlayout1 );
 		knappeFelt.setBackground(Color.gray);
 
-		GridLayout gridlayout2 = new GridLayout(5,1);
+		GridLayout gridlayout2 = new GridLayout(7,1);
 		gridlayout2.setVgap(10);
 		JPanel gridReg = new JPanel(gridlayout2 );
 		gridReg.setPreferredSize( new Dimension(100,100));
@@ -150,6 +169,12 @@ public class Startvindu extends JPanel
 		pNrFelt.add(persNr);
 		tlfFelt.add(tlfNrLabel);
 		tlfFelt.add(tlfNr);
+		adrFelt.add(adrLabel);
+		adrFelt.add(adress);
+		postFelt.add(postLabel);
+		postFelt.add(stedLabel);
+		postFelt.add(postnr);
+		postFelt.add(posted);
 
 		knappeFelt.add(regKunde);
 		knappeFelt.add(avbryt);
@@ -157,14 +182,16 @@ public class Startvindu extends JPanel
 		gridReg.add( regNavnFelt, BorderLayout.CENTER );
 		gridReg.add( pNrFelt, BorderLayout.CENTER );
 		gridReg.add( tlfFelt, BorderLayout.CENTER );
+		gridReg.add( adrFelt, BorderLayout.CENTER );
+		gridReg.add( postFelt, BorderLayout.CENTER );
 		gridReg.add( regPassFelt, BorderLayout.CENTER );
 		gridReg.add( knappeFelt, BorderLayout.CENTER );
 		gridReg.setBorder(new EmptyBorder(new Insets(20,40,40,40)));
 		gridReg.setBackground(Color.gray);
 
 		kant2 = new JPanel( new BorderLayout(10,10) );
-        kant2.setPreferredSize(new Dimension(400, 400));
-        kant2.setMaximumSize(new Dimension(400, 400));
+        kant2.setPreferredSize(new Dimension(480, 480));
+        kant2.setMaximumSize(new Dimension(480, 480));
 		kant2.setBorder( BorderFactory.createLineBorder(Color.black) );
 		kant2.add( gridReg, BorderLayout.CENTER );
 		kant2.setVisible(false);
@@ -178,11 +205,33 @@ public class Startvindu extends JPanel
 		setLayout( new BorderLayout() );
 		add(info, BorderLayout.PAGE_START );
 		add( new JScrollPane(flyt), BorderLayout.CENTER );
+		flyt.setBackground(Color.white);
 	}
 
 	public JFrame getHovedVindu()
 	{
 		return vindu;
+	}
+
+	private void visFeilmelding( String melding )
+	{
+		//Standard for feilmelding
+		JOptionPane.showMessageDialog(this, melding, "Problem", JOptionPane.ERROR_MESSAGE);
+	}
+
+	private void slettFelter()
+	{
+		bruker.setText( "" );
+		passord.setText( "" );
+		fNavn.setText( "" );
+		eNavn.setText( "" );
+		persNr.setText( "" );
+		passord1.setText( "" );
+		passord2.setText( "" );
+		tlfNr.setText( "" );
+		adress.setText( "" );
+		postnr.setText( "" );
+		posted.setText( "" );
 	}
 
 	/*public void logginn()
@@ -213,13 +262,13 @@ public class Startvindu extends JPanel
 		String pass = passord.getText();
 		String bruk = bruker.getText();
 
-		if( bruk.toLowerCase().equals( ADMIN ) )
+		if(bruk.equals("") || pass.equals(""))
+			visFeilmelding("Begge felter må fylles ut");
+
+		else if( bruk.toLowerCase().equals( ADMIN ) )
 			LogginnAdmin( pass );
 
-		else if( bruk.toLowerCase().equals( KUNDE ) )
-			LogginnKunde( bruk, pass );
-
-		else if( bruk.length() == 11 )
+		else if( bruk.toLowerCase().equals( KUNDE ) || bruk.length() == 11 )
 			LogginnKunde( bruk, pass );
 
 		else
@@ -228,32 +277,39 @@ public class Startvindu extends JPanel
 
 	public void nyKunde()
 	{
-		String fon, etn, penr, pass, telf, regexPattern;
+		String fon, etn, penr, pass, telf, adrrr, pnr, ps, regexPattern;
+		//Integer pnr;
 		regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 		fon = fNavn.getText();
 		etn = eNavn.getText();
 		penr = persNr.getText();
 		telf = tlfNr.getText();
+		adrrr = adress.getText();
+		//pnr = Integer.parseInt(postnr.getText());
+		pnr = postnr.getText();
+		ps = posted.getText();
+
 		//Denne er fake
-		String adrrr = "Holmevei 1";
 		//Slutt på fake
 		pass = passord1.getText();
 		if(!pass.equals(passord2.getText() ) )
-			info.setText("Passordene må være like");
-		else if(fon.equals("") || etn.equals("") || penr.equals("") || telf.equals("") || pass.equals("") )
-			info.setText("Alle feltene må fylles ut");
+			visFeilmelding("Passordene må være like");
+		else if(fon.equals("") || etn.equals("") || penr.equals("") || telf.equals("") || adrrr.equals("") || pnr.equals("") || ps.equals("") || pass.equals("") )
+			visFeilmelding("Alle feltene må fylles ut");
 		else if(!penr.matches(regexPattern) )
-			info.setText("Personnummeret er ikke gyldig");
+			visFeilmelding("Personnummeret er ikke gyldig");
 		else if(!(register.getKundeViaNummer(penr) == null) )
-			info.setText("Dette personnummeret er allerede brukt");
+			visFeilmelding("Dette personnummeret er allerede brukt");
+		else if(pnr.length() != 4)
+			visFeilmelding("Ugyldig postnr");
 		else
 		{
-			Kunde asa = new Kunde(fon, etn, penr, telf, adrrr, pass);
+			Kunde asa = new Kunde(fon, etn, penr, telf, adrrr, pnr, ps, pass);
 			register.nyKunde(asa);
 			JOptionPane.showMessageDialog(null, "Du er registrert" );
 			kant2.setVisible(false);
 			kant.setVisible(true);
-			//info.setText("Doktor lagret:\n" + res.toString() );
+			slettFelter();
 		}
 	}
 
@@ -279,9 +335,10 @@ public class Startvindu extends JPanel
 		{
 			JPanel ny = new AdminGUI( vindu );
 			vindu.swapPanel( ny );
+			slettFelter();
 			return;
 		}
-		JOptionPane.showMessageDialog( null, "Feil passord" );
+		visFeilmelding("Feil passord" );
 	}
 
 	public void LogginnKunde( String bruk, String pass )
@@ -290,8 +347,10 @@ public class Startvindu extends JPanel
 		String pwa = pass;
 		if( bruk.toLowerCase().equals( KUNDE ) )
 		{
-			JPanel ny = new KundeGUI(vindu);
-			vindu.swapPanel( ny );
+			//JPanel ny = new KundeGUI(vindu);
+			//vindu.swapPanel( ny );
+			JOptionPane.showMessageDialog(null, "Innlogget");
+			slettFelter();
 		}
 		else if( brk.length() == 11 )
 		{
@@ -300,23 +359,25 @@ public class Startvindu extends JPanel
 			{
 				if(Passordtest(pwa))
 				{
-					JPanel ny = new KundeGUI(vindu, kunn);
-					vindu.swapPanel( ny );
+					//JPanel ny = new KundeGUI(vindu, kunn);
+					//vindu.swapPanel( ny );
+					JOptionPane.showMessageDialog(null, "Innlogget");
+					slettFelter();
 				}
 				else
 				{
-					JOptionPane.showMessageDialog( null, "Feil passord!" );
+					visFeilmelding("Feil passord!");
 					return;
 				}
 			}
 			else
 			{
-				JOptionPane.showMessageDialog( null, "Feil brukernavn!" );
+				visFeilmelding("Feil brukernavn!");
 				return;
 			}
 		}
 		else
-			JOptionPane.showMessageDialog(null, "Feil brukernavn");
+			visFeilmelding("Feil brukernavn");
 	}
 
 
@@ -329,6 +390,7 @@ public class Startvindu extends JPanel
 		{
 			JPanel ny = new AnsattVindu(vindu);
 			vindu.swapPanel( ny );
+			slettFelter();
 		}
 
 		else if( brk.length() == 5 )
@@ -339,21 +401,22 @@ public class Startvindu extends JPanel
 				{
 					JPanel ny = new AnsattVindu(vindu);
 					vindu.swapPanel( ny );
+					slettFelter();
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Feil passord");
+					visFeilmelding("Feil passord");
 					return;
 				}
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, "Feil brukernavn");
+				visFeilmelding("Feil brukernavn");
 				return;
 			}
 		}
 		else
-			JOptionPane.showMessageDialog(null, "Feil brukernavn");
+			visFeilmelding("Feil brukernavn");
 	}
 
 
@@ -381,7 +444,8 @@ public class Startvindu extends JPanel
 			}
 
 			else if( e.getSource() == regKunde || e.getSource() == fNavn || e.getSource() == eNavn
-			|| e.getSource() == persNr || e.getSource() == passord1 || e.getSource() == passord2
+			|| e.getSource() == persNr || e.getSource() == adress || e.getSource() == postnr
+			|| e.getSource() == posted || e.getSource() == passord1 || e.getSource() == passord2
 			|| e.getSource() == tlfNr )
 				nyKunde();
 
