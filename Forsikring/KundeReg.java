@@ -57,6 +57,14 @@ public class KundeReg implements Serializable
 				if(søktKundeListe == null || søktKundeListe.isEmpty())
 				{
 					søktKundeListe = finnKundeViaAdresse(kriterie);
+					if(søktKundeListe == null || søktKundeListe.isEmpty())
+					{
+						søktKundeListe = finnKundeViaPostnr(kriterie);
+						if(søktKundeListe == null || søktKundeListe.isEmpty())
+						{
+							søktKundeListe = finnKundeViaBy(kriterie);
+						}
+					}
 				}
 			}
 		}
@@ -119,6 +127,31 @@ public class KundeReg implements Serializable
 		return null;
 	}
 
+	public KundeReg finnKundeViaNavn(String navn)
+	{
+		Iterator<Kunde> theIterator = iterator();
+		Kunde kun;
+		KundeReg søktKundeReg = new KundeReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				kun = theIterator.next();
+				if(kun.getFornavn().equals(navn) || kun.getEtternavn().equals(navn))
+				{
+					søktKundeReg.add(kun);
+				}
+			}
+			return søktKundeReg;
+		}
+		catch(NoSuchElementException nsee){
+			JOptionPane.showMessageDialog(null, "Feil i KundeReg (finnKundeViaNavn(1)): No Such Element Exception.",
+					"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+
+
 	public KundeReg finnKundeViaTelefon(String tlf)
 	{
 		if(tlf.isEmpty())
@@ -170,6 +203,59 @@ public class KundeReg implements Serializable
 		}
 		return null;
 	}
+
+	public KundeReg finnKundeViaPostnr(String post)
+	{
+		if(post.isEmpty())
+			return null;
+		Iterator<Kunde> theIterator = iterator();
+		Kunde kun;
+		KundeReg søktKundeReg = new KundeReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				kun = theIterator.next();
+				if(kun.getPostnr().toLowerCase().matches(post.toLowerCase() + ".*"))
+				{
+					søktKundeReg.add(kun);
+				}
+			}
+			return søktKundeReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i KundeReg: finnKundeViaPostnr fikk NoSuchElementException.",
+					"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public KundeReg finnKundeViaBy(String by)
+	{
+		if(by.isEmpty())
+			return null;
+		Iterator<Kunde> theIterator = iterator();
+		Kunde kun;
+		KundeReg søktKundeReg = new KundeReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				kun = theIterator.next();
+				if(kun.getPoststed().toLowerCase().matches(by.toLowerCase() + ".*"))
+				{
+					søktKundeReg.add(kun);
+				}
+			}
+			return søktKundeReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i KundeReg: findPatientByAddress fikk NoSuchElementException.",
+					"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
 
 	public Comparator<Person> InitCollator()
 	{ // Initialiserer kollatoren til lista.
