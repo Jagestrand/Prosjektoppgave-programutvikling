@@ -52,13 +52,19 @@ public abstract class Person implements Serializable
 class Kunde extends Person implements Serializable
 {
 	static final long serialVersionUID = 42L;
-	private String adresse, passord;
+	private String adresse, postnr, poststed, passord, kundenr;
+	private int hjelpenr;
+	private static int nestenr = 1;
 
-	public Kunde(String fNavn, String eNavn, String persNr, String tlfNr, String adr, String pord)
+	public Kunde(String fNavn, String eNavn, String persNr, String tlfNr, String adr, String ponr, String psted, String pord)
 	{
 		super(fNavn, eNavn, persNr, tlfNr);
 		adresse = adr;
+		postnr = ponr;
+		poststed = psted;
 		passord = pord;
+		hjelpenr = nestenr;
+		nestenr++;
 	}
 
 	public String getAdresse()
@@ -71,6 +77,26 @@ class Kunde extends Person implements Serializable
 		adresse = adr;
 	}
 
+	public String getPostnr()
+	{
+		return postnr;
+	}
+
+	public void setPostnr(String ponr)
+	{
+		postnr = ponr;
+	}
+
+	public String getPoststed()
+	{
+		return poststed;
+	}
+
+	public void setPoststed(String psted)
+	{
+		poststed = psted;
+	}
+
 	public void setPassord(String pord)
 	{
 		passord = pord;
@@ -81,9 +107,20 @@ class Kunde extends Person implements Serializable
 		return passord;
 	}
 
+	public String getKundeNr()
+	{
+		kundenr = Integer.toString(hjelpenr);
+		return "A" + kundenr;
+	}
+
+	/*public boolean getKundeStatus()
+	{
+		<sjekker om kunden ennå er kunde eller ikke>
+	}*/
+
 	public String toString()
 	{
-		String info = "Fornavn: " + getFornavn() + "\nEtternavn: " + getEtternavn() + "\nPersonnummer: " + getPersonNr() + "\nTelefon: " + getTelefonNr() + "\nAdresse: " + getAdresse();
+		String info = "Kundenr: " + getKundeNr() + "Fornavn: " + getFornavn() + "\nEtternavn: " + getEtternavn() + "\nPersonnummer: " + getPersonNr() + "\nTelefon: " + getTelefonNr() + "\nAdresse: " + getAdresse() + "\nPostnr: " + getPostnr() + "\nPoststed: " + getPoststed();
 		return info;
 	}
 }	//slutt på Kunde
