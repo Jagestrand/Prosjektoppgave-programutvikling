@@ -50,6 +50,21 @@ public class Register implements Serializable
 		return skaReg;
 	}*/
 
+	public void slettAnsatt(Ansatt anna)
+	{
+		ansReg.remove(anna);
+	}
+
+	public Ansatt getAnsattViaNr(int nr)
+	{
+		String mnr = Integer.toString(nr);
+		AnsattReg aReg = ansReg.findDoctorByPersonNr(mnr);
+		if(aReg == null)
+			return null;
+		Iterator<Ansatt> iter = aReg.iterator();
+		return iter.next();
+	}
+
 	public Ansatt getAnsattViaNr(String nr)
 	{
 		String mnr = nr;
@@ -429,10 +444,23 @@ public class Register implements Serializable
 		skaReg.setNåNr();
 	}*/
 
+	public void setNåAnsattNr()
+	{
+		ansReg.setNåNr();
+	}
+
+	public void setNåKundeNr()
+	{
+		kunReg.setNåNr();
+	}
+
 	public void exit()	//avslutter program og lagrer nummere
 	{
-		//forReg.saveNåNr();
-		//skaReg.saveNåNr();
+		//forReg.lagreNåNr();
+		//skaReg.lagreNåNr();
+		ansReg.lagreNrNå();
+		kunReg.lagreNrNå();
+
 		data.skrivRegister(this);
 		System.exit(0);
 	}
