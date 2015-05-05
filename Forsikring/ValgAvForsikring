@@ -1,0 +1,129 @@
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
+ class ValgAvForsikring extends JFrame 
+ {
+    private JPanel cardPanel;
+    private CardLayout cl;
+    private JTextField navn, telefon, adresse, personnr;
+    private int DATA_FIELD_LENGTH = 20;
+    private JLabel navnLabel, telefonLabel, adresseLabel, personnrLabel;
+    
+    public ValgAvForsikring() 
+    {
+    	
+		
+		navnLabel = new JLabel("Navn:");
+		telefonLabel = new JLabel("Telefon:");
+		adresseLabel = new JLabel("Adresse:");
+		personnrLabel = new JLabel("Personnummer:");
+		
+    	navn = new JTextField(DATA_FIELD_LENGTH);
+		telefon = new JTextField(DATA_FIELD_LENGTH);
+		adresse = new JTextField(DATA_FIELD_LENGTH);
+		personnr = new JTextField(DATA_FIELD_LENGTH);
+		
+    	setTitle("Card Layout Example");
+    	setSize(600,600 );
+    	setLocationRelativeTo(null);
+        cardPanel = new JPanel();
+       // cardPanel.setLayout(new GridBagLayout());
+        
+        CardLayout cl = new CardLayout(15,1);
+        cardPanel.setLayout(cl);
+        
+        JPanel jp1 = new JPanel();
+        JPanel jp2 = new JPanel();
+        JPanel jp3 = new JPanel();
+        JPanel jp4 = new JPanel();
+        
+        JLabel jl1 = new JLabel("Båt");
+        JLabel jl2 = new JLabel("Bil");
+        JLabel jl3 = new JLabel("Hus");
+        JLabel jl4 = new JLabel("Fritid");
+        
+        jp1.add(jl1);
+        jp2.add(jl2);
+        jp3.add(jl3);
+        jp4.add(jl4);
+        
+        jp1.add(navnLabel);
+    	jp1.add(navn);
+    	jp1.add(telefonLabel);
+    	jp1.add(telefon);
+    	jp1.add(adresseLabel);
+    	jp1.add(adresse);
+    	jp1.add(personnrLabel);
+    	jp1.add(personnr);
+        
+        cardPanel.add(jp1, "1");
+        cardPanel.add(jp2, "2");
+        cardPanel.add(jp3, "3");
+        cardPanel.add(jp4, "4");
+        
+        JPanel buttonPanel = new JPanel();
+        JButton båtKnapp = new JButton("Båt");
+        JButton bilKnapp = new JButton("Bil");
+        JButton husKnapp = new JButton("Hus");
+        JButton fritidKnapp = new JButton("Fritid");
+        
+        buttonPanel.add(båtKnapp);
+        buttonPanel.add(bilKnapp);
+        buttonPanel.add(husKnapp);
+        buttonPanel.add(fritidKnapp);
+        
+        båtKnapp.addActionListener(new ActionListener() 
+        {
+        	public void actionPerformed(ActionEvent arg0) 
+        	{
+        		CardLayout cl = (CardLayout) cardPanel.getLayout();
+                cl.show(cardPanel, "1");
+            }
+        });
+        
+        bilKnapp.addActionListener(new ActionListener() 
+        {
+            public void actionPerformed(ActionEvent arg0)
+            {
+            	CardLayout cl = (CardLayout) cardPanel.getLayout();
+                cl.show(cardPanel, "2");
+            }
+        });
+        
+        husKnapp.addActionListener(new ActionListener() 
+        {
+            public void actionPerformed(ActionEvent arg0) 
+            {
+            	CardLayout cl = (CardLayout) cardPanel.getLayout();
+                cl.show(cardPanel, "3");
+            }
+        });
+        
+        fritidKnapp.addActionListener(new ActionListener() 
+        {
+            public void actionPerformed(ActionEvent arg0) 
+            {
+            	CardLayout cl = (CardLayout) cardPanel.getLayout();
+                cl.show(cardPanel, "4");
+            }
+        });
+        
+        getContentPane().add(cardPanel, BorderLayout.LINE_START);
+        getContentPane().add(buttonPanel, BorderLayout.NORTH);
+    }
+    
+ }
