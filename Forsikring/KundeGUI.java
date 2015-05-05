@@ -11,9 +11,11 @@ public class KundeGUI extends JPanel
 	private int DATA_FIELD_LENGTH = 20;
 	private JTextField navn, telefon, adresse, personnr;
 	private JTextArea informationTop, visForsikringInfo;
-	private JButton registrere, mineForsikringer, regForsikring, båt, bil, hus, fritid;
+	private JButton skademeldinger, regForsikring, båt, bil, hus, fritid;
 	private JLabel navnLabel, telefonLabel, adresseLabel, personnrLabel;
 	private JPanel border, border2, flow, registerGrid, forsikringsGrid;
+	private TModel tableModel;
+	private JTable table;
 	//public final static String typeForsikring = "Båt";
 	//private Lytterklasse lytter;
 	
@@ -66,16 +68,26 @@ public class KundeGUI extends JPanel
 		add(informationTop, BorderLayout.PAGE_START);
 		add( new JScrollPane(flow, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER)
 		,BorderLayout.LINE_START);
+		tableModel = new TModel(register.getAnsatte()); //new TModel()
+		table = new JTable(tableModel);
+		//legger til elementer i hovedpanelet
+		add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
+
 		
-		regForsikring = new JButton("Registrere forsikring");
+		regForsikring = new JButton("Registrere forsikringer");
 		registerGrid.add(regForsikring);
 		regForsikring.addActionListener (new Action1());
+		
+		skademeldinger = new JButton("Registrere skademeldinger");
+		registerGrid.add(skademeldinger);
+		
 	}
 		class Action1 implements ActionListener 
 		{	
 		public void actionPerformed (ActionEvent e) 
 			{
 				ValgAvForsikring cl = new ValgAvForsikring();
+				//  cl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				cl.setVisible(true);    
 			}
 		}
