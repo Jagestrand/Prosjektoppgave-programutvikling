@@ -1,7 +1,3 @@
-/*Skrevet av Magnus Tønsager, s198761. Sist endret 11.05.14
-Klassen ineholder en liste over alle reseptene, har metoder for behandling av listen
-*/
-
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.*;
@@ -9,12 +5,13 @@ import javax.swing.*;
 public class ForsikringsReg implements Serializable
 {
 	private static final long serialVersionUID = 42L;
+
 	private TreeSet<Forsikring> list;//listen
 	private int currentNumber;
 
 	public ForsikringsReg()
 	{
-		list = new TreeSet<>(new ForsikringCollator() );//Oppretter reseptlisten
+		list = new TreeSet<>(new ForsikringCollator() );//Oppretter forsikringslisten
 	}
 
 	public boolean add(Forsikring pre)
@@ -41,29 +38,33 @@ public class ForsikringsReg implements Serializable
 	{
 		return list.size();
 	}
-	/*
+
 	public static int getGroupInt(String in)//metode gjør om en String til int for medikamentgruppene
 	{
-		if(in.equals("a") || in.equals("A") )
-			return Prescription.GROUP_A;
-		else if(in.equals("b") || in.equals("B") )
-			return Prescription.GROUP_B;
-		else if(in.equals("c") || in.equals("C") )
-			return Prescription.GROUP_C;
-		JOptionPane.showMessageDialog(null, "Ugyldig gruppe for medikament");
+		if(in.equals("Bil") || in.equals("BIL") || in.equals("bil") )
+			return Forsikring.TYPE_BIL;
+		else if(in.equals("Båt") || in.equals("BÅT") || in.equals("båt") )
+			return Forsikring.TYPE_BÅT;
+		else if(in.equals("Hus") || in.equals("HUS") || in.equals("hus") )
+			return Forsikring.TYPE_HUS;
+		else if(in.equals("Hytte") || in.equals("HYTTE") || in.equals("hytte") )
+			return Forsikring.TYPE_HYTTE;
+		JOptionPane.showMessageDialog(null, "Ugyldig forsikringstype");
 		return -1;
-	}*/
-	/*
+	}
+
 	public static String getGroupString(int in)//metode gjør om en int til String for medikamentgruppene
 	{
-		if(in == Prescription.GROUP_A)
-			return "A";
-		else if(in == Prescription.GROUP_B)
-			return "B";
-		else if(in == Prescription.GROUP_C)
-			return "C";
+		if(in == Forsikring.TYPE_BIL)
+			return "BIL";
+		else if(in == Forsikring.TYPE_BÅT)
+			return "BÅT";
+		else if(in == Forsikring.TYPE_HUS)
+			return "HUS";
+		else if(in == Forsikring.TYPE_HYTTE)
+			return "HYTTE";
 		return "Error";
-	}*/
+	}
 
 	public void saveCurrentNumber()//nødvendig for skriving/lagring til fil
 	{
