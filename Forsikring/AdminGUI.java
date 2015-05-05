@@ -1,4 +1,4 @@
-/*Skrevet av Rebwar Eliassi, s183736. Sist endret 16.04.2015
+/*Skrevet av Even, s199184. Sist endret 05.05.2015
 Klassen definerer brukergrensesnittet for administrator, klassen utvider JPanel med felter og knapper for søkefunksjoner
 brukeren kan bruke til å søke seg frem til øsnket data. Panelet har også funskjoner for å endre data der dette er tillat
 */
@@ -12,12 +12,13 @@ public class AdminGUI extends JPanel
 	public static final int SØK_FORSIKRING = 1, SØK_KUNDE = 2, SØK_ANSATT = 3, DATAFELT_LENGDE = 20;
 	private int søkFor;
 	private Huvudvindu vindu;
+	//private AnsattProfil profil;
 	private JLabel søkEtterLabel, ansattFornavnLabel, ansattEtternavnLabel, ansattPersNrLabel, ansattNummerLabel, ansattAvdelingLabel;
 	private JTextArea info, visAnsattInfo;
 	private JTextField ansattFornavn, ansattEtternavn, ansattPersNr, ansattNummer, ansattAvdeling;
 	private ButtonGroup gruppeKnapper;
 	private JRadioButton ans;
-	private JButton søkeKnapp, nyAns, lagre, visAnsattKnapp, statButton;
+	private JButton søkeKnapp, nyAns, slettAns, lagre, visAnsattKnapp, statButton;
 	//private RadioButtonLytter radioLytter;
 	private Lytterklasse lytter;
 	private JPanel hasLicChoose, grid, searchGrid, bord, licChoose, flow, visAnsatte, visAnsatteFlow;
@@ -80,6 +81,7 @@ public class AdminGUI extends JPanel
 			ansattAvdelingLabel = new JLabel("Avdeling:");
 			søkeKnapp = new JButton("Søk");
 			nyAns = new JButton("Legg til en ny ansatt");
+			slettAns = new JButton("Slett bruker");
 			lagre = new JButton("Lagre endringer");
 			visAnsattKnapp = new JButton("Vis ansattinfo");
 			statButton = new JButton("Vis statistikk");
@@ -91,6 +93,7 @@ public class AdminGUI extends JPanel
 			//ansattPersNr.addActionListener(lytter);
 			//ansattNummer.addActionListener(lytter);
 			nyAns.addActionListener(lytter);
+			slettAns.addActionListener(lytter);
 			lagre.addActionListener(lytter);
 			visAnsattKnapp.addActionListener(lytter);
 			statButton.addActionListener(lytter);
@@ -109,6 +112,7 @@ public class AdminGUI extends JPanel
 			searchGrid.add(ansattAvdeling);
 			searchGrid.add(søkeKnapp);
 			searchGrid.add(nyAns);
+			searchGrid.add(slettAns);
 			searchGrid.add(statButton);
 
 			bord.add(grid, BorderLayout.PAGE_START);
@@ -127,6 +131,29 @@ public class AdminGUI extends JPanel
 			add(new JScrollPane(visAnsatte), BorderLayout.PAGE_END);
 
 			//vindu.tilbakePos.setVisible(false);
+
+			MouseListener mouseListener = new MouseAdapter()
+			{
+				public void mouseClicked(MouseEvent mouseEvent)
+				{
+			        JTable theTable = (JTable) mouseEvent.getSource();
+			        if (mouseEvent.getClickCount() == 2)
+			        {
+			        	//int index = theTable.locationToIndex(mouseEvent.getPoint());
+			        	int rad = theTable.getSelectedRow();
+			        	if (rad >= 0)
+			          	{
+							Ansatt anna = register.getAnsattViaAnsattNr( (String)theTable.getValueAt(rad, TModel.ANSATT_NR) );
+							AnsattProfil vin = new AnsattProfil(anna);
+							//JOptionPane.showMessageDialog(null, anna.toString() );
+			            	//Object o = theTable.getModel().getValueAt(rad, );
+			            	//JOptionPane.showMessageDialog(null, "Double-clicked on: " + o.toString());
+			          	}
+			        }
+			      }
+			};
+			table.addMouseListener(mouseListener);
+
 
 		}
 		public int getSøkFor()
@@ -203,6 +230,30 @@ public class AdminGUI extends JPanel
 		JOptionPane.showMessageDialog(null, "Her har du statistikken din");
 	}
 
+	public void slettBruker()
+	{
+		try
+		{
+			int row = table.getSelectedRow();
+			if(row == -1)
+				return;
+			String melding = "Er du sikker på at du vil slette brukeren?";
+			String tittel = "Validering";
+
+    		int svar = JOptionPane.showConfirmDialog(null, melding, tittel, JOptionPane.YES_NO_OPTION);
+        	if (svar == JOptionPane.YES_OPTION)
+        	{
+          		Ansatt anna = register.getAnsattViaNr( (String)tableModel.getValueAt(row, TModel.PERSON_NR) );
+				register.slettAnsatt(anna);
+				return;
+			}
+        }
+        catch(NoSuchElementException nsee)
+        {
+			JOptionPane.showMessageDialog(null, "NoSuchElementException i slettBruker-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 	/*private class RadioButtonLytter implements ItemListener
 	{
 		public void itemStateChanged(ItemEvent e)
@@ -238,10 +289,13 @@ public class AdminGUI extends JPanel
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(e.getSource() == søkeKnapp || e.getSource() == ansattFornavn || e.getSource() == ansattEtternavn)
+			if(e.getSource() == søkeKnapp || e.getSource() == ansattFornavn || e.getSource() == ansattEtternavn
+				|| e.getSource() == ansattPersNr || e.getSource() == ansattNummer || e.getSource() == ansattAvdeling)
 				søk();
 			else if(e.getSource() == nyAns)
 				nyAnsatt();
+			else if(e.getSource() == slettAns)
+				slettBruker();
 			else if(e.getSource() == lagre)
 				tableModel.saveChanges();
 			else if(e.getSource() == statButton)
