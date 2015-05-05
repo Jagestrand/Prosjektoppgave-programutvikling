@@ -7,6 +7,7 @@ public class KundeReg implements Serializable
 {
 	static final long serialVersionUID = 42L;
 	private TreeSet<Kunde> kundeListe;
+	private int nrNå;
 
 	public KundeReg()
 	{
@@ -261,6 +262,16 @@ public class KundeReg implements Serializable
 	{ // Initialiserer kollatoren til lista.
 		Comparator<Person> collator;
 		return collator = new PersonCollator();
+	}
+
+	public void lagreNrNå()
+	{
+		nrNå = Kunde.getNrNå();
+	}
+
+	public void setNåNr()
+	{
+		Kunde.setNrNå(nrNå);
 	}
 
 	public String toString()
