@@ -43,20 +43,20 @@ import javax.swing.JTextField;
         cardPanel = new JPanel();
        // cardPanel.setLayout(new GridBagLayout());
         
-        CardLayout cl = new CardLayout(15,1);
+        CardLayout cl = new CardLayout();
         cardPanel.setLayout(cl);
         
-        JPanel jp1 = new JPanel();
+        JPanel jp1 = new JPanel(new GridLayout(8,1));
         JPanel jp2 = new JPanel();
         JPanel jp3 = new JPanel();
         JPanel jp4 = new JPanel();
         
-        JLabel jl1 = new JLabel("Båt");
+  
         JLabel jl2 = new JLabel("Bil");
         JLabel jl3 = new JLabel("Hus");
         JLabel jl4 = new JLabel("Fritid");
         
-        jp1.add(jl1);
+        
         jp2.add(jl2);
         jp3.add(jl3);
         jp4.add(jl4);
@@ -122,8 +122,8 @@ import javax.swing.JTextField;
             }
         });
         
-        getContentPane().add(cardPanel, BorderLayout.LINE_START);
-        getContentPane().add(buttonPanel, BorderLayout.NORTH);
+        getContentPane().add(cardPanel, BorderLayout.NORTH);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
     }
     
  }
