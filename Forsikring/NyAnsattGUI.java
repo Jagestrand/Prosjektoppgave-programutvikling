@@ -81,7 +81,7 @@ public class NyAnsattGUI extends JPanel
 
 	public void nyAnsatt()
 	{
-		String fn, ln, pn, p, t, ea, regexPattern;
+		String fn, ln, pn, p, t, ea, regexPattern, ansnr;
 		regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 		fn = fName.getText();
 		ln = lName.getText();
@@ -100,7 +100,10 @@ public class NyAnsattGUI extends JPanel
 		else
 		{
 			Ansatt res = new Ansatt(fn, ln, pn, t, ea, p);
+			ansnr = res.getAnsattNr();							//Denne er ny
+			//Ansatt ret = new Ansatt(ansnr, fn, ln, pn, t, ea, p);
 			reg.nyAnsatt(res);
+			//reg.nyAnsatt(ret);
 			info.setText("Ansatt lagret:\n" + res.toString() );
 		}
 	}
