@@ -14,7 +14,8 @@ public class TModel extends AbstractTableModel
 	private final String[] hytteNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)"};
 	private final String[] ansNavn = {"Ansattnummer", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Ansatt ved"};//kollonnenavn for tabellen
 	private final String[] kunNavn = {"Kundenr", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Adresse", "Postnr", "Poststed"};//kolonnenavn for tabellen
-	public static final int KUNDE_NR = 0, PERSON_NR = 1, FIRSTNAME = 2, LASTNAME = 3, PHONE = 4, ADR = 5, POST_NR = 6, POST_STED = 7, AKTIV = 8,
+	public static final int ANSATT_NR = 0,
+							KUNDE_NR = 0, PERSON_NR = 1, FIRSTNAME = 2, LASTNAME = 3, PHONE = 4, ADR = 5, POST_NR = 6, POST_STED = 7, AKTIV = 8,
 							PRESCRIPTION_NR = 0, PRINTED = 1, RECIVED = 2, PATIENT = 3, DOCTOR = 4, MED_NAME = 5, MED_CAT = 6, MED_GROUP = 7;
 							//nummer på kolonnene
 	//private final String[] skaNames = <kolonner for skademeldinger>
@@ -454,8 +455,16 @@ public class TModel extends AbstractTableModel
 			columnModel.getColumn(LASTNAME).setCellEditor(textEdit);
 			columnModel.getColumn(PHONE).setCellEditor(textEdit);
 			columnModel.getColumn(ADR).setCellEditor(textEdit);
-			columnModel.getColumn(POST_NR).setCellEditor(textEdit);
-			columnModel.getColumn(POST_STED).setCellEditor(textEdit);
+			if( table.getRowCount() == 9 )
+			{
+				columnModel.getColumn(POST_NR).setCellEditor(textEdit);
+				columnModel.getColumn(POST_STED).setCellEditor(textEdit);
+			}
+			/*
+			else if( table.getRowCount() == 12 )
+			{
+				<forsikringsfeltene>
+			}*/
 		}//end of for(row)
 	}//end of method
 }//end of class
