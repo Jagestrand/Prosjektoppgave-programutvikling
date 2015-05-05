@@ -5,7 +5,7 @@ import javax.swing.table.*;
 
 public class TModel extends AbstractTableModel
 {
-	private String[] names;
+	private String[] navn;
 	private Object[][] data;
 	private final String[] forNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp"};
 	private final String[] båtNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Eier", "Registreringsnr", "Type", "Modell", "Lengde(fot)", "Årsmodell", "Motortype", "Motorstyrke(HK)"};//kolonnenavn for tabellen
@@ -22,14 +22,14 @@ public class TModel extends AbstractTableModel
 	private boolean editable;
 	private Ansatt[] ans;
 	private Kunde[] kun;
-	private Forsikring[] fors;
+	/*private Forsikring[] fors;
 	private BilForsikring[] bil;//arrayer for objecter i tabellen
 	private BåtForsikring[] båt;
 	private HusForsikring[] hus;
-	private HytteForsikring[] hytte;
+	private HytteForsikring[] hytte;*/
 	public TModel()//oppretter en modell for en tom tabell
 	{
-		names = new String[0];
+		navn = new String[0];
 		data = new Object[0][0];
 		editable = false;
 	}
@@ -54,7 +54,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getPostnr();
 			data[i][j++] = temp.getPoststed();
 			//data[i][j++] = temp.getKundeStatus();
-			pat[i] = temp;
+			kun[i] = temp;
 		}
 		editable = true;
 		searchFor = AnsattVindu.SØK_KUNDE;
@@ -83,7 +83,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getEtternavn();
 			data[i][j++] = temp.getTelefonNr();
 			data[i][j++] = temp.getAvdeling();
-			doc[i] = temp;
+			ans[i] = temp;
 		}
 		editable = true;
 		searchFor = AdminGUI.SØK_ANSATT;
@@ -118,7 +118,7 @@ public class TModel extends AbstractTableModel
 		}
 		editable = false;
 		searchFor = AdminGUI.SEARCH_FORSIKRING;
-	}*/
+	}
 
 	public TModel(BilForsikringReg reg)
 	{
@@ -270,7 +270,7 @@ public class TModel extends AbstractTableModel
 		}
 		editable = false;
 		searchFor = AdminGUI.SEARCH_HYTTE;
-	}
+	}*/
 
 	/*
 	public TModel(ForsikringReg reg)//oppretter en tabell for resept tabell
@@ -355,12 +355,12 @@ public class TModel extends AbstractTableModel
 		return kun;
 	}
 
-	public Forsikring[] getForsikringer()
+	/*public Forsikring[] getForsikringer()
 	{
-		return for;
+		return fors;
 	}
 
-	/*
+
 	public SKademelding[] getSkademeldinger()
 	{
 		return ska;
@@ -393,7 +393,7 @@ public class TModel extends AbstractTableModel
 			return false;
 		if(c == PERSON_NR)
 			return false;
-		if(c == FIRSTNAME || c == LASTNAME || c == PHONE || c == ADR || c == POST_NR || c == POST_STED || c == C)
+		if(c == FIRSTNAME || c == LASTNAME || c == PHONE || c == ADR || c == POST_NR || c == POST_STED )
 			return true;
 		return false;
 	}
@@ -413,7 +413,7 @@ public class TModel extends AbstractTableModel
 			for(int r = 0; r < getRowCount(); r++)
 				for(int c = 0; c < getColumnCount(); c++)
 				{
-					else if(c == FIRSTNAME)
+					if(c == FIRSTNAME)
 						ans[r].setFornavn( (String)getValueAt(r, c) );
 					else if(c == LASTNAME)
 						ans[r].setEtternavn( (String)getValueAt(r, c) );
@@ -437,9 +437,9 @@ public class TModel extends AbstractTableModel
 					else if(c == ADR)
 						kun[r].setAdresse( (String)getValueAt(r, c) );
 					else if(c == POST_NR)
-						kun[r].setPostnr( (String).getValueAt(r, c) );
+						kun[r].setPostnr( (String)getValueAt(r, c) );
 					else if(c == POST_STED)
-						kun[r].setPoststed( (String).getValueAt(r, c) );
+						kun[r].setPoststed( (String)getValueAt(r, c) );
 				}
 		}//end of if(search kunde)
 	}
