@@ -89,6 +89,8 @@ public class Huvudvindu extends JFrame
         mittenPos = in;
         container.add(mittenPos, BorderLayout.CENTER);
         loggaut.setVisible(true);
+        validate();
+        repaint();
     }
 
     public void tilbake()
