@@ -10,8 +10,8 @@ public class TModel extends AbstractTableModel
 	private final String[] forNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp"};
 	private final String[] båtNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Eier", "Registreringsnr", "Type", "Modell", "Lengde(fot)", "Årsmodell", "Motortype", "Motorstyrke(HK)"};//kolonnenavn for tabellen
 	private final String[] bilNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Eier", "Registreringsnr", "Type", "Modell", "Registreringsår", "Årlig kjørelengde(km)", "Pris pr km", "Bonus"};
-	private final String[] husNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)"};
-	private final String[] hytteNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)"};
+	private final String[] husNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp(total)", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)"};
+	private final String[] hytteNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp(total)", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)"};
 	private final String[] ansNavn = {"Ansattnummer", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Ansatt ved"};//kollonnenavn for tabellen
 	private final String[] kunNavn = {"Kundenr", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Adresse", "Postnr", "Poststed"};//kolonnenavn for tabellen
 	public static final int ANSATT_NR = 0,
@@ -23,18 +23,18 @@ public class TModel extends AbstractTableModel
 	private boolean editable;
 	private Ansatt[] ans;
 	private Kunde[] kun;
-	/*private Forsikring[] fors;
+	//private Forsikring[] fors;
 	private BilForsikring[] bil;//arrayer for objecter i tabellen
 	private BåtForsikring[] båt;
 	private HusForsikring[] hus;
-	private HytteForsikring[] hytte;*/
+	private HytteForsikring[] hytte;
 	public TModel()//oppretter en modell for en tom tabell
 	{
 		navn = new String[0];
 		data = new Object[0][0];
 		editable = false;
 	}
-	public TModel(KundeReg reg)//oppretter en model for en pasient tabell
+	public TModel(KundeReg reg)//oppretter en model for en kunde tabell
 	{
 		navn = kunNavn;
 		int length = reg.size(), width = navn.length;
@@ -57,7 +57,7 @@ public class TModel extends AbstractTableModel
 			//data[i][j++] = temp.getKundeStatus();
 			kun[i] = temp;
 		}
-		editable = true;
+		editable = false;
 		searchFor = AnsattVindu.SØK_KUNDE;
 	}
 	public TModel(AnsattReg reg)//oppretter en model for en doktor tabell
@@ -86,7 +86,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getAvdeling();
 			ans[i] = temp;
 		}
-		editable = true;
+		editable = false;
 		searchFor = AdminGUI.SØK_ANSATT;
 	}
 
@@ -119,9 +119,9 @@ public class TModel extends AbstractTableModel
 		}
 		editable = false;
 		searchFor = AdminGUI.SEARCH_FORSIKRING;
-	}
+	}*/
 
-	public TModel(BilForsikringReg reg)
+	public TModel(BilForsikringsReg reg)
 	{
 		if(reg == null)
 		{
@@ -140,7 +140,7 @@ public class TModel extends AbstractTableModel
 		{
 			temp = iter.next();
 			int j = 0;
-			data[i][j++] = temp.getForsikringsnr();
+			data[i][j++] = temp.getForsikringsNr();
 			data[i][j++] = df.format(temp.getInngått().getTime() );
 			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
 			data[i][j++] = temp.getKunde().getKundeNr();
@@ -156,10 +156,10 @@ public class TModel extends AbstractTableModel
 			bil[i] = temp;
 		}
 		editable = false;
-		searchFor = AdminGUI.SEARCH_BIL;
+		searchFor = AnsattVindu.SØK_BIL;
 	}
 
-	public TModel(BåtForsikringReg reg)
+	public TModel(BåtForsikringsReg reg)
 	{
 		if(reg == null)
 		{
@@ -187,16 +187,16 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getRegistreringsnr();
 			data[i][j++] = temp.getType();
 			data[i][j++] = temp.getModell();
-			data[i][j++] = temp.getLengde();
+			data[i][j++] = temp.getBåtlengde();
 			data[i][j++] = temp.getÅrsmodell();
 			data[i][j++] = temp.getMotortype();
 			data[i][j++] = temp.getMotorstyrke();
 			båt[i] = temp;
 		}
 		editable = false;
-		searchFor = AdminGUI.SEARCH_BÅT;
+		searchFor = AnsattVindu.SØK_BÅT;
 	}
-
+	/*
 	public TModel(HusForsikringReg reg)
 	{
 		if(reg == null)
