@@ -1,3 +1,8 @@
+/*
+SKrevet av Even, s199184. SIst endret 07.05.2015
+Brukergrensesnittet for ansatte
+*/
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,12 +13,13 @@ public class AnsattVindu extends JPanel
 	private Huvudvindu window;
 	private Listener lytter;
 	private final int DATA_FIELD_LENGTH = 20;
-	public static final int SØK_KUNDE = 1, SØK_FORSIKRING = 2, SØK_SKADEMELDING = 3;
+	public static final int SØK_KUNDE = 1, SØK_FORSIKRING = 2, SØK_SKADEMELDING = 3,
+							SØK_BIL = 1, SØK_BÅT = 2, SØK_HUS = 3, SØK_HYTTE = 4;
 	private JTextField kundNavn, kundTelefon, kundAdresse, kundPersonnr, kundPostnr, kundPostby, typeForsikring;
 	private JTextArea informationTop, visForsikringInfo;
-	private JButton søkKnapp, visForsikringKnapp, skjulForsikringKnapp, deletaForsikringKnapp;
+	private JButton søkKnapp, oppdaterKnapp, statKnapp, visForsikringKnapp, skjulForsikringKnapp, deletaForsikringKnapp;
 	private JLabel kundNavnLabel, kundTelefonLabel, kundAdresseLabel, kundPersonnrLabel, kundPostnrLabel, kundPostbyLabel;
-	private JPanel visForsikring, visForsikringFlow, searchGrid, border, flow;
+	private JPanel visForsikring, visForsikringFlow, searchGrid, grid, border, flow;
 	private TModel tableModel;
 	private JTable table;
 
@@ -34,7 +40,10 @@ public class AnsattVindu extends JPanel
 		visForsikring = new JPanel(new BorderLayout());
 		visForsikringFlow = new JPanel( new FlowLayout());
 		border = new JPanel(new BorderLayout());
-		searchGrid = new JPanel(new GridLayout(15,1));
+		grid = new JPanel(new GridLayout(4,1));
+		GridLayout gridlayout = new GridLayout(15,1);
+		gridlayout.setVgap(10);
+		searchGrid = new JPanel(gridlayout);
 		flow = new JPanel(new FlowLayout());
 
 		//infoormations felt
@@ -62,6 +71,8 @@ public class AnsattVindu extends JPanel
 		kundPostnrLabel = new JLabel("Postnr:");
 		kundPostbyLabel = new JLabel("Poststed:");
 		søkKnapp = new JButton("Søk");
+		oppdaterKnapp = new JButton("Oppdater");
+		statKnapp = new JButton("Statistikk");
 
 		visForsikringKnapp = new JButton("Åpne forsikring");
 		skjulForsikringKnapp = new JButton("Lukk forsikring");
@@ -69,6 +80,8 @@ public class AnsattVindu extends JPanel
 		deletaForsikringKnapp = new JButton("Sletta forsikring");
 
 		søkKnapp.addActionListener(lytter);
+		oppdaterKnapp.addActionListener(lytter);
+		statKnapp.addActionListener(lytter);
 		kundNavn.addActionListener(lytter);
 		kundTelefon.addActionListener(lytter);
 		kundAdresse.addActionListener(lytter);
@@ -79,6 +92,7 @@ public class AnsattVindu extends JPanel
 		skjulForsikringKnapp.addActionListener(lytter);
 		deletaForsikringKnapp.addActionListener(lytter);
 
+		grid.add(oppdaterKnapp);
 		searchGrid.add(kundNavnLabel);
 		searchGrid.add(kundNavn);
 		searchGrid.add(kundTelefonLabel);
@@ -92,17 +106,21 @@ public class AnsattVindu extends JPanel
 		searchGrid.add(kundPostbyLabel);
 		searchGrid.add(kundPostby);
 		searchGrid.add(søkKnapp);
+		searchGrid.add(statKnapp);
 		visForsikringFlow.add(visForsikringKnapp);
 		visForsikringFlow.add(skjulForsikringKnapp);
 		visForsikringFlow.add(deletaForsikringKnapp);
 		visForsikring.add(visForsikringFlow, BorderLayout.LINE_END);
 		visForsikring.add(visForsikringInfo, BorderLayout.CENTER);
+		border.add(grid, BorderLayout.PAGE_START);
 		border.add(searchGrid, BorderLayout.LINE_START);
 		flow.add(border);
 		add(informationTop, BorderLayout.PAGE_START);
 		add(new JScrollPane(flow, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.LINE_START);
 
 		tableModel = new TModel(register.getKunder());
+		//tableModel = new TModel(register.getForsikringer());
+		//legg til en fane her med forsikringer
 		table = new JTable(tableModel);
 		add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
 
@@ -123,6 +141,11 @@ public class AnsattVindu extends JPanel
 	public void søk()
 	{
 		søkKunde();
+	}
+
+	public void statistikk()
+	{
+		JOptionPane.showMessageDialog(null, "Legg inn statistikk her");
 	}
 
 	public KundeReg søkKunde()
@@ -165,6 +188,10 @@ public class AnsattVindu extends JPanel
 			|| e.getSource() == kundAdresse || e.getSource() == kundPersonnr || e.getSource() == kundPostnr
 			|| e.getSource() == kundPostby )
 				søk();
+			else if(e.getSource() == oppdaterKnapp)
+				søk();
+			else if(e.getSource() == statKnapp)
+				statistikk();
 		}
 	}
 }
