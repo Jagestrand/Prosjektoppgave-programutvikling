@@ -52,6 +52,7 @@ public abstract class Person implements Serializable
 class Kunde extends Person implements Serializable
 {
 	static final long serialVersionUID = 42L;
+	//protected ForsikringsReg forsikringsliste;
 	private String adresse, postnr, poststed, passord, kundenr;
 	private int hjelpenr;
 	private static int nestenr = 0;
@@ -64,6 +65,7 @@ class Kunde extends Person implements Serializable
 		poststed = psted;
 		passord = pord;
 		hjelpenr = ++nestenr;
+		//forsikringsliste = new ForsikringsReg();
 	}
 
 	public Kunde(String fNavn, String eNavn, String persNr, String tlfNr)
@@ -119,6 +121,20 @@ class Kunde extends Person implements Serializable
 	/*public boolean getKundeStatus()
 	{
 		<sjekker om kunden ennå er kunde eller ikke>
+	}*/
+
+	/*public ForsikringsReg getForsikringer()
+	{
+		return forsikringsliste;
+	}
+
+	public Iterator<Forsikring> iterator()
+	{
+		return forsikringsliste.iterator();
+	}
+
+	public void addForsikring(Forsikring forsikr){
+		forsikringsliste.add(forsikr);
 	}*/
 
 	public static int getNrNå()
