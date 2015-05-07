@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;;
+import javax.swing.border.*;
 
 public class NyAnsattGUI extends JPanel
 {
@@ -10,10 +11,10 @@ public class NyAnsattGUI extends JPanel
 	private Register reg;
 	private JTextField fName, lName, pNr, pass1, pass2, phone, empAt;
 	private JTextArea info;
-	private JLabel fNameLabel, lNameLabel, pNrLabel, pass1Label, pass2Label, phoneLabel, licLabel, empAtLabel;
+	private JLabel fNameLabel, lNameLabel, pNrLabel, pass1Label, pass2Label, phoneLabel, empAtLabel;
 	private JButton addAns;
 	private Listener listener;
-	private JPanel fieldGrid, lisenceGrid, flow;
+	private JPanel fieldGrid, flow;
 
 	public NyAnsattGUI(Huvudvindu w)
 	{
@@ -23,7 +24,9 @@ public class NyAnsattGUI extends JPanel
 		//oppretter ulike jpaneler med ulike lyoutmanagere
 		setLayout(new BorderLayout() );
 		fieldGrid = new JPanel(new GridLayout(17, 1) );//ser ingen grunn til å opprette disse tallene som egne konstanter
-		lisenceGrid= new JPanel(new GridLayout(1,3) );
+		//
+		fieldGrid.setBorder(new EmptyBorder(new Insets(30, 0, 0, 0)));
+		//
 		flow = new JPanel(new FlowLayout() );
 		//oppretter info feltet
 		info = new JTextArea();
@@ -44,7 +47,6 @@ public class NyAnsattGUI extends JPanel
 		pass1Label = new JLabel("Login passord:");
 		pass2Label = new JLabel("Gjenta passord:");
 		phoneLabel = new JLabel("Telefonnummer:");
-		licLabel = new JLabel("Lisens:");
 		empAtLabel = new JLabel("Arbeidsplass:");
 		addAns = new JButton("Lagre ansatt");
 		//legger til lyttere
@@ -63,8 +65,6 @@ public class NyAnsattGUI extends JPanel
 		fieldGrid.add(lName);
 		fieldGrid.add(pNrLabel);
 		fieldGrid.add(pNr);
-		fieldGrid.add(licLabel);
-		fieldGrid.add(lisenceGrid);
 		fieldGrid.add(empAtLabel);
 		fieldGrid.add(empAt);
 		fieldGrid.add(phoneLabel);
@@ -101,9 +101,7 @@ public class NyAnsattGUI extends JPanel
 		{
 			Ansatt res = new Ansatt(fn, ln, pn, t, ea, p);
 			ansnr = res.getAnsattNr();							//Denne er ny
-			//Ansatt ret = new Ansatt(ansnr, fn, ln, pn, t, ea, p);
 			reg.nyAnsatt(res);
-			//reg.nyAnsatt(ret);
 			info.setText("Ansatt lagret:\n" + res.toString() );
 		}
 	}
