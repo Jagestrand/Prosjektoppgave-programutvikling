@@ -3,12 +3,13 @@ import java.io.*;
 public class Datasjef implements Serializable
 {
 	private static final long serialVersionUID = 42L;
-	StringBuilder readWriteError;
+	StringBuilder lesSkrivError;
 	boolean error;
+	//Opprette collections i denne klassen kan løse NoClassDefFoundError
 
 	public Datasjef()
 	{
-		readWriteError = new StringBuilder(70);
+		lesSkrivError = new StringBuilder(70);
 		error = false;
 	}
 
@@ -16,9 +17,12 @@ public class Datasjef implements Serializable
 	{
 		// Leser fra fil.
 		Register register;
-		try (ObjectInputStream registerFile = new ObjectInputStream( new FileInputStream( "data/register.dtabse" ))){
-			register = (Register) registerFile.readObject();
-			//register.setCurrentPrescriptionNumber();
+		try (ObjectInputStream registerFil = new ObjectInputStream( new FileInputStream( "data/register.dtabse" ))){
+			register = (Register) registerFil.readObject();
+			register.setNåAnsattNr();
+			register.setNåKundeNr();
+			//register.setNåForsikringNr();
+			//register.setNåSkadeNr();
 			return register;
 		}
 		catch(ClassNotFoundException cnfe) {
@@ -33,7 +37,7 @@ public class Datasjef implements Serializable
 		}
 		catch(IOException ioe) {
 			error = true;
-		   	readWriteError.append("Finner korrupt data hos registret. Slett register.dtabse for å løse problemet.\n");
+		   	lesSkrivError.append("Finner korrupt data hos registret. Slett register.dtabse for å løse problemet.\n");
 		}
 		return null;
 	}
@@ -42,16 +46,16 @@ public class Datasjef implements Serializable
 	public void skrivRegister(Register registerPara)
 	{
 		// Skriver til fil
-		try (ObjectOutputStream writeRegister = new ObjectOutputStream(new FileOutputStream("data/register.dtabse"))) {
-		      writeRegister.writeObject(registerPara);
+		try (ObjectOutputStream skrivRegister = new ObjectOutputStream(new FileOutputStream("data/register.dtabse"))) {
+		      skrivRegister.writeObject(registerPara);
 		}
 		catch( NotSerializableException nse ) {
 			error = true;
-		    readWriteError.append("Registeret er ikke serialisert.\n\n");
+		    lesSkrivError.append("Registeret er ikke serialisert.\n\n");
 		}
 		catch( IOException ioe ) {
 			error = true;
-		    readWriteError.append("Feil ved skriving av filen register.dtabse.\n\n");
+		    lesSkrivError.append("Feil ved skriving av filen register.dtabse.\n\n");
 		}
 	}
 
@@ -68,7 +72,7 @@ public class Datasjef implements Serializable
 	public String errorMessage()
 	{
 		error = false;
-		return readWriteError.toString();
+		return lesSkrivError.toString();
 	}
 
 	public boolean getError()
