@@ -2,8 +2,6 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Calendar;
 
-
-
 public abstract class Forsikring implements Serializable
 {
 	private static final long serialVersionUID = 42L;
@@ -25,19 +23,6 @@ public abstract class Forsikring implements Serializable
 		forsikringsinfo = info;
 		inngått = Calendar.getInstance();
 	}
-
-	/*public Forsikring(Kunde pat, Ansatt doc, String med, String dos, int gro, String cat, String use)
-	{
-		forsikringNr = ++newNr;
-		inngått = Calendar.getInstance();
-		patient = pat;
-		doctor = doc;
-		medName = med;
-		dosage = dos;
-		group = gro;
-		category = cat;
-		useage = use;
-	}*/
 
 	public void setAvslutta()
 	{
@@ -81,6 +66,16 @@ public abstract class Forsikring implements Serializable
 		return true;
 	}
 
+	public String getForsikringsInfo()
+	{
+		return forsikringsinfo;
+	}
+
+	public void setForsikringsInfo(String info)
+	{
+		forsikringsinfo = info;
+	}
+
 	/*public String toString()
 	{
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
@@ -95,7 +90,7 @@ public abstract class Forsikring implements Serializable
 		out += "Ikke hentet";
 		return out;
 	}*/
-}
+}//slutt på superklasse Forsikring
 
 abstract class Fartøy extends Forsikring implements Serializable
 {
@@ -163,7 +158,7 @@ abstract class Fartøy extends Forsikring implements Serializable
 		String info = "\nKundenr: " + getKundenr() + "\nForsikringsbeløp: " + getForsikringsbeløp() + "\nEier: " + getEiernavn() + "\nRegistreringsnr: " + getRegistreringsnr() + "\nType: " + getType() + "\nModell: " + getModell();
 		return info;
 	}
-}
+}//slutt på subklasse Fartøy
 
 abstract class Bolig extends Forsikring implements Serializable
 {
@@ -224,14 +219,53 @@ abstract class Bolig extends Forsikring implements Serializable
 		return beløpInn;
 	}
 
+	public void setBeløpBygg(int beløpb)
+	{
+		beløpBygg = beløpb;
+	}
+
+	public void setBeløpInnbo(int beløpi)
+	{
+		beløpInn = beløpi;
+	}
+
+	public void setByggeår(int år)
+	{
+		byggeår = år;
+	}
+
+	public void setAdresse(String adr)
+	{
+		adresse = adr;
+	}
+
+	public void setBoligtype(String type)
+	{
+		boligtype = type;
+	}
+
+	public void setByggemateriale(String mat)
+	{
+		byggemateriale = mat;
+	}
+
+	public void setStandard(String stand)
+	{
+		standard = stand;
+	}
+
+	public void setKvadratmeter(int meter)
+	{
+		kvadratmeter = meter;
+	}
+
 	public String toString()
 	{
 		String info = "\nKundenr: " + getKundenr() + "\nAdresse: " + getAdresse() + "\nByggemateriale: " + getMateriale() + "\nStandard: " + getStandard() + "\nByggeår: " + getByggeår() + "\nAntall kvadratmeter: " + getKvadratmeter() + "\nForsikringsbeløp: \nBygning: " + getBeløpBygg() + "\nInnbo: " + getBeløpInnbo();
 		return info;
 	}
 
-}
-
+}//slutt på subklasse Bolig
 
 
 class BilForsikring extends Fartøy implements Serializable
@@ -281,34 +315,227 @@ class BilForsikring extends Fartøy implements Serializable
 		prisPrKm = prkm;
 	}
 
-	public String getForsikringsnr()
+	public int getForsikringsID()
+	{
+		return hjelpenr;
+	}
+
+	public String getForsikringsNr()
 	{
 		bilfornr = Integer.toString(hjelpenr);
 		return "BI" + bilfornr;
 	}
 
+	public int getBonus()
+	{
+		return 25;
+	}
+
+	public static int getNrNå()
+	{
+		return nestenr;
+	}
+
+	public static void setNrNå(int nr)
+	{
+		if(nr>nestenr)
+			nestenr = nr;
+	}
+
 	public String toString()
 	{
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
-		String info = "\nForsikringsnr: " + getForsikringsnr() + super.toString() + "\nRegistreringsår: " + getRegistreringsår() + "\nÅrlig kjørelengde: " + getKjørelengde() + "\nPris per KM: " + getPrisPrKm();
+		String info = "\nForsikringsnr: " + getForsikringsNr() + super.toString() + "\nRegistreringsår: " + getRegistreringsår() + "\nÅrlig kjørelengde: " + getKjørelengde() + "\nPris per KM: " + getPrisPrKm();
 		if(erAvslutta())
 			info += "\nAvsluttet: " + df.format(getAvslutta().getTime());
 		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
 		return info;
 	}
-}
+}//slutt på klasse BilForsikring
 
 class BåtForsikring extends Fartøy implements Serializable
 {
-	<samme som på bil>
-}
+	static final long serialVersionUID = 42L;
+	private String eiernavn, registreringsnr, biltype, modell, båtfornr, motortype;
+	private int årsmodell, båtlengde, motorstyrke, hjelpenr;
+	private static int nestenr = 1;
+
+	public BåtForsikring(Kunde kun, int beløp, String info, String eier, String regnr, String typ, String mod, int modellår, int lengde, String motortyp, int styrke)
+	{
+		super(kun, beløp, info, eier, regnr, typ, mod);
+		årsmodell = modellår;
+		båtlengde = lengde;
+		motortype = motortyp;
+		motorstyrke = styrke;
+		hjelpenr = nestenr;
+		nestenr++;
+	}
+
+	public int getÅrsmodell()
+	{
+		return årsmodell;
+	}
+
+	public void setÅrsmodell(int modellår)
+	{
+		årsmodell = modellår;
+	}
+
+	public int getBåtlengde()
+	{
+		return båtlengde;
+	}
+
+	public void setBåtlengde(int lengde)
+	{
+		båtlengde = lengde;
+	}
+
+	public String getMotortype()
+	{
+		return motortype;
+	}
+
+	public void setMotortype(String motortyp)
+	{
+		motortype = motortyp;
+	}
+
+	public int getMotorstyrke()
+	{
+		return motorstyrke;
+	}
+
+	public void setMotorstyrke(int styrke)
+	{
+		motorstyrke = styrke;
+	}
+
+	public int getForsikringsID()
+	{
+		return hjelpenr;
+	}
+
+	public String getForsikringsnr()
+	{
+		båtfornr = Integer.toString(hjelpenr);
+		return "BA" + båtfornr;
+	}
+
+	public static int getNrNå()
+	{
+		return nestenr;
+	}
+
+	public static void setNrNå(int nr)
+	{
+		if(nr>nestenr)
+			nestenr = nr;
+	}
+
+	public String toString()
+	{
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
+		String info = "\nForsikringsnr: " + getForsikringsnr() + super.toString() + "\nÅrsmodell: " + getÅrsmodell() + "\nBåtlengde(fot): " + getBåtlengde() + "\nMotortype: " + getMotortype() + "\nMotorstyrke(HK): " + getMotorstyrke();
+		if(erAvslutta())
+			info += "\nAvsluttet: " + df.format(getAvslutta().getTime());
+		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
+		return info;
+	}
+}//slutt på klasse BåtForsikring
+
 
 class HusForsikring extends Bolig implements Serializable
 {
-	<hus-greier>
-}
+	static final long serialVersionUID = 42L;
+	private String husfornr;
+	private int hjelpenr;
+	private static int nestenr = 1;
+
+	public HusForsikring(Kunde kun, int beløpb, int beløpi, String info, String adr, String type, String mat, String stand, int år, int meter)
+	{
+		super(kun, beløpb, beløpi, info, adr, type, mat, stand, år, meter);
+		hjelpenr = nestenr;
+		nestenr++;
+	}
+
+	public int getForsikringsID()
+	{
+		return hjelpenr;
+	}
+
+	public String getForsikringsnr()
+	{
+		husfornr = Integer.toString(hjelpenr);
+		return "HU" + husfornr;
+	}
+
+	public static int getNrNå()
+	{
+		return nestenr;
+	}
+
+	public static void setNrNå(int nr)
+	{
+		if(nr>nestenr)
+			nestenr = nr;
+	}
+
+	public String toString()
+	{
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
+		String info = "\nForsikringsnr: " + getForsikringsnr() + super.toString();
+		if(erAvslutta())
+			info += "\nAvsluttet: " + df.format(getAvslutta().getTime());
+		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
+		return info;
+	}
+}//slutt på klasse HusForsikring
+
 
 class HytteForsikring extends Bolig implements Serializable
 {
-	<samme som hus>
-}
+	static final long serialVersionUID = 42L;
+	private String hyttefornr;
+	private int hjelpenr;
+	private static int nestenr = 1;
+
+	public HytteForsikring(Kunde kun, int beløpb, int beløpi, String info, String adr, String type, String mat, String stand, int år, int meter)
+	{
+		super(kun, beløpb, beløpi, info, adr, type, mat, stand, år, meter);
+		hjelpenr = nestenr;
+		nestenr++;
+	}
+
+	public int getForsikringsID()
+	{
+		return hjelpenr;
+	}
+
+	public String getForsikringsnr()
+	{
+		hyttefornr = Integer.toString(hjelpenr);
+		return "HY" + hyttefornr;
+	}
+
+	public static int getNrNå()
+	{
+		return nestenr;
+	}
+
+	public static void setNrNå(int nr)
+	{
+		if(nr>nestenr)
+			nestenr = nr;
+	}
+
+	public String toString()
+	{
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
+		String info = "\nForsikringsnr: " + getForsikringsnr() + super.toString();
+		if(erAvslutta())
+			info += "\nAvsluttet: " + df.format(getAvslutta().getTime());
+		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
+		return info;
+	}
+}//slutt på klasse HytteForsikring
