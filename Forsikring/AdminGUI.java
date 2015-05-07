@@ -1,4 +1,4 @@
-/*Skrevet av Even, s199184. Sist endret 05.05.2015
+/*Skrevet av Even, s199184. Sist endret 07.05.2015
 Klassen definerer brukergrensesnittet for administrator, klassen utvider JPanel med felter og knapper for søkefunksjoner
 brukeren kan bruke til å søke seg frem til øsnket data. Panelet har også funskjoner for å endre data der dette er tillat
 */
@@ -18,153 +18,176 @@ public class AdminGUI extends JPanel
 	private JTextField ansattFornavn, ansattEtternavn, ansattPersNr, ansattNummer, ansattAvdeling;
 	private ButtonGroup gruppeKnapper;
 	private JRadioButton ans;
-	private JButton søkeKnapp, nyAns, slettAns, lagre, visAnsattKnapp, statButton;
+	private JButton søkeKnapp, nyAns, slettAns, lagre, oppdater, visAnsattKnapp, statButton;
 	//private RadioButtonLytter radioLytter;
 	private Lytterklasse lytter;
 	private JPanel hasLicChoose, grid, searchGrid, bord, licChoose, flow, visAnsatte, visAnsatteFlow;
 	private Register register;
-	private TModel tableModel;
-	private JTable table;
+	private TModel tableModel, tableModel2;
+	private JTable table, table2;
+	private JTabbedPane tabbedPane;
+	/*
+
+
+	Fiks tabbed pane!
+
+
+
+	*/
 
 
 	public AdminGUI(Huvudvindu v)
 	{
-			/*
+		vindu = v;
+		register = vindu.getRegister();
+		lytter = new Lytterklasse();
 
-			Dobbelklikk på bruker skal åpne JOptionPane med info om brukern
+		//avkrysningsboks
 
+		gruppeKnapper = new ButtonGroup();
+		ans = new JRadioButton("Ansatte", true);
+		gruppeKnapper.add(ans);
 
-			*/
-			vindu = v;
-			register = vindu.getRegister();
-			//radioLytter = new RadioButtonLytter();
-			lytter = new Lytterklasse();
+		//Setter layout:
+		setLayout(new BorderLayout() );
+		//oppretter JPaneler med ulike LayoutManagere
+		visAnsatte = new JPanel(new BorderLayout() ); //show prescription var skrevet tidligere her
 
-			//avkrysningsboks
+		grid = new JPanel(new GridLayout(4,1));
+		GridLayout gridlayout = new GridLayout( 15, 1);
+		gridlayout.setVgap(10);
+		searchGrid = new JPanel(gridlayout);
+		bord = new JPanel(new BorderLayout() );
+		bord = new JPanel(new BorderLayout() );
+		flow = new JPanel(new FlowLayout() );
+		visAnsatteFlow = new JPanel(new FlowLayout() ); //show prescription var skrevet tidligere
 
-			gruppeKnapper = new ButtonGroup();
-			ans = new JRadioButton("Ansatte", true);
-			gruppeKnapper.add(ans);
+		info = new JTextArea(""); //Info tekst
 
-			//Setter layout:
-			setLayout(new BorderLayout() );
-			//oppretter JPaneler med ulike LayoutManagere
-			visAnsatte = new JPanel(new BorderLayout() ); //show prescription var skrevet tidligere her
-			grid = new JPanel (new GridLayout(4, 1) );
-			searchGrid = new JPanel(new GridLayout( 15, 1) );
-			bord = new JPanel(new BorderLayout() );
-			//licChoose = new Jpanel(new GridLayout(1, 3) );
-			bord = new JPanel(new BorderLayout() );
-			//licChoose = new JPanel(new GridLayout(1, 3) );
-			//hasLicChoose = new JPanel(new GridLayout(1, 3) );
-			flow = new JPanel(new FlowLayout() );
-			visAnsatteFlow = new JPanel(new FlowLayout() ); //show prescription var skrevet tidligere
+		info.setEditable(false);
+		info.setLineWrap(true);
+		info.setWrapStyleWord(true);
+		visAnsattInfo = new JTextArea();
+		visAnsattInfo.setEditable(false);
+		visAnsattInfo.setVisible(false);
+		ansattFornavn = new JTextField(DATAFELT_LENGDE);
+		ansattEtternavn = new JTextField(DATAFELT_LENGDE);
+		ansattPersNr = new JTextField(11);
+		ansattNummer = new JTextField(DATAFELT_LENGDE);
+		ansattAvdeling = new JTextField(DATAFELT_LENGDE);
+		søkEtterLabel = new JLabel("Søk etter:");
+		ansattFornavnLabel = new JLabel("Ansatt fornavn:");// Ansatts Navn?((legge til tooltip på disse
+		ansattEtternavnLabel = new JLabel("Ansatt etternavn:");
+		ansattPersNrLabel = new JLabel("Ansatt personnummer:");
+		ansattNummerLabel = new JLabel("Ansattnummer:");
+		ansattAvdelingLabel = new JLabel("Avdeling:");
+		søkeKnapp = new JButton("Søk");
+		nyAns = new JButton("Legg til en ny ansatt");
+		slettAns = new JButton("Slett bruker");
+		lagre = new JButton("Lagre endringer");
+		oppdater = new JButton("Oppdater");
+		visAnsattKnapp = new JButton("Vis ansattinfo");
+		statButton = new JButton("Vis statistikk");
+		//Lyttere:
 
-			info = new JTextArea(""); //Info tekst
+		søkeKnapp.addActionListener(lytter);
+		ansattFornavn.addActionListener(lytter);
+		ansattEtternavn.addActionListener(lytter);
+		ansattPersNr.addActionListener(lytter);
+		ansattNummer.addActionListener(lytter);
+		nyAns.addActionListener(lytter);
+		slettAns.addActionListener(lytter);
+		lagre.addActionListener(lytter);
+		oppdater.addActionListener(lytter);
+		visAnsattKnapp.addActionListener(lytter);
+		statButton.addActionListener(lytter);
+		//legger elementer til i GUI
 
-			info.setEditable(false);
-			info.setLineWrap(true);
-			info.setWrapStyleWord(true);
-			visAnsattInfo = new JTextArea();
-			visAnsattInfo.setEditable(false);
-			visAnsattInfo.setVisible(false);
-			ansattFornavn = new JTextField(DATAFELT_LENGDE);
-			ansattEtternavn = new JTextField(DATAFELT_LENGDE);
-			ansattPersNr = new JTextField(11);
-			ansattNummer = new JTextField(DATAFELT_LENGDE);
-			ansattAvdeling = new JTextField(DATAFELT_LENGDE);
-			søkEtterLabel = new JLabel("Søk etter:");
-			ansattFornavnLabel = new JLabel("Ansatt fornavn:");// Ansatts Navn?((legge til tooltip på disse
-			ansattEtternavnLabel = new JLabel("Ansatt etternavn:");
-			ansattPersNrLabel = new JLabel("Ansatt personnummer:");
-			ansattNummerLabel = new JLabel("Ansattnummer:");
-			ansattAvdelingLabel = new JLabel("Avdeling:");
-			søkeKnapp = new JButton("Søk");
-			nyAns = new JButton("Legg til en ny ansatt");
-			slettAns = new JButton("Slett bruker");
-			lagre = new JButton("Lagre endringer");
-			visAnsattKnapp = new JButton("Vis ansattinfo");
-			statButton = new JButton("Vis statistikk");
-			//Lyttere:
+		grid.add(oppdater);
+		grid.add(søkEtterLabel);
+		grid.add(ans);
+		searchGrid.add(ansattFornavnLabel);
+		searchGrid.add(ansattFornavn);
+		searchGrid.add(ansattEtternavnLabel);
+		searchGrid.add(ansattEtternavn);
+		searchGrid.add(ansattNummerLabel);
+		searchGrid.add(ansattNummer);
+		searchGrid.add(ansattPersNrLabel);
+		searchGrid.add(ansattPersNr);
+		searchGrid.add(ansattAvdelingLabel);
+		searchGrid.add(ansattAvdeling);
+		searchGrid.add(søkeKnapp);
+		searchGrid.add(nyAns);
+		searchGrid.add(slettAns);
+		searchGrid.add(statButton);
 
-			søkeKnapp.addActionListener(lytter);
-			ansattFornavn.addActionListener(lytter);
-			ansattEtternavn.addActionListener(lytter);
-			//ansattPersNr.addActionListener(lytter);
-			//ansattNummer.addActionListener(lytter);
-			nyAns.addActionListener(lytter);
-			slettAns.addActionListener(lytter);
-			lagre.addActionListener(lytter);
-			visAnsattKnapp.addActionListener(lytter);
-			statButton.addActionListener(lytter);
-			//legger elementer til i GUI
-			grid.add(søkEtterLabel);
-			grid.add(ans);
-			searchGrid.add(ansattFornavnLabel);
-			searchGrid.add(ansattFornavn);
-			searchGrid.add(ansattEtternavnLabel);
-			searchGrid.add(ansattEtternavn);
-			searchGrid.add(ansattNummerLabel);
-			searchGrid.add(ansattNummer);
-			searchGrid.add(ansattPersNrLabel);
-			searchGrid.add(ansattPersNr);
-			searchGrid.add(ansattAvdelingLabel);
-			searchGrid.add(ansattAvdeling);
-			searchGrid.add(søkeKnapp);
-			searchGrid.add(nyAns);
-			searchGrid.add(slettAns);
-			searchGrid.add(statButton);
-
-			bord.add(grid, BorderLayout.PAGE_START);
-			bord.add(searchGrid, BorderLayout.LINE_START);
-			flow.add(bord);
+		bord.add(grid, BorderLayout.PAGE_START);
+		bord.add(searchGrid, BorderLayout.LINE_START);
+		flow.add(bord);
 
 
+		add(info, BorderLayout.PAGE_START);
+		add(new JScrollPane(flow, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.LINE_START);
+		//oppretter tabellen for visning og redigering
+		tableModel = new TModel(register.getAnsatte());
+		table = new JTable(tableModel);
 
-			add(info, BorderLayout.PAGE_START);
-			add(new JScrollPane(flow, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.LINE_START);
-			//oppretter tabellen for visning og redigering
-			tableModel = new TModel(register.getAnsatte()); //new TModel()
-			table = new JTable(tableModel);
-			//legger til elementer i hovedpanelet
-			add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
-			add(new JScrollPane(visAnsatte), BorderLayout.PAGE_END);
 
-			//vindu.tilbakePos.setVisible(false);
+		//Start på tabbed
+		/*
+		tableModel2 = new TModel(register.getKunder());
+		table2 = new JTable(tableModel2);
 
-			MouseListener mouseListener = new MouseAdapter()
+		tabbedPane = new JTabbedPane();
+		tabbedPane.addTab("Ansatte", null, table, "Liste over ansatte");
+		tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
+		tabbedPane.addTab("Kunder", null, table2, "Liste over kunder");
+		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
+    	tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		tabbedPane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
+		//tabbedPane.setTabPlacement(JTabbedPane.BOTTOM); //bestemmer hvor tabbene er på sida
+
+		add(new JScrollPane(tabbedPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
+		add(new JScrollPane(visAnsatte), BorderLayout.PAGE_END);
+		*/
+		//Slutt på tabbed
+
+
+		//legger til elementer i hovedpanelet
+
+		add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
+		add(new JScrollPane(visAnsatte), BorderLayout.PAGE_END);
+
+
+
+		MouseListener mouseListener = new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent mouseEvent)
 			{
-				public void mouseClicked(MouseEvent mouseEvent)
-				{
-			        JTable theTable = (JTable) mouseEvent.getSource();
-			        if (mouseEvent.getClickCount() == 2)
-			        {
-			        	//int index = theTable.locationToIndex(mouseEvent.getPoint());
-			        	int rad = theTable.getSelectedRow();
-			        	if (rad >= 0)
-			          	{
-							Ansatt anna = register.getAnsattViaAnsattNr( (String)theTable.getValueAt(rad, TModel.ANSATT_NR) );
-							AnsattProfil vin = new AnsattProfil(anna);
-							//JOptionPane.showMessageDialog(null, anna.toString() );
-			            	//Object o = theTable.getModel().getValueAt(rad, );
-			            	//JOptionPane.showMessageDialog(null, "Double-clicked on: " + o.toString());
-			          	}
-			        }
-			      }
-			};
-			table.addMouseListener(mouseListener);
+		        JTable theTable = (JTable) mouseEvent.getSource();
+		        if (mouseEvent.getClickCount() == 2)
+		        {
+		        	int rad = theTable.getSelectedRow();
+		        	if (rad >= 0)
+		          	{
+						Ansatt anna = register.getAnsattViaAnsattNr( (String)theTable.getValueAt(rad, TModel.ANSATT_NR) );
+						AnsattProfil vin = new AnsattProfil(anna);
+		          	}
+		        }
+		      }
+		};
+		table.addMouseListener(mouseListener);
+	}
 
+	public int getSøkFor()
+	{
+		return søkFor;
+	}
 
-		}
-		public int getSøkFor()
-		{
-			return søkFor;
-		}
-
-		public void søk()
-		{
-			søkAnsatt();
-		}
+	public void søk()
+	{
+		søkAnsatt();
+	}
 
 	public AnsattReg søkAnsatt()
 	{
@@ -291,6 +314,8 @@ public class AdminGUI extends JPanel
 		{
 			if(e.getSource() == søkeKnapp || e.getSource() == ansattFornavn || e.getSource() == ansattEtternavn
 				|| e.getSource() == ansattPersNr || e.getSource() == ansattNummer || e.getSource() == ansattAvdeling)
+				søk();
+			if(e.getSource() == oppdater)
 				søk();
 			else if(e.getSource() == nyAns)
 				nyAnsatt();
