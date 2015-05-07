@@ -6,9 +6,9 @@ import java.net.URL;
 
 public class Startvindu extends JPanel
 {
-	private final String ADMIN = "admin", KUNDE = "kunde", ANSATT = "ansatt", ADMIN_PASS = "123456";
-	private final String passordetliksom;
-	private String adminPass;
+	private final String ADMIN = "admin", KUNDE = "kunde", ANSATT = "ansatt"; //default brukernavn
+	private final String passordetliksom;	//default passord
+	//private String adminPass;
 	private Huvudvindu vindu;
 	private JLabel brukerLabel, passLabel, fNavnLabel, eNavnLabel, passord1Label, passord2Label, tlfNrLabel, persNrLabel, adrLabel, postLabel, stedLabel;
 	private JTextField bruker, passord, fNavn, eNavn, persNr, passord1, passord2, tlfNr, adress, postnr, posted;
@@ -22,12 +22,13 @@ public class Startvindu extends JPanel
 	{
 		vindu = v;
 		passordetliksom = "123";
-		Font font1 = new Font("SansSerif", Font.BOLD, 15);
-		URL loggbilde = Startvindu.class.getResource("DAFF Forsikring");
+		Font font1 = new Font("SansSerif", Font.BOLD, 15);		//standard font for felter
+		URL loggbilde = Startvindu.class.getResource("DAFF Forsikring");	//bakgrunnsbilde
 
 		lytter = new Lytterklasse();
 		register = v.getRegister();
 
+		//Info-felt
 		info = new JTextArea( "Velkommen!\nSkriv inn ditt brukernavn og passord. Hvis du ikke har bruker kan du registrere deg." );
 
 		info.setEditable( false );
@@ -198,7 +199,7 @@ public class Startvindu extends JPanel
 		//Slutt på registreringspanelet
 
 		JPanel flyt = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-		flyt.setBorder(new EmptyBorder(new Insets(200, 0, 0, 0)));		//Denne må sees på senere
+		flyt.setBorder(new EmptyBorder(new Insets(200, 0, 0, 0)));
 		flyt.add( kant );
 		flyt.add( kant2 );
 
@@ -213,13 +214,13 @@ public class Startvindu extends JPanel
 		return vindu;
 	}
 
-	private void visFeilmelding( String melding )
+	private void visFeilmelding( String melding )	//mal for feilmelding
 	{
 		//Standard for feilmelding
 		JOptionPane.showMessageDialog(this, melding, "Problem", JOptionPane.ERROR_MESSAGE);
 	}
 
-	private void slettFelter()
+	private void slettFelter()	//denne setter alle felter tomme
 	{
 		bruker.setText( "" );
 		passord.setText( "" );
@@ -234,30 +235,7 @@ public class Startvindu extends JPanel
 		posted.setText( "" );
 	}
 
-	/*public void logginn()
-	{
-		String pass = passord.getText();
-		String bruk = bruker.getText();
-
-		if( bruk.toLowerCase().equals( ADMIN ) )
-			LogginnAdmin( pass );
-
-		else if( bruk.matches("[0-9]+") && bruk.length() == 11 )
-			LogginnKunde( pass );
-
-		else
-			LogginnAnsatt( pass );
-	}*/
-
-	/*
-	public void logginn()
-	{
-		String pass = passord.getText();
-		JOptionPane.showMessageDialog( null, "Du er logget inn" );
-		LogginnAnsatt(pass);
-	}*/
-
-	public void logginn()
+	public void logginn()	//sorterer til hvilken innloggingsmetode som skal brukes
 	{
 		String pass = passord.getText();
 		String bruk = bruker.getText();
@@ -275,22 +253,19 @@ public class Startvindu extends JPanel
 			LogginnAnsatt( bruk, pass );
 	}
 
-	public void nyKunde()
+	public void nyKunde()	//registrerer ny kunde
 	{
 		String fon, etn, penr, pass, telf, adrrr, pnr, ps, regexPattern;
-		//Integer pnr;
 		regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 		fon = fNavn.getText();
 		etn = eNavn.getText();
 		penr = persNr.getText();
 		telf = tlfNr.getText();
 		adrrr = adress.getText();
-		//pnr = Integer.parseInt(postnr.getText());
 		pnr = postnr.getText();
 		ps = posted.getText();
 
-		//Denne er fake
-		//Slutt på fake
+
 		pass = passord1.getText();
 		if(!pass.equals(passord2.getText() ) )
 			visFeilmelding("Passordene må være like");
@@ -313,23 +288,7 @@ public class Startvindu extends JPanel
 		}
 	}
 
-
-	/*
-	public void LogginnAdmin( String pass )
-	{
-		String pwa = pass;
-		JOptionPane.showMessageDialog( null, "Du er logget inn" );
-	}*/
-
-	/*public void LogginnAdmin( String pass )
-	{
-		String pwa = pass;
-		JPanel ny = new AdminGUI(vindu);
-		vindu.swapPanel( ny );
-	}*/
-
-
-	public void LogginnAdmin( String pass )
+	public void LogginnAdmin( String pass )	//logger inn admin
 	{
 		if( Passordtest( pass ) )
 		{
@@ -341,27 +300,28 @@ public class Startvindu extends JPanel
 		visFeilmelding("Feil passord" );
 	}
 
-	public void LogginnKunde( String bruk, String pass )
+	public void LogginnKunde( String bruk, String pass )	//logger inn kunde
 	{
 		String brk = bruk;
 		String pwa = pass;
 		if( bruk.toLowerCase().equals( KUNDE ) )
 		{
-			//JPanel ny = new KundeGUI(vindu);
-			//vindu.swapPanel( ny );
-			JOptionPane.showMessageDialog(null, "Innlogget");
-			slettFelter();
+			if(Passordtest(pwa))
+			{
+				JPanel ny = new KundeGUI(vindu);
+				vindu.swapPanel( ny );
+				slettFelter();
+			}
 		}
 		else if( brk.length() == 11 )
 		{
 			Kunde kunn = register.getKundeViaNummer(brk);
 			if( kunn != null )
 			{
-				if(Passordtest(pwa))
+				if(Passordtest(kunn, pwa))
 				{
-					//JPanel ny = new KundeGUI(vindu, kunn);
-					//vindu.swapPanel( ny );
-					JOptionPane.showMessageDialog(null, "Innlogget");
+					JPanel ny = new KundeGUI(vindu);
+					vindu.swapPanel( ny );
 					slettFelter();
 				}
 				else
@@ -381,23 +341,26 @@ public class Startvindu extends JPanel
 	}
 
 
-	public void LogginnAnsatt( String bruk, String pass )
+	public void LogginnAnsatt( String bruk, String pass )	//logger inn ansatt
 	{
 		String brk = bruk;
 		String pwa = pass;
-		//Ansatt ansatt = register.getAnsattViaNr(bruk); //denne fullføres senere
 		if( bruk.toLowerCase().equals( ANSATT ) )
 		{
-			JPanel ny = new AnsattVindu(vindu);
-			vindu.swapPanel( ny );
-			slettFelter();
+			if(Passordtest(pwa))
+			{
+				JPanel ny = new AnsattVindu(vindu);
+				vindu.swapPanel( ny );
+				slettFelter();
+			}
 		}
 
 		else if( brk.length() == 5 )
 		{
 			if( register.getAnsattViaAnsattNr(brk) != null )
 			{
-				if(Passordtest(pwa))
+				Ansatt ansatt = register.getAnsattViaAnsattNr(brk);
+				if(Passordtest(ansatt, pwa))
 				{
 					JPanel ny = new AnsattVindu(vindu);
 					vindu.swapPanel( ny );
@@ -420,7 +383,7 @@ public class Startvindu extends JPanel
 	}
 
 
-	public boolean Passordtest( String p )		//denne skal forandres
+	public boolean Passordtest( String p )		//sjekker om passorder er standardpassordet
 	{
 		String pwo = p;
 		if( pwo.equals(passordetliksom) )
@@ -430,14 +393,33 @@ public class Startvindu extends JPanel
 		return false;
 	}
 
-	private class Lytterklasse implements ActionListener
+	public boolean Passordtest( Ansatt a, String p )	//sjekker om det er riktig passord for ansatt-bruker
+	{
+		if( a.getPassord().equals(p) )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public boolean Passordtest( Kunde k, String p )		//sjekker om det er riktig passord for kunde-bruker
+	{
+		if( k.getPassord().equals(p) )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private class Lytterklasse implements ActionListener	//bestemmer hva knappene gjør
 	{
 		public void actionPerformed( ActionEvent e )
 		{
-			if( e.getSource() == logginn || e.getSource() == passord || e.getSource() == bruker )
+			if( e.getSource() == logginn || e.getSource() == passord
+					|| e.getSource() == bruker )	//utfører innlogging
 				logginn();
 
-			else if( e.getSource() == registrer )
+			else if( e.getSource() == registrer )	//bytter fra innlogging til registrering
 			{
 				kant.setVisible(false);
 				kant2.setVisible(true);
@@ -446,10 +428,10 @@ public class Startvindu extends JPanel
 			else if( e.getSource() == regKunde || e.getSource() == fNavn || e.getSource() == eNavn
 			|| e.getSource() == persNr || e.getSource() == adress || e.getSource() == postnr
 			|| e.getSource() == posted || e.getSource() == passord1 || e.getSource() == passord2
-			|| e.getSource() == tlfNr )
+			|| e.getSource() == tlfNr )	//registrerer ny kunde
 				nyKunde();
 
-			else if( e.getSource() == avbryt )
+			else if( e.getSource() == avbryt )	//avbryter registrering og bytter tilbake til innlogging
 			{
 				kant2.setVisible(false);
 				kant.setVisible(true);
