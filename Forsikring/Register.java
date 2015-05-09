@@ -379,6 +379,26 @@ public class Register implements Serializable
 		return reg.finnKundeViaNr(nr);
 	}
 
+	public Kunde getKundeViaKundeNr(String nr)
+	{
+		//String anr = nr;
+		KundeReg kReg = kunReg.finnKundeViaKundenr(nr);
+		if(kReg == null)
+			return null;
+		else
+		{
+			Iterator<Kunde> iter = kReg.iterator();
+			return iter.next();
+		}
+	}
+
+	public KundeReg getKundeViaKundeNr(KundeReg reg, String knr)
+	{
+		if(reg == null)
+			return kunReg.finnKunder(knr);
+		return reg.finnKundeViaKundenr(knr);
+	}
+
 
 	public KundeReg getKundeViaNavn(KundeReg reg, String navn)	//åpenbar
 	{
