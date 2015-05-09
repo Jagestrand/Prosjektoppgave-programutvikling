@@ -99,6 +99,33 @@ public class KundeReg implements Serializable
 		return null;
 	}
 
+	public KundeReg finnKundeViaKundenr(String kundeNr)
+	{
+		if(kundeNr.isEmpty())
+			return null;
+		Iterator<Kunde> theIterator = iterator();
+		Kunde kun;
+		KundeReg søktKundeReg = new KundeReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				kun = theIterator.next();
+				//if(pat.getPersonNr().matches(personNr + ".*"))
+				if(kun.getKundeNr().matches(kundeNr))
+				{
+					søktKundeReg.add(kun);
+					return søktKundeReg;
+				}
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i KundeReg: finnKundeViaNr fikk NoSuchElementException.",
+										"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
 	public KundeReg finnKundeViaNavn(String firstname, String lastname)
 	{
 		if(firstname.isEmpty() && lastname.isEmpty())
