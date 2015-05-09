@@ -1,5 +1,4 @@
 
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -12,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 
 import javax.swing.*;
+
 
  class ValgAvForsikring extends JFrame 
  {
@@ -44,6 +44,8 @@ import javax.swing.*;
     private String[] s1 = { "Velg", "Normal standard", "Bedre standard", "Høy standard"};
     private String[] innbo = { "Velg forsikringssum", "150 000","300 000","500 000", "750 000", "1 000 0000", "1 500 000", "2 000 000", "3 000 000"};
     private String[] innboFritid = { "Velg forsikringssum", "150 000","300 000","500 000", "750 000", "1 000 0000", "1 500 000", "2 000 000", "3 000 000"};
+    private JComboBox bil, reg, regBåt, båt, båtKapten, bolig, materiale, standard1, forsikringssum;
+
     
     public ValgAvForsikring() 
     {
@@ -105,7 +107,7 @@ import javax.swing.*;
     	jp1.add(regNmr);
     	jp1.add(kmÅrLabel);
     	jp1.add(kmÅr);
-    	
+    	bil.getSelectedItem();
     	//Båt
     	JComboBox<String> båt = new JComboBox<>(båtMerke);
     	JComboBox<String> båtReg = new JComboBox<>(regÅrBåt);
@@ -287,7 +289,8 @@ import javax.swing.*;
         
 
 
-        lukkVindu.addActionListener(new ActionListener() {
+        lukkVindu.addActionListener(new ActionListener() 
+        {
             public void actionPerformed(ActionEvent e)
             {
             	if(e.getSource() == lukkVindu)
@@ -299,51 +302,139 @@ import javax.swing.*;
      	getContentPane().add(informationTop, BorderLayout.NORTH);
         getContentPane().add(cardPanel, BorderLayout.CENTER);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-
+        /*
+        //Ska inte använda denna. 
+        ActionListener listen = new ActionListener()
+        {
+    		public void actionPerformed(ActionEvent e)
+    		{
+    			if(e.getSource() == registrer)
+    			{
+    				String merke = String.valueOf(bil.getSelectedItem());
+    				String reg = String.valueOf(bil.getSelectedItem());
+    				
+    			}
+    		}
+    	};
+        registrer.addActionListener(listen);
+    	bil.addActionListener(listen);
+    	reg.addActionListener(listen);
+    	
     }
-
-	private JTextField JTextField(int dATA_FIELD_LENGTH2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//Nästan färdig, kommenterar ut sålänge. 
 	public void nyForsikringBil()
 	{
-
-		String nb, fb, epn, b, r, bm,rn,kå, regexPattern, ansnr;
+		String nb, fb, epn, bm,rn,kå, regexPattern, reg1, merke;
 		regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 		nb = navnBil.getText();
 		fb = fakturaadresseBil.getText();
 		epn = eierPersonNr.getText();
-		b = bil.getSelectedItem();
-		r = reg.getText();
 		bm = bilModell.getText();
 		rn = regNmr.getText();
 		kå = kmÅr.getText();
+		reg1 = String.valueOf(reg.getSelectedItem());
+		merke = String.valueOf(bil.getSelectedItem());
 		
-		if(nb.equals("") || fb.equals("") || epn.equals("") || bm.equals("") || rn.equals("") || kå.equals("") )
+		if(nb.equals("") || fb.equals("") || epn.equals("") || bm.equals("") || rn.equals("") || kå.equals("") || merke.equals("") || reg1.equals("") )
 			informationTop.setText("Alle feltene må fylles ut");
 		else if(!epn.matches(regexPattern) )
 			informationTop.setText("Personnummeret er ikke gyldig");
 		else
 		{
-			Ansatt res = new Ansatt(nb, fb, epn, bm,rn,kå);
+			BilForsikring res = new BilForsikring(nb, fb, epn, bm,rn,kå, reg1,merke);
 			ansnr = res.getAnsattNr();							//Denne er ny
 			//Ansatt ret = new Ansatt(ansnr, fn, ln, pn, t, ea, p);
 			reg.nyAnsatt(res);
 			//reg.nyAnsatt(ret);
-			info.setText("Ansatt lagret:\n" + res.toString() );
+			info.setText("Bilforsikring lagret:\n" + res.toString() );
 		}
+	}
+	
+	public void nyForsikringBåt()
+	{
+		String regBåt1, båt1, båtKapten1, nb, fb, pnb, rnb,bf, bm, regexPattern;
+		regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
+		nb = navnBåt.getText();
+		fb = fakturaadresseBåt.getText();
+		pnb = personNrBåt.getText();
+		rnb = regNmrBåt.getText();
+		bf = båtFot.getText();
+		bm = båtMotor.getText();
+		regBåt1 = String.valueOf(regBåt.getSelectedItem());
+		båtKapten1 = String.valueOf(båtKapten.getSelectedItem());
+		båt1 = String.valueOf(båt.getSelectedItem());
+		
+		if(nb.equals("") || fb.equals("") || epn.equals("") || bm.equals("") || rn.equals("") || kå.equals("") || merke.equals("") || reg1.equals("") )
+			informationTop.setText("Alle feltene må fylles ut");
+		else if(!epn.matches(regexPattern) )
+			informationTop.setText("Personnummeret er ikke gyldig");
+		else
+		{
+			BilForsikring res = new BilForsikring(nb, fb, epn, bm,rn,kå, reg1,merke);
+			ansnr = res.getAnsattNr();							//Denne er ny
+			//Ansatt ret = new Ansatt(ansnr, fn, ln, pn, t, ea, p);
+			reg.nyAnsatt(res);
+			//reg.nyAnsatt(ret);
+			info.setText("Bilforsikring lagret:\n" + res.toString() );
+		}
+	}
+	
+	public void nyForsikringhus()
+	{
+		String hs, fh, ha,hbå,bolig1,m, materiale1, forsikringssum1,standard, regexPattern;
+		regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
+		hs = husNavn.getText();
+		fh = fakturaadresseHus.getText();
+		ha = husAdresse.getText();
+		hbå = husByggeÅr.getText();
+		m = m2.getText();
+		bolig1 = String.valueOf(bolig.getSelectedItem());
+		materiale1 = String.valueOf(materiale.getSelectedItem());
+		forsikringssum1 = String.valueOf(forsikringssum.getSelectedItem());
+		standard = String.valueOf(standard1.getSelectedItem());
+		
+		if(nb.equals("") || fb.equals("") || epn.equals("") || bm.equals("") || rn.equals("") || kå.equals("") || merke.equals("") || reg1.equals("") )
+			informationTop.setText("Alle feltene må fylles ut");
+		else if(!epn.matches(regexPattern) )
+			informationTop.setText("Personnummeret er ikke gyldig");
+		else
+		{
+			BilForsikring res = new BilForsikring(nb, fb, epn, bm,rn,kå, reg1,merke);
+			ansnr = res.getAnsattNr();							//Denne er ny
+			//Ansatt ret = new Ansatt(ansnr, fn, ln, pn, t, ea, p);
+			reg.nyAnsatt(res);
+			//reg.nyAnsatt(ret);
+			info.setText("Bilforsikring lagret:\n" + res.toString() );
+		}
+	}
+	public void nyForsikringBil()
+	{
+		String nb, fb, epn, bm,rn,kå, regexPattern, reg1, merke;
+		regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
+		nb = navnBil.getText();
+		fb = fakturaadresseBil.getText();
+		epn = eierPersonNr.getText();
+		bm = bilModell.getText();
+		rn = regNmr.getText();
+		kå = kmÅr.getText();
+		reg1 = String.valueOf(reg.getSelectedItem());
+		merke = String.valueOf(bil.getSelectedItem());
+		
+		if(nb.equals("") || fb.equals("") || epn.equals("") || bm.equals("") || rn.equals("") || kå.equals("") || merke.equals("") || reg1.equals("") )
+			informationTop.setText("Alle feltene må fylles ut");
+		else if(!epn.matches(regexPattern) )
+			informationTop.setText("Personnummeret er ikke gyldig");
+		else
+		{
+			BilForsikring res = new BilForsikring(nb, fb, epn, bm,rn,kå, reg1,merke);
+			ansnr = res.getAnsattNr();							//Denne er ny
+			//Ansatt ret = new Ansatt(ansnr, fn, ln, pn, t, ea, p);
+			reg.nyAnsatt(res);
+			//reg.nyAnsatt(ret);
+			info.setText("Bilforsikring lagret:\n" + res.toString() );
+		}*/
 	}
 
-	private class Listener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			if(e.getSource() == addAns || e.getSource() == fName || e.getSource() == lName
-			|| e.getSource() == pNr || e.getSource() == pass1 || e.getSource() == pass2
-			 || e.getSource() == phone || e.getSource() == empAt)
-				nyAnsatt();
-		}
-	}
+
     
  }
