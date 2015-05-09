@@ -1,4 +1,4 @@
-/*Skrevet av Even, s199184. Sist endret 07.05.2015
+/*Skrevet av Rebwar Eliassi, s183736. Sist endret 16.04.2015
 Klassen definerer brukergrensesnittet for administrator, klassen utvider JPanel med felter og knapper for søkefunksjoner
 brukeren kan bruke til å søke seg frem til øsnket data. Panelet har også funskjoner for å endre data der dette er tillat
 */
@@ -9,17 +9,17 @@ import java.awt.event.*;
 
 public class AdminGUI extends JPanel
 {
-	public static final int SØK_FORSIKRING = 1, SØK_KUNDE = 2, SØK_ANSATT = 3, DATAFELT_LENGDE = 20;
+	public static final int SØK_FORSIKRING = 1, SØK_KUNDE = 2, SØK_ANSATT = 3, DATAFELT_LENGDE = 20, PERS_NR = 11, POST = 4;
 	private int søkFor;
 	private Huvudvindu vindu;
 	//private AnsattProfil profil;
-	private JLabel søkEtterLabel, ansattFornavnLabel, ansattEtternavnLabel, ansattPersNrLabel, ansattNummerLabel, ansattAvdelingLabel;
+	private JLabel søkEtterLabel, FornavnLabel, EtternavnLabel, PersNrLabel, ansattNummerLabel, ansattAvdelingLabel, kundeNrLabel, kundeAdresseLabel, kundePostnrLabel, kundePoststedLabel;
 	private JTextArea info, visAnsattInfo;
-	private JTextField ansattFornavn, ansattEtternavn, ansattPersNr, ansattNummer, ansattAvdeling;
+	private JTextField Fornavn, Etternavn, PersNr, ansattNummer, ansattAvdeling, kundeNr, kundeAdresse, kundePostnr, kundePoststed;
 	private ButtonGroup gruppeKnapper;
-	private JRadioButton ans;
+	private JRadioButton ans, kun;
 	private JButton søkeKnapp, nyAns, slettAns, lagre, oppdater, visAnsattKnapp, statButton;
-	//private RadioButtonLytter radioLytter;
+	private RadioLytter radioLytter;
 	private Lytterklasse lytter;
 	private JPanel hasLicChoose, grid, searchGrid, bord, licChoose, flow, visAnsatte, visAnsatteFlow;
 	private Register register;
@@ -41,12 +41,17 @@ public class AdminGUI extends JPanel
 		vindu = v;
 		register = vindu.getRegister();
 		lytter = new Lytterklasse();
+		radioLytter = new RadioLytter();
 
 		//avkrysningsboks
 
 		gruppeKnapper = new ButtonGroup();
 		ans = new JRadioButton("Ansatte", true);
+		kun = new JRadioButton("Kunder", false);
+		ans.addItemListener(radioLytter);
+		kun.addItemListener(radioLytter);
 		gruppeKnapper.add(ans);
+		gruppeKnapper.add(kun);
 
 		//Setter layout:
 		setLayout(new BorderLayout() );
@@ -54,7 +59,7 @@ public class AdminGUI extends JPanel
 		visAnsatte = new JPanel(new BorderLayout() ); //show prescription var skrevet tidligere her
 
 		grid = new JPanel(new GridLayout(4,1));
-		GridLayout gridlayout = new GridLayout( 15, 1);
+		GridLayout gridlayout = new GridLayout( 19, 1);
 		gridlayout.setVgap(10);
 		searchGrid = new JPanel(gridlayout);
 		bord = new JPanel(new BorderLayout() );
@@ -70,20 +75,34 @@ public class AdminGUI extends JPanel
 		visAnsattInfo = new JTextArea();
 		visAnsattInfo.setEditable(false);
 		visAnsattInfo.setVisible(false);
-		ansattFornavn = new JTextField(DATAFELT_LENGDE);
-		ansattEtternavn = new JTextField(DATAFELT_LENGDE);
-		ansattPersNr = new JTextField(11);
+
+		søkEtterLabel = new JLabel("Søk etter:");
+
+		Fornavn = new JTextField(DATAFELT_LENGDE);
+		Etternavn = new JTextField(DATAFELT_LENGDE);
+		PersNr = new JTextField(PERS_NR);
+		//Søking i ansatte
 		ansattNummer = new JTextField(DATAFELT_LENGDE);
 		ansattAvdeling = new JTextField(DATAFELT_LENGDE);
-		søkEtterLabel = new JLabel("Søk etter:");
-		ansattFornavnLabel = new JLabel("Ansatt fornavn:");// Ansatts Navn?((legge til tooltip på disse
-		ansattEtternavnLabel = new JLabel("Ansatt etternavn:");
-		ansattPersNrLabel = new JLabel("Ansatt personnummer:");
+		FornavnLabel = new JLabel("Fornavn:");// Ansatts Navn?((legge til tooltip på disse
+		EtternavnLabel = new JLabel("Etternavn:");
+		PersNrLabel = new JLabel("Personnummer:");
 		ansattNummerLabel = new JLabel("Ansattnummer:");
 		ansattAvdelingLabel = new JLabel("Avdeling:");
+
+		//Søking i kunder
+		kundeNr = new JTextField(DATAFELT_LENGDE);
+		kundeAdresse = new JTextField(DATAFELT_LENGDE);
+		kundePostnr = new JTextField(POST);
+		kundePoststed = new JTextField(DATAFELT_LENGDE);
+		kundeNrLabel = new JLabel("Kundenr:");
+		kundeAdresseLabel = new JLabel("Adresse:");
+		kundePostnrLabel = new JLabel("Postnr:");
+		kundePoststedLabel = new JLabel("Poststed:");
+
 		søkeKnapp = new JButton("Søk");
 		nyAns = new JButton("Legg til en ny ansatt");
-		slettAns = new JButton("Slett bruker");
+		slettAns = new JButton("Slett ansatt");
 		lagre = new JButton("Lagre endringer");
 		oppdater = new JButton("Oppdater");
 		visAnsattKnapp = new JButton("Vis ansattinfo");
@@ -91,10 +110,15 @@ public class AdminGUI extends JPanel
 		//Lyttere:
 
 		søkeKnapp.addActionListener(lytter);
-		ansattFornavn.addActionListener(lytter);
-		ansattEtternavn.addActionListener(lytter);
-		ansattPersNr.addActionListener(lytter);
+		Fornavn.addActionListener(lytter);
+		Etternavn.addActionListener(lytter);
+		PersNr.addActionListener(lytter);
 		ansattNummer.addActionListener(lytter);
+		ansattAvdeling.addActionListener(lytter);
+		kundeNr.addActionListener(lytter);
+		kundeAdresse.addActionListener(lytter);
+		kundePostnr.addActionListener(lytter);
+		kundePoststed.addActionListener(lytter);
 		nyAns.addActionListener(lytter);
 		slettAns.addActionListener(lytter);
 		lagre.addActionListener(lytter);
@@ -106,14 +130,15 @@ public class AdminGUI extends JPanel
 		grid.add(oppdater);
 		grid.add(søkEtterLabel);
 		grid.add(ans);
-		searchGrid.add(ansattFornavnLabel);
-		searchGrid.add(ansattFornavn);
-		searchGrid.add(ansattEtternavnLabel);
-		searchGrid.add(ansattEtternavn);
+		grid.add(kun);
 		searchGrid.add(ansattNummerLabel);
 		searchGrid.add(ansattNummer);
-		searchGrid.add(ansattPersNrLabel);
-		searchGrid.add(ansattPersNr);
+		searchGrid.add(PersNrLabel);
+		searchGrid.add(PersNr);
+		searchGrid.add(FornavnLabel);
+		searchGrid.add(Fornavn);
+		searchGrid.add(EtternavnLabel);
+		searchGrid.add(Etternavn);
 		searchGrid.add(ansattAvdelingLabel);
 		searchGrid.add(ansattAvdeling);
 		searchGrid.add(søkeKnapp);
@@ -134,29 +159,29 @@ public class AdminGUI extends JPanel
 
 
 		//Start på tabbed
-		/*
+
 		tableModel2 = new TModel(register.getKunder());
 		table2 = new JTable(tableModel2);
 
 		tabbedPane = new JTabbedPane();
-		tabbedPane.addTab("Ansatte", null, table, "Liste over ansatte");
+		tabbedPane.addTab("Ansatte", null, (new JScrollPane(table)), "Liste over ansatte");
 		tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-		tabbedPane.addTab("Kunder", null, table2, "Liste over kunder");
+		tabbedPane.addTab("Kunder", null, (new JScrollPane(table2)), "Liste over kunder");
 		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
     	tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
-		//tabbedPane.setTabPlacement(JTabbedPane.BOTTOM); //bestemmer hvor tabbene er på sida
 
-		add(new JScrollPane(tabbedPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
-		add(new JScrollPane(visAnsatte), BorderLayout.PAGE_END);
-		*/
+
+		add(new JScrollPane(tabbedPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);  //CENTER
+		//add(new JScrollPane(visAnsatte), BorderLayout.PAGE_END);
+
 		//Slutt på tabbed
 
 
 		//legger til elementer i hovedpanelet
 
-		add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
-		add(new JScrollPane(visAnsatte), BorderLayout.PAGE_END);
+		//add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
+		//add(new JScrollPane(visAnsatte), BorderLayout.PAGE_END);
 
 
 
@@ -170,8 +195,16 @@ public class AdminGUI extends JPanel
 		        	int rad = theTable.getSelectedRow();
 		        	if (rad >= 0)
 		          	{
-						Ansatt anna = register.getAnsattViaAnsattNr( (String)theTable.getValueAt(rad, TModel.ANSATT_NR) );
-						AnsattProfil vin = new AnsattProfil(anna);
+						if(theTable.getValueAt(rad, TModel.ANSATT_NR) != null)
+						{
+							Ansatt anna = register.getAnsattViaAnsattNr( (String)theTable.getValueAt(rad, TModel.ANSATT_NR) );
+							AnsattProfil vin = new AnsattProfil(anna);
+						}
+						else
+						{
+							Kunde kunne = register.getKundeViaKundeNr( (String)theTable.getValueAt(rad, TModel.KUNDE_NR) );
+							KundeProfil vinn = new KundeProfil(kunne);
+						}
 		          	}
 		        }
 		      }
@@ -193,9 +226,9 @@ public class AdminGUI extends JPanel
 	{
 		AnsattReg res = register.getAnsatte();
 
-		String afn = ansattFornavn.getText();
-		String aen = ansattEtternavn.getText();
-		String apn = ansattPersNr.getText();
+		String afn = Fornavn.getText();
+		String aen = Etternavn.getText();
+		String apn = PersNr.getText();
 		//Integer anr = Integer.valueOf( ansattNummer.getText());
 		String anr = ansattNummer.getText();
 		String avd = ansattAvdeling.getText();
@@ -212,6 +245,41 @@ public class AdminGUI extends JPanel
 		//	res = register.getAnsattViaAnsattNr(res, anr);
 		if(!avd.isEmpty() )
 			res = register.getAnsattViaAvdeling(res, avd);
+
+		//res = register.getPatientsByGroup(res, la, lb, lc);
+
+		tableModel = new TModel(res);
+		table.setModel(tableModel);
+		tableModel.setTableCellEditor(table);
+		return res;
+	}
+
+	public KundeReg søkKunde()
+	{
+		KundeReg res = register.getKunder();
+
+		String kfn = Fornavn.getText();
+		String ken = Etternavn.getText();
+		String kpn = PersNr.getText();
+		String knr = kundeNr.getText();
+		String adr = kundeAdresse.getText();
+		String pnr = kundePostnr.getText();
+		String pst = kundePoststed.getText();
+
+		if(!kfn.isEmpty() )
+			res = register.getKundeViaNavn(res, kfn);
+		if(!ken.isEmpty() )
+			res = register.getKundeViaNavn(res, ken);
+		if(!kpn.isEmpty() )
+			res = register.getKundeViaNummer(res, kpn);
+		if(!knr.isEmpty() )
+			res = register.getKundeViaKundeNr(res, knr);
+		if(!adr.isEmpty() )
+			res = register.getKundeViaAdresse(res, adr);
+		if(!pnr.isEmpty() )
+			res = register.getKundeViaPostnr(res, pnr);
+		if(!pst.isEmpty() )
+			res = register.getKundeViaBy(res, pst);
 
 		//res = register.getPatientsByGroup(res, la, lb, lc);
 
@@ -277,18 +345,76 @@ public class AdminGUI extends JPanel
 		}
 	}
 
-	/*private class RadioButtonLytter implements ItemListener
+	private class RadioLytter implements ItemListener
 	{
 		public void itemStateChanged(ItemEvent e)
 		{
 			if(ans.isSelected())
 			{
 				søkFor = SØK_ANSATT;
-				lagre.setVisible(true);
+				tabbedPane.setSelectedIndex(0);
+				searchGrid.removeAll();
+				searchGrid.add(ansattNummerLabel);
+				searchGrid.add(ansattNummer);
+				searchGrid.add(PersNrLabel);
+				searchGrid.add(PersNr);
+				searchGrid.add(FornavnLabel);
+				searchGrid.add(Fornavn);
+				searchGrid.add(EtternavnLabel);
+				searchGrid.add(Etternavn);
+				searchGrid.add(ansattAvdelingLabel);
+				searchGrid.add(ansattAvdeling);
+				searchGrid.add(søkeKnapp);
+				searchGrid.add(nyAns);
+				searchGrid.add(slettAns);
+				searchGrid.add(statButton);
+				searchGrid.revalidate();
+				searchGrid.repaint();
 				søkAnsatt();
 			}
+			else if(kun.isSelected())
+			{
+				søkFor = SØK_KUNDE;
+				tabbedPane.setSelectedIndex(1);
+				searchGrid.removeAll();
+				searchGrid.add(kundeNrLabel);
+				searchGrid.add(kundeNr);
+				searchGrid.add(PersNrLabel);
+				searchGrid.add(PersNr);
+				searchGrid.add(FornavnLabel);
+				searchGrid.add(Fornavn);
+				searchGrid.add(EtternavnLabel);
+				searchGrid.add(Etternavn);
+				searchGrid.add(kundeAdresseLabel);
+				searchGrid.add(kundeAdresse);
+				searchGrid.add(kundePostnrLabel);
+				searchGrid.add(kundePostnr);
+				searchGrid.add(kundePoststedLabel);
+				searchGrid.add(kundePoststed);
+				searchGrid.add(søkeKnapp);
+				searchGrid.add(statButton);
+				searchGrid.revalidate();
+				searchGrid.repaint();
+
+
+
+
+				/*ansattNummerLabel.setVisible(false);
+				ansattNummer.setVisible(false);
+				kundeNrLabel.setVisible(true);
+				kundeNr.setVisible(true);
+				ansattAvdelingLabel.setVisible(false);
+				ansattAvdeling.setVisible(false);
+				kundeAdresseLabel.setVisible(true);
+				kundeAdresse.setVisible(true);
+				kundePostnrLabel.setVisible(true);
+				kundePostnr.setVisible(true);
+				kundePoststedLabel.setVisible(true);
+				kundePoststed.setVisible(true);*/
+				søkKunde();
+			}
 		}
-	}*/
+	}
 
 	/*private class Lytterklasse implements ActionListener//knappelytter
 	{
@@ -312,8 +438,8 @@ public class AdminGUI extends JPanel
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(e.getSource() == søkeKnapp || e.getSource() == ansattFornavn || e.getSource() == ansattEtternavn
-				|| e.getSource() == ansattPersNr || e.getSource() == ansattNummer || e.getSource() == ansattAvdeling)
+			if(e.getSource() == søkeKnapp || e.getSource() == Fornavn || e.getSource() == Etternavn
+				|| e.getSource() == PersNr || e.getSource() == ansattNummer || e.getSource() == ansattAvdeling)
 				søk();
 			if(e.getSource() == oppdater)
 				søk();
