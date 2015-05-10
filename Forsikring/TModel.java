@@ -196,8 +196,8 @@ public class TModel extends AbstractTableModel
 		editable = false;
 		searchFor = AnsattVindu.SØK_BÅT;
 	}
-	/*
-	public TModel(HusForsikringReg reg)
+
+	public TModel(HusForsikringsReg reg)
 	{
 		if(reg == null)
 		{
@@ -220,22 +220,22 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = df.format(temp.getInngått().getTime() );
 			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
 			data[i][j++] = temp.getKunde().getKundeNr();
-			data[i][j++] = temp.getForsikringsbeløp();
+			data[i][j++] = temp.getBeløpTotal();
 			data[i][j++] = temp.getAdresse();
 			data[i][j++] = temp.getByggeår();
 			data[i][j++] = temp.getBoligtype();
 			data[i][j++] = temp.getMateriale();
 			data[i][j++] = temp.getStandard();
 			data[i][j++] = temp.getKvadratmeter();
-			data[i][j++] = temp.getBeløpBygning();
+			data[i][j++] = temp.getBeløpBygg();
 			data[i][j++] = temp.getBeløpInnbo();
 			hus[i] = temp;
 		}
 		editable = false;
-		searchFor = AdminGUI.SEARCH_HUS;
+		searchFor = AnsattVindu.SØK_HUS;
 	}
 
-	public TModel(HytteForsikringReg reg)
+	public TModel(HytteForsikringsReg reg)
 	{
 		if(reg == null)
 		{
@@ -258,20 +258,20 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = df.format(temp.getInngått().getTime() );
 			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
 			data[i][j++] = temp.getKunde().getKundeNr();
-			data[i][j++] = temp.getForsikringsbeløp();
+			data[i][j++] = temp.getBeløpTotal();
 			data[i][j++] = temp.getAdresse();
 			data[i][j++] = temp.getByggeår();
 			data[i][j++] = temp.getBoligtype();
 			data[i][j++] = temp.getMateriale();
 			data[i][j++] = temp.getStandard();
 			data[i][j++] = temp.getKvadratmeter();
-			data[i][j++] = temp.getBeløpBygning();
+			data[i][j++] = temp.getBeløpBygg();
 			data[i][j++] = temp.getBeløpInnbo();
 			hytte[i] = temp;
 		}
 		editable = false;
-		searchFor = AdminGUI.SEARCH_HYTTE;
-	}*/
+		searchFor = AnsattVindu.SØK_HYTTE;
+	}
 
 	/*
 	public TModel(ForsikringReg reg)//oppretter en tabell for resept tabell
