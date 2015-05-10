@@ -219,6 +219,11 @@ abstract class Bolig extends Forsikring implements Serializable
 		return beløpInn;
 	}
 
+	public int getBeløpTotal()
+	{
+		return beløpBygg + beløpInn;
+	}
+
 	public void setBeløpBygg(int beløpb)
 	{
 		beløpBygg = beløpb;
