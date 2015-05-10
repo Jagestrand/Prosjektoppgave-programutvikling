@@ -56,6 +56,7 @@ class Kunde extends Person implements Serializable
 	private String adresse, postnr, poststed, passord, kundenr;
 	private int hjelpenr;
 	private static int nestenr = 0;
+	private static String kundekat = "A";
 
 	public Kunde(String fNavn, String eNavn, String persNr, String tlfNr, String adr, String ponr, String psted, String pord)
 	{
@@ -115,7 +116,12 @@ class Kunde extends Person implements Serializable
 
 	public String getKundeNr()
 	{
-		return "A" + Integer.toString(hjelpenr);
+		return kundekat + Integer.toString(hjelpenr);
+	}
+
+	public String getKundeKat()
+	{
+		return kundekat;
 	}
 
 	/*public boolean getKundeStatus()
