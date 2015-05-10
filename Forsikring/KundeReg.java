@@ -47,23 +47,30 @@ public class KundeReg implements Serializable
 	public KundeReg finnKunder(String kriterie)
 	{
 		KundeReg søktKundeListe = new KundeReg();
-
 		søktKundeListe = finnKundeViaNr(kriterie);
-		if(søktKundeListe == null || søktKundeListe.isEmpty() )
+		if(søktKundeListe == null )	// || søktKundeListe.isEmpty()
 		{
-			søktKundeListe = finnKundeViaNavn(kriterie, ""); // Søker kun på helt navn, ikke delt fornavn og etternavn.
-			if(søktKundeListe == null || søktKundeListe.isEmpty())
+			søktKundeListe = finnKundeViaKundenr(kriterie);
+			if(søktKundeListe == null )	// || søktKundeListe.isEmpty()
 			{
-				søktKundeListe = finnKundeViaTelefon(kriterie);
-				if(søktKundeListe == null || søktKundeListe.isEmpty())
+				søktKundeListe = finnKundeViaNavn(kriterie, ""); // Søker kun på helt navn, ikke delt fornavn og etternavn.
+				if(søktKundeListe == null )	// || søktKundeListe.isEmpty()
 				{
-					søktKundeListe = finnKundeViaAdresse(kriterie);
-					if(søktKundeListe == null || søktKundeListe.isEmpty())
+					søktKundeListe = finnKundeViaTelefon(kriterie);
+					if(søktKundeListe == null )	// || søktKundeListe.isEmpty()
 					{
-						søktKundeListe = finnKundeViaPostnr(kriterie);
-						if(søktKundeListe == null || søktKundeListe.isEmpty())
+						søktKundeListe = finnKundeViaAdresse(kriterie);
+						if(søktKundeListe == null )	//|| søktKundeListe.isEmpty()
 						{
-							søktKundeListe = finnKundeViaBy(kriterie);
+							søktKundeListe = finnKundeViaPostnr(kriterie);
+							if(søktKundeListe == null )	//|| søktKundeListe.isEmpty()
+							{
+								søktKundeListe = finnKundeViaBy(kriterie);
+								if(søktKundeListe == null)
+								{
+									return null;
+								}
+							}
 						}
 					}
 				}
@@ -101,8 +108,8 @@ public class KundeReg implements Serializable
 
 	public KundeReg finnKundeViaKundenr(String kundeNr)
 	{
-		if(kundeNr.isEmpty())
-			return null;
+		//if(kundeNr.isEmpty())
+		//	return null;
 		Iterator<Kunde> theIterator = iterator();
 		Kunde kun;
 		KundeReg søktKundeReg = new KundeReg();
@@ -114,13 +121,17 @@ public class KundeReg implements Serializable
 				if(kun.getKundeNr().matches(kundeNr))
 				{
 					søktKundeReg.add(kun);
-					return søktKundeReg;
+				}
+				else if(kun.getKundeKat().toLowerCase().matches(kundeNr.toLowerCase()))
+				{
+					søktKundeReg.add(kun);
 				}
 			}
+			return søktKundeReg;
 		}
 		catch(NoSuchElementException nsee)
 		{
-			JOptionPane.showMessageDialog(null, "Feil i KundeReg: finnKundeViaNr fikk NoSuchElementException.",
+			JOptionPane.showMessageDialog(null, "Feil i KundeReg: finnKundeViaKundenr fikk NoSuchElementException.",
 										"FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
