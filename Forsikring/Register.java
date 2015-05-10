@@ -8,6 +8,10 @@ public class Register implements Serializable
 	//private ForsikringsReg forReg;
 	private AnsattReg ansReg;
 	private KundeReg kunReg;
+	private BilForsikringsReg bilReg;
+	private BåtForsikringsReg båtReg;
+	private HusForsikringsReg husReg;
+	private HytteForsikringsReg hytReg;
 	//private SkadeReg skaReg;
 	private Datasjef data;
 
@@ -17,6 +21,10 @@ public class Register implements Serializable
 		//forReg = new ForsikringsReg();
 		ansReg = new AnsattReg();
 		kunReg = new KundeReg();
+		bilReg = new BilForsikringsReg();
+		båtReg = new BåtForsikringsReg();
+		husReg = new HusForsikringsReg();
+		hytReg = new HytteForsikringsReg();
 		//skaReg = new SkadeReg();
 	}
 
@@ -43,6 +51,26 @@ public class Register implements Serializable
 	public KundeReg getKunder()
 	{
 		return kunReg;
+	}
+
+	public BilForsikringsReg getBiler()
+	{
+		return bilReg;
+	}
+
+	public BåtForsikringsReg getBåter()
+	{
+		return båtReg;
+	}
+
+	public HusForsikringsReg getHus()
+	{
+		return husReg;
+	}
+
+	public HytteForsikringsReg getHytter()
+	{
+		return hytReg;
 	}
 	/*
 	public SkadeReg getSkader()
@@ -376,13 +404,13 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			return kunReg.finnKunder(nr);
-		return reg.finnKundeViaNr(nr);
+		return reg.finnKunder(nr);	//reg.finnKundeViaNr(nr)
 	}
 
 	public Kunde getKundeViaKundeNr(String nr)
 	{
-		//String anr = nr;
-		KundeReg kReg = kunReg.finnKundeViaKundenr(nr);
+		String anr = nr;
+		KundeReg kReg = kunReg.finnKundeViaKundenr(anr);
 		if(kReg == null)
 			return null;
 		else
@@ -396,7 +424,7 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			return kunReg.finnKunder(knr);
-		return reg.finnKundeViaKundenr(knr);
+		return reg.finnKunder(knr);	//reg.finnKundeViaKundenr(knr)
 	}
 
 
@@ -404,36 +432,35 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			return kunReg.finnKunder(navn);
-		//return reg.finnKunder(navn);
-		return reg.finnKundeViaNavn(navn);
+		return reg.finnKunder(navn);	//reg.finnKundeViaNavn(navn)
 	}
 
 	public KundeReg getKundeViaTelefon(KundeReg reg, String tlf)
 	{
 		if(reg == null)
 			return kunReg.finnKunder(tlf);
-		return reg.finnKundeViaTelefon(tlf);
+		return reg.finnKunder(tlf);	//reg.finnKundeViaTelefon(tlf)
 	}
 
 	public KundeReg getKundeViaAdresse(KundeReg reg, String adr)
 	{
 		if(reg == null)
 			return kunReg.finnKunder(adr);
-		return reg.finnKundeViaAdresse(adr);
+		return reg.finnKunder(adr);	//reg.finnKundeViaAdresse(adr)
 	}
 
 	public KundeReg getKundeViaPostnr(KundeReg reg, String pnr)
 	{
 		if(reg == null)
 			return kunReg.finnKunder(pnr);
-		return reg.finnKundeViaPostnr(pnr);
+		return reg.finnKunder(pnr);	//reg.finnKundeViaPostnr(pnr)
 	}
 
 	public KundeReg getKundeViaBy(KundeReg reg, String by)
 	{
 		if(reg == null)
 			return kunReg.finnKunder(by);
-		return reg.finnKundeViaBy(by);
+		return reg.finnKunder(by);	//reg.finnKundeViaBy(by)
 	}
 
 
