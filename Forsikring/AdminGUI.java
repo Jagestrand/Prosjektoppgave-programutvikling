@@ -3,6 +3,8 @@ Klassen definerer brukergrensesnittet for administrator, klassen utvider JPanel 
 brukeren kan bruke til å søke seg frem til øsnket data. Panelet har også funskjoner for å endre data der dette er tillat
 */
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -21,19 +23,12 @@ public class AdminGUI extends JPanel
 	private JButton søkeKnapp, nyAns, slettAns, lagre, oppdater, visAnsattKnapp, statButton;
 	private RadioLytter radioLytter;
 	private Lytterklasse lytter;
+	private ChangeLytter change;
 	private JPanel hasLicChoose, grid, searchGrid, bord, licChoose, flow, visAnsatte, visAnsatteFlow;
 	private Register register;
 	private TModel tableModel, tableModel2;
 	private JTable table, table2;
 	private JTabbedPane tabbedPane;
-	/*
-
-
-	Fiks tabbed pane!
-
-
-
-	*/
 
 
 	public AdminGUI(Huvudvindu v)
@@ -42,6 +37,7 @@ public class AdminGUI extends JPanel
 		register = vindu.getRegister();
 		lytter = new Lytterklasse();
 		radioLytter = new RadioLytter();
+		change = new ChangeLytter();
 
 		//avkrysningsboks
 
@@ -62,7 +58,6 @@ public class AdminGUI extends JPanel
 		GridLayout gridlayout = new GridLayout( 19, 1);
 		gridlayout.setVgap(10);
 		searchGrid = new JPanel(gridlayout);
-		bord = new JPanel(new BorderLayout() );
 		bord = new JPanel(new BorderLayout() );
 		flow = new JPanel(new FlowLayout() );
 		visAnsatteFlow = new JPanel(new FlowLayout() ); //show prescription var skrevet tidligere
@@ -170,6 +165,7 @@ public class AdminGUI extends JPanel
 		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
     	tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
+		tabbedPane.addChangeListener(change);
 
 
 		add(new JScrollPane(tabbedPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);  //CENTER
@@ -219,7 +215,10 @@ public class AdminGUI extends JPanel
 
 	public void søk()
 	{
-		søkAnsatt();
+		if(tabbedPane.getSelectedIndex() == 1)
+			søkKunde();
+		else
+			søkAnsatt();
 	}
 
 	public AnsattReg søkAnsatt()
@@ -229,7 +228,6 @@ public class AdminGUI extends JPanel
 		String afn = Fornavn.getText();
 		String aen = Etternavn.getText();
 		String apn = PersNr.getText();
-		//Integer anr = Integer.valueOf( ansattNummer.getText());
 		String anr = ansattNummer.getText();
 		String avd = ansattAvdeling.getText();
 
@@ -241,8 +239,6 @@ public class AdminGUI extends JPanel
 			res = register.getAnsattViaNr(res, apn);
 		if(!anr.isEmpty() )
 			res = register.getAnsattViaAnsattNr(res, anr);
-		//if(anr != null )
-		//	res = register.getAnsattViaAnsattNr(res, anr);
 		if(!avd.isEmpty() )
 			res = register.getAnsattViaAvdeling(res, avd);
 
@@ -251,6 +247,7 @@ public class AdminGUI extends JPanel
 		tableModel = new TModel(res);
 		table.setModel(tableModel);
 		tableModel.setTableCellEditor(table);
+		tabbedPane.setSelectedIndex(0);
 		return res;
 	}
 
@@ -283,9 +280,10 @@ public class AdminGUI extends JPanel
 
 		//res = register.getPatientsByGroup(res, la, lb, lc);
 
-		tableModel = new TModel(res);
-		table.setModel(tableModel);
-		tableModel.setTableCellEditor(table);
+		tableModel2 = new TModel(res);
+		table2.setModel(tableModel2);
+		tableModel2.setTableCellEditor(table2);
+		tabbedPane.setSelectedIndex(1);
 		return res;
 	}
 
@@ -395,60 +393,45 @@ public class AdminGUI extends JPanel
 				searchGrid.add(statButton);
 				searchGrid.revalidate();
 				searchGrid.repaint();
-
-
-
-
-				/*ansattNummerLabel.setVisible(false);
-				ansattNummer.setVisible(false);
-				kundeNrLabel.setVisible(true);
-				kundeNr.setVisible(true);
-				ansattAvdelingLabel.setVisible(false);
-				ansattAvdeling.setVisible(false);
-				kundeAdresseLabel.setVisible(true);
-				kundeAdresse.setVisible(true);
-				kundePostnrLabel.setVisible(true);
-				kundePostnr.setVisible(true);
-				kundePoststedLabel.setVisible(true);
-				kundePoststed.setVisible(true);*/
 				søkKunde();
 			}
 		}
 	}
 
-	/*private class Lytterklasse implements ActionListener//knappelytter
+	private class ChangeLytter implements ChangeListener
 	{
-		public void actionPerformed(ActionEvent e)
+		public void stateChanged(ChangeEvent e)
 		{
-			if(e.getSource() == søkeKnapp || e.getSource() == ansattFornavn)
-				søk();
-			else if(e.getSource() == nyAns)
-				nyAnsatt();
-			//else if(e.getSource() == showPrescriptionButton)
-			//	showPrescription();
-			//else if(e.getSource() == hidePrescriptionButton)
-			//	hidePrescription();
-			//else if(e.getSource() == save)
-			//	tableModel.saveChanges();
-			else if(e.getSource() == statButton)
-				visStatistikk();
+			if(tabbedPane.getSelectedIndex() == 0)
+				ans.setSelected(true);
+			else if(tabbedPane.getSelectedIndex() == 1)
+				kun.setSelected(true);
 		}
-	}*/
+	}
+
 	private class Lytterklasse implements ActionListener//knappelytter
 	{
 		public void actionPerformed(ActionEvent e)
 		{
 			if(e.getSource() == søkeKnapp || e.getSource() == Fornavn || e.getSource() == Etternavn
-				|| e.getSource() == PersNr || e.getSource() == ansattNummer || e.getSource() == ansattAvdeling)
-				søk();
-			if(e.getSource() == oppdater)
+				|| e.getSource() == PersNr)
+			{
+				if(tabbedPane.getSelectedIndex() == 0)
+					søkAnsatt();
+				else
+					søkKunde();
+			}
+			else if(e.getSource() == ansattNummer || e.getSource() == ansattAvdeling)
+				søkAnsatt();
+			else if(e.getSource() == kundeNr || e.getSource() == kundeAdresse || e.getSource() == kundePostnr
+				|| e.getSource() == kundePoststed)
+				søkKunde();
+			else if(e.getSource() == oppdater)
 				søk();
 			else if(e.getSource() == nyAns)
 				nyAnsatt();
 			else if(e.getSource() == slettAns)
 				slettBruker();
-			else if(e.getSource() == lagre)
-				tableModel.saveChanges();
 			else if(e.getSource() == statButton)
 				visStatistikk();
 		}
