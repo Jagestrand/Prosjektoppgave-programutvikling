@@ -10,13 +10,13 @@ public class AnsattProfil extends JFrame
     private MainListener lytter;
     private BorderLayout layout;
     private Container c;
-    private Font font, font2;
-    private JButton rediger, lagre;
-    private JLabel navn, bilde, fnLab, navnLabel, idLabel, nrLabel,
+    private Font font, font2, errorfont;
+    private JButton rediger, lagre, aktiver;
+    private JLabel deaktivLabel, navn, bilde, fnLab, navnLabel, idLabel, nrLabel,
     		tlfLabel, avdLabel, persnr, ansid, tlf, avd;
     private String aid, penr, navn1, navn2, tlfnr, avdeling;
     private JTextField fnavn, enavn, telf, avde;
-    private JPanel editPanel, savePanel, knappePanel, bildePanel, endaPanel, profilen, info, navnPanel, tlfPanel, avdPanel;
+    private JPanel editPanel, savePanel, aktiverPanel, knappePanel, bildePanel, endaPanel, profilen, info, navnPanel, flyt;
 
     public AnsattProfil(Ansatt anna)
     {
@@ -25,6 +25,7 @@ public class AnsattProfil extends JFrame
         lytter = new MainListener();
         font = new Font("SansSerif", Font.BOLD, 20);
         font2 = new Font("SansSerif", Font.BOLD, 15);
+        errorfont = new Font("SansSerif", Font.BOLD, 30);
 
         editPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         rediger = new JButton("Rediger");
@@ -39,6 +40,13 @@ public class AnsattProfil extends JFrame
         lagre.addActionListener(lytter);
         lagre.setEnabled(false);
         savePanel.add(lagre);
+
+        aktiverPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        aktiver = new JButton("Reaktiver bruker");
+        aktiver.setFont(font2);
+        aktiver.addActionListener(lytter);
+        aktiver.setEnabled(true);
+        aktiverPanel.add(aktiver);
 
         knappePanel = new JPanel( new BorderLayout());
         knappePanel.add(editPanel, BorderLayout.LINE_START);
@@ -57,9 +65,6 @@ public class AnsattProfil extends JFrame
 		bildePanel.setPreferredSize(new Dimension(130,130));
 		bildePanel.setMaximumSize(new Dimension(130,130));
 
-		endaPanel = new JPanel(new BorderLayout());
-		endaPanel.add(bildePanel, BorderLayout.PAGE_START);
-
 
 		aid = ansatt.getAnsattNr();
         penr = ansatt.getPersonNr();
@@ -68,6 +73,9 @@ public class AnsattProfil extends JFrame
 		tlfnr = ansatt.getTelefonNr();
 		avdeling = ansatt.getAvdeling();
 
+		deaktivLabel = new JLabel("Brukeren er deaktivert");
+		deaktivLabel.setFont(errorfont);
+		deaktivLabel.setForeground(Color.red);
 		idLabel = new JLabel("Ansattnr");
 		idLabel.setFont(font2);
 		ansid = new JLabel(aid);
@@ -101,12 +109,6 @@ public class AnsattProfil extends JFrame
 		navnPanel = new JPanel(new GridLayout(2,2));
 		navnPanel.add(fnavn);
 		navnPanel.add(enavn);
-		/*
-		tlfPanel = new JPanel(new GridLayout(1,1));
-		tlfPanel.add(tlf);
-
-		avdPanel = new JPanel(new GridLayout(1,1));
-		avdPanel.add(avd);*/
 
         info = new JPanel(new GridLayout(11,1));
         info.add(idLabel);
@@ -133,11 +135,16 @@ public class AnsattProfil extends JFrame
         //profilen.setBackground(Color.white);
 
         //c.add(profilen, BorderLayout.CENTER);
-        JPanel flyt = new JPanel( new FlowLayout(FlowLayout.CENTER));
-        flyt.add(profilen);
+        flyt = new JPanel( new FlowLayout(FlowLayout.CENTER));
+        if(!ansatt.getAktiv())
+        {
+			knappePanel.removeAll();
+			knappePanel.add(aktiverPanel, BorderLayout.CENTER);
+			flyt.add(deaktivLabel, BorderLayout.PAGE_START);
+		}
+		flyt.add(profilen);
         setLayout(new BorderLayout());
         c.add(knappePanel, BorderLayout.PAGE_START);
-        //c.add(new JScrollPane(flyt), BorderLayout.CENTER);
 		c.add(flyt, BorderLayout.CENTER);
 
         setDimensjon();
@@ -153,8 +160,8 @@ public class AnsattProfil extends JFrame
         int bredde = screenSize.width;
         double hReduction = 0.40, vReduction = 0.30;
         setSize((int)(bredde*vReduction), (int)(høyde*hReduction) );*/
-        int høyde = 400, bredde = 600;
-        setSize(høyde, bredde);
+        int bredde = 400, høyde = 650;
+        setSize(bredde, høyde);
     }
 
     /*public void byttLabels(JLabel l1, JLabel l2)
@@ -214,6 +221,25 @@ public class AnsattProfil extends JFrame
 		info.repaint();
 	}
 
+	public void aktiverBruker()
+	{
+		String melding = "Vil du reaktivere denne brukeren?";
+		String tittel = "Validering";
+		int svar = JOptionPane.showConfirmDialog(null, melding, tittel, JOptionPane.YES_NO_OPTION);
+		if (svar == JOptionPane.YES_OPTION)
+		{
+			ansatt.setAktiv(true);
+			knappePanel.remove(aktiverPanel);
+			knappePanel.add(editPanel, BorderLayout.LINE_START);
+			knappePanel.add(savePanel, BorderLayout.LINE_END);
+			knappePanel.revalidate();
+			knappePanel.repaint();
+			flyt.remove(deaktivLabel);
+			flyt.revalidate();
+			flyt.repaint();
+		}
+	}
+
     private class MainListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
@@ -222,6 +248,8 @@ public class AnsattProfil extends JFrame
                 redigerProfil();
             else if(e.getSource()== lagre)
                 lagreProfil();
+            else if(e.getSource() == aktiver)
+            	aktiverBruker();
         }
     }
 
