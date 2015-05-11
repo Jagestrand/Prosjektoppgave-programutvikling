@@ -100,7 +100,6 @@ public class NyAnsattGUI extends JPanel
 		else
 		{
 			Ansatt res = new Ansatt(fn, ln, pn, t, ea, p);
-			ansnr = res.getAnsattNr();							//Denne er ny
 			reg.nyAnsatt(res);
 			info.setText("Ansatt lagret:\n" + res.toString() );
 		}
