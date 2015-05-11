@@ -7,13 +7,13 @@ public class TModel extends AbstractTableModel
 {
 	private String[] navn;
 	private Object[][] data;
-	private final String[] forNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp"};
-	private final String[] båtNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Eier", "Registreringsnr", "Type", "Modell", "Lengde(fot)", "Årsmodell", "Motortype", "Motorstyrke(HK)"};//kolonnenavn for tabellen
-	private final String[] bilNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Eier", "Registreringsnr", "Type", "Modell", "Registreringsår", "Årlig kjørelengde(km)", "Pris pr km", "Bonus"};
-	private final String[] husNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp(total)", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)"};
-	private final String[] hytteNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp(total)", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)"};
-	private final String[] ansNavn = {"Ansattnummer", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Ansatt ved"};//kollonnenavn for tabellen
-	private final String[] kunNavn = {"Kundenr", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Adresse", "Postnr", "Poststed"};//kolonnenavn for tabellen
+	private final String[] forNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Aktiv"};
+	private final String[] båtNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Eier", "Registreringsnr", "Type", "Modell", "Lengde(fot)", "Årsmodell", "Motortype", "Motorstyrke(HK)", "Aktiv"};//kolonnenavn for tabellen
+	private final String[] bilNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Eier", "Registreringsnr", "Type", "Modell", "Registreringsår", "Årlig kjørelengde(km)", "Pris pr km", "Bonus", "Aktiv"};
+	private final String[] husNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp(total)", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)", "Aktiv"};
+	private final String[] hytteNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp(total)", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)", "Aktiv"};
+	private final String[] ansNavn = {"Ansattnummer", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Ansatt ved", "Status"};//kollonnenavn for tabellen
+	private final String[] kunNavn = {"Kundenr", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Adresse", "Postnr", "Poststed", "Status"};//kolonnenavn for tabellen
 	public static final int ANSATT_NR = 0,
 							KUNDE_NR = 0, PERSON_NR = 1, FIRSTNAME = 2, LASTNAME = 3, PHONE = 4, ADR = 5, POST_NR = 6, POST_STED = 7, AKTIV = 8,
 							PRESCRIPTION_NR = 0, PRINTED = 1, RECIVED = 2, PATIENT = 3, DOCTOR = 4, MED_NAME = 5, MED_CAT = 6, MED_GROUP = 7;
@@ -54,7 +54,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getAdresse();
 			data[i][j++] = temp.getPostnr();
 			data[i][j++] = temp.getPoststed();
-			//data[i][j++] = temp.getKundeStatus();
+			data[i][j++] = temp.getErAktiv();
 			kun[i] = temp;
 		}
 		editable = false;
@@ -84,6 +84,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getEtternavn();
 			data[i][j++] = temp.getTelefonNr();
 			data[i][j++] = temp.getAvdeling();
+			data[i][j++] = temp.getErAktiv();
 			ans[i] = temp;
 		}
 		editable = false;
@@ -153,6 +154,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getKjørelengde();
 			data[i][j++] = temp.getPrisPrKm();
 			data[i][j++] = temp.getBonus();
+			data[i][j++] = temp.getErAktiv();
 			bil[i] = temp;
 		}
 		editable = false;
@@ -191,6 +193,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getÅrsmodell();
 			data[i][j++] = temp.getMotortype();
 			data[i][j++] = temp.getMotorstyrke();
+			data[i][j++] = temp.getErAktiv();
 			båt[i] = temp;
 		}
 		editable = false;
@@ -229,6 +232,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getKvadratmeter();
 			data[i][j++] = temp.getBeløpBygg();
 			data[i][j++] = temp.getBeløpInnbo();
+			data[i][j++] = temp.getErAktiv();
 			hus[i] = temp;
 		}
 		editable = false;
@@ -267,6 +271,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getKvadratmeter();
 			data[i][j++] = temp.getBeløpBygg();
 			data[i][j++] = temp.getBeløpInnbo();
+			data[i][j++] = temp.getErAktiv();
 			hytte[i] = temp;
 		}
 		editable = false;
