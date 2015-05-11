@@ -360,15 +360,23 @@ public class Startvindu extends JPanel
 			if( register.getAnsattViaAnsattNr(brk) != null )
 			{
 				Ansatt ansatt = register.getAnsattViaAnsattNr(brk);
-				if(Passordtest(ansatt, pwa))
+				if(ansatt.getAktiv())
 				{
-					JPanel ny = new AnsattVindu(vindu);
-					vindu.swapPanel( ny );
-					slettFelter();
+					if(Passordtest(ansatt, pwa))
+					{
+						JPanel ny = new AnsattVindu(vindu);
+						vindu.swapPanel( ny );
+						slettFelter();
+					}
+					else
+					{
+						visFeilmelding("Feil passord");
+						return;
+					}
 				}
 				else
 				{
-					visFeilmelding("Feil passord");
+					visFeilmelding("Brukeren er deaktivert");
 					return;
 				}
 			}
