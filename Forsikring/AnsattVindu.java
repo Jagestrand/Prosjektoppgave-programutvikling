@@ -13,10 +13,18 @@ public class AnsattVindu extends JPanel
 	private final int DATA_FIELD_LENGTH = 20;
 	public static final int SØK_KUNDE = 1, SØK_BIL = 21, SØK_BÅT = 22, SØK_HUS = 23, SØK_HYTTE = 24;
 	private int søkFor;
-	private JTextField kundNr, kundPersonnr, kundNavn, kundTelefon, kundAdresse, kundPostnr, kundPostby, typeForsikring;
+	private JTextField kundNr, kundPersonnr, kundNavn, kundTelefon, kundAdresse, kundPostnr, kundPostby, typeForsikring,
+				bilforsikringsnr, eier, forsikringBeløp, bilregNr, bilType, bilModell, bilRegÅr, bilKM,
+				båtforsikringsnr, båtregNr, båtType, båtModell, båtLengde, båtÅr, båtMotor, båtHK,
+				husforsikringsnr, totalbeløp, adresse, byggeÅr, husType, husMateriale, standard, KM, byggBeløp, innboBeløp,
+				hytteforsikringsnr, hytteType, hytteMateriale;
 	private JTextArea informationTop, visForsikringInfo;
-	private JButton søkKnapp, oppdaterKnapp, statKnapp, visForsikringKnapp, skjulForsikringKnapp, deletaForsikringKnapp;
-	private JLabel søkEtterLabel, kundNrLabel, kundPersonnrLabel, kundNavnLabel, kundTelefonLabel, kundAdresseLabel, kundPostnrLabel, kundPostbyLabel;
+	private JButton søkKnapp, oppdaterKnapp, statKnapp, visForsikringKnapp, deletaForsikringKnapp;
+	private JLabel søkEtterLabel, kundNrLabel, kundPersonnrLabel, kundNavnLabel, kundTelefonLabel, kundAdresseLabel, kundPostnrLabel, kundPostbyLabel,
+				bilforsikringsnrLabel, eierLabel, forsikringBeløpLabel, bilregNrLabel, bilTypeLabel, bilModellLabel, bilRegÅrLabel, bilKMLabel,
+				båtforsikringsnrLabel, båtregNrLabel, båtTypeLabel, båtModellLabel, båtLengdeLabel, båtÅrLabel, båtMotorLabel, båtHKLabel,
+				husforsikringsnrLabel, totalbeløpLabel, adresseLabel, byggeÅrLabel, husTypeLabel, husMaterialeLabel, standardLabel, KMLabel, byggBeløpLabel, innboBeløpLabel,
+				hytteforsikringsnrLabel, hytteTypeLabel, hytteMaterialeLabel;
 	private JPanel visForsikring, visForsikringFlow, searchGrid, grid, katGrid, border, flow;
 	private TModel tableModel, tableModel21, tableModel22, tableModel23, tableModel24, tableModel3;
 	private ButtonGroup kategoriKnapper;
@@ -27,6 +35,8 @@ public class AnsattVindu extends JPanel
 	public AnsattVindu(Huvudvindu win) //    , Ansatt ansatt
 	{
 		/*
+		Fiks det med forandre søkefelter etter tabber
+
 		Denne klassen må kunne se 3 faner:
 		1. Kunder (og åpne nytt vindu med mer info)
 		2. Forsikringer (og åpne vindu med mer info)
@@ -63,8 +73,8 @@ public class AnsattVindu extends JPanel
 		border = new JPanel(new BorderLayout());
 		grid = new JPanel(new GridLayout(2,1));
 		katGrid = new JPanel(new GridLayout(1,4));
-		GridLayout gridlayout = new GridLayout(17,1);
-		gridlayout.setVgap(10);
+		GridLayout gridlayout = new GridLayout(22,1);
+		gridlayout.setVgap(5);
 		searchGrid = new JPanel(gridlayout);
 		flow = new JPanel(new FlowLayout());
 
@@ -77,6 +87,7 @@ public class AnsattVindu extends JPanel
 		visForsikringInfo.setEditable(false);
 		visForsikringInfo.setVisible(false);
 		informationTop.setEditable(false);
+
 		//felt for kunde
 		kundNr = new JTextField(DATA_FIELD_LENGTH);
 		kundPersonnr = new JTextField(DATA_FIELD_LENGTH);
@@ -99,10 +110,8 @@ public class AnsattVindu extends JPanel
 		oppdaterKnapp = new JButton("Oppdater");
 		statKnapp = new JButton("Statistikk");
 
-		visForsikringKnapp = new JButton("Åpne forsikring");
-		skjulForsikringKnapp = new JButton("Lukk forsikring");
-		skjulForsikringKnapp.setVisible(false);
-		deletaForsikringKnapp = new JButton("Sletta forsikring");
+		visForsikringKnapp = new JButton("Se kundens forsikringer");
+		deletaForsikringKnapp = new JButton("Opphev forsikring");
 
 		søkKnapp.addActionListener(lytter);
 		oppdaterKnapp.addActionListener(lytter);
@@ -115,8 +124,111 @@ public class AnsattVindu extends JPanel
 		kundPostnr.addActionListener(lytter);
 		kundPostby.addActionListener(lytter);
 		visForsikringKnapp.addActionListener(lytter);
-		skjulForsikringKnapp.addActionListener(lytter);
 		deletaForsikringKnapp.addActionListener(lytter);
+
+		//felt for bil
+		bilforsikringsnr = new JTextField(DATA_FIELD_LENGTH);
+		eier = new JTextField(DATA_FIELD_LENGTH);
+		forsikringBeløp = new JTextField(DATA_FIELD_LENGTH);
+		bilregNr = new JTextField(DATA_FIELD_LENGTH);
+		bilType = new JTextField(DATA_FIELD_LENGTH);
+		bilModell = new JTextField(DATA_FIELD_LENGTH);
+		bilRegÅr = new JTextField(DATA_FIELD_LENGTH);
+		bilKM = new JTextField(DATA_FIELD_LENGTH);
+
+		bilforsikringsnrLabel = new JLabel("Forsikringsnr:");
+		eierLabel = new JLabel("Eier:");
+		forsikringBeløpLabel = new JLabel("Forsikringsbeløp:");
+		bilregNrLabel = new JLabel("Registreringsnr:");
+		bilTypeLabel = new JLabel("Type:");
+		bilModellLabel = new JLabel("Modell:");
+		bilRegÅrLabel = new JLabel("Registreringsår:");
+		bilKMLabel = new JLabel("Kjørelengde:");
+
+		bilforsikringsnr.addActionListener(lytter);
+		eier.addActionListener(lytter);
+		forsikringBeløp.addActionListener(lytter);
+		bilregNr.addActionListener(lytter);
+		bilType.addActionListener(lytter);
+		bilModell.addActionListener(lytter);
+		bilRegÅr.addActionListener(lytter);
+		bilKM.addActionListener(lytter);
+
+		//felt for båt
+		båtforsikringsnr = new JTextField(DATA_FIELD_LENGTH);
+		båtregNr = new JTextField(DATA_FIELD_LENGTH);
+		båtType = new JTextField(DATA_FIELD_LENGTH);
+		båtModell = new JTextField(DATA_FIELD_LENGTH);
+		båtLengde = new JTextField(DATA_FIELD_LENGTH);
+		båtÅr = new JTextField(DATA_FIELD_LENGTH);
+		båtMotor = new JTextField(DATA_FIELD_LENGTH);
+		båtHK = new JTextField(DATA_FIELD_LENGTH);
+
+		båtforsikringsnrLabel = new JLabel("Forsikringsnr:");
+		båtregNrLabel = new JLabel("Registreringsnr:");
+		båtTypeLabel = new JLabel("Type:");
+		båtModellLabel = new JLabel("Modell:");
+		båtLengdeLabel = new JLabel("Lengde(fot):");
+		båtÅrLabel = new JLabel("Årsmodell:");
+		båtMotorLabel = new JLabel("Motortype:");
+		båtHKLabel = new JLabel("Motorstyrke(HK):");
+
+		båtforsikringsnr.addActionListener(lytter);
+		båtregNr.addActionListener(lytter);
+		båtType.addActionListener(lytter);
+		båtModell.addActionListener(lytter);
+		båtLengde.addActionListener(lytter);
+		båtÅr.addActionListener(lytter);
+		båtMotor.addActionListener(lytter);
+		båtHK.addActionListener(lytter);
+
+		//felt for hus
+		husforsikringsnr = new JTextField(DATA_FIELD_LENGTH);
+		totalbeløp = new JTextField(DATA_FIELD_LENGTH);
+		adresse = new JTextField(DATA_FIELD_LENGTH);
+		byggeÅr = new JTextField(DATA_FIELD_LENGTH);
+		husType = new JTextField(DATA_FIELD_LENGTH);
+		husMateriale = new JTextField(DATA_FIELD_LENGTH);
+		standard = new JTextField(DATA_FIELD_LENGTH);
+		KM = new JTextField(DATA_FIELD_LENGTH);
+		byggBeløp = new JTextField(DATA_FIELD_LENGTH);
+		innboBeløp = new JTextField(DATA_FIELD_LENGTH);
+
+		husforsikringsnrLabel = new JLabel("Forsikringsnr:");
+		totalbeløpLabel = new JLabel("Forsikringsbeløp(total):");
+		adresseLabel = new JLabel("Adresse:");
+		byggeÅrLabel = new JLabel("Byggeår:");
+		husTypeLabel = new JLabel("Boligtype:");
+		husMaterialeLabel = new JLabel("Byggemateriale");
+		standardLabel = new JLabel("Standard:");
+		KMLabel = new JLabel("Kvadratmeter:");
+		byggBeløpLabel = new JLabel("Forsikringsbeløp(bygg):");
+		innboBeløpLabel = new JLabel("Forsikringsbeløp(innbo):");
+
+		husforsikringsnr.addActionListener(lytter);
+		totalbeløp.addActionListener(lytter);
+		adresse.addActionListener(lytter);
+		byggeÅr.addActionListener(lytter);
+		husType.addActionListener(lytter);
+		husMateriale.addActionListener(lytter);
+		standard.addActionListener(lytter);
+		KM.addActionListener(lytter);
+		byggBeløp.addActionListener(lytter);
+		innboBeløp.addActionListener(lytter);
+
+		//felt for hytte
+		hytteforsikringsnr = new JTextField(DATA_FIELD_LENGTH);
+		hytteType = new JTextField(DATA_FIELD_LENGTH);
+		hytteMateriale = new JTextField(DATA_FIELD_LENGTH);
+
+		hytteforsikringsnrLabel = new JLabel("Forsikringsnr:");
+		hytteTypeLabel = new JLabel("Boligtype:");
+		hytteMaterialeLabel = new JLabel("Byggemateriale:");
+
+		hytteforsikringsnr.addActionListener(lytter);
+		hytteType.addActionListener(lytter);
+		hytteMateriale.addActionListener(lytter);
+
 
 		grid.add(oppdaterKnapp);
 		searchGrid.add(kundNrLabel);
@@ -162,19 +274,19 @@ public class AnsattVindu extends JPanel
 		//table3 = new JTable(tableModel3);
 
 		tabbedPane2 = new JTabbedPane();
-		tabbedPane2.addTab("Bil", null, (new JScrollPane(table21)), "Liste over biler");
+		tabbedPane2.addTab("Bil", null, (new JScrollPane(table21, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED)), "Liste over biler");
 		tabbedPane2.setMnemonicAt(0, KeyEvent.VK_1);
-		tabbedPane2.addTab("Båt", null, (new JScrollPane(table22)), "Liste over båter");
+		tabbedPane2.addTab("Båt", null, (new JScrollPane(table22, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED)), "Liste over båter");
 		tabbedPane2.setMnemonicAt(1, KeyEvent.VK_2);
-		tabbedPane2.addTab("Hus", null, (new JScrollPane(table23)), "Liste over hus");
+		tabbedPane2.addTab("Hus", null, (new JScrollPane(table23, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED)), "Liste over hus");
 		tabbedPane2.setMnemonicAt(2, KeyEvent.VK_3);
-		tabbedPane2.addTab("Hytte", null, (new JScrollPane(table24)), "Liste over hytter");
+		tabbedPane2.addTab("Hytte", null, (new JScrollPane(table24, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED)), "Liste over hytter");
 		tabbedPane2.setMnemonicAt(3, KeyEvent.VK_4);
 		tabbedPane2.addChangeListener(changeLytter);
 
 
 		tabbedPane = new JTabbedPane();
-		tabbedPane.addTab("Kunder", null, (new JScrollPane(table)), "Liste over kunder");
+		tabbedPane.addTab("Kunder", null, (new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED)), "Liste over kunder");
 		tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 		tabbedPane.addTab("Forsikringer", null, (new JScrollPane(tabbedPane2)), "Liste over forsikringer");
 		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
@@ -203,7 +315,16 @@ public class AnsattVindu extends JPanel
 
 	public void søk()
 	{
-		søkKunde();
+		if(tabbedPane.getSelectedIndex() == 0)
+			søkKunde();
+		/*else if(tabbedPane2.getSelectedIndex() == 0)
+			søkBil();
+		else if(tabbedPane2.getSelectedIndex() == 1)
+			søkBåt();
+		else if(tabbedPane2.getSelectedIndex() == 2)
+			søkHus();
+		else if(tabbedPane2.getSelectedIndex() == 3)
+			søkHytte();*/
 	}
 
 	public void statistikk()
@@ -318,12 +439,13 @@ public class AnsattVindu extends JPanel
 		grid.add(oppdaterKnapp);
 		grid.revalidate();
 		grid.repaint();
+		katGrid.removeAll();
+		katGrid.revalidate();
+		katGrid.repaint();
 	}
 
 	public void forsikringPanel()
 	{
-		//grid.removeAll();
-		//grid.add(oppdaterKnapp);
 		grid.add(søkEtterLabel);
 		katGrid.add(bilKat);
 		katGrid.add(båtKat);
@@ -342,106 +464,122 @@ public class AnsattVindu extends JPanel
 			if(bilKat.isSelected())
 			{
 				søkFor = SØK_BIL;
-				/*
-				tabbedPane.setSelectedIndex(0);
+				tabbedPane2.setSelectedIndex(0);
 				searchGrid.removeAll();
-				searchGrid.add(kundNrLabel);
-				searchGrid.add(kundNr);
-				searchGrid.add(kundPersonnrLabel);
-				searchGrid.add(kundPersonnr);
-				searchGrid.add(kundNavnLabel);
-				searchGrid.add(kundNavn);
-				searchGrid.add(kundTelefonLabel);
-				searchGrid.add(kundTelefon);
-				searchGrid.add(kundAdresseLabel);
-				searchGrid.add(kundAdresse);
-				searchGrid.add(kundPostnrLabel);
-				searchGrid.add(kundPostnr);
-				searchGrid.add(kundPostbyLabel);
-				searchGrid.add(kundPostby);
+				searchGrid.add(bilforsikringsnrLabel);
+				searchGrid.add(bilforsikringsnr);
+				searchGrid.add(eierLabel);
+				searchGrid.add(eier);
+				searchGrid.add(forsikringBeløpLabel);
+				searchGrid.add(forsikringBeløp);
+				searchGrid.add(bilregNrLabel);
+				searchGrid.add(bilregNr);
+				searchGrid.add(bilTypeLabel);
+				searchGrid.add(bilType);
+				searchGrid.add(bilModellLabel);
+				searchGrid.add(bilModell);
+				searchGrid.add(bilRegÅrLabel);
+				searchGrid.add(bilRegÅr);
+				searchGrid.add(bilKMLabel);
+				searchGrid.add(bilKM);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
 				searchGrid.revalidate();
 				searchGrid.repaint();
-				søkBil();*/
+				//søkBil();
 			}
 			else if(båtKat.isSelected())
 			{
 				søkFor = SØK_BÅT;
-				/*
-				tabbedPane.setSelectedIndex(0);
+				tabbedPane2.setSelectedIndex(1);
 				searchGrid.removeAll();
-				searchGrid.add(kundNrLabel);
-				searchGrid.add(kundNr);
-				searchGrid.add(kundPersonnrLabel);
-				searchGrid.add(kundPersonnr);
-				searchGrid.add(kundNavnLabel);
-				searchGrid.add(kundNavn);
-				searchGrid.add(kundTelefonLabel);
-				searchGrid.add(kundTelefon);
-				searchGrid.add(kundAdresseLabel);
-				searchGrid.add(kundAdresse);
-				searchGrid.add(kundPostnrLabel);
-				searchGrid.add(kundPostnr);
-				searchGrid.add(kundPostbyLabel);
-				searchGrid.add(kundPostby);
+				searchGrid.add(båtforsikringsnrLabel);
+				searchGrid.add(båtforsikringsnr);
+				searchGrid.add(eierLabel);
+				searchGrid.add(eier);
+				searchGrid.add(forsikringBeløpLabel);
+				searchGrid.add(forsikringBeløp);
+				searchGrid.add(båtregNrLabel);
+				searchGrid.add(båtregNr);
+				searchGrid.add(båtTypeLabel);
+				searchGrid.add(båtType);
+				searchGrid.add(båtModellLabel);
+				searchGrid.add(båtModell);
+				searchGrid.add(båtLengdeLabel);
+				searchGrid.add(båtLengde);
+				searchGrid.add(båtÅrLabel);
+				searchGrid.add(båtÅr);
+				searchGrid.add(båtMotorLabel);
+				searchGrid.add(båtMotor);
+				searchGrid.add(båtHKLabel);
+				searchGrid.add(båtHK);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
 				searchGrid.revalidate();
 				searchGrid.repaint();
-				søkBåt();*/
+				//søkBåt();
 			}
 			if(husKat.isSelected())
 			{
 				søkFor = SØK_HUS;
-				/*
-				tabbedPane.setSelectedIndex(0);
+				tabbedPane2.setSelectedIndex(2);
 				searchGrid.removeAll();
-				searchGrid.add(kundNrLabel);
-				searchGrid.add(kundNr);
-				searchGrid.add(kundPersonnrLabel);
-				searchGrid.add(kundPersonnr);
-				searchGrid.add(kundNavnLabel);
-				searchGrid.add(kundNavn);
-				searchGrid.add(kundTelefonLabel);
-				searchGrid.add(kundTelefon);
-				searchGrid.add(kundAdresseLabel);
-				searchGrid.add(kundAdresse);
-				searchGrid.add(kundPostnrLabel);
-				searchGrid.add(kundPostnr);
-				searchGrid.add(kundPostbyLabel);
-				searchGrid.add(kundPostby);
+				searchGrid.add(husforsikringsnrLabel);
+				searchGrid.add(husforsikringsnr);
+				searchGrid.add(totalbeløpLabel);
+				searchGrid.add(totalbeløp);
+				searchGrid.add(adresseLabel);
+				searchGrid.add(adresse);
+				searchGrid.add(byggeÅrLabel);
+				searchGrid.add(byggeÅr);
+				searchGrid.add(husTypeLabel);
+				searchGrid.add(husType);
+				searchGrid.add(husMaterialeLabel);
+				searchGrid.add(husMateriale);
+				searchGrid.add(standardLabel);
+				searchGrid.add(standard);
+				searchGrid.add(KMLabel);
+				searchGrid.add(KM);
+				searchGrid.add(byggBeløpLabel);
+				searchGrid.add(byggBeløp);
+				searchGrid.add(innboBeløpLabel);
+				searchGrid.add(innboBeløp);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
 				searchGrid.revalidate();
 				searchGrid.repaint();
-				søkHus();*/
+				//søkHus();
 			}
 			if(hytKat.isSelected())
 			{
 				søkFor = SØK_HYTTE;
-				/*
-				tabbedPane.setSelectedIndex(0);
+				tabbedPane2.setSelectedIndex(3);
 				searchGrid.removeAll();
-				searchGrid.add(kundNrLabel);
-				searchGrid.add(kundNr);
-				searchGrid.add(kundPersonnrLabel);
-				searchGrid.add(kundPersonnr);
-				searchGrid.add(kundNavnLabel);
-				searchGrid.add(kundNavn);
-				searchGrid.add(kundTelefonLabel);
-				searchGrid.add(kundTelefon);
-				searchGrid.add(kundAdresseLabel);
-				searchGrid.add(kundAdresse);
-				searchGrid.add(kundPostnrLabel);
-				searchGrid.add(kundPostnr);
-				searchGrid.add(kundPostbyLabel);
-				searchGrid.add(kundPostby);
+				searchGrid.add(hytteforsikringsnrLabel);
+				searchGrid.add(hytteforsikringsnr);
+				searchGrid.add(totalbeløpLabel);
+				searchGrid.add(totalbeløp);
+				searchGrid.add(adresseLabel);
+				searchGrid.add(adresse);
+				searchGrid.add(byggeÅrLabel);
+				searchGrid.add(byggeÅr);
+				searchGrid.add(hytteTypeLabel);
+				searchGrid.add(hytteType);
+				searchGrid.add(hytteMaterialeLabel);
+				searchGrid.add(hytteMateriale);
+				searchGrid.add(standardLabel);
+				searchGrid.add(standard);
+				searchGrid.add(KMLabel);
+				searchGrid.add(KM);
+				searchGrid.add(byggBeløpLabel);
+				searchGrid.add(byggBeløp);
+				searchGrid.add(innboBeløpLabel);
+				searchGrid.add(innboBeløp);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
 				searchGrid.revalidate();
 				searchGrid.repaint();
-				søkHytte();*/
+				//søkHytte();
 			}
 		}
 	}
@@ -454,7 +592,7 @@ public class AnsattVindu extends JPanel
 				kundePanel();
 			else if(tabbedPane.getSelectedIndex() == 1)
 				forsikringPanel();
-			else if(tabbedPane2.getSelectedIndex() == 0)
+			if(tabbedPane2.getSelectedIndex() == 0)
 				bilKat.setSelected(true);
 			else if(tabbedPane2.getSelectedIndex() == 1)
 				båtKat.setSelected(true);
@@ -472,7 +610,46 @@ public class AnsattVindu extends JPanel
 			if( e.getSource() == søkKnapp || e.getSource() == kundNavn || e.getSource() == kundTelefon
 			|| e.getSource() == kundAdresse || e.getSource() == kundPersonnr || e.getSource() == kundPostnr
 			|| e.getSource() == kundPostby )
-				søk();
+			{
+				if(tabbedPane.getSelectedIndex() == 0)
+					søkKunde();
+			}
+			else if(e.getSource() == søkKnapp || e.getSource() == bilforsikringsnr || e.getSource() == eier
+			|| e.getSource() == forsikringBeløp || e.getSource() == bilregNr || e.getSource() == bilType
+			|| e.getSource() == bilModell || e.getSource() == bilRegÅr || e.getSource() == bilKM)
+			{
+				if(tabbedPane2.getSelectedIndex() == 0)
+					//søkBil();
+					søkKunde();
+			}
+			else if(e.getSource() == søkKnapp || e.getSource() == båtforsikringsnr || e.getSource() == eier
+			|| e.getSource() == forsikringBeløp || e.getSource() == båtregNr || e.getSource() == båtType
+			|| e.getSource() == båtModell || e.getSource() == båtLengde || e.getSource() == båtÅr
+			|| e.getSource() == båtMotor || e.getSource() == båtHK)
+			{
+				if(tabbedPane2.getSelectedIndex() == 1)
+					//søkBåt();
+					søkKunde();
+			}
+			else if(e.getSource() == søkKnapp || e.getSource() == husforsikringsnr || e.getSource() == totalbeløp
+			|| e.getSource() == adresse || e.getSource() == byggeÅr || e.getSource() == husType
+			|| e.getSource() == husMateriale || e.getSource() == standard || e.getSource() == KM
+			|| e.getSource() == byggBeløp || e.getSource() == innboBeløp)
+			{
+				if(tabbedPane2.getSelectedIndex() == 2)
+					//søkHus();
+					søkKunde();
+			}
+			else if(e.getSource() == søkKnapp || e.getSource() == hytteforsikringsnr || e.getSource() == totalbeløp
+			|| e.getSource() == adresse || e.getSource() == byggeÅr || e.getSource() == hytteType
+			|| e.getSource() == hytteMateriale || e.getSource() == standard || e.getSource() == KM
+			|| e.getSource() == byggBeløp || e.getSource() == innboBeløp)
+			{
+				if(tabbedPane2.getSelectedIndex() == 3)
+					//søkHytte();
+					søkKunde();
+			}
+
 			else if(e.getSource() == oppdaterKnapp)
 				søk();
 			else if(e.getSource() == statKnapp)
