@@ -43,6 +43,11 @@ public class Register implements Serializable
 		return forReg;
 	}*/
 
+	public void nyBil(BilForsikring bil)
+	{
+		bilReg.add(bil);
+	}
+
 	public AnsattReg getAnsatte()
 	{
 		return ansReg;
@@ -81,6 +86,11 @@ public class Register implements Serializable
 	public void slettAnsatt(Ansatt anna)
 	{
 		ansReg.remove(anna);
+	}
+
+	public void deaktiverBruker(Ansatt anna)
+	{
+		anna.setAktiv(false);
 	}
 
 	public Ansatt getAnsattViaNr(int nr)
