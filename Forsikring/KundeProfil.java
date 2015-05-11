@@ -10,21 +10,22 @@ public class KundeProfil extends JFrame
     private MainListener lytter;
     private BorderLayout layout;
     private Container c;
-    private Font font, font2;
-    private JButton rediger, lagre;
-    private JLabel navn, bilde, fnLab, navnLabel, idLabel, nrLabel,
+    private Font font, font2, errorfont;
+    private JButton rediger, lagre, aktiver;
+    private JLabel deaktivLabel, navn, bilde, fnLab, navnLabel, idLabel, nrLabel,
     		tlfLabel, adrLabel, pnrLabel, pstedLabel, persnr, kunid, tlf, adr, pnr, psted;
     private String kid, penr, navn1, navn2, tlfnr, adresse, postnr, poststed;
     private JTextField fnavn, enavn, telf, adrr, ponr, pested;
-    private JPanel editPanel, savePanel, knappePanel, bildePanel, endaPanel, profilen, info, navnPanel, tlfPanel, avdPanel;
+    private JPanel editPanel, savePanel, aktiverPanel, knappePanel, bildePanel, profilen, info, navnPanel, flyt;
 
     public KundeProfil(Kunde kunne)
     {
-        super("Ansatt");
+        super("Kunde");
         kunde = kunne;
         lytter = new MainListener();
         font = new Font("SansSerif", Font.BOLD, 20);
         font2 = new Font("SansSerif", Font.BOLD, 15);
+        errorfont = new Font("SansSerif", Font.BOLD, 30);
 
         editPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         rediger = new JButton("Rediger");
@@ -39,6 +40,13 @@ public class KundeProfil extends JFrame
         lagre.addActionListener(lytter);
         lagre.setEnabled(false);
         savePanel.add(lagre);
+
+        aktiverPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        aktiver = new JButton("Reaktiver bruker");
+        aktiver.setFont(font2);
+        aktiver.addActionListener(lytter);
+        aktiver.setEnabled(true);
+        aktiverPanel.add(aktiver);
 
         knappePanel = new JPanel( new BorderLayout());
         knappePanel.add(editPanel, BorderLayout.LINE_START);
@@ -57,10 +65,6 @@ public class KundeProfil extends JFrame
 		bildePanel.setPreferredSize(new Dimension(130,130));
 		bildePanel.setMaximumSize(new Dimension(130,130));
 
-		endaPanel = new JPanel(new BorderLayout());
-		endaPanel.add(bildePanel, BorderLayout.PAGE_START);
-
-
 		kid = kunde.getKundeNr();
         penr = kunde.getPersonNr();
         navn1 = kunde.getFornavn();
@@ -70,6 +74,9 @@ public class KundeProfil extends JFrame
 		postnr = kunde.getPostnr();
 		poststed = kunde.getPoststed();
 
+		deaktivLabel = new JLabel("Kundeforholdet er opphevet");
+		deaktivLabel.setFont(errorfont);
+		deaktivLabel.setForeground(Color.red);
 		idLabel = new JLabel("Kundenr");
 		idLabel.setFont(font2);
 		kunid = new JLabel(kid);
@@ -92,10 +99,10 @@ public class KundeProfil extends JFrame
 		adr.setFont(font);
 		pnrLabel = new JLabel("Postnr");
 		pnrLabel.setFont(font2);
-		psted = new JLabel("Poststed");
-		psted.setFont(font2);
 		pnr = new JLabel(postnr);
 		pnr.setFont(font);
+		pstedLabel = new JLabel("Poststed");
+		pstedLabel.setFont(font2);
 		psted = new JLabel(poststed);
 		psted.setFont(font);
 
@@ -115,14 +122,8 @@ public class KundeProfil extends JFrame
 		navnPanel = new JPanel(new GridLayout(2,2));
 		navnPanel.add(fnavn);
 		navnPanel.add(enavn);
-		/*
-		tlfPanel = new JPanel(new GridLayout(1,1));
-		tlfPanel.add(tlf);
 
-		avdPanel = new JPanel(new GridLayout(1,1));
-		avdPanel.add(avd);*/
-
-        info = new JPanel(new GridLayout(13,1));
+        info = new JPanel(new GridLayout(15,1));
         info.add(idLabel);
 		info.add(kunid);
 		info.add(nrLabel);
@@ -142,8 +143,8 @@ public class KundeProfil extends JFrame
 
 
         profilen = new JPanel(new BorderLayout(10,10));
-        profilen.setPreferredSize(new Dimension(200, 500));
-        profilen.setMaximumSize(new Dimension(200, 500));
+        profilen.setPreferredSize(new Dimension(200, 550));
+        profilen.setMaximumSize(new Dimension(200, 550));
         //profilen.add(bildePanel, BorderLayout.WEST);
         //profilen.add(endaPanel, BorderLayout.WEST);
         profilen.add(bildePanel, BorderLayout.PAGE_START);
@@ -151,7 +152,13 @@ public class KundeProfil extends JFrame
         //profilen.setBackground(Color.white);
 
         //c.add(profilen, BorderLayout.CENTER);
-        JPanel flyt = new JPanel( new FlowLayout(FlowLayout.CENTER));
+        flyt = new JPanel( new FlowLayout(FlowLayout.CENTER));
+        if(!kunde.getAktiv())
+        {
+			knappePanel.removeAll();
+			knappePanel.add(aktiverPanel, BorderLayout.CENTER);
+			flyt.add(deaktivLabel, BorderLayout.PAGE_START);
+		}
         flyt.add(profilen);
         setLayout(new BorderLayout());
         c.add(knappePanel, BorderLayout.PAGE_START);
@@ -171,8 +178,8 @@ public class KundeProfil extends JFrame
         int bredde = screenSize.width;
         double hReduction = 0.40, vReduction = 0.30;
         setSize((int)(bredde*vReduction), (int)(høyde*hReduction) );*/
-        int høyde = 400, bredde = 600;
-        setSize(høyde, bredde);
+        int høyde = 650, bredde = 400;
+        setSize(bredde, høyde);
     }
 
     /*public void byttLabels(JLabel l1, JLabel l2)
@@ -246,14 +253,29 @@ public class KundeProfil extends JFrame
 		info.repaint();
 	}
 
+	public void aktiverBruker()
+	{
+		kunde.setAktiv(true);
+		knappePanel.remove(aktiverPanel);
+		knappePanel.add(editPanel, BorderLayout.LINE_START);
+		knappePanel.add(savePanel, BorderLayout.LINE_END);
+		knappePanel.revalidate();
+		knappePanel.repaint();
+		flyt.remove(deaktivLabel);
+		flyt.revalidate();
+		flyt.repaint();
+	}
+
     private class MainListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
         {
             if(e.getSource() == rediger)
                 redigerProfil();
-            else if(e.getSource()== lagre)
+            else if(e.getSource() == lagre)
                 lagreProfil();
+            else if(e.getSource() == aktiver)
+            	aktiverBruker();
         }
     }
 
