@@ -6,15 +6,15 @@ public class HusForsikringsReg implements Serializable
 {
 	private static final long serialVersionUID = 42L;
 
-	private TreeSet<HusForsikring> list;//listen
+	private TreeSet<HusForsikring1> list;//listen
 	private int nrNå;
 
 	public HusForsikringsReg()
 	{
-		list = new TreeSet<>(new HusForsikringCollator() );//Oppretter forsikringslisten
+		list = new TreeSet<>(new ForsikringCollator() );//Oppretter forsikringslisten
 	}
 
-	public boolean add(HusForsikring pre)
+	public boolean add(HusForsikring1 pre)
 	{
 		return list.add(pre);
 	}
@@ -24,12 +24,12 @@ public class HusForsikringsReg implements Serializable
 		return list.isEmpty();
 	}
 
-	public Iterator<HusForsikring> iterator()
+	public Iterator<HusForsikring1> iterator()
 	{
 		return list.iterator();
 	}
 
-	public boolean contains(HusForsikring in)
+	public boolean contains(HusForsikring1 in)
 	{
 		return list.contains(in);
 	}
@@ -68,18 +68,18 @@ public class HusForsikringsReg implements Serializable
 
 	public void lagreNrNå()//nødvendig for skriving/lagring til fil
 	{
-		nrNå = HusForsikring.getNrNå();
+		nrNå = HusForsikring1.getNrNå();
 	}
 
 	public void setCurrentNumber()//nødvendig for skriving/lagring til fil
 	{
-		HusForsikring.setNrNå(nrNå);
+		HusForsikring1.setNrNå(nrNå);
 	}
 
 	public String toString()
 	{
 		StringBuilder res = new StringBuilder();
-		Iterator<HusForsikring> ite = list.iterator();
+		Iterator<HusForsikring1> ite = list.iterator();
 		while(ite.hasNext() )
 			res.append(ite.next().toString() );
 			res.append("\n");
