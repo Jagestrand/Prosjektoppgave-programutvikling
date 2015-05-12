@@ -5,7 +5,7 @@ import javax.swing.*;
 public class Register implements Serializable
 {
 	private static final long serialVersionUID = 42L;
-	//private ForsikringsReg forReg;
+	private ForsikringsReg1 forReg;
 	private AnsattReg ansReg;
 	private KundeReg kunReg;
 	private BilForsikringsReg bilReg;
@@ -18,7 +18,7 @@ public class Register implements Serializable
 	public Register( Datasjef dataer )
 	{
 		data = dataer;
-		//forReg = new ForsikringsReg();
+		forReg = new ForsikringsReg1();
 		ansReg = new AnsattReg();
 		kunReg = new KundeReg();
 		bilReg = new BilForsikringsReg();
@@ -43,9 +43,10 @@ public class Register implements Serializable
 		return forReg;
 	}*/
 
-	public void nyBil(BilForsikring bil)
+	public void nyBil(BilForsikring1 pre)
 	{
-		bilReg.add(bil);
+		//pre.getKunde().addForsikring(pre);
+		forReg.add(pre);
 	}
 
 	public AnsattReg getAnsatte()
@@ -58,9 +59,9 @@ public class Register implements Serializable
 		return kunReg;
 	}
 
-	public BilForsikringsReg getBiler()
+	public ForsikringsReg1 getBiler()
 	{
-		return bilReg;
+		return forReg;
 	}
 
 	public BåtForsikringsReg getBåter()
@@ -511,10 +512,16 @@ public class Register implements Serializable
 		kunReg.setNåNr();
 	}
 
+	public void setNåForsikringsNr()
+	{
+		forReg.setNåNr();
+	}
+
 	public void exit()	//avslutter program og lagrer nummere
 	{
-		//forReg.lagreNåNr();
+		forReg.lagreNåNr();
 		//skaReg.lagreNåNr();
+		//bilReg.lagreNrNå();
 		ansReg.lagreNrNå();
 		kunReg.lagreNrNå();
 
