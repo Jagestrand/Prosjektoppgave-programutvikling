@@ -21,6 +21,13 @@ public class KundeGUI extends JPanel
 	
 	public KundeGUI(Huvudvindu v)
 	{
+		/*
+		knapp henter fram info i det store feltet/egen popoppboks
+		det står "Innlogget: <Kundenavn>" oppe i venstre hjørne
+		har en "meld skade"-knapp og "si opp forsikring"-knapp og en "skadesaker"-knapp
+		"skadesaker-knapp" leder til liste med skademeldinger
+		*/
+
 		vindu = v;
 	//	lytter = new Lytterklasse();
 		register = vindu.getRegister();
