@@ -20,7 +20,7 @@ public class AdminGUI extends JPanel
 	private JTextField Fornavn, Etternavn, PersNr, ansattNummer, ansattAvdeling, kundeNr, kundeAdresse, kundePostnr, kundePoststed;
 	private ButtonGroup gruppeKnapper;
 	private JRadioButton ans, kun;
-	private JButton søkeKnapp, nyAns, slettAns, lagre, oppdater, visAnsattKnapp, statButton;
+	private JButton søkeKnapp, nyAns, slettAns, deaktiverAns, lagre, oppdater, visAnsattKnapp, statButton;
 	private RadioLytter radioLytter;
 	private Lytterklasse lytter;
 	private ChangeLytter change;
@@ -98,6 +98,7 @@ public class AdminGUI extends JPanel
 		søkeKnapp = new JButton("Søk");
 		nyAns = new JButton("Legg til en ny ansatt");
 		slettAns = new JButton("Slett ansatt");
+		deaktiverAns = new JButton("Deaktiver bruker");
 		lagre = new JButton("Lagre endringer");
 		oppdater = new JButton("Oppdater");
 		visAnsattKnapp = new JButton("Vis ansattinfo");
@@ -116,6 +117,7 @@ public class AdminGUI extends JPanel
 		kundePoststed.addActionListener(lytter);
 		nyAns.addActionListener(lytter);
 		slettAns.addActionListener(lytter);
+		deaktiverAns.addActionListener(lytter);
 		lagre.addActionListener(lytter);
 		oppdater.addActionListener(lytter);
 		visAnsattKnapp.addActionListener(lytter);
@@ -139,6 +141,7 @@ public class AdminGUI extends JPanel
 		searchGrid.add(søkeKnapp);
 		searchGrid.add(nyAns);
 		searchGrid.add(slettAns);
+		searchGrid.add(deaktiverAns);
 		searchGrid.add(statButton);
 
 		bord.add(grid, BorderLayout.PAGE_START);
@@ -191,7 +194,7 @@ public class AdminGUI extends JPanel
 		        	int rad = theTable.getSelectedRow();
 		        	if (rad >= 0)
 		          	{
-						if(theTable.getValueAt(rad, TModel.ANSATT_NR) != null)
+						if(tabbedPane.getSelectedIndex() == 0)
 						{
 							Ansatt anna = register.getAnsattViaAnsattNr( (String)theTable.getValueAt(rad, TModel.ANSATT_NR) );
 							AnsattProfil vin = new AnsattProfil(anna);
@@ -206,6 +209,7 @@ public class AdminGUI extends JPanel
 		      }
 		};
 		table.addMouseListener(mouseListener);
+		table2.addMouseListener(mouseListener);
 	}
 
 	public int getSøkFor()
@@ -343,6 +347,34 @@ public class AdminGUI extends JPanel
 		}
 	}
 
+	public void deaktiverBruker()
+	{
+		try
+		{
+			int row = table.getSelectedRow();
+			if(row == -1)
+				return;
+
+			Ansatt anna = register.getAnsattViaNr( (String)tableModel.getValueAt(row, TModel.PERSON_NR) );
+			if(!anna.getAktiv())
+				return;
+			String melding = "Er du sikker på at du vil deaktivere brukeren?";
+			String tittel = "Validering";
+
+			int svar = JOptionPane.showConfirmDialog(null, melding, tittel, JOptionPane.YES_NO_OPTION);
+			if(svar == JOptionPane.YES_OPTION)
+			{
+				register.deaktiverBruker(anna);
+				søk();
+				return;
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "NoSuchElementException i deaktiverBruker-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 	private class RadioLytter implements ItemListener
 	{
 		public void itemStateChanged(ItemEvent e)
@@ -365,6 +397,7 @@ public class AdminGUI extends JPanel
 				searchGrid.add(søkeKnapp);
 				searchGrid.add(nyAns);
 				searchGrid.add(slettAns);
+				searchGrid.add(deaktiverAns);
 				searchGrid.add(statButton);
 				searchGrid.revalidate();
 				searchGrid.repaint();
@@ -432,6 +465,8 @@ public class AdminGUI extends JPanel
 				nyAnsatt();
 			else if(e.getSource() == slettAns)
 				slettBruker();
+			else if(e.getSource() == deaktiverAns)
+				deaktiverBruker();
 			else if(e.getSource() == statButton)
 				visStatistikk();
 		}
