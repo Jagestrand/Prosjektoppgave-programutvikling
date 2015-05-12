@@ -21,6 +21,7 @@ public class Datasjef implements Serializable
 			register = (Register) registerFil.readObject();
 			register.setNåAnsattNr();
 			register.setNåKundeNr();
+			register.setNåForsikringsNr();
 			//register.setNåForsikringNr();
 			//register.setNåSkadeNr();
 			return register;
