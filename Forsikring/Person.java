@@ -6,6 +6,7 @@ public abstract class Person implements Serializable
 	private static final long serialVersionUID = 42L;
 	protected String fornavn, etternavn, personNr, telefonNr;
 	protected static String ja = "Aktiv", nei = "Deaktivert";
+	protected ForsikringsReg1 forsikringsliste;
 	protected boolean aktiv;
 
 	protected Person(String fNavn, String eNavn, String persNr, String tlfNr)
@@ -14,6 +15,7 @@ public abstract class Person implements Serializable
 		etternavn = eNavn;
 		personNr = persNr;
 		telefonNr = tlfNr;
+		forsikringsliste = new ForsikringsReg1();
 	}
 
 	public String getFornavn()
@@ -70,7 +72,6 @@ public abstract class Person implements Serializable
 class Kunde extends Person implements Serializable
 {
 	static final long serialVersionUID = 42L;
-	//protected ForsikringsReg forsikringsliste;
 	private String adresse, postnr, poststed, passord, kundenr;
 	private int hjelpenr;
 	private static int nestenr = 0;
@@ -85,7 +86,6 @@ class Kunde extends Person implements Serializable
 		passord = pord;
 		hjelpenr = ++nestenr;
 		aktiv = true;
-		//forsikringsliste = new ForsikringsReg();
 	}
 
 	public Kunde(String fNavn, String eNavn, String persNr, String tlfNr)
@@ -143,26 +143,20 @@ class Kunde extends Person implements Serializable
 		return kundekat;
 	}
 
-
-
-	/*public boolean getKundeStatus()
-	{
-		<sjekker om kunden ennå er kunde eller ikke>
-	}*/
-
-	/*public ForsikringsReg getForsikringer()
+	public ForsikringsReg1 getForsikringer()
 	{
 		return forsikringsliste;
 	}
 
-	public Iterator<Forsikring> iterator()
+	public Iterator<Forsikring1> iterator()
 	{
 		return forsikringsliste.iterator();
 	}
 
-	public void addForsikring(Forsikring forsikr){
+	public void addForsikring(Forsikring1 forsikr)
+	{
 		forsikringsliste.add(forsikr);
-	}*/
+	}
 
 	public static int getNrNå()
 	{
