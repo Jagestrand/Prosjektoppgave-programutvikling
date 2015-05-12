@@ -308,7 +308,7 @@ public class Startvindu extends JPanel
 		{
 			if(Passordtest(pwa))
 			{
-				JPanel ny = new KundeGUI(vindu);
+				JPanel ny = new KundeGUI(vindu, null);
 				vindu.swapPanel( ny );
 				slettFelter();
 			}
@@ -320,7 +320,7 @@ public class Startvindu extends JPanel
 			{
 				if(Passordtest(kunn, pwa))
 				{
-					JPanel ny = new KundeGUI(vindu);
+					JPanel ny = new KundeGUI(vindu, kunn);
 					vindu.swapPanel( ny );
 					slettFelter();
 				}
