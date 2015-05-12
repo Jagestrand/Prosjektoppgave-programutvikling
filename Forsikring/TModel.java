@@ -23,10 +23,10 @@ public class TModel extends AbstractTableModel
 	private boolean editable;
 	private Ansatt[] ans;
 	private Kunde[] kun;
-	//private Forsikring[] fors;
-	private BilForsikring[] bil;//arrayer for objecter i tabellen
+	private Forsikring1[] fors;
+	private BilForsikring1[] bil;//arrayer for objecter i tabellen
 	private BåtForsikring[] båt;
-	private HusForsikring[] hus;
+	private HusForsikring1[] hus;
 	private HytteForsikring[] hytte;
 	public TModel()//oppretter en modell for en tom tabell
 	{
@@ -92,37 +92,46 @@ public class TModel extends AbstractTableModel
 	}
 
 	//Denne skal være en liste med alle forsikringer
-	/*public TModel(ForsikringReg reg)
+	public TModel(ForsikringsReg1 reg)
 	{
 		if(reg == null)
 		{
-			navn = forNavn;
+			navn = bilNavn;
 			data = new Object[0][0];
 			return;
 		}
-		navn = forNavn;
+		navn = bilNavn;
 		int length = reg.size(), width = navn.length;
 		data = new Object[length][width];
-		fors = new Forsikring[length];
-		Iterator<Forsikring> iter= reg.iterator();
-		Forsikring temp;
+		bil = new BilForsikring1[length];
+		Iterator<BilForsikring1> iter= reg.iterator();
+		BilForsikring1 temp;
 		DateFormat df = DateFormat.getDateInstance();
 		for(int i = 0; i < length; i++)
 		{
 			temp = iter.next();
 			int j = 0;
-			data[i][j++] = temp.getForsikringsnr();
+			data[i][j++] = temp.getForsikringsNr();
 			data[i][j++] = df.format(temp.getInngått().getTime() );
 			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
-			data[i][j++] = temp.getKunde().getKundeNr();
+			data[i][j++] = temp.getKundenr();
 			data[i][j++] = temp.getForsikringsbeløp();
-			hus[i] = temp;
+			data[i][j++] = temp.getEiernavn();
+			data[i][j++] = temp.getRegistreringsnr();
+			data[i][j++] = temp.getType();
+			data[i][j++] = temp.getModell();
+			data[i][j++] = temp.getRegistreringsår();
+			data[i][j++] = temp.getKjørelengde();
+			data[i][j++] = temp.getPrisPrKm();
+			data[i][j++] = temp.getBonus();
+			data[i][j++] = temp.getErAktiv();
+			bil[i] = temp;
 		}
 		editable = false;
-		searchFor = AdminGUI.SEARCH_FORSIKRING;
-	}*/
+		searchFor = AnsattVindu.SØK_BIL;
+	}
 
-	public TModel(BilForsikringsReg reg)
+	/*public TModel(BilForsikringsReg reg)
 	{
 		if(reg == null)
 		{
@@ -134,7 +143,7 @@ public class TModel extends AbstractTableModel
 		int length = reg.size(), width = navn.length;
 		data = new Object[length][width];
 		bil = new BilForsikring[length];
-		Iterator<BilForsikring> iter= reg.iterator();
+		Iterator<BilForsikring> iter = reg.iterator();
 		BilForsikring temp;
 		DateFormat df = DateFormat.getDateInstance();
 		for(int i = 0; i < length; i++)
@@ -159,7 +168,7 @@ public class TModel extends AbstractTableModel
 		}
 		editable = false;
 		searchFor = AnsattVindu.SØK_BIL;
-	}
+	}*/
 
 	public TModel(BåtForsikringsReg reg)
 	{
@@ -211,9 +220,9 @@ public class TModel extends AbstractTableModel
 		navn = husNavn;
 		int length = reg.size(), width = navn.length;
 		data = new Object[length][width];
-		hus = new HusForsikring[length];
-		Iterator<HusForsikring> iter= reg.iterator();
-		HusForsikring temp;
+		hus = new HusForsikring1[length];
+		Iterator<HusForsikring1> iter = reg.iterator();
+		HusForsikring1 temp;
 		DateFormat df = DateFormat.getDateInstance();
 		for(int i = 0; i < length; i++)
 		{
@@ -222,7 +231,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getForsikringsnr();
 			data[i][j++] = df.format(temp.getInngått().getTime() );
 			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
-			data[i][j++] = temp.getKunde().getKundeNr();
+			data[i][j++] = temp.getKundenr();
 			data[i][j++] = temp.getBeløpTotal();
 			data[i][j++] = temp.getAdresse();
 			data[i][j++] = temp.getByggeår();
@@ -359,6 +368,11 @@ public class TModel extends AbstractTableModel
 	public Kunde[] getKunder()
 	{
 		return kun;
+	}
+
+	public Forsikring1[] getForsikringer()
+	{
+		return fors;
 	}
 
 	/*public Forsikring[] getForsikringer()
