@@ -1,8 +1,3 @@
-/*
- Laget av Sondre Husevold (s198755).
- Person collator tar hånd om personer, sorterer dem etter navn, og dobbeltsjekker eventuell dobbellagring.
- */
-
 import java.util.*;
 import java.io.Serializable;
 import java.text.*;
@@ -29,7 +24,7 @@ class PersonCollator implements Comparator<Person>, Serializable
 	    }
 	  }
 
-	  public int compare(Person personOne, Person personTwo){
+	  public int compare(Person person1, Person person2){
 
 		  	if(collator == null){ // Oppretter ny kollator dersom mangler etter lesing av fil.
 				try {
@@ -40,18 +35,18 @@ class PersonCollator implements Comparator<Person>, Serializable
 				}
 		  	}
 
-		    String first = personOne.getFornavn() + " " + personOne.getFornavn();
-		    String second = personTwo.getEtternavn() + " " + personTwo.getEtternavn();
-		    int comparisonName = collator.compare( first, second );
-		    first = personOne.getPersonNr();
-		    second = personTwo.getPersonNr();
-		    int comparisonSocialSecurity = collator.compare(first, second);
-		    if(comparisonSocialSecurity == 0){
-		    	return comparisonSocialSecurity; // Returnerer 0 for å ikke legge inn person dersom personnummer er likt.
+		    String først = person1.getFornavn() + " " + person1.getFornavn();
+		    String andre = person2.getEtternavn() + " " + person2.getEtternavn();
+		    int sammenlignNavn = collator.compare( først, andre );
+		    først = person1.getPersonNr();
+		    andre = person2.getPersonNr();
+		    int sammenlignPersonNr = collator.compare(først, andre);
+		    if(sammenlignPersonNr == 0){
+		    	return sammenlignPersonNr; // Returnerer 0 for å ikke legge inn person dersom personnummer er likt.
 		    }
-		    if(comparisonName == 0)
-		    	comparisonName++;
-		    return comparisonName;
+		    if(sammenlignNavn == 0)
+		    	sammenlignNavn++;
+		    return sammenlignNavn;
 		 }
 
 } // End of class
