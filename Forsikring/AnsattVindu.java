@@ -248,7 +248,7 @@ public class AnsattVindu extends JPanel
 		searchGrid.add(søkKnapp);
 		searchGrid.add(statKnapp);
 		visForsikringFlow.add(visForsikringKnapp);
-		visForsikringFlow.add(skjulForsikringKnapp);
+		//visForsikringFlow.add(skjulForsikringKnapp);
 		visForsikringFlow.add(deletaForsikringKnapp);
 		visForsikring.add(visForsikringFlow, BorderLayout.LINE_END);
 		visForsikring.add(visForsikringInfo, BorderLayout.CENTER);
@@ -262,7 +262,7 @@ public class AnsattVindu extends JPanel
 		tableModel = new TModel(register.getKunder());
 		table = new JTable(tableModel);
 		//legg til en fane her med forsikringer
-		tableModel21 = new TModel(register.getBiler());
+		tableModel21 = new TModel(register.getBiler());	//HER
 		table21 = new JTable(tableModel21);
 		tableModel22 = new TModel(register.getBåter());
 		table22 = new JTable(tableModel22);
