@@ -15,7 +15,7 @@ import javax.swing.*;
 
 public class ValgAvForsikring extends JFrame
 {
-    private JPanel cardPanel, buttonPanel;
+    private JPanel cardPanel, buttonPanel, jp1, jp2, jp3, jp4;
     private Lytterklasse lytter;
 	private Kunde kunde;
 	private Huvudvindu vindu;
@@ -46,9 +46,9 @@ public class ValgAvForsikring extends JFrame
     private String[] boligTypeFritid = { "Velg byggningstype","Enebolig","Tomannsbolig","Rekkehus", "Tremannsbolig", "Firemannsbolig" };
     private String[] s = { "Velg", "Normal standard", "Bedre standard", "Høy standard"};
     private String[] s1 = { "Velg", "Normal standard", "Bedre standard", "Høy standard"};
-    private String[] innbo = { "Velg forsikringssum", "150 000","300 000","500 000", "750 000", "1 000 0000", "1 500 000", "2 000 000", "3 000 000"};
-    private String[] innboFritid = { "Velg forsikringssum", "150 000","300 000","500 000", "750 000", "1 000 0000", "1 500 000", "2 000 000", "3 000 000"};
-    private JComboBox bil, reg, regBåt, båt, båtKapten, bolig, materiale, standard1, forsikringssum;
+    private String[] innbo = { "Velg forsikringssum", "150000","300000","500000", "750000", "10000000", "1500000", "2000000", "3000000"};
+    private String[] innboFritid = { "Velg forsikringssum", "150000","300000","500000", "750000", "1000000", "1500000", "2000000", "3000000"};
+    private JComboBox bil, reg, båtReg, båt, båtKapten, bolig, materiale, standard1, forsikringssum, materialeFritid, typeFritid, standard, innbo1;
 
 
     public ValgAvForsikring(Huvudvindu vin, Kunde kunn)
@@ -64,7 +64,7 @@ public class ValgAvForsikring extends JFrame
         cardPanel = new JPanel(new BorderLayout());
 
         //Informationen som visas i vinduets topp.
-     	informationTop = new JTextArea("Velkommen tilbake");
+     	informationTop = new JTextArea("");
      	informationTop.setLineWrap(true);
      	informationTop.setWrapStyleWord(true);
      	informationTop.setEditable(false);
@@ -74,10 +74,10 @@ public class ValgAvForsikring extends JFrame
         cardPanel.setLayout(cl);
 
         //Panels for de olika forsikringsalternativen.
-        JPanel jp1 = new JPanel(new GridLayout(14,1));
-        JPanel jp2 = new JPanel(new GridLayout(14,1));
-        JPanel jp3 = new JPanel(new GridLayout(14,1));
-        JPanel jp4 = new JPanel(new GridLayout(14,1));
+        jp1 = new JPanel(new GridLayout(14,1));
+        jp2 = new JPanel(new GridLayout(14,1));
+        jp3 = new JPanel(new GridLayout(14,1));
+        jp4 = new JPanel(new GridLayout(14,1));
 
 		//Bil
     	//JComboBox<String> bil = new JComboBox<>(bilmerke);
@@ -128,9 +128,9 @@ public class ValgAvForsikring extends JFrame
     	jp1.add(kmÅr);
     	//bil.getSelectedItem();
     	//Båt
-    	JComboBox<String> båt = new JComboBox<>(båtMerke);
-    	JComboBox<String> båtReg = new JComboBox<>(regÅrBåt);
-    	JComboBox<String> båtKapten = new JComboBox<>(båtfører);
+    	båt = new JComboBox<>(båtMerke);
+    	båtReg = new JComboBox<>(regÅrBåt);
+    	båtKapten = new JComboBox<>(båtfører);
 
     	navnBåtLabel = new JLabel("Navn:");
     	fakturaadresseBåtLabel = new JLabel("Fakturaadresse:");
@@ -169,10 +169,10 @@ public class ValgAvForsikring extends JFrame
     	jp2.add(båtMotor);
 
     	//Hus
-    	JComboBox<String> bolig = new JComboBox<>(boligType);
-    	JComboBox<String> materiale = new JComboBox<>(byggemateriale);
-    	JComboBox<String> forsikringssum = new JComboBox<>(innbo);
-    	JComboBox<String> standard1 = new JComboBox<>(s1);
+    	bolig = new JComboBox<>(boligType);
+    	materiale = new JComboBox<>(byggemateriale);
+    	forsikringssum = new JComboBox<>(innbo);
+    	standard1 = new JComboBox<>(s1);
 
     	navnHusLabel = new JLabel("Navn:");
     	fakturaadresseHusLabel = new JLabel("Fakturaadresse:");
@@ -215,10 +215,10 @@ public class ValgAvForsikring extends JFrame
         cardPanel.add(jp4, "4");
 
         //Fritid
-        JComboBox<String> materialeFritid = new JComboBox<>(byggeMaterialeFritid);
-        JComboBox<String> typeFritid = new JComboBox<>(boligTypeFritid);
-        JComboBox<String> standard = new JComboBox<>(s);
-        JComboBox<String> innbo1 = new JComboBox<>(innboFritid);
+        materialeFritid = new JComboBox<>(byggeMaterialeFritid);
+        typeFritid = new JComboBox<>(boligTypeFritid);
+        standard = new JComboBox<>(s);
+        innbo1 = new JComboBox<>(innboFritid);
 
         fritidNavnLabel = new JLabel("Navn:");
         fakturaadresseFritidLabel = new JLabel("Fakturaadresse:");
@@ -342,30 +342,50 @@ public class ValgAvForsikring extends JFrame
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
 	}
-        /*
-        //Ska inte använda denna.
-        ActionListener listen = new ActionListener()
-        {
-    		public void actionPerformed(ActionEvent e)
-    		{
-    			if(e.getSource() == registrer)
-    			{
-    				String merke = String.valueOf(bil.getSelectedItem());
-    				String reg = String.valueOf(bil.getSelectedItem());
 
-    			}
-    		}
-    	};
-        registrer.addActionListener(listen);
-    	bil.addActionListener(listen);
-    	reg.addActionListener(listen);
+	public void slettFelter()
+	{
+		navnBil.setText("");
+		fakturaadresseBil.setText("");
+		eierPersonNr.setText("");
+		regNmr.setText("");
+		bilModell.setText("");
+		kmÅr.setText("");
+		navnBåt.setText("");
+		fakturaadresseBåt.setText("");
+		personNrBåt.setText("");
+		regNmrBåt.setText("");
+		båtFot.setText("");
+		båtMotor.setText("");
+		husNavn.setText("");
+		fakturaadresseHus.setText("");
+		husAdresse.setText("");
+		husByggeÅr.setText("");
+		byggMaterial.setText("");
+		m2.setText("");
+    	fritidNavn.setText("");
+    	fakturaadresseFritid.setText("");
+    	fritidAdresse.setText("");
+    	fritidByggeÅr.setText("");
+    	m2fritid.setText("");
 
-    }*/
-//Nästan färdig, kommenterar ut sålänge.
+    	bil.setSelectedIndex(0);
+    	reg.setSelectedIndex(0);
+    	båtReg.setSelectedIndex(0);
+    	båt.setSelectedIndex(0);
+    	båtKapten.setSelectedIndex(0);
+    	bolig.setSelectedIndex(0);
+    	materiale.setSelectedIndex(0);
+    	standard1.setSelectedIndex(0);
+    	forsikringssum.setSelectedIndex(0);
+	}
+
+
+
 	public void nyForsikringBil()
 	{
 		try{
-			String eiernavn, adresse, personnr, modell,regnr,kå, regexPattern, reg1, merke, kundepersnr;
+			String eiernavn, adresse, personnr, modell,regnr,kå, regexPattern, registrår, merke, kundepersnr;
 			int regår, kmårlig;
 			regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 			eiernavn = navnBil.getText();
@@ -375,9 +395,9 @@ public class ValgAvForsikring extends JFrame
 			regnr = regNmr.getText();
 			kå = kmÅr.getText();
 			kmårlig = Integer.valueOf(kmÅr.getText());
-			reg1 = reg.getSelectedItem().toString();
+			registrår = reg.getSelectedItem().toString();
 			Object obj = reg.getSelectedItem();
-			regår = Integer.valueOf( reg1);
+			regår = Integer.valueOf( registrår);
 			//reg2 = Integer.valueOf(reg1);
 			merke = String.valueOf(bil.getSelectedItem());
 			/*eiernavn = "Hans";
@@ -395,7 +415,7 @@ public class ValgAvForsikring extends JFrame
 			int kategori = 1;
 			kundepersnr = kunde.getKundeNr();
 
-			if(eiernavn.equals("") || adresse.equals("") || modell.equals("") || personnr.equals("") || regnr.equals("") || kå.equals("") || merke.equals("") || reg1.equals("") )
+			if(eiernavn.equals("") || adresse.equals("") || modell.equals("") || personnr.equals("") || regnr.equals("") || kå.equals("") || merke.equals("") || registrår.equals("") )
 				informationTop.setText("Alle feltene må fylles ut");
 			else if(!personnr.matches(regexPattern) )
 				informationTop.setText("Personnummeret er ikke gyldig");
@@ -418,117 +438,197 @@ public class ValgAvForsikring extends JFrame
 			return;
 		}
 	}
-/*
 	public void nyForsikringBåt()
 	{
-		String regBåt1, båt1, båtKapten1, nb, fb, pnb, rnb,bf, bm, regexPattern;
-		regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
-		nb = navnBåt.getText();
-		fb = fakturaadresseBåt.getText();
-		pnb = personNrBåt.getText();
-		rnb = regNmrBåt.getText();
-		bf = båtFot.getText();
-		bm = båtMotor.getText();
-		regBåt1 = String.valueOf(regBåt.getSelectedItem());
-		båtKapten1 = String.valueOf(båtKapten.getSelectedItem());
-		båt1 = String.valueOf(båt.getSelectedItem());
+		try{
+			String eiernavn, adresse, personnr, regnr, regexPattern, båttype,
+				kundenr, forsikringsinfo, regåret, båtmodell, motortype, yngstebåtfører;
+			int båtlengde, båtregistreringsår, beløp, kategori, motorstyrke;
+			regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
+			eiernavn = navnBåt.getText();
+			adresse = fakturaadresseBåt.getText();
+			personnr = personNrBåt.getText();
+			regnr = regNmrBåt.getText();
+			båtlengde = Integer.valueOf(båtFot.getText());
+			motorstyrke = Integer.valueOf(båtMotor.getText());
+			regåret = båtReg.getSelectedItem().toString();
+			båtregistreringsår = Integer.valueOf(regåret);
+			yngstebåtfører = båtKapten.getSelectedItem().toString();
+			//yngstebåtfører = String.valueOf(båtKapten.getSelectedItem());
+			båttype = String.valueOf(båt.getSelectedItem());
+			forsikringsinfo = "Hallo";
+			beløp = 100;
+			kategori = 2;
+			kundenr = kunde.getKundeNr();
+			båtmodell = "Nimbus";
+			motortype = "Bensin";
 
-		if(nb.equals("") || fb.equals("") || epn.equals("") || bm.equals("") || rn.equals("") || kå.equals("") || merke.equals("") || reg1.equals("") )
-			informationTop.setText("Alle feltene må fylles ut");
-		else if(!epn.matches(regexPattern) )
-			informationTop.setText("Personnummeret er ikke gyldig");
-		else
+			if(eiernavn.equals("") || adresse.equals("") || personnr.equals("") || regnr.equals("") || båtlengde == 0 || motorstyrke == 0 || båtregistreringsår == 0 || yngstebåtfører.equals("Velg")
+					|| båttype.equals("") )
+				informationTop.setText("Alle feltene må fylles ut");
+			else if(!personnr.matches(regexPattern) )
+				informationTop.setText("Personnummeret er ikke gyldig");
+			else
+			{
+				BåtForsikring1 båt = new BåtForsikring1(kundenr, beløp, forsikringsinfo, eiernavn, regnr, båttype , båtmodell, båtregistreringsår, båtlengde, motortype, motorstyrke, kategori);
+				register.nyBåt(båt);
+				JOptionPane.showMessageDialog(null, "Båt registrert");
+			}
+		}
+		catch(NullPointerException npe)
 		{
-			BilForsikring res = new BilForsikring(nb, fb, epn, bm,rn,kå, reg1,merke);
-			ansnr = res.getAnsattNr();							//Denne er ny
-			//Ansatt ret = new Ansatt(ansnr, fn, ln, pn, t, ea, p);
-			reg.nyAnsatt(res);
-			//reg.nyAnsatt(ret);
-			info.setText("Bilforsikring lagret:\n" + res.toString() );
+			JOptionPane.showMessageDialog(null, "NullPointerException i nyForsikringBåt i ValgAvForsikring", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		catch(NumberFormatException nfe)
+		{
+			JOptionPane.showMessageDialog(null, "NumberFormatException i nyForsikringBåt i ValgAvForsikring", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 	}
 
-	public void nyForsikringhus()
+	public void nyForsikringHus()
 	{
-		String hs, fh, ha,hbå,bolig1,m, materiale1, forsikringssum1,standard, regexPattern;
-		regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
-		hs = husNavn.getText();
-		fh = fakturaadresseHus.getText();
-		ha = husAdresse.getText();
-		hbå = husByggeÅr.getText();
-		m = m2.getText();
-		bolig1 = String.valueOf(bolig.getSelectedItem());
-		materiale1 = String.valueOf(materiale.getSelectedItem());
-		forsikringssum1 = String.valueOf(forsikringssum.getSelectedItem());
-		standard = String.valueOf(standard1.getSelectedItem());
+		try{
+			String eiernavn, adresse, husadresse, boligtype, byggemateriale,
+					standard, regexPattern, kundenr, husår, husm2, verdiinne;
+			int byggeår, husareal, innboverdi;
+			regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
+			eiernavn = husNavn.getText();
+			adresse = fakturaadresseHus.getText();
+			husadresse = husAdresse.getText();
+			husår = husByggeÅr.getText().toString();
+			byggeår = Integer.valueOf(husår);
+			husm2 = m2.getText().toString();
+			husareal = Integer.valueOf(husm2);
+			boligtype = String.valueOf(bolig.getSelectedItem());
+			byggemateriale = String.valueOf(materiale.getSelectedItem());
+			verdiinne = forsikringssum.getSelectedItem().toString();
+			innboverdi = Integer.valueOf(verdiinne);
+			standard = String.valueOf(standard1.getSelectedItem());
+			String forsikringsinfo = "Hallo";
+			int beløpbygg = 100;
+			int kategori = 3;
+			kundenr = kunde.getKundeNr();
 
-		if(nb.equals("") || fb.equals("") || epn.equals("") || bm.equals("") || rn.equals("") || kå.equals("") || merke.equals("") || reg1.equals("") )
-			informationTop.setText("Alle feltene må fylles ut");
-		else if(!epn.matches(regexPattern) )
-			informationTop.setText("Personnummeret er ikke gyldig");
-		else
+			if(eiernavn.equals("") || husadresse.equals("") || boligtype.equals("Velg bygningstype") || byggemateriale.equals("Velg byggemateriale") || standard.equals("Velg") || husår.equals("") || husm2.equals("") || verdiinne.equals("Velg forsikringssum") )
+				informationTop.setText("Alle feltene må fylles ut");
+			else
+			{
+				HusForsikring1 hus = new HusForsikring1(kundenr, beløpbygg, innboverdi, forsikringsinfo, husadresse,
+						boligtype, byggemateriale, standard, byggeår, husareal, kategori);
+				register.nyttHus(hus);
+				JOptionPane.showMessageDialog(null, "Hus registrert" );
+			}
+		}
+		catch(NullPointerException npe)
 		{
-			BilForsikring res = new BilForsikring(nb, fb, epn, bm,rn,kå, reg1,merke);
-			ansnr = res.getAnsattNr();							//Denne er ny
-			//Ansatt ret = new Ansatt(ansnr, fn, ln, pn, t, ea, p);
-			reg.nyAnsatt(res);
-			//reg.nyAnsatt(ret);
-			info.setText("Bilforsikring lagret:\n" + res.toString() );
+			JOptionPane.showMessageDialog(null, "NullPointerException i nyForsikringHus i ValgAvForsikring", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		catch(NumberFormatException nfe)
+		{
+			JOptionPane.showMessageDialog(null, "NumberFormatException i nyForsikringBHus i ValgAvForsikring", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 	}
-	public void nyForsikringBil()
-	{
-		String nb, fb, epn, bm,rn,kå, regexPattern, reg1, merke;
-		regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
-		nb = navnBil.getText();
-		fb = fakturaadresseBil.getText();
-		epn = eierPersonNr.getText();
-		bm = bilModell.getText();
-		rn = regNmr.getText();
-		kå = kmÅr.getText();
-		reg1 = String.valueOf(reg.getSelectedItem());
-		merke = String.valueOf(bil.getSelectedItem());
 
-		if(nb.equals("") || fb.equals("") || epn.equals("") || bm.equals("") || rn.equals("") || kå.equals("") || merke.equals("") || reg1.equals("") )
-			informationTop.setText("Alle feltene må fylles ut");
-		else if(!epn.matches(regexPattern) )
-			informationTop.setText("Personnummeret er ikke gyldig");
-		else
-		{
-			BilForsikring res = new BilForsikring(nb, fb, epn, bm,rn,kå, reg1,merke);
-			ansnr = res.getAnsattNr();							//Denne er ny
-			//Ansatt ret = new Ansatt(ansnr, fn, ln, pn, t, ea, p);
-			reg.nyAnsatt(res);
-			//reg.nyAnsatt(ret);
-			info.setText("Bilforsikring lagret:\n" + res.toString() );
+	public void nyForsikringHytte()
+	{
+		try{
+			String eiernavn, adresse, hytteadresse, boligtype, byggemateriale,
+					standarden, regexPattern, kundenr, hytteår, hyttem2, verdiinne;
+			int byggeår, hytteareal, innboverdi;
+			regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
+			eiernavn = fritidNavn.getText();
+			adresse = fakturaadresseHus.getText();
+			hytteadresse = fritidAdresse.getText();
+			hytteår = fritidByggeÅr.getText().toString();
+			byggeår = Integer.valueOf(hytteår);
+			hyttem2 = m2fritid.getText().toString();
+			hytteareal = Integer.valueOf(hyttem2);
+			boligtype = String.valueOf(typeFritid.getSelectedItem());
+			byggemateriale = String.valueOf(materialeFritid.getSelectedItem());
+			verdiinne = innbo1.getSelectedItem().toString();
+			innboverdi = Integer.valueOf(verdiinne);
+			standarden = String.valueOf(standard.getSelectedItem());
+			String forsikringsinfo = "Hallo";
+			int beløpbygg = 100;
+			int kategori = 4;
+			kundenr = kunde.getKundeNr();
+
+			if(eiernavn.equals("") || hytteadresse.equals("") || boligtype.equals("Velg bygningstype") || byggemateriale.equals("Velg byggemateriale")
+			|| standard.equals("Velg") || hytteår.equals("") || hyttem2.equals("") || verdiinne.equals("Velg forsikringssum") )
+				informationTop.setText("Alle feltene må fylles ut");
+			else
+			{
+				HytteForsikring1 hyt = new HytteForsikring1(kundenr, beløpbygg, innboverdi, forsikringsinfo, hytteadresse,
+						boligtype, byggemateriale, standarden, byggeår, hytteareal, kategori);
+				register.nyHytte(hyt);
+				JOptionPane.showMessageDialog(null, "Hytte registrert" );
+			}
 		}
-	}*/
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "NullPointerException i nyForsikringHus i ValgAvForsikring", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		catch(NumberFormatException nfe)
+		{
+			JOptionPane.showMessageDialog(null, "NumberFormatException i nyForsikringBHus i ValgAvForsikring", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+	}
+
 	private class Lytterklasse implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
 			if(e.getSource() == registrer )
-				nyForsikringBil();
+			{
+				if(jp1.isVisible() == true)
+					nyForsikringBil();
+				else if(jp2.isVisible() == true)
+					nyForsikringBåt();
+				else if(jp3.isVisible() == true)
+					nyForsikringHus();
+				else if(jp4.isVisible() == true)
+					nyForsikringHytte();
+			}
 
 			else if(e.getSource() == bilKnapp)
 			{
 				cl = (CardLayout) cardPanel.getLayout();
                 cl.show(cardPanel, "1");
+           		informationTop.setText("Bilforsikring");
+                informationTop.revalidate();
+                informationTop.repaint();
 			}
 			else if(e.getSource() == båtKnapp)
             {
             	CardLayout cl = (CardLayout) cardPanel.getLayout();
                 cl.show(cardPanel, "2");
+           		//informationTop.setText("");
+           		informationTop.setText("Båtforsikring");
+                informationTop.revalidate();
+                informationTop.repaint();
             }
             else if(e.getSource() == husKnapp)
             {
             	CardLayout cl = (CardLayout) cardPanel.getLayout();
                 cl.show(cardPanel, "3");
+           		informationTop.removeAll();
+           		informationTop.setText("Husforsikring");
+                informationTop.revalidate();
+                informationTop.repaint();
             }
             else if(e.getSource() == fritidKnapp)
             {
             	CardLayout cl = (CardLayout) cardPanel.getLayout();
                 cl.show(cardPanel, "4");
+           		informationTop.setText("Fritidforsikring");
+                informationTop.revalidate();
+                informationTop.repaint();
             }
             else if(e.getSource() == lukkVindu)
             	dispose();
