@@ -12,12 +12,14 @@ public class TModel extends AbstractTableModel
 	private final String[] bilNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp", "Eier", "Registreringsnr", "Type", "Modell", "Registreringsår", "Årlig kjørelengde(km)", "Pris pr km", "Bonus", "Aktiv"};
 	private final String[] husNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp(total)", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)", "Aktiv"};
 	private final String[] hytteNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp(total)", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)", "Aktiv"};
-	private final String[] ansNavn = {"Ansattnummer", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Ansatt ved", "Status"};//kollonnenavn for tabellen
-	private final String[] kunNavn = {"Kundenr", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Adresse", "Postnr", "Poststed", "Status"};//kolonnenavn for tabellen
-	public static final int ANSATT_NR = 0,
-							KUNDE_NR = 0, PERSON_NR = 1, FIRSTNAME = 2, LASTNAME = 3, PHONE = 4, ADR = 5, POST_NR = 6, POST_STED = 7, AKTIV = 8,
-							PRESCRIPTION_NR = 0, PRINTED = 1, RECIVED = 2, PATIENT = 3, DOCTOR = 4, MED_NAME = 5, MED_CAT = 6, MED_GROUP = 7;
-							//nummer på kolonnene
+	private final String[] ansNavn = {"Ansattnummer", "Ansatt", "Avsluttet", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Ansatt ved", "Status"};//kollonnenavn for tabellen
+	private final String[] kunNavn = {"Kundenr", "Kundestart", "Kundeslutt", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Adresse", "Postnr", "Poststed", "Status"};//kolonnenavn for tabellen
+	public static final int ANSATT_NR = 0, ANSATTID = 1, AVSLUTTID = 2,
+							KUNDE_NR = 0, KUNDESTART = 1, KUNDESLUTT = 2, PERSON_NR = 3, FIRSTNAME = 4, LASTNAME = 5, PHONE = 6, ADR = 7, POST_NR = 8, POST_STED = 9, STATUS = 10,
+							FORSIKRINGS_NR = 0, INNGÅTT = 1, AVSLUTTET = 2, KUNDENS_NR = 3, FORSIKRINGSBELØP = 4, EIER = 5, REG_NR = 6, TYPE = 7, MODELL = 8, BÅTLENGDE = 9, ÅRSMODELL = 10, MOTORTYPE = 11, HESTEKREFT = 12, AKTIV = 13,
+																																							REG_ÅR = 9, ÅRLIG_KJØR = 10, PRIS_KM = 11, BONUS = 12,
+																						FORSIKRINGSBELØPTOT = 4, ADRESSE = 5, BYGG_ÅR = 6, BOLIG_TYPE = 7, BYGGEMATERIALE = 8, STANDARD = 9, KVADRATMETER = 10, BYGNINGBELØP = 11, INNBOBELØP = 12;
+																								//nummer på kolonnene
 	//private final String[] skaNames = <kolonner for skademeldinger>
 	private int searchFor;
 	private boolean editable;
@@ -25,9 +27,9 @@ public class TModel extends AbstractTableModel
 	private Kunde[] kun;
 	private Forsikring1[] fors;
 	private BilForsikring1[] bil;//arrayer for objecter i tabellen
-	private BåtForsikring[] båt;
+	private BåtForsikring1[] båt;
 	private HusForsikring1[] hus;
-	private HytteForsikring[] hytte;
+	private HytteForsikring1[] hytte;
 	public TModel()//oppretter en modell for en tom tabell
 	{
 		navn = new String[0];
@@ -42,11 +44,14 @@ public class TModel extends AbstractTableModel
 		kun = new Kunde[length];
 		Iterator<Kunde> iter= reg.iterator();
 		Kunde temp;
+		DateFormat df = DateFormat.getDateInstance();
 		for(int i = 0; i < length; i++)
 		{
 			temp = iter.next();
 			int j = 0;
 			data[i][j++] = temp.getKundeNr();
+			data[i][j++] = df.format(temp.getStarta().getTime() );
+			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
 			data[i][j++] = temp.getPersonNr();
 			data[i][j++] = temp.getFornavn();
 			data[i][j++] = temp.getEtternavn();
@@ -74,11 +79,14 @@ public class TModel extends AbstractTableModel
 		ans = new Ansatt[length];
 		Iterator<Ansatt> iter= reg.iterator();
 		Ansatt temp;
+		DateFormat df = DateFormat.getDateInstance();
 		for(int i = 0; i < length; i++)
 		{
 			temp = iter.next();
 			int j = 0;
 			data[i][j++] = temp.getAnsattNr();
+			data[i][j++] = df.format(temp.getStarta().getTime() );
+			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
 			data[i][j++] = temp.getPersonNr();
 			data[i][j++] = temp.getFornavn();
 			data[i][j++] = temp.getEtternavn();
@@ -114,7 +122,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getForsikringsNr();
 			data[i][j++] = df.format(temp.getInngått().getTime() );
 			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
-			data[i][j++] = temp.getKundenr();
+			data[i][j++] = temp.getKundeNr();
 			data[i][j++] = temp.getForsikringsbeløp();
 			data[i][j++] = temp.getEiernavn();
 			data[i][j++] = temp.getRegistreringsnr();
@@ -181,9 +189,9 @@ public class TModel extends AbstractTableModel
 		navn = båtNavn;
 		int length = reg.size(), width = navn.length;
 		data = new Object[length][width];
-		båt = new BåtForsikring[length];
-		Iterator<BåtForsikring> iter= reg.iterator();
-		BåtForsikring temp;
+		båt = new BåtForsikring1[length];
+		Iterator<BåtForsikring1> iter= reg.iterator();
+		BåtForsikring1 temp;
 		DateFormat df = DateFormat.getDateInstance();
 		for(int i = 0; i < length; i++)
 		{
@@ -192,7 +200,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getForsikringsnr();
 			data[i][j++] = df.format(temp.getInngått().getTime() );
 			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
-			data[i][j++] = temp.getKunde().getKundeNr();
+			data[i][j++] = temp.getKundeNr();
 			data[i][j++] = temp.getForsikringsbeløp();
 			data[i][j++] = temp.getEiernavn();
 			data[i][j++] = temp.getRegistreringsnr();
@@ -231,7 +239,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getForsikringsnr();
 			data[i][j++] = df.format(temp.getInngått().getTime() );
 			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
-			data[i][j++] = temp.getKundenr();
+			data[i][j++] = temp.getKundeNr();
 			data[i][j++] = temp.getBeløpTotal();
 			data[i][j++] = temp.getAdresse();
 			data[i][j++] = temp.getByggeår();
@@ -259,9 +267,9 @@ public class TModel extends AbstractTableModel
 		navn = hytteNavn;
 		int length = reg.size(), width = navn.length;
 		data = new Object[length][width];
-		hytte = new HytteForsikring[length];
-		Iterator<HytteForsikring> iter= reg.iterator();
-		HytteForsikring temp;
+		hytte = new HytteForsikring1[length];
+		Iterator<HytteForsikring1> iter= reg.iterator();
+		HytteForsikring1 temp;
 		DateFormat df = DateFormat.getDateInstance();
 		for(int i = 0; i < length; i++)
 		{
@@ -270,7 +278,7 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getForsikringsnr();
 			data[i][j++] = df.format(temp.getInngått().getTime() );
 			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
-			data[i][j++] = temp.getKunde().getKundeNr();
+			data[i][j++] = temp.getKundeNr();
 			data[i][j++] = temp.getBeløpTotal();
 			data[i][j++] = temp.getAdresse();
 			data[i][j++] = temp.getByggeår();
@@ -409,12 +417,6 @@ public class TModel extends AbstractTableModel
 	}
 	public boolean isCellEditable(int r, int c)
 	{
-		if(!editable)
-			return false;
-		if(c == PERSON_NR)
-			return false;
-		if(c == FIRSTNAME || c == LASTNAME || c == PHONE || c == ADR || c == POST_NR || c == POST_STED )
-			return true;
 		return false;
 	}
 
