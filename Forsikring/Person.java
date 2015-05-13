@@ -6,7 +6,11 @@ public abstract class Person implements Serializable
 	private static final long serialVersionUID = 42L;
 	protected String fornavn, etternavn, personNr, telefonNr;
 	protected static String ja = "Aktiv", nei = "Deaktivert";
+	private Calendar starta, avslutta;
 	protected ForsikringsReg1 forsikringsliste;
+	protected BåtForsikringsReg båtliste;
+	protected HusForsikringsReg husliste;
+	protected HytteForsikringsReg hytteliste;
 	protected boolean aktiv;
 
 	protected Person(String fNavn, String eNavn, String persNr, String tlfNr)
@@ -16,6 +20,25 @@ public abstract class Person implements Serializable
 		personNr = persNr;
 		telefonNr = tlfNr;
 		forsikringsliste = new ForsikringsReg1();
+		båtliste = new BåtForsikringsReg();
+		husliste = new HusForsikringsReg();
+		hytteliste = new HytteForsikringsReg();
+		starta = Calendar.getInstance();
+	}
+
+	public Calendar getStarta()
+	{
+		return starta;
+	}
+
+	public Calendar getAvslutta()
+	{
+		return avslutta;
+	}
+
+	public void setAvslutta(Calendar avslutt)
+	{
+		avslutta = avslutt;
 	}
 
 	public String getFornavn()
@@ -147,15 +170,57 @@ class Kunde extends Person implements Serializable
 	{
 		return forsikringsliste;
 	}
+	public BåtForsikringsReg getBåter()
+	{
+		return båtliste;
+	}
+	public HusForsikringsReg getHus()
+	{
+		return husliste;
+	}
+	public HytteForsikringsReg getHytter()
+	{
+		return hytteliste;
+	}
 
-	public Iterator<Forsikring1> iterator()
+	public Iterator<BilForsikring1> iterator()
 	{
 		return forsikringsliste.iterator();
 	}
 
-	public void addForsikring(Forsikring1 forsikr)
+	public Iterator<BåtForsikring1> iteratorb()
+	{
+		return båtliste.iterator();
+	}
+
+	public Iterator<HusForsikring1> iteratorh()
+	{
+		return husliste.iterator();
+	}
+
+	public Iterator<HytteForsikring1> iteratory()
+	{
+		return hytteliste.iterator();
+	}
+
+	public void addForsikring(BilForsikring1 forsikr)
 	{
 		forsikringsliste.add(forsikr);
+	}
+
+	public void addForsikring(BåtForsikring1 forsikr)
+	{
+		båtliste.add(forsikr);
+	}
+
+	public void addForsikring(HusForsikring1 forsikr)
+	{
+		husliste.add(forsikr);
+	}
+
+	public void addForsikring(HytteForsikring1 forsikr)
+	{
+		hytteliste.add(forsikr);
 	}
 
 	public static int getNrNå()
