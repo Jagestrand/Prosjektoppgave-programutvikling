@@ -39,6 +39,344 @@ public class HusForsikringsReg implements Serializable
 		return list.size();
 	}
 
+	public HusForsikringsReg finnHus(String kriterie)
+	{
+		HusForsikringsReg søktHusListe = new HusForsikringsReg();
+		søktHusListe = finnHusViaKundeNr(kriterie);
+		if(søktHusListe == null)
+		{
+			søktHusListe = finnHusViaAdresse(kriterie);
+			if(søktHusListe == null)
+			{
+				søktHusListe = finnHusViaStandard(kriterie);
+				if(søktHusListe == null)
+				{
+					søktHusListe = finnHusViaType(kriterie);
+					if(søktHusListe == null)
+					{
+						søktHusListe = finnHusViaMateriale(kriterie);
+						if(søktHusListe == null)
+						{
+							return null;
+						}
+					}
+				}
+			}
+		}
+		return søktHusListe;
+	}
+
+	public HusForsikringsReg finnHus(int kriterie)
+	{
+		HusForsikringsReg søktHusListe = new HusForsikringsReg();
+		søktHusListe = finnHusViaNr(kriterie);
+		if(søktHusListe == null)
+		{
+			søktHusListe = finnHusViaBeløpB(kriterie);
+			if(søktHusListe == null)
+			{
+				søktHusListe = finnHusViaBeløpI(kriterie);
+				if(søktHusListe == null)
+				{
+					søktHusListe = finnHusViaÅr(kriterie);
+					if(søktHusListe == null)
+					{
+						søktHusListe = finnHusViaStørrelse(kriterie);
+						if(søktHusListe == null)
+						{
+							return null;
+						}
+					}
+				}
+			}
+		}
+		return søktHusListe;
+	}
+
+	public HusForsikringsReg finnHusViaKundeNr(String nr)
+	{
+		Iterator<HusForsikring1> theIterator = iterator();
+		HusForsikring1 hus;
+		HusForsikringsReg søktHusReg = new HusForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				hus = theIterator.next();
+				if(hus.getKundeNr().matches(nr))
+				{
+					søktHusReg.add(hus);
+					return søktHusReg;
+				}
+			}
+			return søktHusReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public HusForsikringsReg finnHusViaAdresse(String adr)
+	{
+		Iterator<HusForsikring1> theIterator = iterator();
+		HusForsikring1 hus;
+		HusForsikringsReg søktHusReg = new HusForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				hus = theIterator.next();
+				if(hus.getAdresse().matches(adr))
+				{
+					søktHusReg.add(hus);
+					return søktHusReg;
+				}
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public HusForsikringsReg finnHusViaStandard(String stand)
+	{
+		Iterator<HusForsikring1> theIterator = iterator();
+		HusForsikring1 hus;
+		HusForsikringsReg søktHusReg = new HusForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				hus = theIterator.next();
+				if(hus.getStandard().matches(stand))
+				{
+					søktHusReg.add(hus);
+					return søktHusReg;
+				}
+			}
+			return søktHusReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public HusForsikringsReg finnHusViaType(String typ)
+	{
+		Iterator<HusForsikring1> theIterator = iterator();
+		HusForsikring1 hus;
+		HusForsikringsReg søktHusReg = new HusForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				hus = theIterator.next();
+				if(hus.getBoligtype().matches(typ))
+				{
+					søktHusReg.add(hus);
+					return søktHusReg;
+				}
+			}
+			return søktHusReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public HusForsikringsReg finnHusViaMateriale(String m)
+	{
+		Iterator<HusForsikring1> theIterator = iterator();
+		HusForsikring1 hus;
+		HusForsikringsReg søktHusReg = new HusForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				hus = theIterator.next();
+				if(hus.getMateriale().matches(m))
+				{
+					søktHusReg.add(hus);
+					return søktHusReg;
+				}
+			}
+			return søktHusReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public HusForsikringsReg finnHusViaNr(int nr)
+	{
+		Iterator<HusForsikring1> theIterator = iterator();
+		HusForsikring1 hus;
+		HusForsikringsReg søktHusReg = new HusForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				hus = theIterator.next();
+				if(hus.getForsikringsNr() == nr)
+				{
+					søktHusReg.add(hus);
+					return søktHusReg;
+				}
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public HusForsikringsReg finnHusViaBeløpB(int b)
+	{
+		Iterator<HusForsikring1> theIterator = iterator();
+		HusForsikring1 hus;
+		HusForsikringsReg søktHusReg = new HusForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				hus = theIterator.next();
+				if(hus.getBeløpBygg() == b)
+				{
+					søktHusReg.add(hus);
+					return søktHusReg;
+				}
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public HusForsikringsReg finnHusViaBeløpI(int i)
+	{
+		Iterator<HusForsikring1> theIterator = iterator();
+		HusForsikring1 hus;
+		HusForsikringsReg søktHusReg = new HusForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				hus = theIterator.next();
+				if(hus.getBeløpInnbo() == i)
+				{
+					søktHusReg.add(hus);
+					return søktHusReg;
+				}
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public HusForsikringsReg finnHusViaÅr(int år)
+	{
+		Iterator<HusForsikring1> theIterator = iterator();
+		HusForsikring1 hus;
+		HusForsikringsReg søktHusReg = new HusForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				hus = theIterator.next();
+				if(hus.getByggeår() == år)
+				{
+					søktHusReg.add(hus);
+					return søktHusReg;
+				}
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public HusForsikringsReg finnHusViaStørrelse(int s)
+	{
+		Iterator<HusForsikring1> theIterator = iterator();
+		HusForsikring1 hus;
+		HusForsikringsReg søktHusReg = new HusForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				hus = theIterator.next();
+				if(hus.getKvadratmeter() == s)
+				{
+					søktHusReg.add(hus);
+					return søktHusReg;
+				}
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
 	/*public static int getGroupInt(String in)//metode gjør om en String til int for medikamentgruppene
 	{
 		if(in.equals("Bil") || in.equals("BIL") || in.equals("bil") )
