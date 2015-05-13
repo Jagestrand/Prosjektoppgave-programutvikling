@@ -38,9 +38,9 @@ public class AnsattVindu extends JPanel
 		Fiks det med forandre søkefelter etter tabber
 
 		Denne klassen må kunne se 3 faner:
-		1. Kunder (og åpne nytt vindu med mer info)
-		2. Forsikringer (og åpne vindu med mer info)
-		3. Skademeldinger (og åpne vindu med mer info)
+		1. Kunder (og åpne nytt vindu med mer info)!!
+		2. Forsikringer (og åpne vindu med mer info)!!
+		3. Skademeldinger (og åpne vindu med mer info)!!
 		*/
 		window = win;
 		register = window.getRegister();
@@ -295,21 +295,53 @@ public class AnsattVindu extends JPanel
 		tabbedPane.addChangeListener(changeLytter);
 
 
-
-
 		add(new JScrollPane(tabbedPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
 
 
-
-
-
-
-		//submitKnapp = new JButton("Submit");
-		//bilForsikring = new JButton("Bil");
-		//båtForsikring = new JButton("Hus");
-		//fritidForsikring = new JButton("Fritid");
-
-
+		MouseListener mouseListener = new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent mouseEvent)
+			{
+		        JTable theTable = (JTable) mouseEvent.getSource();
+		        if (mouseEvent.getClickCount() == 2)
+		        {
+		        	int rad = theTable.getSelectedRow();
+		        	if (rad >= 0)
+		          	{
+						if(tabbedPane.getSelectedIndex() == 0)
+						{
+							Kunde kunn = register.getKundeViaKundeNr( (String)theTable.getValueAt(rad, TModel.KUNDE_NR) );
+							KundeProfil vin = new KundeProfil(kunn);
+						}
+						else if(tabbedPane2.getSelectedIndex() == 0)
+						{
+							BilForsikring1 bilfor = register.getBilViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
+							//ForsikringsProfil vinn = new ForsikringsProfil(bilfor);
+						}
+						else if(tabbedPane2.getSelectedIndex() == 1)
+						{
+							BåtForsikring1 båtfor = register.getBåtViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
+							//ForsikringsProfil vinn = new ForsikringsProfil(båtfor);
+						}
+						else if(tabbedPane2.getSelectedIndex() == 2)
+						{
+							HusForsikring1 husfor = register.getHusViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
+							//ForsikringsProfil vinn = new ForsikringsProfil(husfor);
+						}
+						else if(tabbedPane2.getSelectedIndex() == 3)
+						{
+							HytteForsikring1 hytfor = register.getHytteViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
+							//ForsikringsProfil vinn = new ForsikringsProfil(hytfor);
+						}
+		          	}
+		        }
+		      }
+		};
+		table.addMouseListener(mouseListener);
+		table21.addMouseListener(mouseListener);
+		table22.addMouseListener(mouseListener);
+		table23.addMouseListener(mouseListener);
+		table24.addMouseListener(mouseListener);
 
 	}
 
