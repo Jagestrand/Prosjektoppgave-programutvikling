@@ -9,8 +9,9 @@ public abstract class Forsikring1 implements Serializable
 	*/
 
 	private static final long serialVersionUID = 42L;
-	public static final int TYPE_BIL = 1, TYPE_BÅT = 2, TYPE_HUS = 3, TYPE_HYTTE = 4, TYPE_INNBO1 = 5, TYPE_INNBO2 = 6;
-	private static int nyNr; //bilnr = 30000, båtnr = 40000, husnr = 50000, hytnr = 60000;
+	public static final int TYPE_BIL = 1, TYPE_BÅT = 2, TYPE_HUS = 3, TYPE_HYTTE = 4,
+			bilKat = 30000, båtKat = 40000, husKat = 50000, hytKat = 60000;
+	private static int nyNr, bilnr = 30000, båtnr = 40000, husnr = 50000, hytnr = 60000;
 	//private int forsikringNr;
 	private Calendar inngått;
 	private Calendar avslutta;
@@ -25,7 +26,7 @@ public abstract class Forsikring1 implements Serializable
 	//protected int forsikringsbeløp;
 	//private int registreringsår, kjørelengde, prisPrKm, hjelpenr, kategori;
 	private int hjelpenr, kategori;
-	private static int nestenr = 30000;
+	private static int nestenr;
 	private boolean aktiv;
 
 	public Forsikring1(String kunpnr, String info, int kat)
@@ -33,21 +34,36 @@ public abstract class Forsikring1 implements Serializable
 		kundepersonnr = kunpnr;
 		forsikringsinfo = info;
 		kategori = kat;
-		if(kat == TYPE_BIL)
-		{
-			hjelpenr = nestenr;
-			nestenr++;
-		}
+		setForsikringsNr(kat);	//denne er usikker
 		aktiv = true;
 		inngått = Calendar.getInstance();
 	}
 
-	/*public Kunde getKunde()
+	public void setForsikringsNr(int kat)
 	{
-		return ;
-	}*/
+		if(kat == TYPE_BIL)
+		{
+			hjelpenr = bilnr;
+			bilnr++;
+		}
+		else if(kat == TYPE_BÅT)
+		{
+			hjelpenr = båtnr;
+			båtnr++;
+		}
+		else if(kat == TYPE_HUS)
+		{
+			hjelpenr = husnr;
+			husnr++;
+		}
+		else if(kat == TYPE_HYTTE)
+		{
+			hjelpenr = hytnr;
+			hytnr++;
+		}
+	}
 
-	public String getKundenr()
+	public String getKundeNr()
 	{
 		return kundepersonnr;
 	}
@@ -245,7 +261,7 @@ class BilForsikring1 extends Forsikring1
 	public String toString()
 	{
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
-		String info = "\nForsikringsnr: " + getForsikringsNr() + "\nKundenr: " + getKundenr() + "\nForsikringsbeløp: "
+		String info = "\nForsikringsnr: " + getForsikringsNr() + "\nKundenr: " + getKundeNr() + "\nForsikringsbeløp: "
 			+ getForsikringsbeløp() + "\nEier: " + getEiernavn() + "\nRegistreringsnr: " + getRegistreringsnr()
 			+ "\nType: " + getType() + "\nModell: " + getModell() + "\nRegistreringsår: " + getRegistreringsår()
 			+ "\nÅrlig kjørelengde: " + getKjørelengde();
@@ -547,13 +563,14 @@ class BåtForsikring1 extends Forsikring1 implements Serializable
 {
 	static final long serialVersionUID = 42L;
 	private String eiernavn, registreringsnr, båttype, modell, båtfornr, motortype;
-	private int årsmodell, båtlengde, motorstyrke, hjelpenr;
-	private static int nestenr = 30000;
+	private int forsikringsbeløp, årsmodell, båtlengde, motorstyrke, hjelpenr;
+	private static int nestenr = 40000;
 	private boolean aktiv;
 
 	public BåtForsikring1(String kunpnr, int beløp, String info, String eier, String regnr, String typ, String mod, int modellår, int lengde, String motortyp, int styrke, int kat)
 	{
 		super(kunpnr, info, kat);
+		forsikringsbeløp = beløp;
 		eiernavn = eier;
 		registreringsnr = regnr;
 		båttype = typ;
@@ -565,6 +582,51 @@ class BåtForsikring1 extends Forsikring1 implements Serializable
 		hjelpenr = nestenr;
 		nestenr++;
 		aktiv = true;
+	}
+
+	public int getForsikringsbeløp()
+	{
+		return forsikringsbeløp;
+	}
+
+	public String getEiernavn()
+	{
+		return eiernavn;
+	}
+
+	public void setEiernavn(String eier)
+	{
+		eiernavn = eier;
+	}
+
+	public String getRegistreringsnr()
+	{
+		return registreringsnr;
+	}
+
+	public void setRegistreringsnr(String regnr)
+	{
+		registreringsnr = regnr;
+	}
+
+	public String getType()
+	{
+		return type;
+	}
+
+	public void setType(String typ)
+	{
+		type = typ;
+	}
+
+	public String getModell()
+	{
+		return modell;
+	}
+
+	public void setModell(String mod)
+	{
+		modell = mod;
 	}
 
 	public int getÅrsmodell()
@@ -663,7 +725,7 @@ class HusForsikring1 extends Forsikring1 implements Serializable
 	static final long serialVersionUID = 42L;
 	private String husfornr, adresse, boligtype, byggemateriale, standard;
 	private int hjelpenr, beløpBygg, beløpInn, byggeår, kvadratmeter;
-	private static int nestenr = 40000;
+	private static int nestenr = 50000;
 	private boolean aktiv;
 
 	public HusForsikring1(String kunpnr, int beløpb, int beløpi, String info, String adr, String type, String mat, String stand, int år, int meter, int kat)
@@ -675,6 +737,8 @@ class HusForsikring1 extends Forsikring1 implements Serializable
 		boligtype = type;
 		byggemateriale = mat;
 		standard = stand;
+		byggeår = år;
+		kvadratmeter = meter;
 		hjelpenr = nestenr;
 		nestenr++;
 		aktiv = true;
@@ -821,7 +885,7 @@ class HytteForsikring1 extends Forsikring1 implements Serializable
 	static final long serialVersionUID = 42L;
 	private String hyttefornr, adresse, boligtype, byggemateriale, standard;
 	private int hjelpenr, beløpBygg, beløpInn, byggeår, kvadratmeter;
-	private static int nestenr = 40000;
+	private static int nestenr = 60000;
 	private boolean aktiv;
 
 	public HytteForsikring1(String kunpnr, int beløpb, int beløpi, String info, String adr, String type, String mat, String stand, int år, int meter, int kat)
@@ -833,6 +897,8 @@ class HytteForsikring1 extends Forsikring1 implements Serializable
 		boligtype = type;
 		byggemateriale = mat;
 		standard = stand;
+		byggeår = år;
+		kvadratmeter = meter;
 		hjelpenr = nestenr;
 		nestenr++;
 		aktiv = true;
