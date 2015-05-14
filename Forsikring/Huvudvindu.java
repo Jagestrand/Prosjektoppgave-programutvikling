@@ -34,7 +34,7 @@ public class Huvudvindu extends JFrame
 
         knappLayoutPos = new JPanel( new BorderLayout());
         knappLayoutPos.add(tilbakePos, BorderLayout.LINE_START);
-        knappLayoutPos.add(loggautPos, BorderLayout.LINE_END);
+        knappLayoutPos.add(loggautPos, BorderLayout.LINE_END); //LINE_START
 
         container = getContentPane();
         layout = new BorderLayout();
