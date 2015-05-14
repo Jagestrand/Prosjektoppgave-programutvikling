@@ -6,7 +6,7 @@ public abstract class Forsikring implements Serializable
 {
 	private static final long serialVersionUID = 42L;
 	public static final int TYPE_BIL = 1, TYPE_BÅT = 2, TYPE_HUS = 3, TYPE_HYTTE = 4;// TYPE_INNBO1 = 5, TYPE_INNBO2 = 6;
-	private static int nyNr;
+	private static int nyNr, bilnr = 20000, båtnr = 30000, husnr = 40000, hytnr = 50000;
 	private int forsikringNr;
 	private Calendar inngått;
 	private Calendar avslutta;
@@ -301,12 +301,12 @@ class BilForsikring extends Fartøy implements Serializable
 	private static int nestenr = 20000;
 	private boolean aktiv;
 
-	public BilForsikring(Kunde kun, String info, String eier, String regnr, String typ, String mod, int regår, int lengde, int prkm, int beløp )
+	public BilForsikring(Kunde kun, String info, String eier, String regnr, String typ, String mod, int regår, int lengde, int beløp )
 	{
 		super(kun, beløp, info, eier, regnr, typ, mod);
 		registreringsår = regår;
 		kjørelengde = lengde;
-		prisPrKm = prkm;
+		prisPrKm = 100;
 		hjelpenr = nestenr;
 		nestenr++;
 		aktiv = true;
@@ -389,7 +389,7 @@ class BilForsikring extends Fartøy implements Serializable
 	public String toString()
 	{
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
-		String info = "\nForsikringsnr: " + getForsikringsNr() + super.toString() + "\nRegistreringsår: " + getRegistreringsår() + "\nÅrlig kjørelengde: " + getKjørelengde() + "\nPris per KM: " + getPrisPrKm();
+		String info = "\nForsikringsnr: " + getForsikringsNr() + super.toString() + "\nRegistreringsår: " + getRegistreringsår() + "\nÅrlig kjørelengde: " + getKjørelengde();
 		if(erAvslutta())
 			info += "\nAvsluttet: " + df.format(getAvslutta().getTime());
 		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
@@ -400,7 +400,7 @@ class BilForsikring extends Fartøy implements Serializable
 class BåtForsikring extends Fartøy implements Serializable
 {
 	static final long serialVersionUID = 42L;
-	private String eiernavn, registreringsnr, biltype, modell, båtfornr, motortype;
+	private String eiernavn, registreringsnr, båttype, modell, båtfornr, motortype;
 	private int årsmodell, båtlengde, motorstyrke, hjelpenr;
 	private static int nestenr = 30000;
 	private boolean aktiv;
