@@ -5,18 +5,17 @@ import javax.swing.*;
 public class BilForsikringsReg implements Serializable
 {
 	private static final long serialVersionUID = 42L;
-
-	private TreeSet<BilForsikring> list;//listen
+	private TreeSet<Forsikring1> list;//listen
 	private int nrNå;
 
 	public BilForsikringsReg()
 	{
-		list = new TreeSet<>(new BilForsikringCollator() );//Oppretter forsikringslisten
+		list = new TreeSet<>(new ForsikringCollator());//Oppretter forsikringslisten
 	}
 
-	public boolean add(BilForsikring pre)
+	public boolean add(Forsikring1 pre)
 	{
-		return list.add(pre);
+		return list.add(pre);		//HER
 	}
 
 	public boolean isEmpty()
@@ -24,12 +23,12 @@ public class BilForsikringsReg implements Serializable
 		return list.isEmpty();
 	}
 
-	public Iterator<BilForsikring> iterator()
+	public Iterator<Forsikring1> iterator()
 	{
 		return list.iterator();
 	}
 
-	public boolean contains(BilForsikring in)
+	public boolean contains(Forsikring1 in)
 	{
 		return list.contains(in);
 	}
@@ -39,47 +38,52 @@ public class BilForsikringsReg implements Serializable
 		return list.size();
 	}
 
-	/*public static int getGroupInt(String in)//metode gjør om en String til int for medikamentgruppene
+	public BilForsikringsReg finnBilViaRegNr(String regNr)
 	{
-		if(in.equals("Bil") || in.equals("BIL") || in.equals("bil") )
-			return Forsikring.TYPE_BIL;
-		else if(in.equals("Båt") || in.equals("BÅT") || in.equals("båt") )
-			return Forsikring.TYPE_BÅT;
-		else if(in.equals("Hus") || in.equals("HUS") || in.equals("hus") )
-			return Forsikring.TYPE_HUS;
-		else if(in.equals("Hytte") || in.equals("HYTTE") || in.equals("hytte") )
-			return Forsikring.TYPE_HYTTE;
-		JOptionPane.showMessageDialog(null, "Ugyldig forsikringstype");
-		return -1;
+		if(regNr.isEmpty())
+			return null;
+		Iterator<Forsikring1> theIterator = iterator();
+		Forsikring1 bil;
+		BilForsikringsReg søktBilReg = new BilForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				bil = theIterator.next();
+				if(bil.getRegistreringsnr().matches(regNr))
+				{
+					søktBilReg.add(bil);
+					return søktBilReg;
+				}
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i KundeReg: finnKundeViaNr fikk NoSuchElementException.",
+										"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
 	}
 
-	public static String getGroupString(int in)//metode gjør om en int til String for medikamentgruppene
+	public Comparator<Forsikring1> InitCollator()
 	{
-		if(in == Forsikring.TYPE_BIL)
-			return "BIL";
-		else if(in == Forsikring.TYPE_BÅT)
-			return "BÅT";
-		else if(in == Forsikring.TYPE_HUS)
-			return "HUS";
-		else if(in == Forsikring.TYPE_HYTTE)
-			return "HYTTE";
-		return "Error";
-	}*/
+		Comparator<Forsikring1> collator;
+		return collator = new ForsikringCollator();
+	}
 
 	public void lagreNrNå()//nødvendig for skriving/lagring til fil
 	{
-		nrNå = BilForsikring.getNrNå();
+		nrNå = Forsikring1.getNrNå();
 	}
 
-	public void setCurrentNumber()//nødvendig for skriving/lagring til fil
+	public void setNåNr()//nødvendig for skriving/lagring til fil
 	{
-		BilForsikring.setNrNå(nrNå);
+		Forsikring1.setNrNå(nrNå);
 	}
 
 	public String toString()
 	{
 		StringBuilder res = new StringBuilder();
-		Iterator<BilForsikring> ite = list.iterator();
+		Iterator<Forsikring1> ite = list.iterator();
 		while(ite.hasNext() )
 			res.append(ite.next().toString() );
 			res.append("\n");
