@@ -194,8 +194,8 @@ public class AnsattProfil extends JFrame
     {
 		ansatt.setFornavn(fnavn.getText());
 		ansatt.setEtternavn(enavn.getText());
-		ansatt.setTelefonNr(tlf.getText());
-		ansatt.setAvdeling(avd.getText());
+		ansatt.setTelefonNr(telf.getText());
+		ansatt.setAvdeling(avde.getText());
 
 		navn = new JLabel(ansatt.getFornavn() + " " + ansatt.getEtternavn());
 		navn.setFont(font);
