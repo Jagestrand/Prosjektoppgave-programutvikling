@@ -306,7 +306,7 @@ public class AdminGUI extends JPanel
 				JOptionPane.showMessageDialog(null, "Du må velge en ansatt");
 				return;
 			}
-			Ansatt ass = register.getAnsattViaNr( (String)tableModel.getValueAt(row, TModel.PRESCRIPTION_NR) );
+			Ansatt ass = register.getAnsattViaNr( (String)tableModel.getValueAt(row, TModel.ANSATT_NR) );
 			visAnsattInfo.setText(ass.toString());
 		}
 		catch(NullPointerException npe)
