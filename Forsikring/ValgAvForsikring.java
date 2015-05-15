@@ -35,9 +35,9 @@ public class ValgAvForsikring extends JFrame
     private String[] bilmerke = {"Velg bilmerke", "Audi", "BMW", "Chevrolet",
     	      "Chrysler", "Ford", "Lexus", "Maserati", "Mercedes-Benz", "Porsche", "Saab", "Volvo" };
     private String[] regÅr = {"Velg registreringsår", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000",
-  	      "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014" };
+  	      "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014","2015" };
     private String[] regÅrBåt = { "Velg byggeår","1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000",
-    	      "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014" };
+    	      "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014","2015" };
     private String[] båtMerke = {"Velg","Seilbåt", "Motorbåt med innenbordsmotor", "Motorbåt med utenbordsmotor", "Robåt, Kano" };
     private String[] båtfører = { "Velg","Båtfører < 23 år", "Båtførere mellom 23-25 år","Alle båtførere > 25 år" };
     private String[] boligType = { "Velg byggningstype","Enebolig","Tomannsbolig","Rekkehus", "Tremannsbolig", "Firemannsbolig" };
@@ -135,7 +135,7 @@ public class ValgAvForsikring extends JFrame
     	navnBåtLabel = new JLabel("Navn:");
     	fakturaadresseBåtLabel = new JLabel("Fakturaadresse:");
     	eierPersonNrBåtLabel = new JLabel("Fødselsdato(DD-MM-YY-XXXXX):");
-    	regNmrBåtLabel = new JLabel("Registreringsår (første gang):");
+    	regNmrBåtLabel = new JLabel("Produksjonsår:");
     	båtModellLabel = new JLabel("Båttype:");
     	båtFotLabel = new JLabel("Skrolengde i fot:");
     	båtRegLabel = new JLabel("Registreringsnummer:");
