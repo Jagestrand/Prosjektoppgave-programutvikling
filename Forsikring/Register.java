@@ -263,36 +263,81 @@ public class Register implements Serializable
 	public ForsikringsReg1 getBilViaEier(ForsikringsReg1 reg, String navn)
 	{
 		if(reg == null)
-			return forReg.finnBiler(navn);
-		return reg.finnBiler(navn);
+			reg = forReg;
+		BilForsikring1 temp;
+		ForsikringsReg1 rem = new ForsikringsReg1();
+		Iterator<BilForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getEiernavn().equals(navn))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
-	public ForsikringsReg1 finnBilViaType(ForsikringsReg1 reg, String t)
+	public ForsikringsReg1 getBilViaType(ForsikringsReg1 reg, String t)
 	{
 		if(reg == null)
-			return forReg.finnBiler(t);
-		return reg.finnBiler(t);
+			reg = forReg;
+		BilForsikring1 temp;
+		ForsikringsReg1 rem = new ForsikringsReg1();
+		Iterator<BilForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getType().equals(t))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public ForsikringsReg1 getBilViaModell(ForsikringsReg1 reg, String m)
 	{
 		if(reg == null)
-			return forReg.finnBiler(m);
-		return reg.finnBiler(m);
+			reg = forReg;
+		BilForsikring1 temp;
+		ForsikringsReg1 rem = new ForsikringsReg1();
+		Iterator<BilForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getModell().equals(m))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public ForsikringsReg1 getBilViaRegÅr(ForsikringsReg1 reg, int år)
 	{
 		if(reg == null)
-			return forReg.finnBilViaÅr(år);
-		return reg.finnBilViaÅr(år);
+			reg = forReg;
+		BilForsikring1 temp;
+		ForsikringsReg1 rem = new ForsikringsReg1();
+		Iterator<BilForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getRegistreringsår() == år)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public ForsikringsReg1 getBilViaKjørelengde(ForsikringsReg1 reg, int l)
 	{
 		if(reg == null)
-			return forReg.finnBilViaKjøring(l);
-		return reg.finnBilViaKjøring(l);
+			reg = forReg;
+		BilForsikring1 temp;
+		ForsikringsReg1 rem = new ForsikringsReg1();
+		Iterator<BilForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getKjørelengde() == l)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 				//BÅT:
@@ -374,50 +419,113 @@ public class Register implements Serializable
 	public BåtForsikringsReg getBåtViaEier(BåtForsikringsReg reg, String navn)
 	{
 		if(reg == null)
-			return båtReg.finnBåter(navn);
-		return reg.finnBåter(navn);
+			reg = båtReg;
+		BåtForsikring1 temp;
+		BåtForsikringsReg rem = new BåtForsikringsReg();
+		Iterator<BåtForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getEiernavn().equals(navn))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
-	public BåtForsikringsReg finnBåtViaType(BåtForsikringsReg reg, String t)
+	public BåtForsikringsReg getBåtViaType(BåtForsikringsReg reg, String t)
 	{
 		if(reg == null)
-			return båtReg.finnBåter(t);
-		return reg.finnBåter(t);
+			reg = båtReg;
+		BåtForsikring1 temp;
+		BåtForsikringsReg rem = new BåtForsikringsReg();
+		Iterator<BåtForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getType().equals(t))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public BåtForsikringsReg getBåtViaModell(BåtForsikringsReg reg, String m)
 	{
 		if(reg == null)
-			return båtReg.finnBåter(m);
-		return reg.finnBåter(m);
+			reg = båtReg;
+		BåtForsikring1 temp;
+		BåtForsikringsReg rem = new BåtForsikringsReg();
+		Iterator<BåtForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getModell().equals(m))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public BåtForsikringsReg getBåtViaRegÅr(BåtForsikringsReg reg, int år)
 	{
 		if(reg == null)
-			return båtReg.finnBåtViaÅr(år);
-		return reg.finnBåtViaÅr(år);
+			reg = båtReg;
+		BåtForsikring1 temp;
+		BåtForsikringsReg rem = new BåtForsikringsReg();
+		Iterator<BåtForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getÅrsmodell() == år)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public BåtForsikringsReg getBåtViaLengde(BåtForsikringsReg reg, int l)
 	{
 		if(reg == null)
-			return båtReg.finnBåtViaLengde(l);
-		return reg.finnBåtViaLengde(l);
+			reg = båtReg;
+		BåtForsikring1 temp;
+		BåtForsikringsReg rem = new BåtForsikringsReg();
+		Iterator<BåtForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getBåtlengde() == l)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public BåtForsikringsReg getBåtViaMotor(BåtForsikringsReg reg, String m)
 	{
 		if(reg == null)
-			return båtReg.finnBåtViaMotorType(m);
-		return reg.finnBåtViaMotorType(m);
+			reg = båtReg;
+		BåtForsikring1 temp;
+		BåtForsikringsReg rem = new BåtForsikringsReg();
+		Iterator<BåtForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getMotortype().equals(m))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public BåtForsikringsReg getBåtViaStyrke(BåtForsikringsReg reg, int s)
 	{
 		if(reg == null)
-			return båtReg.finnBåtViaStyrke(s);
-		return reg.finnBåtViaStyrke(s);
+			reg = båtReg;
+		BåtForsikring1 temp;
+		BåtForsikringsReg rem = new BåtForsikringsReg();
+		Iterator<BåtForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getMotorstyrke() == s)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 					//HUS:
@@ -499,50 +607,129 @@ public class Register implements Serializable
 	public HusForsikringsReg getHusViaStandard(HusForsikringsReg reg, String stand)
 	{
 		if(reg == null)
-			return husReg.finnHus(stand);
-		return reg.finnHus(stand);
+			reg = husReg;
+		HusForsikring1 temp;
+		HusForsikringsReg rem = new HusForsikringsReg();
+		Iterator<HusForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getStandard().equals(stand))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
-	public HusForsikringsReg finnHusViaType(HusForsikringsReg reg, String t)
+	public HusForsikringsReg getHusViaType(HusForsikringsReg reg, String t)
 	{
 		if(reg == null)
-			return husReg.finnHus(t);
-		return reg.finnHus(t);
+			reg = husReg;
+		HusForsikring1 temp;
+		HusForsikringsReg rem = new HusForsikringsReg();
+		Iterator<HusForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getBoligtype().equals(t))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public HusForsikringsReg getHusViaMateriale(HusForsikringsReg reg, String m)
 	{
 		if(reg == null)
-			return husReg.finnHus(m);
-		return reg.finnHus(m);
+			reg = husReg;
+		HusForsikring1 temp;
+		HusForsikringsReg rem = new HusForsikringsReg();
+		Iterator<HusForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getMateriale().equals(m))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public HusForsikringsReg getHusViaBeløpB(HusForsikringsReg reg, int b)
 	{
 		if(reg == null)
-			return husReg.finnHusViaBeløpB(b);
-		return reg.finnHusViaBeløpB(b);
+			reg = husReg;
+		HusForsikring1 temp;
+		HusForsikringsReg rem = new HusForsikringsReg();
+		Iterator<HusForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getBeløpBygg() == b)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public HusForsikringsReg getHusViaBeløpI(HusForsikringsReg reg, int i)
 	{
 		if(reg == null)
-			return husReg.finnHusViaBeløpI(i);
-		return reg.finnHusViaBeløpI(i);
+			reg = husReg;
+		HusForsikring1 temp;
+		HusForsikringsReg rem = new HusForsikringsReg();
+		Iterator<HusForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getBeløpInnbo() == i)
+				rem.add(temp);
+		}
+		return rem;
+	}
+
+	public HusForsikringsReg getHusViaBeløpT(HusForsikringsReg reg, int t)
+	{
+		if(reg == null)
+			reg = husReg;
+		HusForsikring1 temp;
+		HusForsikringsReg rem = new HusForsikringsReg();
+		Iterator<HusForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if((temp.getBeløpInnbo() + temp.getBeløpBygg()) == t)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public HusForsikringsReg getHusViaÅr(HusForsikringsReg reg, int år)
 	{
 		if(reg == null)
-			return husReg.finnHusViaÅr(år);
-		return reg.finnHusViaÅr(år);
+			reg = husReg;
+		HusForsikring1 temp;
+		HusForsikringsReg rem = new HusForsikringsReg();
+		Iterator<HusForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getByggeår() == år)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public HusForsikringsReg getHusViaStørrelse(HusForsikringsReg reg, int s)
 	{
 		if(reg == null)
-			return husReg.finnHusViaStørrelse(s);
-		return reg.finnHusViaStørrelse(s);
+			reg = husReg;
+		HusForsikring1 temp;
+		HusForsikringsReg rem = new HusForsikringsReg();
+		Iterator<HusForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getKvadratmeter() == s)
+				rem.add(temp);
+		}
+		return rem;
 	}
 				//HYTTE
 
@@ -623,58 +810,137 @@ public class Register implements Serializable
 	public HytteForsikringsReg getHytteViaStandard(HytteForsikringsReg reg, String stand)
 	{
 		if(reg == null)
-			return hytReg.finnHytter(stand);
-		return reg.finnHytter(stand);
+			reg = hytReg;
+		HytteForsikring1 temp;
+		HytteForsikringsReg rem = new HytteForsikringsReg();
+		Iterator<HytteForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getStandard().equals(stand))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
-	public HytteForsikringsReg finnHytteViaType(HytteForsikringsReg reg, String t)
+	public HytteForsikringsReg getHytteViaType(HytteForsikringsReg reg, String t)
 	{
 		if(reg == null)
-			return hytReg.finnHytter(t);
-		return reg.finnHytter(t);
+			reg = hytReg;
+		HytteForsikring1 temp;
+		HytteForsikringsReg rem = new HytteForsikringsReg();
+		Iterator<HytteForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getBoligtype().equals(t))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public HytteForsikringsReg getHytteViaMateriale(HytteForsikringsReg reg, String m)
 	{
 		if(reg == null)
-			return hytReg.finnHytter(m);
-		return reg.finnHytter(m);
+			reg = hytReg;
+		HytteForsikring1 temp;
+		HytteForsikringsReg rem = new HytteForsikringsReg();
+		Iterator<HytteForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getMateriale().equals(m))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public HytteForsikringsReg getHytteViaBeløpB(HytteForsikringsReg reg, int b)
 	{
 		if(reg == null)
-			return hytReg.finnHytteViaBeløpB(b);
-		return reg.finnHytteViaBeløpB(b);
+			reg = hytReg;
+		HytteForsikring1 temp;
+		HytteForsikringsReg rem = new HytteForsikringsReg();
+		Iterator<HytteForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getBeløpBygg() == b)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public HytteForsikringsReg getHytteViaBeløpI(HytteForsikringsReg reg, int i)
 	{
 		if(reg == null)
-			return hytReg.finnHytteViaBeløpI(i);
-		return reg.finnHytteViaBeløpI(i);
+			reg = hytReg;
+		HytteForsikring1 temp;
+		HytteForsikringsReg rem = new HytteForsikringsReg();
+		Iterator<HytteForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getBeløpInnbo() == i)
+				rem.add(temp);
+		}
+		return rem;
+	}
+
+	public HytteForsikringsReg getHytteViaBeløpT(HytteForsikringsReg reg, int t)
+	{
+		if(reg == null)
+			reg = hytReg;
+		HytteForsikring1 temp;
+		HytteForsikringsReg rem = new HytteForsikringsReg();
+		Iterator<HytteForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if((temp.getBeløpInnbo() + temp.getBeløpBygg()) == t)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public HytteForsikringsReg getHytteViaÅr(HytteForsikringsReg reg, int år)
 	{
 		if(reg == null)
-			return hytReg.finnHytteViaÅr(år);
-		return reg.finnHytteViaÅr(år);
+			reg = hytReg;
+		HytteForsikring1 temp;
+		HytteForsikringsReg rem = new HytteForsikringsReg();
+		Iterator<HytteForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getByggeår() == år)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public HytteForsikringsReg getHytteViaStørrelse(HytteForsikringsReg reg, int s)
 	{
 		if(reg == null)
-			return hytReg.finnHytteViaStørrelse(s);
-		return reg.finnHytteViaStørrelse(s);
+			reg = hytReg;
+		HytteForsikring1 temp;
+		HytteForsikringsReg rem = new HytteForsikringsReg();
+		Iterator<HytteForsikring1> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getKvadratmeter() == s)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 
 
-	/*public SkademeldingReg getSkadeViaNr( int nr )		//finner skade via skadenr
+	public Skademelding getSkadeViaNr( int nr )		//finner skade via skadenr
 	{
 		Skademelding ska;
-		Iterator<Skademelding> iter = ska.iterator();
+		Iterator<Skademelding> iter = skaReg.iterator();
 		while(iter.hasNext() )
 		{
 			ska = iter.next();
@@ -682,7 +948,7 @@ public class Register implements Serializable
 				return ska;
 		}
 		return null;
-	}*/
+	}
 
 	public SkademeldingReg getSkadeViaNr( SkademeldingReg reg, int nr )	//finner skade via skadenr
 	{
@@ -710,40 +976,125 @@ public class Register implements Serializable
 		while(iter.hasNext())
 		{
 			temp = iter.next();
-			if(temp.getKundeNr() == nr)
+			if(temp.getKundeNr().equals(nr))
 				rem.add(temp);
 		}
 		return rem;
 	}
 
-	/*public SkademeldingReg getSkadeViaKundeNr(SkademeldingReg reg, String nr)
+	public SkademeldingReg getSkadeViaType(SkademeldingReg reg, String t)
 	{
 		if(reg == null)
 			reg = skaReg;
-		SKademelding temp;
+		Skademelding temp;
 		SkademeldingReg rem = new SkademeldingReg();
 		Iterator<Skademelding> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
-			if(temp.getKundeNr() == nr)
+			if(temp.getSkadeType().equals(t))
 				rem.add(temp);
 		}
 		return rem;
-	}*/
+	}
+
+	public SkademeldingReg getSkadeViaAdresse(SkademeldingReg reg, String adr)
+	{
+		if(reg == null)
+			reg = skaReg;
+		Skademelding temp;
+		SkademeldingReg rem = new SkademeldingReg();
+		Iterator<Skademelding> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getSkadeAdresse().equals(adr))
+				rem.add(temp);
+		}
+		return rem;
+	}
+
+	public SkademeldingReg getSkadeViaStatus(SkademeldingReg reg, String s)
+	{
+		if(reg == null)
+			reg = skaReg;
+		Skademelding temp;
+		SkademeldingReg rem = new SkademeldingReg();
+		Iterator<Skademelding> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getStatus().equals(s))
+				rem.add(temp);
+		}
+		return rem;
+	}
+
+	public SkademeldingReg getSkadeViaTakst(SkademeldingReg reg, int t)
+	{
+		if(reg == null)
+			reg = skaReg;
+		Skademelding temp;
+		SkademeldingReg rem = new SkademeldingReg();
+		Iterator<Skademelding> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getTakst() == t)
+				rem.add(temp);
+		}
+		return rem;
+	}
+
+	public SkademeldingReg getSkadeViaErstatning(SkademeldingReg reg, int e)
+	{
+		if(reg == null)
+			reg = skaReg;
+		Skademelding temp;
+		SkademeldingReg rem = new SkademeldingReg();
+		Iterator<Skademelding> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getUtbetalt() == e)
+				rem.add(temp);
+		}
+		return rem;
+	}
+
+	public SkademeldingReg getSkadeViaDato(SkademeldingReg reg, Calendar d)
+	{
+		if(reg == null)
+			reg = skaReg;
+		Skademelding temp;
+		SkademeldingReg rem = new SkademeldingReg();
+		Iterator<Skademelding> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getDato() == d)
+				rem.add(temp);
+		}
+		return rem;
+	}
+
+	public void godkjennTakst(Skademelding ska)
+	{
+		int kr = ska.getTakst();
+		ska.setUtbetalt(kr);
+		ska.setGodkjent(true);
+		ska.setStatus("Godkjent");
+	}
+
+	public void avslåTakst(Skademelding ska, int kr)
+	{
+		ska.setUtbetalt(kr);
+		ska.setGodkjent(false);
+		ska.setStatus("Avslått");
+	}
 
 
-
-
-
-
-
-
-
-
-
-
-	/*public ForsikringsReg getForsikringerFørDato(ForsikringsReg reg, Calendar dato)	//finner forsikringer kjøpt før dato
+	/*public ForsikringsReg getForsikringFørDato(ForsikringsReg reg, Calendar dato)	//finner forsikringer kjøpt før dato
 	{
 		if( reg == null )
 			reg = forReg;
@@ -757,49 +1108,48 @@ public class Register implements Serializable
 				fors.add(prøv);
 		}
 		return fors;
-	}
+	}*/
 
-	public SkadeReg getSkademeldingFørDato(SkademeldingReg reg, Calender dato)	//finner skademeldinger registrert før dato
+	public SkademeldingReg getSkadeFørDato(SkademeldingReg reg, Calendar dato)	//finner skademeldinger registrert før dato
 	{
 		if( reg == null )
 			reg = skaReg;
 		Iterator<Skademelding> iter = reg.iterator();
-		SkademeldingReg skads = new SkadeReg();
+		SkademeldingReg skads = new SkademeldingReg();
 		Skademelding prøv;
 		while(iter.hasNext() )
 		{
 			prøv = iter.next();
-			if(prøv.getKjøpt().before(date) )
+			if(prøv.getDato().before(dato) )
 				skads.add(prøv);
 		}
 		return skads;
 	}
 
-	public SkadeReg getSkademeldingEtterDato(ForsikringsReg reg, Calender dato)	//finner skademeldinger registrert etter dato
+	public SkademeldingReg getSkadeEtterDato(SkademeldingReg reg, Calendar dato)	//finner skademeldinger registrert etter dato
 	{
 		if( reg == null )
 			reg = skaReg;
 		Iterator<Skademelding> iter = reg.iterator();
-		SkademeldingReg skads = new ForsikringsReg();
+		SkademeldingReg skads = new SkademeldingReg();
 		Skademelding prøv;
 		while(iter.hasNext() )
 		{
 			prøv = iter.next();
-			if(prøv.getKjøpt().after(date) )
+			if(prøv.getDato().after(dato) )
 				skads.add(prøv);
 		}
 		return skads;
 	}
-
-	public SkademeldingReg getSkadePerKunde( SkademeldingReg reg, String navn )	//finner skader registrert på kunde
+	public SkademeldingReg getSkadePerKunde( SkademeldingReg reg, String kundenr )	//finner skader registrert på kunde
 	{
-		KundeReg kReg = kunReg.finnKunder(navn);
+		KundeReg kReg = kunReg.finnKundeViaKundenr(kundenr);
 		Iterator<Kunde> kunIter = kReg.iterator();
 		Kunde kun;
 		if(kunIter.hasNext())
 			kun = kunIter.next();
 		else
-			return new SkadeReg();
+			return new SkademeldingReg();
 		if(kunIter.hasNext())
 			JOptionPane.showMessageDialog(null, "Flere personer funnet, vennligst spesifiser søket bedre");
 
@@ -807,7 +1157,7 @@ public class Register implements Serializable
 		if(reg == null)
 			return sr;
 
-		SkademeldingReg ade = new SkadeReg();
+		SkademeldingReg ade = new SkademeldingReg();
 		Iterator<Skademelding> iter = sr.iterator();
 		Skademelding prøv;
 		while(iter.hasNext())
@@ -817,7 +1167,7 @@ public class Register implements Serializable
 				ade.add(prøv);
 		}
 		return ade;
-	}
+	}/*
 	//Denne må sees mer på, fungerer mest sannsynlig ikke:
 	public KundeReg getKunderPerForsikringKategori(ForsikringsReg reg, boolean bil, boolean båt, boolean hus, boolean innbo, boolean hytte, boolean innbo2)
 	{															//finner kunde med den type forsikring
@@ -875,7 +1225,31 @@ public class Register implements Serializable
 		return frs;
 	}*/
 
+	public Kunde getKundeViaNummer(String nr)
+	{
+		String mnr = nr;
+		KundeReg kReg = kunReg.finnKundeViaNr(mnr);
+		if(kReg == null)
+			return null;
+		Iterator<Kunde> iter = kReg.iterator();
+		return iter.next();
+	}
 
+	public KundeReg getKundeViaNummer(KundeReg reg, String nr)
+	{
+		if(reg == null)
+			reg = kunReg;
+		Kunde temp;
+		KundeReg rem = new KundeReg();
+		Iterator<Kunde> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getPersonNr().equals(nr))
+				rem.add(temp);
+		}
+		return rem;
+	}
 
 	public Kunde getKundeViaKundeNr(String nr)
 	{
@@ -893,8 +1267,17 @@ public class Register implements Serializable
 	public KundeReg getKundeViaKundeNr(KundeReg reg, String knr)
 	{
 		if(reg == null)
-			return kunReg.finnKunder(knr);
-		return reg.finnKunder(knr);	//reg.finnKundeViaKundenr(knr)
+			reg = kunReg;
+		Kunde temp;
+		KundeReg rem = new KundeReg();
+		Iterator<Kunde> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getKundeNr().equals(knr))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public KundeReg getKunderViaAktiv(KundeReg reg, boolean a)
@@ -921,55 +1304,84 @@ public class Register implements Serializable
 	public KundeReg getKundeViaNavn(KundeReg reg, String navn)	//åpenbar
 	{
 		if(reg == null)
-			return kunReg.finnKunder(navn);
-		return reg.finnKunder(navn);	//reg.finnKundeViaNavn(navn)
+			reg = kunReg;
+		Kunde temp;
+		KundeReg rem = new KundeReg();
+		Iterator<Kunde> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getFornavn().toLowerCase().equals(navn.toLowerCase()) ||
+				temp.getEtternavn().toLowerCase().equals(navn.toLowerCase()))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public KundeReg getKundeViaTelefon(KundeReg reg, String tlf)
 	{
 		if(reg == null)
-			return kunReg.finnKunder(tlf);
-		return reg.finnKunder(tlf);	//reg.finnKundeViaTelefon(tlf)
+			reg = kunReg;
+		Kunde temp;
+		KundeReg rem = new KundeReg();
+		Iterator<Kunde> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getTelefonNr().equals(tlf))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public KundeReg getKundeViaAdresse(KundeReg reg, String adr)
 	{
 		if(reg == null)
-			return kunReg.finnKunder(adr);
-		return reg.finnKunder(adr);	//reg.finnKundeViaAdresse(adr)
+			reg = kunReg;
+		Kunde temp;
+		KundeReg rem = new KundeReg();
+		Iterator<Kunde> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getAdresse().equals(adr))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public KundeReg getKundeViaPostnr(KundeReg reg, String pnr)
 	{
 		if(reg == null)
-			return kunReg.finnKunder(pnr);
-		return reg.finnKunder(pnr);	//reg.finnKundeViaPostnr(pnr)
+			reg = kunReg;
+		Kunde temp;
+		KundeReg rem = new KundeReg();
+		Iterator<Kunde> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getPostnr().equals(pnr))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
 	public KundeReg getKundeViaBy(KundeReg reg, String by)
 	{
 		if(reg == null)
-			return kunReg.finnKunder(by);
-		return reg.finnKunder(by);	//reg.finnKundeViaBy(by)
+			reg = kunReg;
+		Kunde temp;
+		KundeReg rem = new KundeReg();
+		Iterator<Kunde> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getPoststed().equals(by))
+				rem.add(temp);
+		}
+		return rem;
 	}
 
-
-	/*
-	public KundeReg getKundePerSkadeType(KundeReg reg, String skadet)	//finner kunder med den type skade registrert
-	{
-		if(reg == null)
-			reg = kunReg;
-		Iterator<Skademelding> iter = getSkademeldingViaType(null, skadet).iterator();
-		KundeReg kun = new KundeReg();
-		Skademelding prøv;
-		while(iter.hadNext())
-		{
-			prøv = iter.next();
-			if(prøv.getSkadeType().toLowerCase().equals(type.toLowerCase()) && reg.contains(prøv.getKunde()))
-				kun.add(prøv.getKunde());
-		}
-		return kun;
-	}*/
 	/*
 	public void setNåForsikringsNr()	//noe med forsikringsnummer
 	{
