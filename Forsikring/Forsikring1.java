@@ -139,10 +139,10 @@ class BilForsikring1 extends Forsikring1
 	protected String forsikringsinfo, ja = "Ja", nei = "Nei";
 	protected String eiernavn, registreringsnr, type, modell;
 	protected int forsikringsbeløp;
-	private int registreringsår, kjørelengde, prisPrKm, hjelpenr, kategori;
+	private int registreringsår, kjørelengde, prisPrKm, hjelpenr, kategori, bonus;
 	private static int nestenr = 30000;
 
-	public BilForsikring1(String kunpnr, String info, int kat, String eier, String regnr, String merke, String mod, int regår, int kmårlig, int beløp)
+	public BilForsikring1(String kunpnr, String info, int kat, String eier, String regnr, String merke, String mod, int regår, int kmårlig, int fobeløp, int b)
 	{
 		super(kunpnr, info, kat);
 		eiernavn = eier;
@@ -151,10 +151,527 @@ class BilForsikring1 extends Forsikring1
 		modell = mod;
 		registreringsår = regår;
 		kjørelengde = kmårlig;
-		forsikringsbeløp = beløp;
+		forsikringsbeløp = fobeløp;
 		hjelpenr = nestenr;
 		nestenr++;
+		bonus = b;
 	}
+	public int billTypeBeløp()
+	{
+		if(type.equals("Volvo"))
+			return 1000;
+		else if(type.equals("Audi"))
+			return 1000;
+		else if(type.equals("BMW"))
+			return 1000;
+		else if(type.equals("Chevrolet"))
+			return 1000;
+		else if(type.equals("Chrysler"))
+			return 1000;
+		else if(type.equals("Ford"))
+			return 1000;
+		else if(type.equals("Lexus"))
+			return 1000;
+		else if(type.equals("Maserati"))
+			return 1000;
+		else if(type.equals("Mercedes-Benz"))
+			return 1000;
+		else if(type.equals("Porsche"))
+			return 1000;
+		else
+			return 1000;
+	}
+	public int regÅrBeløp()
+	{	
+		int beløp = 0;
+		if(registreringsår == 1993 )
+		{
+			if(bonus == 0)
+				beløp = 25356;
+			else if(bonus == 10)	
+				beløp = 23850;
+			else if(bonus == 20)
+				beløp = 23172;
+			else if(bonus == 30)
+				beløp = 21000;
+			else if(bonus == 40)
+				beløp = 18816;
+			else if(bonus == 50)
+				beløp = 16644;
+			else if(bonus == 60)
+				beløp = 14460;
+			else if(bonus == 70)
+				beløp = 12264;
+			else
+				beløp = 11196;
+		}
+		else if(registreringsår == 1994 )
+		{
+			if(bonus == 0)
+				beløp = 24956;
+			else if(bonus == 10)	
+				beløp = 23450;
+			else if(bonus == 20)
+				beløp = 22772;
+			else if(bonus == 30)
+				beløp = 20600;
+			else if(bonus == 40)
+				beløp = 18416;
+			else if(bonus == 50)
+				beløp = 16244;
+			else if(bonus == 60)
+				beløp = 14060;
+			else if(bonus == 70)
+				beløp = 11864;
+			else
+				beløp = 10796;
+		}
+		else if(registreringsår == 1995 )
+		{
+			if(bonus == 0)
+				beløp = 24556;
+			else if(bonus == 10)	
+				beløp = 23050;
+			else if(bonus == 20)
+				beløp = 22372;
+			else if(bonus == 30)
+				beløp = 20200;
+			else if(bonus == 40)
+				beløp = 18016;
+			else if(bonus == 50)
+				beløp = 15844;
+			else if(bonus == 60)
+				beløp = 13660;
+			else if(bonus == 70)
+				beløp = 11464;
+			else
+				beløp = 10396;
+		}
+		else if(registreringsår == 1996 )
+		{
+			if(bonus == 0)
+				beløp = 24156;
+			else if(bonus == 10)	
+				beløp = 22650;
+			else if(bonus == 20)
+				beløp = 21972;
+			else if(bonus == 30)
+				beløp = 19800;
+			else if(bonus == 40)
+				beløp = 17616;
+			else if(bonus == 50)
+				beløp = 15444;
+			else if(bonus == 60)
+				beløp = 13260;
+			else if(bonus == 70)
+				beløp = 11064;
+			else
+				beløp = 9996;
+		}
+		else if(registreringsår == 1997 )
+		{
+			if(bonus == 0)
+				beløp = 23756;
+			else if(bonus == 10)	
+				beløp = 22250;
+			else if(bonus == 20)
+				beløp = 21572;
+			else if(bonus == 30)
+				beløp = 19400;
+			else if(bonus == 40)
+				beløp = 17216;
+			else if(bonus == 50)
+				beløp = 15044;
+			else if(bonus == 60)
+				beløp = 12860;
+			else if(bonus == 70)
+				beløp = 10664;
+			else
+				beløp = 9596;
+		}
+		else if(registreringsår == 1998 )
+		{
+			if(bonus == 0)
+				beløp = 23356;
+			else if(bonus == 10)	
+				beløp = 21850;
+			else if(bonus == 20)
+				beløp = 21172;
+			else if(bonus == 30)
+				beløp = 19000;
+			else if(bonus == 40)
+				beløp = 16816;
+			else if(bonus == 50)
+				beløp = 14644;
+			else if(bonus == 60)
+				beløp = 12460;
+			else if(bonus == 70)
+				beløp = 10264;
+			else
+				beløp = 9196;
+		}
+		else if(registreringsår == 1999 )
+		{
+			if(bonus == 0)
+				beløp = 22956;
+			else if(bonus == 10)	
+				beløp = 21450;
+			else if(bonus == 20)
+				beløp = 20772;
+			else if(bonus == 30)
+				beløp = 18600;
+			else if(bonus == 40)
+				beløp = 16416;
+			else if(bonus == 50)
+				beløp = 14244;
+			else if(bonus == 60)
+				beløp = 12060;
+			else if(bonus == 70)
+				beløp = 9864;
+			else
+				beløp = 8796;
+		}
+		else if(registreringsår == 2000 )
+		{
+			if(bonus == 0)
+				beløp = 22556;
+			else if(bonus == 10)	
+				beløp = 21050;
+			else if(bonus == 20)
+				beløp = 20372;
+			else if(bonus == 30)
+				beløp = 18200;
+			else if(bonus == 40)
+				beløp = 16016;
+			else if(bonus == 50)
+				beløp = 13844;
+			else if(bonus == 60)
+				beløp = 11660;
+			else if(bonus == 70)
+				beløp = 9464;
+			else
+				beløp = 8396;
+		}
+		else if(registreringsår == 2001 )
+		{
+			if(bonus == 0)
+				beløp = 22156;
+			else if(bonus == 10)	
+				beløp = 20650;
+			else if(bonus == 20)
+				beløp = 19972;
+			else if(bonus == 30)
+				beløp = 17800;
+			else if(bonus == 40)
+				beløp = 15616;
+			else if(bonus == 50)
+				beløp = 13444;
+			else if(bonus == 60)
+				beløp = 11260;
+			else if(bonus == 70)
+				beløp = 9064;
+			else
+				beløp = 7996;
+		}
+		else if(registreringsår == 2002 )
+		{
+			if(bonus == 0)
+				beløp = 21756;
+			else if(bonus == 10)	
+				beløp = 20650;
+			else if(bonus == 20)
+				beløp = 19572;
+			else if(bonus == 30)
+				beløp = 17400;
+			else if(bonus == 40)
+				beløp = 15216;
+			else if(bonus == 50)
+				beløp = 13044;
+			else if(bonus == 60)
+				beløp = 10860;
+			else if(bonus == 70)
+				beløp = 8664;
+			else
+				beløp = 7596;
+		}
+		else if(registreringsår == 2003 )
+		{
+			if(bonus == 0)
+				beløp = 21356;
+			else if(bonus == 10)	
+				beløp = 20250;
+			else if(bonus == 20)
+				beløp = 19172;
+			else if(bonus == 30)
+				beløp = 17000;
+			else if(bonus == 40)
+				beløp = 14816;
+			else if(bonus == 50)
+				beløp = 12644;
+			else if(bonus == 60)
+				beløp = 10460;
+			else if(bonus == 70)
+				beløp = 8264;
+			else
+				beløp = 7196;
+		}
+		else if(registreringsår == 2004 )
+		{
+			if(bonus == 0)
+				beløp = 20956;
+			else if(bonus == 10)	
+				beløp = 19850;
+			else if(bonus == 20)
+				beløp = 18772;
+			else if(bonus == 30)
+				beløp = 16600;
+			else if(bonus == 40)
+				beløp = 14416;
+			else if(bonus == 50)
+				beløp = 12244;
+			else if(bonus == 60)
+				beløp = 10060;
+			else if(bonus == 70)
+				beløp = 7864;
+			else
+				beløp = 6796;
+		}
+		else if(registreringsår == 2005 )
+		{
+			if(bonus == 0)
+				beløp = 20556;
+			else if(bonus == 10)	
+				beløp = 19450;
+			else if(bonus == 20)
+				beløp = 18372;
+			else if(bonus == 30)
+				beløp = 16200;
+			else if(bonus == 40)
+				beløp = 14016;
+			else if(bonus == 50)
+				beløp = 11844;
+			else if(bonus == 60)
+				beløp = 9660;
+			else if(bonus == 70)
+				beløp = 7464;
+			else
+				beløp = 6396;
+		}
+		else if(registreringsår == 2006 )
+		{
+			if(bonus == 0)
+				beløp = 20156;
+			else if(bonus == 10)	
+				beløp = 19050;
+			else if(bonus == 20)
+				beløp = 17972;
+			else if(bonus == 30)
+				beløp = 15800;
+			else if(bonus == 40)
+				beløp = 13616;
+			else if(bonus == 50)
+				beløp = 11444;
+			else if(bonus == 60)
+				beløp = 9260;
+			else if(bonus == 70)
+				beløp = 7064;
+			else
+				beløp = 5996;
+		}
+		else if(registreringsår == 2007 )
+		{
+			if(bonus == 0)
+				beløp = 19756;
+			else if(bonus == 10)	
+				beløp = 18650;
+			else if(bonus == 20)
+				beløp = 17572;
+			else if(bonus == 30)
+				beløp = 15400;
+			else if(bonus == 40)
+				beløp = 13216;
+			else if(bonus == 50)
+				beløp = 11044;
+			else if(bonus == 60)
+				beløp = 8860;
+			else if(bonus == 70)
+				beløp = 6664;
+			else
+				beløp = 5596;
+		}
+		else if(registreringsår == 2008 )
+		{
+			if(bonus == 0)
+				beløp = 19356;
+			else if(bonus == 10)	
+				beløp = 18250;
+			else if(bonus == 20)
+				beløp = 17172;
+			else if(bonus == 30)
+				beløp = 1500;
+			else if(bonus == 40)
+				beløp = 12816;
+			else if(bonus == 50)
+				beløp = 10644;
+			else if(bonus == 60)
+				beløp = 8460;
+			else if(bonus == 70)
+				beløp = 6264;
+			else
+				beløp = 5196;
+		}
+		else if(registreringsår == 2009 )
+		{
+			if(bonus == 0)
+				beløp = 18956;
+			else if(bonus == 10)	
+				beløp = 17750;
+			else if(bonus == 20)
+				beløp = 16772;
+			else if(bonus == 30)
+				beløp = 14600;
+			else if(bonus == 40)
+				beløp = 12416;
+			else if(bonus == 50)
+				beløp = 10244;
+			else if(bonus == 60)
+				beløp = 8060;
+			else if(bonus == 70)
+				beløp = 5864;
+			else
+				beløp = 4796;
+		}
+		else if(registreringsår == 2010 )
+		{
+			if(bonus == 0)
+				beløp = 18556;
+			else if(bonus == 10)	
+				beløp = 17350;
+			else if(bonus == 20)
+				beløp = 16372;
+			else if(bonus == 30)
+				beløp = 14200;
+			else if(bonus == 40)
+				beløp = 12016;
+			else if(bonus == 50)
+				beløp = 9844;
+			else if(bonus == 60)
+				beløp = 7660;
+			else if(bonus == 70)
+				beløp = 5464;
+			else
+				beløp = 4396;
+		}
+		else if(registreringsår == 2011 )
+		{
+			if(bonus == 0)
+				beløp = 18156;
+			else if(bonus == 10)	
+				beløp = 16950;
+			else if(bonus == 20)
+				beløp = 15972;
+			else if(bonus == 30)
+				beløp = 13800;
+			else if(bonus == 40)
+				beløp = 11616;
+			else if(bonus == 50)
+				beløp = 9444;
+			else if(bonus == 60)
+				beløp = 7260;
+			else if(bonus == 70)
+				beløp = 5064;
+			else
+				beløp = 4196;
+		}
+		else if(registreringsår == 2012 )
+		{
+			if(bonus == 0)
+				beløp = 17956;
+			else if(bonus == 10)	
+				beløp = 16750;
+			else if(bonus == 20)
+				beløp = 15772;
+			else if(bonus == 30)
+				beløp = 13600;
+			else if(bonus == 40)
+				beløp = 11416;
+			else if(bonus == 50)
+				beløp = 9244;
+			else if(bonus == 60)
+				beløp = 7060;
+			else if(bonus == 70)
+				beløp = 4864;
+			else
+				beløp = 3996;
+		}
+		else if(registreringsår == 2013 )
+		{
+			if(bonus == 0)
+				beløp = 17956;
+			else if(bonus == 10)	
+				beløp = 16750;
+			else if(bonus == 20)
+				beløp = 15772;
+			else if(bonus == 30)
+				beløp = 13600;
+			else if(bonus == 40)
+				beløp = 11416;
+			else if(bonus == 50)
+				beløp = 9244;
+			else if(bonus == 60)
+				beløp = 7060;
+			else if(bonus == 70)
+				beløp = 4864;
+			else
+				beløp = 3996;
+		}
+		else if(registreringsår == 2014 )
+		{
+			if(bonus == 0)
+				beløp = 17556;
+			else if(bonus == 10)	
+				beløp = 16350;
+			else if(bonus == 20)
+				beløp = 15372;
+			else if(bonus == 30)
+				beløp = 13200;
+			else if(bonus == 40)
+				beløp = 11016;
+			else if(bonus == 50)
+				beløp = 8844;
+			else if(bonus == 60)
+				beløp = 6660;
+			else if(bonus == 70)
+				beløp = 4464;
+			else
+				beløp = 3596;
+		}
+		else if(registreringsår == 2015 )
+		{
+			if(bonus == 0)
+				beløp = 17156;
+			else if(bonus == 10)	
+				beløp = 15950;
+			else if(bonus == 20)
+				beløp = 14972;
+			else if(bonus == 30)
+				beløp = 12800;
+			else if(bonus == 40)
+				beløp = 10616;
+			else if(bonus == 50)
+				beløp = 8444;
+			else if(bonus == 60)
+				beløp = 6260;
+			else if(bonus == 70)
+				beløp = 4064;
+			else
+				beløp = 3196;
+		}
+		return beløp;
+	}
+	
+	
+
 
 	public int getForsikringsbeløp()
 	{
@@ -562,12 +1079,12 @@ class BilForsikring extends Fartøy implements Serializable
 class BåtForsikring1 extends Forsikring1 implements Serializable
 {
 	static final long serialVersionUID = 42L;
-	private String eiernavn, registreringsnr, båttype, modell, båtfornr, motortype;
+	private String eiernavn, registreringsnr, båttype, modell, båtfornr, motortype, alder;
 	private int forsikringsbeløp, årsmodell, båtlengde, motorstyrke, hjelpenr;
 	private static int nestenr = 40000;
 	private boolean aktiv;
 
-	public BåtForsikring1(String kunpnr, int beløp, String info, String eier, String regnr, String typ, String mod, int modellår, int lengde, String motortyp, int styrke, int kat)
+	public BåtForsikring1(String kunpnr, int beløp, String info, String eier, String regnr, String typ, String mod, int modellår, int lengde, String motortyp, int styrke, int kat, String al)
 	{
 		super(kunpnr, info, kat);
 		forsikringsbeløp = beløp;
@@ -582,8 +1099,81 @@ class BåtForsikring1 extends Forsikring1 implements Serializable
 		hjelpenr = nestenr;
 		nestenr++;
 		aktiv = true;
+		alder = al;
 	}
-
+	
+	public int regÅrBeløp()
+	{
+		if(årsmodell == 1993)
+			return 2650;
+		else if(årsmodell == 1994)
+			return 2550;
+		else if(årsmodell == 1995)
+			return 2450;
+		else if(årsmodell == 1996)
+			return 2350;
+		else if(årsmodell == 1997)
+			return 2250;
+		else if(årsmodell == 1998)
+			return 2150;
+		else if(årsmodell == 1999)
+			return 2050;
+		else if(årsmodell == 2000)
+			return 1950;
+		else if(årsmodell == 2001)
+			return 1850;
+		else if(årsmodell == 2002)
+			return 1750;
+		else if(årsmodell == 2003)
+			return 1650;
+		else if(årsmodell == 2004)
+			return 1550;
+		else if(årsmodell == 2005)
+			return 1450;
+		else if(årsmodell == 2006)
+			return 1350;
+		else if(årsmodell == 2007)
+			return 1250;
+		else if(årsmodell == 2008)
+			return 1150;
+		else if(årsmodell == 2009)
+			return 1050;
+		else if(årsmodell == 2010)
+			return 950;
+		else if(årsmodell == 2011)
+			return 850;
+		else if(årsmodell == 2012)
+			return 750;
+		else if(årsmodell == 2013)
+			return 650;
+		else if(årsmodell == 2014)
+			return 550;
+		else
+			return 450;
+	}
+	
+	public int båtTypeBeløp()
+	{
+		if(båttype.equals("Seilbåt"))
+			return 1500;
+		else if(båttype.equals("Motorbåt med innenbordsmotor"))
+			return 1500;
+		else if(båttype.equals("Motorbåt med utenbordsmotor"))
+			return 1500;
+		else
+			return 500;
+	}
+	
+	public int alderBeløp()
+	{
+		if(alder.equals("Båtfører < 23 år"))
+			return 3000;
+		else if(alder.equals("Båtførere mellom 23-25 år"))
+			return 2500;
+		else
+			return 2000;
+	}
+	
 	public int getForsikringsbeløp()
 	{
 		return forsikringsbeløp;
@@ -742,6 +1332,142 @@ class HusForsikring1 extends Forsikring1 implements Serializable
 		hjelpenr = nestenr;
 		nestenr++;
 		aktiv = true;
+	}
+	
+	public int byggeårBeløp()
+	{
+		if(byggeår >= 2010 && byggeår < 2016)
+			return 200; 
+		else if(byggeår >= 2000 && byggeår < 2009)
+			return 220;
+		else if(byggeår >= 1990 && byggeår < 1999)
+			return 240; 
+		else if(byggeår >= 1980 && byggeår < 1989)
+			return 260;
+		else if(byggeår >= 1970 && byggeår < 1979)
+			return 280; 
+		else if(byggeår >= 1960 && byggeår < 1969)
+			return 300;
+		else if(byggeår >= 1950 && byggeår < 1959)
+			return 320; 
+		else if(byggeår >= 1940 && byggeår < 1949)
+			return 340;
+		else if(byggeår >= 1930 && byggeår < 1939)
+			return 360;
+		else if(byggeår >= 1920 && byggeår < 1929)
+			return 380; 
+		else if(byggeår >= 1910 && byggeår < 1919)
+			return 400;
+		else if(byggeår >= 1900 && byggeår < 1909)
+			return 420;
+		else
+			return 440;
+	}
+
+	public int byggematerialeBeløp()
+	{
+		if(byggemateriale.equals("Mur"))
+			return 200;
+		else if(byggemateriale.equals("Brannfast"))
+			return 100;
+		else if(byggemateriale.equals("Tre"))
+			return 200;
+		else
+			return 500;
+	}
+	
+	public int standardBeløp()
+	{
+		if(standard.equals("Normal standard"))
+			return 220;
+		else if(standard.equals("Bedre standard"))
+			return 420;
+		else
+			return 620; 
+	}
+	
+	public int boligtypeBeløp()
+	{
+		if(boligtype.equals("Enebolig"))
+			return 300;
+		else if(boligtype.equals("Tomannsbolig"))
+			return 200;
+		else if(boligtype.equals("Rekkehus"))
+			return 200; 
+		else if(boligtype.equals("Tremannsbolig"))
+			return 100; 
+		else 
+			return 50; 
+	} 
+	
+	public int kvadratmeterBeløp()
+	{
+		if(kvadratmeter <= 24)
+			return 250; 
+		else if(kvadratmeter >= 25 && kvadratmeter < 49)
+			return 750;
+		else if(kvadratmeter >= 50 && kvadratmeter < 74)
+			return 1250; 
+		else if(kvadratmeter >= 75 && kvadratmeter < 99)
+			return 1750;
+		else if(kvadratmeter >= 100 && kvadratmeter < 124)
+			return 2250;
+		else if(kvadratmeter >= 125 && kvadratmeter < 149)
+			return 2750;
+		else if(kvadratmeter >= 150 && kvadratmeter < 174)
+			return 3250;
+		else if(kvadratmeter >= 175 && kvadratmeter < 199)
+			return 3750;
+		else if(kvadratmeter >= 200 && kvadratmeter < 224)
+			return 3250; 
+		else if(kvadratmeter >= 225 && kvadratmeter < 249)
+			return 3750;
+		else if(kvadratmeter >= 250 && kvadratmeter < 274)
+			return 4250;
+		else if(kvadratmeter >= 275 && kvadratmeter < 299)
+			return 4750;
+		else if(kvadratmeter >= 300 && kvadratmeter < 324)
+			return 5250;
+		else if(kvadratmeter >= 325 && kvadratmeter < 349)
+			return 5750;
+		else if(kvadratmeter >= 350 && kvadratmeter < 374)
+			return 6250;
+		else if(kvadratmeter >= 375 && kvadratmeter < 399)
+			return 6750;
+		else if(kvadratmeter >= 400 && kvadratmeter < 424)
+			return 7250;
+		else if(kvadratmeter >= 425 && kvadratmeter < 449)
+			return 7750;
+		else if(kvadratmeter >= 450 && kvadratmeter < 499)
+			return 8250;
+		else if(kvadratmeter >= 500 && kvadratmeter < 549)
+			return 8750;
+		else if(kvadratmeter >= 550 && kvadratmeter < 574)
+			return 9250;
+		else if(kvadratmeter >= 575 && kvadratmeter < 600)
+			return 9750;
+		else
+			return 12000;
+	}
+	
+	public int beløpInnBeløp()
+	{
+		if(beløpInn == 150000 )
+			return 150;
+		else if(beløpInn == 300000)
+			return 300;
+		else if(beløpInn == 500000)
+			return 450;
+		else if(beløpInn == 750000)
+			return 600;
+		else if(beløpInn == 10000000)
+			return 750; 
+		else if(beløpInn == 1500000)
+			return 900;
+		else if(beløpInn == 2000000)
+			return 1050;
+		else 
+			return 1200; 
 	}
 
 	public int getForsikringsID()
@@ -903,7 +1629,143 @@ class HytteForsikring1 extends Forsikring1 implements Serializable
 		nestenr++;
 		aktiv = true;
 	}
-
+	
+	public int byggematerialeBeløp()
+	{
+	if (byggemateriale.equals("Mur"))
+		return 250;
+	else if(byggemateriale.equals("Brannfast"))
+		return 150;
+	else if(byggemateriale.equals("Tre"))
+		return 250;
+	else
+		return 550;
+	}
+	
+	public int boligtypeBeløp()
+	{
+		if(boligtype.equals("Enebolig"))
+			return 400;
+		else if(boligtype.equals("Tomannsbolig"))
+			return 300;
+		else if(boligtype.equals("Rekkehus"))
+			return 300; 
+		else if(boligtype.equals("Tremannsbolig"))
+			return 200; 
+		else 
+			return 100; 
+	} 
+	
+	public int standardBeløp()
+	{
+		if(standard.equals("Normal standard"))
+			return 240;
+		else if(standard.equals("Bedre standard"))
+			return 440;
+		else
+			return 640; 
+	}
+	
+	public int kvadratmeterBeløp()
+	{
+		if(kvadratmeter <= 24)
+			return 250; 
+		else if(kvadratmeter >= 25 && kvadratmeter < 49)
+			return 750;
+		else if(kvadratmeter >= 50 && kvadratmeter < 74)
+			return 1250; 
+		else if(kvadratmeter >= 75 && kvadratmeter < 99)
+			return 1750;
+		else if(kvadratmeter >= 100 && kvadratmeter < 124)
+			return 2250;
+		else if(kvadratmeter >= 125 && kvadratmeter < 149)
+			return 2750;
+		else if(kvadratmeter >= 150 && kvadratmeter < 174)
+			return 3250;
+		else if(kvadratmeter >= 175 && kvadratmeter < 199)
+			return 3750;
+		else if(kvadratmeter >= 200 && kvadratmeter < 224)
+			return 3250; 
+		else if(kvadratmeter >= 225 && kvadratmeter < 249)
+			return 3750;
+		else if(kvadratmeter >= 250 && kvadratmeter < 274)
+			return 4250;
+		else if(kvadratmeter >= 275 && kvadratmeter < 299)
+			return 4750;
+		else if(kvadratmeter >= 300 && kvadratmeter < 324)
+			return 5250;
+		else if(kvadratmeter >= 325 && kvadratmeter < 349)
+			return 5750;
+		else if(kvadratmeter >= 350 && kvadratmeter < 374)
+			return 6250;
+		else if(kvadratmeter >= 375 && kvadratmeter < 399)
+			return 6750;
+		else if(kvadratmeter >= 400 && kvadratmeter < 424)
+			return 7250;
+		else if(kvadratmeter >= 425 && kvadratmeter < 449)
+			return 7750;
+		else if(kvadratmeter >= 450 && kvadratmeter < 499)
+			return 8250;
+		else if(kvadratmeter >= 500 && kvadratmeter < 549)
+			return 8750;
+		else if(kvadratmeter >= 550 && kvadratmeter < 574)
+			return 9250;
+		else if(kvadratmeter >= 575 && kvadratmeter < 600)
+			return 9750;
+		else
+			return 12000;
+	}
+	
+	public int beløpInnBeløp()
+	{
+		if(beløpInn == 150000 )
+			return 200;
+		else if(beløpInn == 300000)
+			return 350;
+		else if(beløpInn == 500000)
+			return 500;
+		else if(beløpInn == 750000)
+			return 650;
+		else if(beløpInn == 10000000)
+			return 800; 
+		else if(beløpInn == 1500000)
+			return 950;
+		else if(beløpInn == 2000000)
+			return 1100;
+		else 
+			return 1250; 
+	}
+	
+	public int byggeårBeløp()
+	{
+		if(byggeår >= 2010 && byggeår < 2016)
+			return 200; 
+		else if(byggeår >= 2000 && byggeår < 2009)
+			return 220;
+		else if(byggeår >= 1990 && byggeår < 1999)
+			return 240; 
+		else if(byggeår >= 1980 && byggeår < 1989)
+			return 260;
+		else if(byggeår >= 1970 && byggeår < 1979)
+			return 280; 
+		else if(byggeår >= 1960 && byggeår < 1969)
+			return 300;
+		else if(byggeår >= 1950 && byggeår < 1959)
+			return 320; 
+		else if(byggeår >= 1940 && byggeår < 1949)
+			return 340;
+		else if(byggeår >= 1930 && byggeår < 1939)
+			return 360;
+		else if(byggeår >= 1920 && byggeår < 1929)
+			return 380; 
+		else if(byggeår >= 1910 && byggeår < 1919)
+			return 400;
+		else if(byggeår >= 1900 && byggeår < 1909)
+			return 420;
+		else
+			return 440;
+	}
+	
 	public int getForsikringsID()
 	{
 		return hjelpenr;
