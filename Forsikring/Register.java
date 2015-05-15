@@ -14,7 +14,7 @@ public class Register implements Serializable
 	private BåtForsikringsReg båtReg;
 	private HusForsikringsReg husReg;
 	private HytteForsikringsReg hytReg;
-	//private SkadeReg skaReg;
+	private SkademeldingReg skaReg;
 	private Datasjef data;
 
 	public Register( Datasjef dataer )
@@ -28,7 +28,7 @@ public class Register implements Serializable
 		båtReg = new BåtForsikringsReg();
 		husReg = new HusForsikringsReg();
 		hytReg = new HytteForsikringsReg();
-		//skaReg = new SkadeReg();
+		skaReg = new SkademeldingReg();
 	}
 
 	public void nyAnsatt( Ansatt ans )		//legger inn ny ansatt
@@ -67,6 +67,11 @@ public class Register implements Serializable
 		hytReg.add(hyt);
 	}
 
+	public void nySkade(Skademelding skad)		//legger inn ny skademelding
+	{
+		skaReg.add(skad);
+	}
+
 	public AnsattReg getAnsatte()
 	{
 		return ansReg;
@@ -96,15 +101,22 @@ public class Register implements Serializable
 	{
 		return hytReg;
 	}
-	/*
-	public SkadeReg getSkader()
+
+	public ForsikringsReg getForsikringer()
+	{
+		return fReg;
+	}
+
+	public SkademeldingReg getSkademeldinger()
 	{
 		return skaReg;
-	}*/
+	}
 
 	public void slettAnsatt(Ansatt anna)
 	{
-		ansReg.remove(anna);
+		Calendar slutt = Calendar.getInstance();
+		anna.setAvslutta(slutt);
+		deaktiverBruker(anna);
 	}
 
 	public void deaktiverBruker(Ansatt anna)
@@ -173,8 +185,6 @@ public class Register implements Serializable
 			return ansReg.findDoctorByAnsattNr(anr);
 		return reg.findDoctorByAnsattNr(anr);
 	}
-
-
 
 	public BilForsikring1 getBilViaNr(int nr)
 	{
@@ -661,70 +671,7 @@ public class Register implements Serializable
 
 
 
-
-	/*public AnsattReg getAnsattViaAnsattNr(AnsattReg reg, int anr)
-	{
-		if(reg == null)
-			return ansReg.findDoctorByAnsattNr(anr);
-		return reg.findDoctorByAnsattNr(anr);
-	}*/
-
-	/*public Forsikring1 getForsikringViaNr(int nr)	//finner forsikring via forsikringsnr
-	{
-		if(fReg.sjekkForsikringsNr(nr) == f.TYPE_BIL)
-		{
-			BilForsikring1 fors;
-			Iterator<BilForsikring1> iter = fors.iterator();
-			while(iter.hasNext())
-			{
-				fors = iter.next();
-				if(fReg.getForsikringsNr() == nr)
-					return fors;
-				return null;
-			}
-		}
-		else if(fReg.sjekkForsikringsNr(nr) == fReg.TYPE_BÅT)
-		{
-			BåtForsikring1 fors;
-			Iterator<BåtForsikring1> iter = fors.iterator();
-			while(iter.hasNext())
-			{
-				fors = iter.next();
-				if(fors.getForsikringsNr() == nr)
-					return fors;
-				return null;
-			}
-		}
-		else if(fReg.sjekkForsikringsNr(nr) == fReg.TYPE_HUS)
-		{
-			HusForsikring1 fors;
-			Iterator<HusForsikring1> iter = fors.iterator();
-			while(iter.hasNext())
-			{
-				fors = iter.next();
-				if(fors.getForsikringsNr() == nr)
-					return fors;
-				return null;
-			}
-		}
-		else if(fReg.sjekkForsikringsNr(nr) == fReg.TYPE_HYTTE)
-		{
-			HytteForsikring1 fors;
-			Iterator<HytteForsikring1> iter = fors.iterator();
-			while(iter.hasNext())
-			{
-				fors = iter.next();
-				if(fors.getForsikringsNr() == nr)
-					return fors;
-				return null;
-			}
-		}
-		else
-			return null;
-	}
-
-
-	public SkadeReg getSkadeViaNr( int nr )		//finner skade via skadenr
+	/*public SkademeldingReg getSkadeViaNr( int nr )		//finner skade via skadenr
 	{
 		Skademelding ska;
 		Iterator<Skademelding> iter = ska.iterator();
@@ -735,14 +682,14 @@ public class Register implements Serializable
 				return ska;
 		}
 		return null;
-	}
+	}*/
 
-	public SkadeReg getSkadeViaNr( SkadeReg reg, int nr )	//finner skade via skadenr
+	public SkademeldingReg getSkadeViaNr( SkademeldingReg reg, int nr )	//finner skade via skadenr
 	{
 		if( reg == null )
 			reg = skaReg;
 		Skademelding prøv;
-		SkadeReg ade = new SkadeReg();
+		SkademeldingReg ade = new SkademeldingReg();
 		Iterator<Skademelding> iter = reg.iterator();
 		while(iter.hasNext() )
 		{
@@ -753,14 +700,50 @@ public class Register implements Serializable
 		return ade;
 	}
 
-	public void nySkade(Skademelding skad)		//legger inn ny skademelding
+	public SkademeldingReg getSkadeViaKundeNr(SkademeldingReg reg, String nr)
 	{
-		skad.getKunde().nySkade(skad);
-		//skad.getAnsatt().nySkade(skad);
-		skaReg.add(skad);
+		if(reg == null)
+			reg = skaReg;
+		Skademelding temp;
+		SkademeldingReg rem = new SkademeldingReg();
+		Iterator<Skademelding> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getKundeNr() == nr)
+				rem.add(temp);
+		}
+		return rem;
 	}
 
-	public ForsikringsReg getForsikringerFørDato(ForsikringsReg reg, Calender dato)	//finner forsikringer kjøpt før dato
+	/*public SkademeldingReg getSkadeViaKundeNr(SkademeldingReg reg, String nr)
+	{
+		if(reg == null)
+			reg = skaReg;
+		SKademelding temp;
+		SkademeldingReg rem = new SkademeldingReg();
+		Iterator<Skademelding> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getKundeNr() == nr)
+				rem.add(temp);
+		}
+		return rem;
+	}*/
+
+
+
+
+
+
+
+
+
+
+
+
+	/*public ForsikringsReg getForsikringerFørDato(ForsikringsReg reg, Calendar dato)	//finner forsikringer kjøpt før dato
 	{
 		if( reg == null )
 			reg = forReg;
@@ -776,12 +759,12 @@ public class Register implements Serializable
 		return fors;
 	}
 
-	public SkadeReg getSkademeldingFørDato(SkadeReg reg, Calender dato)	//finner skademeldinger registrert før dato
+	public SkadeReg getSkademeldingFørDato(SkademeldingReg reg, Calender dato)	//finner skademeldinger registrert før dato
 	{
 		if( reg == null )
 			reg = skaReg;
 		Iterator<Skademelding> iter = reg.iterator();
-		SkadeReg skads = new SkadeReg();
+		SkademeldingReg skads = new SkadeReg();
 		Skademelding prøv;
 		while(iter.hasNext() )
 		{
@@ -797,7 +780,7 @@ public class Register implements Serializable
 		if( reg == null )
 			reg = skaReg;
 		Iterator<Skademelding> iter = reg.iterator();
-		SkadeReg skads = new ForsikringsReg();
+		SkademeldingReg skads = new ForsikringsReg();
 		Skademelding prøv;
 		while(iter.hasNext() )
 		{
@@ -808,7 +791,7 @@ public class Register implements Serializable
 		return skads;
 	}
 
-	public SkadeReg getSkadePerKunde( SkadeReg reg, String navn )	//finner skader registrert på kunde
+	public SkademeldingReg getSkadePerKunde( SkademeldingReg reg, String navn )	//finner skader registrert på kunde
 	{
 		KundeReg kReg = kunReg.finnKunder(navn);
 		Iterator<Kunde> kunIter = kReg.iterator();
@@ -820,11 +803,11 @@ public class Register implements Serializable
 		if(kunIter.hasNext())
 			JOptionPane.showMessageDialog(null, "Flere personer funnet, vennligst spesifiser søket bedre");
 
-		SkadeReg sr = kun.getSkademeldinger();
+		SkademeldingReg sr = kun.getSkademeldinger();
 		if(reg == null)
 			return sr;
 
-		SkadeReg ade = new SkadeReg();
+		SkademeldingReg ade = new SkadeReg();
 		Iterator<Skademelding> iter = sr.iterator();
 		Skademelding prøv;
 		while(iter.hasNext())
@@ -892,22 +875,7 @@ public class Register implements Serializable
 		return frs;
 	}*/
 
-	public Kunde getKundeViaNummer(String nr)
-	{
-		String mnr = nr;
-		KundeReg kReg = kunReg.finnKundeViaNr(mnr);
-		if(kReg == null)
-			return null;
-		Iterator<Kunde> iter = kReg.iterator();
-		return iter.next();
-	}
 
-	public KundeReg getKundeViaNummer(KundeReg reg, String nr)
-	{
-		if(reg == null)
-			return kunReg.finnKunder(nr);
-		return reg.finnKunder(nr);	//reg.finnKundeViaNr(nr)
-	}
 
 	public Kunde getKundeViaKundeNr(String nr)
 	{
@@ -927,6 +895,26 @@ public class Register implements Serializable
 		if(reg == null)
 			return kunReg.finnKunder(knr);
 		return reg.finnKunder(knr);	//reg.finnKundeViaKundenr(knr)
+	}
+
+	public KundeReg getKunderViaAktiv(KundeReg reg, boolean a)
+	{
+		if(reg == null)
+			reg = kunReg;
+		if(!a)
+			return reg;
+		KundeReg res = new KundeReg();
+		Iterator<Kunde> iter = res.iterator();
+		Kunde temp;
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getAktiv() == a)
+				res.add(temp);
+			else
+				res.add(temp);
+		}
+		return res;
 	}
 
 
