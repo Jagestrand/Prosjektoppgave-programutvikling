@@ -2,6 +2,7 @@ import java.util.*;
 import java.text.DateFormat;
 import javax.swing.*;
 import javax.swing.table.*;
+import java.text.*;
 
 public class TModel extends AbstractTableModel
 {
@@ -32,7 +33,7 @@ public class TModel extends AbstractTableModel
 	private HusForsikring1[] hus;
 	private HytteForsikring1[] hytte;
 	private Skademelding[] ska;
-	
+
 	public TModel()//oppretter en modell for en tom tabell
 	{
 		navn = new String[0];
@@ -300,6 +301,12 @@ public class TModel extends AbstractTableModel
 
 	public TModel(SkademeldingReg reg)//oppretter en model for en skademelding tabell
 	{
+		if(reg == null)
+		{
+			navn = skaNavn;
+			data = new Object[0][0];
+			return;
+		}
 		navn = skaNavn;
 		int length = reg.size(), width = navn.length;
 		data = new Object[length][width];
@@ -316,9 +323,9 @@ public class TModel extends AbstractTableModel
 			data[i][j++] = temp.getSkadeNr();
 			data[i][j++] = temp.getKundeNr();
 			data[i][j++] = df.format(temp.getDato().getTime() );
-			data[i][j++] = temp.getSkadetype();
+			data[i][j++] = temp.getSkadeType();
 			data[i][j++] = nf.format(temp.getTakst());
-			data[i][j++] = temp.getUtbetalt() == null ? "" : nf.format(temp.getUtbetalt() );
+			data[i][j++] = temp.getUtbetalt() == 0 ? "" : nf.format(temp.getUtbetalt() );
 			data[i][j++] = nf.format(temp.getStatus());
 			data[i][j++] = temp.getKunde().getAktiv();
 			ska[i] = temp;
@@ -346,7 +353,7 @@ public class TModel extends AbstractTableModel
 	{
 		return fors;
 	}
-	
+
 	public Skademelding[] getSkademeldinger()
 	{
 		return ska;
