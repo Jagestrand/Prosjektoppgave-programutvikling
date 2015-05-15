@@ -42,6 +42,12 @@ public class TModel extends AbstractTableModel
 	}
 	public TModel(KundeReg reg)//oppretter en model for en kunde tabell
 	{
+		if(reg == null)
+		{
+			navn = kunNavn;
+			data = new Object[0][0];
+			return;
+		}
 		navn = kunNavn;
 		int length = reg.size(), width = navn.length;
 		data = new Object[length][width];
