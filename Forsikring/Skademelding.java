@@ -79,7 +79,7 @@ public class Skademelding
 		return skadetype;
 	}
 
-	public long getTakst()
+	public int getTakst()
 	{
 		return takstbeløp;
 	}
