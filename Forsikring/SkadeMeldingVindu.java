@@ -5,7 +5,7 @@ import java.util.Calendar;
 import javax.swing.*;
 
 
-public class Skademelding extends JFrame
+public class SkadeMeldingVindu extends JFrame
  {
     private JPanel cardPanel, infoPanel;
     private JScrollPane scrollPane;
