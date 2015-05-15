@@ -32,7 +32,7 @@ public class SkadeMeldingVindu extends JFrame
 
 
 
-    public Skademelding()
+    public SkadeMeldingVindu()
     {
     	//Vinduets size.
     	setTitle("Fyll ut skadeskjema");
@@ -113,7 +113,7 @@ public class SkadeMeldingVindu extends JFrame
 		skadeStedBåt = new JTextField(DATA_FIELD_LENGTH);
 		beskrivBåtLabel = new JLabel("Beskriv skaden:");
 		beskrivBåt = new JTextField(DATA_FIELD_LENGTH);
-    	taksbelopBåtLabel = new JLabel("Takseringsbelop av skaden:");
+    		taksbelopBåtLabel = new JLabel("Takseringsbelop av skaden:");
 		taksbelopBåt = new JTextField(DATA_FIELD_LENGTH);
 		navnBåtLabel = new JLabel("Vitne navn:     *Vennligst fyll inn eventuell Vitne");
 		navnBåt = new JTextField(DATA_FIELD_LENGTH);
