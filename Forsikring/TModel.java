@@ -14,13 +14,14 @@ public class TModel extends AbstractTableModel
 	private final String[] hytteNavn = {"Forsikringsnr", "Inngått", "Avsluttet", "Kundenr", "Forsikringsbeløp(total)", "Adresse", "Byggeår", "Boligtype", "Byggemateriale", "Standard", "Kvadratmeter", "Forsikringsbeløp(bygning)", "Forsikringsbeløp(innbo)", "Aktiv"};
 	private final String[] ansNavn = {"Ansattnummer", "Ansatt", "Avsluttet", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Ansatt ved", "Status"};//kollonnenavn for tabellen
 	private final String[] kunNavn = {"Kundenr", "Kundestart", "Kundeslutt", "Personnummer", "Fornavn", "Etternavn", "Telefon", "Adresse", "Postnr", "Poststed", "Status"};//kolonnenavn for tabellen
+	private final String[] skaNavn = {"Skadenr", "Kundenr", "Skadedato", "Skadetype", "Erstatning takst", "Erstatning utbetalt", "Status", "Kundestatus"};
 	public static final int ANSATT_NR = 0, ANSATTID = 1, AVSLUTTID = 2,
 							KUNDE_NR = 0, KUNDESTART = 1, KUNDESLUTT = 2, PERSON_NR = 3, FIRSTNAME = 4, LASTNAME = 5, PHONE = 6, ADR = 7, POST_NR = 8, POST_STED = 9, STATUS = 10,
 							FORSIKRINGS_NR = 0, INNGÅTT = 1, AVSLUTTET = 2, KUNDENS_NR = 3, FORSIKRINGSBELØP = 4, EIER = 5, REG_NR = 6, TYPE = 7, MODELL = 8, BÅTLENGDE = 9, ÅRSMODELL = 10, MOTORTYPE = 11, HESTEKREFT = 12, AKTIV = 13,
 																																							REG_ÅR = 9, ÅRLIG_KJØR = 10, PRIS_KM = 11, BONUS = 12,
-																						FORSIKRINGSBELØPTOT = 4, ADRESSE = 5, BYGG_ÅR = 6, BOLIG_TYPE = 7, BYGGEMATERIALE = 8, STANDARD = 9, KVADRATMETER = 10, BYGNINGBELØP = 11, INNBOBELØP = 12;
+																						FORSIKRINGSBELØPTOT = 4, ADRESSE = 5, BYGG_ÅR = 6, BOLIG_TYPE = 7, BYGGEMATERIALE = 8, STANDARD = 9, KVADRATMETER = 10, BYGNINGBELØP = 11, INNBOBELØP = 12,
+							SKADE_NR = 0, KUNDENR = 1, SKADE_DATO = 2, SKADE_TYPE = 3, TAKST = 4, UTBETALT = 5, SKADE_STATUS = 6, KUNDE_STATUS = 7;
 																								//nummer på kolonnene
-	//private final String[] skaNames = <kolonner for skademeldinger>
 	private int searchFor;
 	private boolean editable;
 	private Ansatt[] ans;
@@ -30,6 +31,8 @@ public class TModel extends AbstractTableModel
 	private BåtForsikring1[] båt;
 	private HusForsikring1[] hus;
 	private HytteForsikring1[] hytte;
+	private Skademelding[] ska;
+	
 	public TModel()//oppretter en modell for en tom tabell
 	{
 		navn = new String[0];
@@ -197,7 +200,7 @@ public class TModel extends AbstractTableModel
 		{
 			temp = iter.next();
 			int j = 0;
-			data[i][j++] = temp.getForsikringsnr();
+			data[i][j++] = temp.getForsikringsNr();
 			data[i][j++] = df.format(temp.getInngått().getTime() );
 			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
 			data[i][j++] = temp.getKundeNr();
@@ -295,73 +298,34 @@ public class TModel extends AbstractTableModel
 		searchFor = AnsattVindu.SØK_HYTTE;
 	}
 
-	/*
-	public TModel(ForsikringReg reg)//oppretter en tabell for resept tabell
+	public TModel(SkademeldingReg reg)//oppretter en model for en skademelding tabell
 	{
-		if(reg == null)
-		{
-			names = preNames;
-			data = new Object[0][0];
-			return;
-		}
-		names = preNames;
-		int length = reg.size(), width = names.length;
+		navn = skaNavn;
+		int length = reg.size(), width = navn.length;
 		data = new Object[length][width];
-		pre = new Forsikring[length];
-		Iterator<Forsikring> iter= reg.iterator();
-		Forsikring temp;
+		ska = new Skademelding[length];
+		Iterator<Skademelding> iter= reg.iterator();
+		Skademelding temp;
 		DateFormat df = DateFormat.getDateInstance();
+		Locale norsk = new Locale("no", "NO");
+		NumberFormat nf = NumberFormat.getCurrencyInstance(norsk);
 		for(int i = 0; i < length; i++)
 		{
 			temp = iter.next();
 			int j = 0;
-			data[i][j++] = temp.getPrescriptionNr();
-			data[i][j++] = df.format(temp.getPrinted().getTime() );
-			data[i][j++] = temp.getRecived() == null ? "" : df.format(temp.getRecived().getTime() );
-			data[i][j++] = temp.getPatient().getlastName();
-			data[i][j++] = temp.getDoctor().getlastName();
-			data[i][j++] = temp.getMedName();
-			data[i][j++] = temp.getCategory();
-			data[i][j++] = PrescriptionReg.getGroupString(temp.getGroup() );
-			pre[i] = temp;
+			data[i][j++] = temp.getSkadeNr();
+			data[i][j++] = temp.getKundeNr();
+			data[i][j++] = df.format(temp.getDato().getTime() );
+			data[i][j++] = temp.getSkadetype();
+			data[i][j++] = nf.format(temp.getTakst());
+			data[i][j++] = temp.getUtbetalt() == null ? "" : nf.format(temp.getUtbetalt() );
+			data[i][j++] = nf.format(temp.getStatus());
+			data[i][j++] = temp.getKunde().getAktiv();
+			ska[i] = temp;
 		}
 		editable = false;
-		searchFor = AdminGUI.SEARCH_PRESCRIPTION;
-	}*/
-
-	/*
-	public TModel(ForsikringReg reg)//oppretter en tabell for resept tabell
-	{
-		if(reg == null)
-		{
-			names = preNames;
-			data = new Object[0][0];
-			return;
-		}
-		names = preNames;
-		int length = reg.size(), width = names.length;
-		data = new Object[length][width];
-		pre = new Forsikring[length];
-		Iterator<Forsikring> iter= reg.iterator();
-		Forsikring temp;
-		DateFormat df = DateFormat.getDateInstance();
-		for(int i = 0; i < length; i++)
-		{
-			temp = iter.next();
-			int j = 0;
-			data[i][j++] = temp.getPrescriptionNr();
-			data[i][j++] = df.format(temp.getPrinted().getTime() );
-			data[i][j++] = temp.getRecived() == null ? "" : df.format(temp.getRecived().getTime() );
-			data[i][j++] = temp.getPatient().getlastName();
-			data[i][j++] = temp.getDoctor().getlastName();
-			data[i][j++] = temp.getMedName();
-			data[i][j++] = temp.getCategory();
-			data[i][j++] = PrescriptionReg.getGroupString(temp.getGroup() );
-			pre[i] = temp;
-		}
-		editable = false;
-		searchFor = AdminGUI.SEARCH_PRESCRIPTION;
-	}*/
+		searchFor = AnsattVindu.SØK_SKADE;
+	}
 
 	public int getSearchFor()
 	{
@@ -382,18 +346,11 @@ public class TModel extends AbstractTableModel
 	{
 		return fors;
 	}
-
-	/*public Forsikring[] getForsikringer()
-	{
-		return fors;
-	}
-
-
-	public SKademelding[] getSkademeldinger()
+	
+	public Skademelding[] getSkademeldinger()
 	{
 		return ska;
 	}
-	*/
 
 	public String getColumnName(int c)
 	{
@@ -411,10 +368,12 @@ public class TModel extends AbstractTableModel
 	{
 		return data[r][c];
 	}
+    /*
     public Class<?> getColumnClass(int c)
     {
 		return data[0][c].getClass();
 	}
+	*/
 	public boolean isCellEditable(int r, int c)
 	{
 		return false;
