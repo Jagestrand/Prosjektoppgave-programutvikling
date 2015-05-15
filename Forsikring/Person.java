@@ -11,6 +11,7 @@ public abstract class Person implements Serializable
 	protected BåtForsikringsReg båtliste;
 	protected HusForsikringsReg husliste;
 	protected HytteForsikringsReg hytteliste;
+	protected SkademeldingReg skadeliste;
 	protected boolean aktiv;
 
 	protected Person(String fNavn, String eNavn, String persNr, String tlfNr)
@@ -23,6 +24,7 @@ public abstract class Person implements Serializable
 		båtliste = new BåtForsikringsReg();
 		husliste = new HusForsikringsReg();
 		hytteliste = new HytteForsikringsReg();
+		skadeliste = new SkademeldingReg();
 		starta = Calendar.getInstance();
 	}
 
@@ -166,7 +168,7 @@ class Kunde extends Person implements Serializable
 		return kundekat;
 	}
 
-	public ForsikringsReg1 getForsikringer()
+	public ForsikringsReg1 getBiler()
 	{
 		return forsikringsliste;
 	}
@@ -181,6 +183,10 @@ class Kunde extends Person implements Serializable
 	public HytteForsikringsReg getHytter()
 	{
 		return hytteliste;
+	}
+	public SkademeldingReg getSkademeldinger()
+	{
+		return skadeliste;
 	}
 
 	public Iterator<BilForsikring1> iterator()
@@ -221,6 +227,10 @@ class Kunde extends Person implements Serializable
 	public void addForsikring(HytteForsikring1 forsikr)
 	{
 		hytteliste.add(forsikr);
+	}
+	public void addSkademelding(Skademelding skad)
+	{
+		skadeliste.add(skad);
 	}
 
 	public static int getNrNå()
