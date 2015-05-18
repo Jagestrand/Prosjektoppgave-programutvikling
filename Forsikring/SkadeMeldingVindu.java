@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import javax.swing.*;
 import java.text.*;
+import java.util.*;
 
 public class SkadeMeldingVindu extends JFrame
  {
@@ -28,7 +29,8 @@ public class SkadeMeldingVindu extends JFrame
 
 
     //private JLabel informationTop;
-    private int DATA_FIELD_LENGTH = 15;
+    private int DATA_FIELD_LENGTH = 15, BIL_KAT = 1, BÅT_KAT = 2, HUS_KAT = 3, FRITID_KAT = 4;
+    private String vnn = " ", vnrr = " ";
     private JLabel  skadeDatoBilLabel, skadeStedBilLabel, taksbelopBilLabel, skadeTypeBilLabel,
    				    beskrivSkadeBilLabel,navnBilLabel, telefonBilLabel,
     				skadeDatoBåtLabel, skadeStedBåtLabel,taksbelopBåtLabel,
@@ -43,11 +45,13 @@ public class SkadeMeldingVindu extends JFrame
     	//Vinduets size.
     	setTitle("Fyll ut skadeskjema");
     	setSize(600,450 );
+		vindu = vind;
+		kunde = kunn;
+		Lytter = new Lytterklasse();
     	register = vind.getRegister();
     	setLocationRelativeTo(null);
         cardPanel = new JPanel(new BorderLayout());
-		vindu = vind;
-		kunde = kunn;
+
 
 		//Cardlayout for og swappa mellom de ulike forsikringerne.
         CardLayout sm = new CardLayout();
@@ -55,15 +59,15 @@ public class SkadeMeldingVindu extends JFrame
 
 
         //Panels for de ulike forsikringsalternativene.
-        JPanel jp1 = new JPanel(new GridLayout(10,2));
-        JPanel jp2 = new JPanel(new GridLayout(10,2));
-        JPanel jp3 = new JPanel(new GridLayout(10,2));
-        JPanel jp4 = new JPanel(new GridLayout(10,2));
+        jp1 = new JPanel(new GridLayout(10,2));
+        jp2 = new JPanel(new GridLayout(10,2));
+        jp3 = new JPanel(new GridLayout(10,2));
+        jp4 = new JPanel(new GridLayout(10,2));
 
 
 
     	//Labels for bil.
-    	skadeDatoBilLabel = new JLabel("Skade dato:");
+    	skadeDatoBilLabel = new JLabel("Skade dato (dd/mm/yyyy):");
 		skadeDatoBil = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		skadeTypeBilLabel = new JLabel ("Type skade:");
 		skadeTypeBil = new JTextField(DATA_FIELD_LENGTH);
@@ -199,13 +203,15 @@ public class SkadeMeldingVindu extends JFrame
         husKnapp.addActionListener(Lytter);
         fritidKnapp.addActionListener(Lytter);
         lukkVindu.addActionListener(Lytter);
+        registrer.addActionListener(Lytter);
+
 
 
         getContentPane().add(cardPanel, BorderLayout.EAST);
         //getContentPane().add(infoPanel, BorderLayout.EAST);
         getContentPane().add(buttonPanelBott, BorderLayout.SOUTH);
     }
-public void slettFelter()
+	public void slettFelter()
 	{
 		skadeDatoBil.setText("");
 		skadeStedBil.setText("");
@@ -227,18 +233,21 @@ public void slettFelter()
 		skadeTypeFritid.setText("");
 		beskrivFritid.setText("");
 		taksbelopFritid.setText("");
-
 	}
 
-
+	public void visFeilmelding(String melding)
+	{
+		JOptionPane.showMessageDialog(null, melding, "FEIL", JOptionPane.ERROR_MESSAGE);
+	}
 
 	public void nySkademeldingBil ()
 	{
 		try{
-			String kundenr, sted, taks, beskriv, skadetype, navn, telefon, regexPattern, registernr;
+			String kundenr, sted, taks, beskriv, skadetype, navn, telefon, registernr;
 			kundenr = kunde.getKundeNr();
-			Calendar dato = (Calendar) skadeDatoBil.getValue();
-			regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
+			Date date = (Date) skadeDatoBil.getValue();
+			Calendar dato = Calendar.getInstance();
+			dato.setTime(date);
 			sted = skadeStedBil.getText();
 			taks = taksbelopBil.getText();
 			int takst = Integer.valueOf(taks);
@@ -248,22 +257,21 @@ public void slettFelter()
 			telefon = telefonBil.getText();
 
 			if(dato == null || sted.equals("")|| taks.equals("") || beskriv.equals("") || navn.equals("") || telefon.equals("") )
-				informationTop.setText("Alle feltene må fylles ut");
-			//else if(telefon.matches(regexPattern) )
-			//	informationTop.setText("Telefon nummer er ikke gyldig");
+				//informationTop.setText("Alle feltene må fylles ut");
+				visFeilmelding("Alle feltene må fylles ut");
 			else
 			{
-				Skademelding skadebil = new Skademelding(kundenr, dato, sted, skadetype, takst, beskriv, navn, telefon, null);
-				register.nySkademelding(skadebil);
+				Skademelding skadebil = new Skademelding(kunde, dato, sted, skadetype, takst, beskriv, navn, telefon, BIL_KAT);
+				register.nySkade(skadebil);
 				JOptionPane.showMessageDialog(null, "Skademelding registrert");
 			}
 
 		}
-		catch(NullPointerException npe)
+		/*catch(NullPointerException npe)
 		{
 			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
 			return;
-		}
+		}*/
 		catch(NumberFormatException nfe)
 		{
 			JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -272,123 +280,115 @@ public void slettFelter()
 	}
 
 	public void nySkademeldingBåt()
+	{
+		try{
+			String kundenr, adresse, sted, type, taks;
+			kundenr = kunde.getKundeNr();
+			Date date = (Date) skadeDatoBåt.getValue();
+			Calendar dato = Calendar.getInstance();
+			dato.setTime(date);
+			sted = skadeStedBåt.getText();
+			type = skadeTypeBåt.getText();
+			taks = taksbelopBåt.getText();
+			int takst = Integer.valueOf(taks);
+			String beskriv = beskrivBåt.getText();
+
+			if(dato == null || sted.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
+				informationTop.setText("Alle feltene må fylles ut");
+			else
+			{
+				Skademelding skadebåt = new Skademelding(kunde, dato, sted, type, takst, beskriv, null, null, BÅT_KAT);
+				register.nySkade(skadebåt);
+				JOptionPane.showMessageDialog(null, "Skademelding registrert");
+			}
+
+		}
+
+		/*catch(NullPointerException npe)
 		{
-			try{
-				String kundenr, adresse, sted, type, taks, regexPattern;
-				kundenr = kunde.getKundeNr();
-				Calendar dato = (Calendar) skadeDatoBåt.getValue();
-				regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
-				sted = skadeStedBåt.getText();
-				type = skadeTypeBåt.getText();
-				taks = taksbelopBåt.getText();
-				int takst = Integer.valueOf(taks);
-				String beskriv = beskrivBåt.getText();
-
-				if(dato == null || sted.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
-					informationTop.setText("Alle feltene må fylles ut");
-				//else if(!telefon.matches(regexPattern) )
-				//	informationTop.setText("Telefon nummer er ikke gyldig");
-				else
-				{
-					Skademelding skadebåt = new Skademelding(kundenr, dato, sted, type, takst, beskriv);
-					register.nySkademelding(skadebåt);
-					JOptionPane.showMessageDialog(null, "Skademelding registrert");
-				}
-
-			}
-
-			catch(NullPointerException npe)
-			{
-				JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			catch(NumberFormatException nfe)
-			{
-				JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
+			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}*/
+		catch(NumberFormatException nfe)
+		{
+			JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 	}
 
 	public void nySkademeldingHus()
+	{
+		try{
+			String type, beskriv, taks, navn, kundenr, adresse;
+			kundenr = kunde.getKundeNr();
+			Date date = (Date) skadeDatoHus.getValue();
+			Calendar dato = Calendar.getInstance();
+			dato.setTime(date);
+			adresse = adresseHus.getText();
+			type = skadeTypeHus.getText();
+			taks = taksbelopHus.getText();
+			int takst = Integer.valueOf(taks);
+			beskriv = beskrivHus.getText();
+
+			if(dato == null || adresse.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
+				informationTop.setText("Alle feltene må fylles ut");
+			else
+			{
+				Skademelding skadehus = new Skademelding(kunde, dato, adresse, type, takst, beskriv, null, null, HUS_KAT);
+				register.nySkade(skadehus);
+				JOptionPane.showMessageDialog(null, "Skademelding registrert");
+			}
+		}
+		/*catch(NullPointerException npe)
 		{
-			try{
-				String type, beskriv, taks, navn, regexPattern, kundenr, adresse;
-				kundenr = kunde.getKundeNr();
-				Calendar dato = (Calendar) skadeDatoHus.getValue();
-				regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
-				adresse = adresseHus.getText();
-				type = skadeTypeHus.getText();
-				taks = taksbelopHus.getText();
-				int takst = Integer.valueOf(taks);
-				beskriv = beskrivHus.getText();
-
-
-
-				if(dato == null || adresse.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
-					informationTop.setText("Alle feltene må fylles ut");
-				//else if(telefon.matches(regexPattern) )
-				//	informationTop.setText("Telefon nummer er ikke gyldig");
-				else
-				{
-					Skademelding skadehus = new Skademelding(kundenr, dato, adresse, type, takst, beskriv);
-					register.nySkademelding(skadehus);
-					JOptionPane.showMessageDialog(null, "Skademelding registrert");
-				}
-
-			}
-			catch(NullPointerException npe)
-			{
-				JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			catch(NumberFormatException nfe)
-			{
-				JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
+			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}*/
+		catch(NumberFormatException nfe)
+		{
+			JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 	}
 
 
 	public void nySkademeldingFritid()
+	{
+		try{
+			String type, beskriv, taks, navn, kundenr, adresse;
+			kundenr = kunde.getKundeNr();
+			Date date = (Date) skadeDatoFritid.getValue();
+			Calendar dato = Calendar.getInstance();
+			dato.setTime(date);
+			adresse = adresseFritid.getText();
+			type = skadeTypeFritid.getText();
+			taks = taksbelopFritid.getText();
+			int takst = Integer.valueOf(taks);
+			beskriv = beskrivFritid.getText();
+
+			if(dato == null || adresse.equals("") || type.equals("") || taks.equals("") || beskriv.equals(""))
+				informationTop.setText("Alle feltene må fylles ut");
+			else
+			{
+				Skademelding skadefritid = new Skademelding(kunde, dato, adresse, type, takst, beskriv, null, null, FRITID_KAT);
+				register.nySkade(skadefritid);
+				JOptionPane.showMessageDialog(null, "Skademelding registrert");
+			}
+		}
+		/*catch(NullPointerException npe)
 		{
-			try{
-				String type, beskriv, taks, navn, regexPattern, kundenr, adresse;
-				regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
-				kundenr = kunde.getKundeNr();
-				Calendar dato = (Calendar) skadeDatoFritid.getValue();
-				adresse = adresseFritid.getText();
-				type = skadeTypeFritid.getText();
-				taks = taksbelopFritid.getText();
-				int takst = Integer.valueOf(taks);
-				beskriv = beskrivFritid.getText();
-
-
-				if(dato == null || adresse.equals("") || type.equals("") || taks.equals("") || beskriv.equals(""))
-					informationTop.setText("Alle feltene må fylles ut");
-				//else if(telefon.matches(regexPattern) )
-				//	informationTop.setText("Telefon nummer er ikke gyldig");
-				else
-				{
-					Skademelding skadefritid = new Skademelding(kundenr, dato, adresse, type, takst, beskriv);
-					register.nySkademelding(skadefritid);
-					JOptionPane.showMessageDialog(null, "Skademelding registrert");
-				}
-
-			}
-			catch(NullPointerException npe)
-			{
-				JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			catch(NumberFormatException nfe)
-			{
-				JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
+			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}*/
+		catch(NumberFormatException nfe)
+		{
+			JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 	}
 
 
-private class Lytterklasse implements ActionListener
+	private class Lytterklasse implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
@@ -408,38 +408,36 @@ private class Lytterklasse implements ActionListener
 			{
 				sm = (CardLayout) cardPanel.getLayout();
                 sm.show(cardPanel, "1");
-           		informationTop.setText("Skademelding Bil");
+           		/*informationTop.setText("Skademelding Bil");
                 informationTop.revalidate();
-                informationTop.repaint();
+                informationTop.repaint();*/
 			}
 
 			else if(e.getSource() == båtKnapp)
             {
             	CardLayout sm = (CardLayout) cardPanel.getLayout();
                 sm.show(cardPanel, "2");
-           		//informationTop.setText("");
-           		informationTop.setText("Skademelding Båt");
+           		/*informationTop.setText("Skademelding Båt");
                 informationTop.revalidate();
-                informationTop.repaint();
+                informationTop.repaint();*/
             }
 
             else if(e.getSource() == husKnapp)
             {
             	CardLayout sm = (CardLayout) cardPanel.getLayout();
                 sm.show(cardPanel, "3");
-           		informationTop.removeAll();
-           		informationTop.setText("Skademelding Hus");
+           		/*informationTop.setText("Skademelding Hus");
                 informationTop.revalidate();
-                informationTop.repaint();
+                informationTop.repaint();*/
             }
 
             else if(e.getSource() == fritidKnapp)
             {
             	CardLayout sm = (CardLayout) cardPanel.getLayout();
                 sm.show(cardPanel, "4");
-           		informationTop.setText("Skademelding Fritid");
+           		/*informationTop.setText("Skademelding Fritid");
                 informationTop.revalidate();
-                informationTop.repaint();
+                informationTop.repaint();*/
             }
             else if(e.getSource() == lukkVindu)
             	dispose();
