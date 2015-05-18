@@ -5,7 +5,8 @@ import javax.swing.*;
 public class BilForsikringsReg implements Serializable
 {
 	private static final long serialVersionUID = 42L;
-	private TreeSet<Forsikring1> list;//listen
+
+	private TreeSet<BilForsikring> list;//listen
 	private int nrNå;
 
 	public BilForsikringsReg()
@@ -13,9 +14,9 @@ public class BilForsikringsReg implements Serializable
 		list = new TreeSet<>(new ForsikringCollator());//Oppretter forsikringslisten
 	}
 
-	public boolean add(Forsikring1 pre)
+	public void add(BilForsikring pre)	//public boolean add(Forsikring pre)
 	{
-		return list.add(pre);		//HER
+		list.add(pre);		//return list.add(pre);
 	}
 
 	public boolean isEmpty()
@@ -23,12 +24,12 @@ public class BilForsikringsReg implements Serializable
 		return list.isEmpty();
 	}
 
-	public Iterator<Forsikring1> iterator()
+	public Iterator<BilForsikring> iterator()
 	{
 		return list.iterator();
 	}
 
-	public boolean contains(Forsikring1 in)
+	public boolean contains(BilForsikring in)
 	{
 		return list.contains(in);
 	}
@@ -38,18 +39,178 @@ public class BilForsikringsReg implements Serializable
 		return list.size();
 	}
 
-	public BilForsikringsReg finnBilViaRegNr(String regNr)
+	public BilForsikringsReg finnBiler(String kriterie)
 	{
-		if(regNr.isEmpty())
-			return null;
-		Iterator<Forsikring1> theIterator = iterator();
-		Forsikring1 bil;
+		BilForsikringsReg søktBilListe = new BilForsikringsReg();
+		søktBilListe = finnBilViaKundeNr(kriterie);
+		if(søktBilListe == null)
+		{
+			søktBilListe = finnBilViaEier(kriterie);
+			if(søktBilListe == null)
+			{
+				søktBilListe = finnBilViaRegNr(kriterie);
+				if(søktBilListe == null)
+				{
+					søktBilListe = finnBilViaType(kriterie);
+					if(søktBilListe == null)
+					{
+						søktBilListe = finnBilViaModell(kriterie);
+						if(søktBilListe == null)
+						{
+							return null;
+						}
+					}
+				}
+			}
+		}
+		return søktBilListe;
+	}
+
+	public BilForsikringsReg finnBiler(int kriterie)
+	{
+		BilForsikringsReg søktBilListe = new BilForsikringsReg();
+		søktBilListe = finnBilViaNr(kriterie);
+		if(søktBilListe == null)
+		{
+			søktBilListe = finnBilViaÅr(kriterie);
+			if(søktBilListe == null)
+			{
+				søktBilListe = finnBilViaKjøring(kriterie);
+				if(søktBilListe == null)
+				{
+					return null;
+				}
+			}
+		}
+		return søktBilListe;
+	}
+
+	public BilForsikringsReg finnBilViaKundeNr(String nr)
+	{
+		Iterator<BilForsikring> theIterator = iterator();
+		BilForsikring bil;
 		BilForsikringsReg søktBilReg = new BilForsikringsReg();
 		try{
 			while(theIterator.hasNext())
 			{
 				bil = theIterator.next();
-				if(bil.getRegistreringsnr().matches(regNr))
+				if(bil.getKundeNr().matches(nr))
+				{
+					søktBilReg.add(bil);
+					return søktBilReg;
+				}
+			}
+			return søktBilReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i BilForsikringsReg findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public BilForsikringsReg finnBilViaEier(String eier)
+	{
+		Iterator<BilForsikring> theIterator = iterator();
+		BilForsikring bil;
+		BilForsikringsReg søktBilReg = new BilForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				bil = theIterator.next();
+				if(bil.getEiernavn().matches(eier))
+				{
+					søktBilReg.add(bil);
+					return søktBilReg;
+				}
+			}
+			return søktBilReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i BilForsikringsReg findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public BilForsikringsReg finnBilViaType(String type)
+	{
+		Iterator<BilForsikring> theIterator = iterator();
+		BilForsikring bil;
+		BilForsikringsReg søktBilReg = new BilForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				bil = theIterator.next();
+				if(bil.getType().matches(type))
+				{
+					søktBilReg.add(bil);
+					return søktBilReg;
+				}
+			}
+			return søktBilReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i BilForsikringsReg findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public BilForsikringsReg finnBilViaModell(String m)
+	{
+		Iterator<BilForsikring> theIterator = iterator();
+		BilForsikring bil;
+		BilForsikringsReg søktBilReg = new BilForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				bil = theIterator.next();
+				if(bil.getModell().matches(m))
+				{
+					søktBilReg.add(bil);
+					return søktBilReg;
+				}
+			}
+			return søktBilReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i BilForsikringsReg findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public BilForsikringsReg finnBilViaRegNr(String nr)
+	{
+		Iterator<BilForsikring> theIterator = iterator();
+		BilForsikring bil;
+		BilForsikringsReg søktBilReg = new BilForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				bil = theIterator.next();
+				if(bil.getRegistreringsnr().matches(nr))
 				{
 					søktBilReg.add(bil);
 					return søktBilReg;
@@ -58,32 +219,150 @@ public class BilForsikringsReg implements Serializable
 		}
 		catch(NoSuchElementException nsee)
 		{
-			JOptionPane.showMessageDialog(null, "Feil i KundeReg: finnKundeViaNr fikk NoSuchElementException.",
-										"FEIL", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i BilForsikringsReg findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
 
-	public Comparator<Forsikring1> InitCollator()
+	public BilForsikringsReg finnBilViaNr(int nr)
 	{
-		Comparator<Forsikring1> collator;
+		Iterator<BilForsikring> theIterator = iterator();
+		BilForsikring bil;
+		BilForsikringsReg søktBilReg = new BilForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				bil = theIterator.next();
+				if(bil.getForsikringsNr() == nr)
+				{
+					søktBilReg.add(bil);
+					return søktBilReg;
+				}
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i BilForsikringsReg findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public BilForsikringsReg finnBilViaÅr(int år)
+	{
+		Iterator<BilForsikring> theIterator = iterator();
+		BilForsikring bil;
+		BilForsikringsReg søktBilReg = new BilForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				bil = theIterator.next();
+				if(bil.getRegistreringsår() == år)
+				{
+					søktBilReg.add(bil);
+					return søktBilReg;
+				}
+			}
+			return søktBilReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i BilForsikringsReg findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+	public BilForsikringsReg finnBilViaKjøring(int km)
+	{
+		Iterator<BilForsikring> theIterator = iterator();
+		BilForsikring bil;
+		BilForsikringsReg søktBilReg = new BilForsikringsReg();
+		try{
+			while(theIterator.hasNext())
+			{
+				bil = theIterator.next();
+				if(bil.getKjørelengde() == km)
+				{
+					søktBilReg.add(bil);
+					return søktBilReg;
+				}
+			}
+			return søktBilReg;
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+											"FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i BilForsikringsReg findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+
+
+	public static int getGroupInt(String in)//metode gjør om en String til int for medikamentgruppene
+	{
+		if(in.equals("Bil") || in.equals("BIL") || in.equals("bil") )
+			return BilForsikring.TYPE_BIL;
+		else if(in.equals("Båt") || in.equals("BÅT") || in.equals("båt") )
+			return BilForsikring.TYPE_BÅT;
+		else if(in.equals("Hus") || in.equals("HUS") || in.equals("hus") )
+			return BilForsikring.TYPE_HUS;
+		else if(in.equals("Hytte") || in.equals("HYTTE") || in.equals("hytte") )
+			return BilForsikring.TYPE_HYTTE;
+		JOptionPane.showMessageDialog(null, "Ugyldig forsikringstype");
+		return -1;
+	}
+
+	public static String getGroupString(int in)//metode gjør om en int til String for medikamentgruppene
+	{
+		if(in == BilForsikring.TYPE_BIL)
+			return "BIL";
+		else if(in == BilForsikring.TYPE_BÅT)
+			return "BÅT";
+		else if(in == BilForsikring.TYPE_HUS)
+			return "HUS";
+		else if(in == BilForsikring.TYPE_HYTTE)
+			return "HYTTE";
+		return "Error";
+	}
+
+	public Comparator<Forsikring> InitCollator()
+	{
+		Comparator<Forsikring> collator;
 		return collator = new ForsikringCollator();
 	}
 
-	public void lagreNrNå()//nødvendig for skriving/lagring til fil
+	public void lagreNåNr()//nødvendig for skriving/lagring til fil
 	{
-		nrNå = Forsikring1.getNrNå();
+		nrNå = BilForsikring.getNrNå();
 	}
 
 	public void setNåNr()//nødvendig for skriving/lagring til fil
 	{
-		Forsikring1.setNrNå(nrNå);
+		BilForsikring.setNrNå(nrNå);
 	}
 
 	public String toString()
 	{
 		StringBuilder res = new StringBuilder();
-		Iterator<Forsikring1> ite = list.iterator();
+		Iterator<BilForsikring> ite = list.iterator();
 		while(ite.hasNext() )
 			res.append(ite.next().toString() );
 			res.append("\n");
