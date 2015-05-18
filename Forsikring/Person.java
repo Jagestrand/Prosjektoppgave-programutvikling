@@ -7,7 +7,7 @@ public abstract class Person implements Serializable
 	protected String fornavn, etternavn, personNr, telefonNr;
 	protected static String ja = "Aktiv", nei = "Deaktivert";
 	private Calendar starta, avslutta;
-	protected ForsikringsReg1 forsikringsliste;
+	protected BilForsikringsReg billiste;
 	protected BåtForsikringsReg båtliste;
 	protected HusForsikringsReg husliste;
 	protected HytteForsikringsReg hytteliste;
@@ -20,12 +20,13 @@ public abstract class Person implements Serializable
 		etternavn = eNavn;
 		personNr = persNr;
 		telefonNr = tlfNr;
-		forsikringsliste = new ForsikringsReg1();
+		billiste = new BilForsikringsReg();
 		båtliste = new BåtForsikringsReg();
 		husliste = new HusForsikringsReg();
 		hytteliste = new HytteForsikringsReg();
 		skadeliste = new SkademeldingReg();
 		starta = Calendar.getInstance();
+		//aktiv = true;
 	}
 
 	public Calendar getStarta()
@@ -168,9 +169,25 @@ class Kunde extends Person implements Serializable
 		return kundekat;
 	}
 
-	public ForsikringsReg1 getBiler()
+	public boolean erTotalkunde()
 	{
-		return forsikringsliste;
+		if(billiste.size() + båtliste.size() + husliste.size() + hytteliste.size() >= 3)
+			return true;
+		else
+			return false;
+	}
+
+	public String getTotalkundeStatus()
+	{
+		if(erTotalkunde())
+			return "Ja";
+		else
+			return "Nei";
+	}
+
+	public BilForsikringsReg getBiler()
+	{
+		return billiste;
 	}
 	public BåtForsikringsReg getBåter()
 	{
@@ -189,46 +206,46 @@ class Kunde extends Person implements Serializable
 		return skadeliste;
 	}
 
-	public Iterator<BilForsikring1> iterator()
+	public Iterator<BilForsikring> iterator()
 	{
-		return forsikringsliste.iterator();
+		return billiste.iterator();
 	}
 
-	public Iterator<BåtForsikring1> iteratorb()
+	public Iterator<BåtForsikring> iteratorb()
 	{
 		return båtliste.iterator();
 	}
 
-	public Iterator<HusForsikring1> iteratorh()
+	public Iterator<HusForsikring> iteratorh()
 	{
 		return husliste.iterator();
 	}
 
-	public Iterator<HytteForsikring1> iteratory()
+	public Iterator<HytteForsikring> iteratory()
 	{
 		return hytteliste.iterator();
 	}
 
-	public void addForsikring(BilForsikring1 forsikr)
+	public void nyForsikring(BilForsikring forsikr)
 	{
-		forsikringsliste.add(forsikr);
+		billiste.add(forsikr);
 	}
 
-	public void addForsikring(BåtForsikring1 forsikr)
+	public void nyForsikring(BåtForsikring forsikr)
 	{
 		båtliste.add(forsikr);
 	}
 
-	public void addForsikring(HusForsikring1 forsikr)
+	public void nyForsikring(HusForsikring forsikr)
 	{
 		husliste.add(forsikr);
 	}
 
-	public void addForsikring(HytteForsikring1 forsikr)
+	public void nyForsikring(HytteForsikring forsikr)
 	{
 		hytteliste.add(forsikr);
 	}
-	public void addSkademelding(Skademelding skad)
+	public void nySkademelding(Skademelding skad)
 	{
 		skadeliste.add(skad);
 	}
