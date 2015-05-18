@@ -7,22 +7,24 @@ import java.text.*;
 
 public class SkadeMeldingVindu extends JFrame
  {
-    private JPanel cardPanel, infoPanel,  jp1, jp2, jp3, jp4;
+    private JPanel cardPanel, infoPanel,  jp1, jp2, jp3, jp4, buttonPanelBott;
     private JScrollPane scrollPane;
     private JPanel panel;
     private Huvudvindu vindu;
     private Kunde kunde;
+    private Lytterklasse Lytter;
+    private Register register;
     private JTextArea informationTop;
-    private JFormattedTextField skadeDatoBil;
-    private JButton bilknapp, båtknapp, husknapp, fritidknapp, lukkVindu,registrer, lukkVinduBåt, lukkVinduHus, lukkVinduFritid, registrerBåt, registrerHus,registrerFritid;
+    private JFormattedTextField skadeDatoBil, skadeDatoBåt, skadeDatoHus, skadeDatoFritid;
+    private JButton bilKnapp, båtKnapp, husKnapp, fritidKnapp, lukkVindu,registrer, lukkVinduBåt, lukkVinduHus, lukkVinduFritid, registrerBil, registrerBåt, registrerHus,registrerFritid;
     private CardLayout sm;
 
 
     // Her legges JTextfield feltene inn (Bil, Båt, Hus, Fritid)
     private JTextField  skadeStedBil, taksbelopBil, skadeTypeBil,beskrivSkadeBil, navnBil, telefonBil,
-						skadeDatoBåt, skadeStedBåt,taksbelopBåt, adresseBåt, skadeTypeBåt, beskrivBåt,
-    					skadeDatoHus, adresseHus, skadeTypeHus, beskrivHus, taksbelopHus,
-    					skadeDatoFritid, adresseFritid, skadeTypeFritid, beskrivFritid, taksbelopFritid;
+						 skadeStedBåt,taksbelopBåt, adresseBåt, skadeTypeBåt, beskrivBåt,
+    					 adresseHus, skadeTypeHus, beskrivHus, taksbelopHus,
+    					 adresseFritid, skadeTypeFritid, beskrivFritid, taksbelopFritid;
 
 
     //private JLabel informationTop;
@@ -40,12 +42,12 @@ public class SkadeMeldingVindu extends JFrame
     {
     	//Vinduets size.
     	setTitle("Fyll ut skadeskjema");
-    	setSize(800,500 );
+    	setSize(600,450 );
+    	register = vind.getRegister();
     	setLocationRelativeTo(null);
         cardPanel = new JPanel(new BorderLayout());
 		vindu = vind;
 		kunde = kunn;
-
 
 		//Cardlayout for og swappa mellom de ulike forsikringerne.
         CardLayout sm = new CardLayout();
@@ -96,7 +98,7 @@ public class SkadeMeldingVindu extends JFrame
 
     	//Båt
 		skadeDatoBåtLabel = new JLabel("Skade dato:");
-		skadeDatoBåt = new JTextField(DATA_FIELD_LENGTH);
+		skadeDatoBåt = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		skadeStedBåtLabel = new JLabel("Skade sted:");
 		skadeStedBåt = new JTextField(DATA_FIELD_LENGTH);
 		skadeTypeBåtLabel = new JLabel("Type skade:");
@@ -122,7 +124,7 @@ public class SkadeMeldingVindu extends JFrame
 
     	//Hus
 		skadeDatoHusLabel = new JLabel("Skade dato:");
-		skadeDatoHus = new JTextField(DATA_FIELD_LENGTH);
+		skadeDatoHus = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		adresseHusLabel = new JLabel("Adresse:");
 		adresseHus = new JTextField(DATA_FIELD_LENGTH);
 		skadeTypeHusLabel = new JLabel("Type skade:");
@@ -147,7 +149,7 @@ public class SkadeMeldingVindu extends JFrame
 
         //Fritid
 		skadeDatoFritidLabel = new JLabel("Skade dato:");
-		skadeDatoFritid = new JTextField(DATA_FIELD_LENGTH);
+		skadeDatoFritid = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		adresseFritidLabel = new JLabel("Adresse:");
 		adresseFritid = new JTextField(DATA_FIELD_LENGTH);
 		skadeTypeFritidLabel = new JLabel("Type skade:");
@@ -177,13 +179,13 @@ public class SkadeMeldingVindu extends JFrame
         cardPanel.add(jp4, "4");
 
 
-        JPanel buttonPanelBott = new JPanel();
-        JButton bilKnapp = new JButton("Bil");
-        JButton båtKnapp = new JButton("Båt");
-        JButton husKnapp = new JButton("Hus");
-        JButton fritidKnapp = new JButton("Fritid");
-        JButton registrer = new JButton("Registrer");
-        JButton lukkVindu = new JButton("Lukk");
+         buttonPanelBott = new JPanel();
+         bilKnapp = new JButton("Bil");
+         båtKnapp = new JButton("Båt");
+         husKnapp = new JButton("Hus");
+         fritidKnapp = new JButton("Fritid");
+         registrer = new JButton("Registrer");
+         lukkVindu = new JButton("Lukk");
         buttonPanelBott.add(bilKnapp);
         buttonPanelBott.add(båtKnapp);
         buttonPanelBott.add(husKnapp);
@@ -192,56 +194,11 @@ public class SkadeMeldingVindu extends JFrame
         buttonPanelBott.add(registrer);
 
 
-
-        bilKnapp.addActionListener(new ActionListener()
-        {
-        	public void actionPerformed(ActionEvent arg0)
-        	{
-        		CardLayout sm = (CardLayout) cardPanel.getLayout();
-                sm.show(cardPanel, "1");
-            }
-        });
-
-
-        båtKnapp.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent arg0)
-            {
-            	CardLayout sm = (CardLayout) cardPanel.getLayout();
-                sm.show(cardPanel, "2");
-            }
-        });
-
-
-        husKnapp.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent arg0)
-            {
-            	CardLayout sm = (CardLayout) cardPanel.getLayout();
-                sm.show(cardPanel, "3");
-            }
-        });
-
-
-        fritidKnapp.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent arg0)
-            {
-            	CardLayout sm = (CardLayout) cardPanel.getLayout();
-                sm.show(cardPanel, "4");
-            }
-        });
-
-
-
-        lukkVindu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
-            	if(e.getSource() == lukkVindu)
-    				dispose();
-
-            }
-        });
+        bilKnapp.addActionListener(Lytter);
+        båtKnapp.addActionListener(Lytter);
+        husKnapp.addActionListener(Lytter);
+        fritidKnapp.addActionListener(Lytter);
+        lukkVindu.addActionListener(Lytter);
 
 
         getContentPane().add(cardPanel, BorderLayout.EAST);
@@ -275,12 +232,12 @@ public void slettFelter()
 
 
 
-	public void nySkademeldingBil()
+	public void nySkademeldingBil ()
 	{
 		try{
-			String kundenr, sted, taks, beskriv, skadetype, navn, telefon, regexPattern;
+			String kundenr, sted, taks, beskriv, skadetype, navn, telefon, regexPattern, registernr;
 			kundenr = kunde.getKundeNr();
-			Calendar dato;
+			Calendar dato = (Calendar) skadeDatoBil.getValue();
 			regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 			sted = skadeStedBil.getText();
 			taks = taksbelopBil.getText();
@@ -290,7 +247,7 @@ public void slettFelter()
 			navn = navnBil.getText();
 			telefon = telefonBil.getText();
 
-			if(dato.equals("") || sted.equals("")|| taks.equals("") || beskriv.equals("") || navn.equals("") || telefon.equals("") )
+			if(dato == null || sted.equals("")|| taks.equals("") || beskriv.equals("") || navn.equals("") || telefon.equals("") )
 				informationTop.setText("Alle feltene må fylles ut");
 			//else if(telefon.matches(regexPattern) )
 			//	informationTop.setText("Telefon nummer er ikke gyldig");
@@ -319,7 +276,7 @@ public void slettFelter()
 			try{
 				String kundenr, adresse, sted, type, taks, regexPattern;
 				kundenr = kunde.getKundeNr();
-				Calendar dato;
+				Calendar dato = (Calendar) skadeDatoBåt.getValue();
 				regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 				sted = skadeStedBåt.getText();
 				type = skadeTypeBåt.getText();
@@ -327,7 +284,7 @@ public void slettFelter()
 				int takst = Integer.valueOf(taks);
 				String beskriv = beskrivBåt.getText();
 
-				if(dato.equals("") || sted.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
+				if(dato == null || sted.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
 					informationTop.setText("Alle feltene må fylles ut");
 				//else if(!telefon.matches(regexPattern) )
 				//	informationTop.setText("Telefon nummer er ikke gyldig");
@@ -357,7 +314,7 @@ public void slettFelter()
 			try{
 				String type, beskriv, taks, navn, regexPattern, kundenr, adresse;
 				kundenr = kunde.getKundeNr();
-				Calendar dato = Calendar.getInstance();
+				Calendar dato = (Calendar) skadeDatoHus.getValue();
 				regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 				adresse = adresseHus.getText();
 				type = skadeTypeHus.getText();
@@ -367,7 +324,7 @@ public void slettFelter()
 
 
 
-				if(dato.equals("") || adresse.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
+				if(dato == null || adresse.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
 					informationTop.setText("Alle feltene må fylles ut");
 				//else if(telefon.matches(regexPattern) )
 				//	informationTop.setText("Telefon nummer er ikke gyldig");
@@ -398,7 +355,7 @@ public void slettFelter()
 				String type, beskriv, taks, navn, regexPattern, kundenr, adresse;
 				regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 				kundenr = kunde.getKundeNr();
-				Calendar dato;
+				Calendar dato = (Calendar) skadeDatoFritid.getValue();
 				adresse = adresseFritid.getText();
 				type = skadeTypeFritid.getText();
 				taks = taksbelopFritid.getText();
@@ -406,7 +363,7 @@ public void slettFelter()
 				beskriv = beskrivFritid.getText();
 
 
-				if(dato.equals("") || adresse.equals("") || type.equals("") || taks.equals("") || beskriv.equals(""))
+				if(dato == null || adresse.equals("") || type.equals("") || taks.equals("") || beskriv.equals(""))
 					informationTop.setText("Alle feltene må fylles ut");
 				//else if(telefon.matches(regexPattern) )
 				//	informationTop.setText("Telefon nummer er ikke gyldig");
