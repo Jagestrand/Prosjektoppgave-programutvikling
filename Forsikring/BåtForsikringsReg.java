@@ -6,7 +6,7 @@ public class BåtForsikringsReg implements Serializable
 {
 	private static final long serialVersionUID = 42L;
 
-	private TreeSet<BåtForsikring1> list;//listen
+	private TreeSet<BåtForsikring> list;//listen
 	private int nrNå;
 
 	public BåtForsikringsReg()
@@ -14,7 +14,7 @@ public class BåtForsikringsReg implements Serializable
 		list = new TreeSet<>(new ForsikringCollator() );//Oppretter forsikringslisten
 	}
 
-	public void add(BåtForsikring1 båt)
+	public void add(BåtForsikring båt)
 	{
 		list.add(båt);
 	}
@@ -24,12 +24,12 @@ public class BåtForsikringsReg implements Serializable
 		return list.isEmpty();
 	}
 
-	public Iterator<BåtForsikring1> iterator()
+	public Iterator<BåtForsikring> iterator()
 	{
 		return list.iterator();
 	}
 
-	public boolean contains(BåtForsikring1 in)
+	public boolean contains(BåtForsikring in)
 	{
 		return list.contains(in);
 	}
@@ -99,8 +99,8 @@ public class BåtForsikringsReg implements Serializable
 
 	public BåtForsikringsReg finnBåtViaKundeNr(String nr)
 	{
-		Iterator<BåtForsikring1> theIterator = iterator();
-		BåtForsikring1 båt;
+		Iterator<BåtForsikring> theIterator = iterator();
+		BåtForsikring båt;
 		BåtForsikringsReg søktBåtReg = new BåtForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -128,8 +128,8 @@ public class BåtForsikringsReg implements Serializable
 
 	public BåtForsikringsReg finnBåtViaEier(String eier)
 	{
-		Iterator<BåtForsikring1> theIterator = iterator();
-		BåtForsikring1 båt;
+		Iterator<BåtForsikring> theIterator = iterator();
+		BåtForsikring båt;
 		BåtForsikringsReg søktBåtReg = new BåtForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -157,8 +157,8 @@ public class BåtForsikringsReg implements Serializable
 
 	public BåtForsikringsReg finnBåtViaType(String type)
 	{
-		Iterator<BåtForsikring1> theIterator = iterator();
-		BåtForsikring1 båt;
+		Iterator<BåtForsikring> theIterator = iterator();
+		BåtForsikring båt;
 		BåtForsikringsReg søktBåtReg = new BåtForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -186,8 +186,8 @@ public class BåtForsikringsReg implements Serializable
 
 	public BåtForsikringsReg finnBåtViaModell(String m)
 	{
-		Iterator<BåtForsikring1> theIterator = iterator();
-		BåtForsikring1 båt;
+		Iterator<BåtForsikring> theIterator = iterator();
+		BåtForsikring båt;
 		BåtForsikringsReg søktBåtReg = new BåtForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -215,8 +215,8 @@ public class BåtForsikringsReg implements Serializable
 
 	public BåtForsikringsReg finnBåtViaRegNr(String nr)
 	{
-		Iterator<BåtForsikring1> theIterator = iterator();
-		BåtForsikring1 båt;
+		Iterator<BåtForsikring> theIterator = iterator();
+		BåtForsikring båt;
 		BåtForsikringsReg søktBåtReg = new BåtForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -243,8 +243,8 @@ public class BåtForsikringsReg implements Serializable
 
 	public BåtForsikringsReg finnBåtViaMotorType(String nr)
 	{
-		Iterator<BåtForsikring1> theIterator = iterator();
-		BåtForsikring1 båt;
+		Iterator<BåtForsikring> theIterator = iterator();
+		BåtForsikring båt;
 		BåtForsikringsReg søktBåtReg = new BåtForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -271,8 +271,8 @@ public class BåtForsikringsReg implements Serializable
 
 	public BåtForsikringsReg finnBåtViaNr(int nr)
 	{
-		Iterator<BåtForsikring1> theIterator = iterator();
-		BåtForsikring1 båt;
+		Iterator<BåtForsikring> theIterator = iterator();
+		BåtForsikring båt;
 		BåtForsikringsReg søktBåtReg = new BåtForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -299,8 +299,8 @@ public class BåtForsikringsReg implements Serializable
 
 	public BåtForsikringsReg finnBåtViaÅr(int år)
 	{
-		Iterator<BåtForsikring1> theIterator = iterator();
-		BåtForsikring1 båt;
+		Iterator<BåtForsikring> theIterator = iterator();
+		BåtForsikring båt;
 		BåtForsikringsReg søktBåtReg = new BåtForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -328,8 +328,8 @@ public class BåtForsikringsReg implements Serializable
 
 	public BåtForsikringsReg finnBåtViaLengde(int km)
 	{
-		Iterator<BåtForsikring1> theIterator = iterator();
-		BåtForsikring1 båt;
+		Iterator<BåtForsikring> theIterator = iterator();
+		BåtForsikring båt;
 		BåtForsikringsReg søktBåtReg = new BåtForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -357,8 +357,8 @@ public class BåtForsikringsReg implements Serializable
 
 	public BåtForsikringsReg finnBåtViaBeløp(int b)
 	{
-		Iterator<BåtForsikring1> theIterator = iterator();
-		BåtForsikring1 båt;
+		Iterator<BåtForsikring> theIterator = iterator();
+		BåtForsikring båt;
 		BåtForsikringsReg søktBåtReg = new BåtForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -386,8 +386,8 @@ public class BåtForsikringsReg implements Serializable
 
 	public BåtForsikringsReg finnBåtViaStyrke(int s)
 	{
-		Iterator<BåtForsikring1> theIterator = iterator();
-		BåtForsikring1 båt;
+		Iterator<BåtForsikring> theIterator = iterator();
+		BåtForsikring båt;
 		BåtForsikringsReg søktBåtReg = new BåtForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -441,26 +441,26 @@ public class BåtForsikringsReg implements Serializable
 		return "Error";
 	}*/
 
-	public Comparator<Forsikring1> InitCollator()
+	public Comparator<Forsikring> InitCollator()
 	{
-		Comparator<Forsikring1> collator;
+		Comparator<Forsikring> collator;
 		return collator = new ForsikringCollator();
 	}
 
 	public void lagreNrNå()//nødvendig for skriving/lagring til fil
 	{
-		nrNå = BåtForsikring1.getNrNå();
+		nrNå = BåtForsikring.getNrNå();
 	}
 
 	public void setNåNr()//nødvendig for skriving/lagring til fil
 	{
-		BåtForsikring1.setNrNå(nrNå);
+		BåtForsikring.setNrNå(nrNå);
 	}
 
 	public String toString()
 	{
 		StringBuilder res = new StringBuilder();
-		Iterator<BåtForsikring1> ite = list.iterator();
+		Iterator<BåtForsikring> ite = list.iterator();
 		while(ite.hasNext() )
 			res.append(ite.next().toString() );
 			res.append("\n");
