@@ -6,7 +6,7 @@ public class HusForsikringsReg implements Serializable
 {
 	private static final long serialVersionUID = 42L;
 
-	private TreeSet<HusForsikring1> list;//listen
+	private TreeSet<HusForsikring> list;//listen
 	private int nrNå;
 
 	public HusForsikringsReg()
@@ -14,7 +14,7 @@ public class HusForsikringsReg implements Serializable
 		list = new TreeSet<>(new ForsikringCollator() );//Oppretter forsikringslisten
 	}
 
-	public boolean add(HusForsikring1 pre)
+	public boolean add(HusForsikring pre)
 	{
 		return list.add(pre);
 	}
@@ -24,12 +24,12 @@ public class HusForsikringsReg implements Serializable
 		return list.isEmpty();
 	}
 
-	public Iterator<HusForsikring1> iterator()
+	public Iterator<HusForsikring> iterator()
 	{
 		return list.iterator();
 	}
 
-	public boolean contains(HusForsikring1 in)
+	public boolean contains(HusForsikring in)
 	{
 		return list.contains(in);
 	}
@@ -95,8 +95,8 @@ public class HusForsikringsReg implements Serializable
 
 	public HusForsikringsReg finnHusViaKundeNr(String nr)
 	{
-		Iterator<HusForsikring1> theIterator = iterator();
-		HusForsikring1 hus;
+		Iterator<HusForsikring> theIterator = iterator();
+		HusForsikring hus;
 		HusForsikringsReg søktHusReg = new HusForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -124,8 +124,8 @@ public class HusForsikringsReg implements Serializable
 
 	public HusForsikringsReg finnHusViaAdresse(String adr)
 	{
-		Iterator<HusForsikring1> theIterator = iterator();
-		HusForsikring1 hus;
+		Iterator<HusForsikring> theIterator = iterator();
+		HusForsikring hus;
 		HusForsikringsReg søktHusReg = new HusForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -152,8 +152,8 @@ public class HusForsikringsReg implements Serializable
 
 	public HusForsikringsReg finnHusViaStandard(String stand)
 	{
-		Iterator<HusForsikring1> theIterator = iterator();
-		HusForsikring1 hus;
+		Iterator<HusForsikring> theIterator = iterator();
+		HusForsikring hus;
 		HusForsikringsReg søktHusReg = new HusForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -181,8 +181,8 @@ public class HusForsikringsReg implements Serializable
 
 	public HusForsikringsReg finnHusViaType(String typ)
 	{
-		Iterator<HusForsikring1> theIterator = iterator();
-		HusForsikring1 hus;
+		Iterator<HusForsikring> theIterator = iterator();
+		HusForsikring hus;
 		HusForsikringsReg søktHusReg = new HusForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -210,8 +210,8 @@ public class HusForsikringsReg implements Serializable
 
 	public HusForsikringsReg finnHusViaMateriale(String m)
 	{
-		Iterator<HusForsikring1> theIterator = iterator();
-		HusForsikring1 hus;
+		Iterator<HusForsikring> theIterator = iterator();
+		HusForsikring hus;
 		HusForsikringsReg søktHusReg = new HusForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -239,8 +239,8 @@ public class HusForsikringsReg implements Serializable
 
 	public HusForsikringsReg finnHusViaNr(int nr)
 	{
-		Iterator<HusForsikring1> theIterator = iterator();
-		HusForsikring1 hus;
+		Iterator<HusForsikring> theIterator = iterator();
+		HusForsikring hus;
 		HusForsikringsReg søktHusReg = new HusForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -267,8 +267,8 @@ public class HusForsikringsReg implements Serializable
 
 	public HusForsikringsReg finnHusViaBeløpB(int b)
 	{
-		Iterator<HusForsikring1> theIterator = iterator();
-		HusForsikring1 hus;
+		Iterator<HusForsikring> theIterator = iterator();
+		HusForsikring hus;
 		HusForsikringsReg søktHusReg = new HusForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -295,8 +295,8 @@ public class HusForsikringsReg implements Serializable
 
 	public HusForsikringsReg finnHusViaBeløpI(int i)
 	{
-		Iterator<HusForsikring1> theIterator = iterator();
-		HusForsikring1 hus;
+		Iterator<HusForsikring> theIterator = iterator();
+		HusForsikring hus;
 		HusForsikringsReg søktHusReg = new HusForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -323,8 +323,8 @@ public class HusForsikringsReg implements Serializable
 
 	public HusForsikringsReg finnHusViaÅr(int år)
 	{
-		Iterator<HusForsikring1> theIterator = iterator();
-		HusForsikring1 hus;
+		Iterator<HusForsikring> theIterator = iterator();
+		HusForsikring hus;
 		HusForsikringsReg søktHusReg = new HusForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -351,8 +351,8 @@ public class HusForsikringsReg implements Serializable
 
 	public HusForsikringsReg finnHusViaStørrelse(int s)
 	{
-		Iterator<HusForsikring1> theIterator = iterator();
-		HusForsikring1 hus;
+		Iterator<HusForsikring> theIterator = iterator();
+		HusForsikring hus;
 		HusForsikringsReg søktHusReg = new HusForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -406,18 +406,18 @@ public class HusForsikringsReg implements Serializable
 
 	public void lagreNrNå()//nødvendig for skriving/lagring til fil
 	{
-		nrNå = HusForsikring1.getNrNå();
+		nrNå = HusForsikring.getNrNå();
 	}
 
 	public void setCurrentNumber()//nødvendig for skriving/lagring til fil
 	{
-		HusForsikring1.setNrNå(nrNå);
+		HusForsikring.setNrNå(nrNå);
 	}
 
 	public String toString()
 	{
 		StringBuilder res = new StringBuilder();
-		Iterator<HusForsikring1> ite = list.iterator();
+		Iterator<HusForsikring> ite = list.iterator();
 		while(ite.hasNext() )
 			res.append(ite.next().toString() );
 			res.append("\n");
