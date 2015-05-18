@@ -8,6 +8,7 @@ import java.util.*;
 public class AnsattVindu extends JPanel
 {
 	private Register register;
+	private Ansatt ansatt;
 	private Huvudvindu window;
 	private Lytterklasse lytter;
 	private RadioLytter radiolytter;
@@ -15,6 +16,7 @@ public class AnsattVindu extends JPanel
 	private final int DATA_FIELD_LENGTH = 20;
 	public static final int SØK_KUNDE = 1, SØK_BIL = 21, SØK_BÅT = 22, SØK_HUS = 23, SØK_HYTTE = 24, SØK_SKADE = 3;
 	private int søkFor;
+	private String innlogget;
 	private JTextField kundNr, kundPersonnr, kundNavn, kundTelefon, kundAdresse, kundPostnr, kundPostby, typeForsikring,
 				bilforsikringsnr, eier, forsikringBeløp, bilregNr, bilType, bilModell, bilRegÅr, bilKM,
 				båtforsikringsnr, båtregNr, båtType, båtModell, båtLengde, båtÅr, båtMotor, båtHK,
@@ -36,17 +38,18 @@ public class AnsattVindu extends JPanel
 	private JTabbedPane tabbedPane, tabbedPane2, tabbedPane3;
 	private JRadioButton bilKat, båtKat, husKat, hytKat;
 
-	public AnsattVindu(Huvudvindu win) //    , Ansatt ansatt
+	public AnsattVindu(Huvudvindu win, Ansatt anna) //    , Ansatt ansatt
 	{
 		/*
 		Fiks det med forandre søkefelter etter tabber
 
 		Denne klassen må kunne se 3 faner:
-		1. Kunder (og åpne nytt vindu med mer info)!!
+		1. Kunder (og åpne nytt vindu med mer info)!! X
 		2. Forsikringer (og åpne vindu med mer info)!!
 		3. Skademeldinger (og åpne vindu med mer info)!!
 		*/
 		window = win;
+		ansatt = anna;
 		register = window.getRegister();
 		lytter = new Lytterklasse();
 		radiolytter = new RadioLytter();
@@ -54,7 +57,7 @@ public class AnsattVindu extends JPanel
 
 		//avkrysningsbokser
 		kategoriKnapper = new ButtonGroup();
-		bilKat = new JRadioButton("Bil", true);
+		bilKat = new JRadioButton("Bil", false);
 		båtKat = new JRadioButton("Båt", false);
 		husKat = new JRadioButton("Hus", false);
 		hytKat = new JRadioButton("Hytte", false);
@@ -83,7 +86,8 @@ public class AnsattVindu extends JPanel
 		flow = new JPanel(new FlowLayout());
 
 		//infoormations felt
-		informationTop = new JTextArea("Velkommen tilbake");
+		innlogget = ansatt.getFornavn() + " " + ansatt.getEtternavn();
+		informationTop = new JTextArea("Velkommen " + innlogget);
 
 		informationTop.setLineWrap(true);
 		informationTop.setWrapStyleWord(true);
@@ -116,6 +120,7 @@ public class AnsattVindu extends JPanel
 
 		visForsikringKnapp = new JButton("Se kundens forsikringer");
 		deletaForsikringKnapp = new JButton("Opphev forsikring");
+		//seKundesForsikringer = new JButton();
 
 		søkKnapp.addActionListener(lytter);
 		oppdaterKnapp.addActionListener(lytter);
@@ -295,7 +300,6 @@ public class AnsattVindu extends JPanel
 
 		tableModel = new TModel(register.getKunder());
 		table = new JTable(tableModel);
-		//legg til en fane her med forsikringer
 		tableModel21 = new TModel(register.getBiler());	//HER
 		table21 = new JTable(tableModel21);
 		tableModel22 = new TModel(register.getBåter());
@@ -324,7 +328,7 @@ public class AnsattVindu extends JPanel
 		tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 		tabbedPane.addTab("Forsikringer", null, (new JScrollPane(tabbedPane2)), "Liste over forsikringer");
 		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
-		tabbedPane.addTab("Skademeldinger", null, (new JScrollPane(table3)), "Liste over kunder");
+		tabbedPane.addTab("Skademeldinger", null, (new JScrollPane(table3, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED)), "Liste over skademeldinger");
 		tabbedPane.setMnemonicAt(0, KeyEvent.VK_3);
 		tabbedPane.addChangeListener(changeLytter);
 
@@ -347,6 +351,12 @@ public class AnsattVindu extends JPanel
 							Kunde kunn = register.getKundeViaKundeNr( (String)theTable.getValueAt(rad, TModel.KUNDE_NR) );
 							KundeProfil vin = new KundeProfil(kunn);
 						}
+						else if(tabbedPane.getSelectedIndex() == 2)
+						{
+							Skademelding skadd = register.getSkadeViaNr( (int)theTable.getValueAt(rad, TModel.SKADE_NR) );
+							//SkademeldingsProfil vin = new SkademeldingsProfil(skadd);
+						}
+
 						else if(tabbedPane2.getSelectedIndex() == 0)
 						{
 							BilForsikring1 bilfor = register.getBilViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
@@ -376,6 +386,7 @@ public class AnsattVindu extends JPanel
 		table22.addMouseListener(mouseListener);
 		table23.addMouseListener(mouseListener);
 		table24.addMouseListener(mouseListener);
+		table3.addMouseListener(mouseListener);
 
 	}
 
@@ -391,6 +402,8 @@ public class AnsattVindu extends JPanel
 			søkHus();
 		else if(tabbedPane2.getSelectedIndex() == 3)
 			søkHytte();
+		else if(tabbedPane.getSelectedIndex() == 2)
+			søkSkade();
 	}
 
 	public void statistikk()
@@ -428,7 +441,7 @@ public class AnsattVindu extends JPanel
 		return res;
 	}
 
-	public SkademeldingReg søkSkader()
+	public SkademeldingReg søkSkade()
 	{
 
 		SkademeldingReg res = register.getSkademeldinger();
@@ -678,11 +691,7 @@ public class AnsattVindu extends JPanel
 	{
 		grid.removeAll();
 		grid.add(oppdaterKnapp);
-		grid.revalidate();
-		grid.repaint();
 		katGrid.removeAll();
-		katGrid.revalidate();
-		katGrid.repaint();
 		searchGrid.removeAll();
 		searchGrid.add(kundNrLabel);
 		searchGrid.add(kundNr);
@@ -700,8 +709,7 @@ public class AnsattVindu extends JPanel
 		searchGrid.add(kundPostby);
 		searchGrid.add(søkKnapp);
 		searchGrid.add(statKnapp);
-		searchGrid.revalidate();
-		searchGrid.repaint();
+		byttTab();
 	}
 
 	public void forsikringPanel()
@@ -710,22 +718,17 @@ public class AnsattVindu extends JPanel
 		katGrid.add(bilKat);
 		katGrid.add(båtKat);
 		katGrid.add(husKat);
-		katGrid.add(hytKat);
-		grid.revalidate();
-		grid.repaint();
-		katGrid.revalidate();
-		katGrid.repaint();
+		katGrid.add(hytKat);;
+		if(bilKat.isSelected())
+		searchGrid.removeAll();
+		byttTab();
 	}
 
 	public void skademeldingPanel()
 	{
 		grid.removeAll();
 		grid.add(oppdaterKnapp);
-		grid.revalidate();
-		grid.repaint();
 		katGrid.removeAll();
-		katGrid.revalidate();
-		katGrid.repaint();
 		searchGrid.removeAll();
 		searchGrid.add(skademeldingsNrLabel);
 		searchGrid.add(skademeldingsNr);
@@ -743,10 +746,18 @@ public class AnsattVindu extends JPanel
 		searchGrid.add(skadeEtterDato);
 		searchGrid.add(utbetaltBeløpLabel);
 		searchGrid.add(utbetaltBeløp);
+		byttTab();
+	}
+
+	public void byttTab()
+	{
+		grid.revalidate();
+		grid.repaint();
+		katGrid.revalidate();
+		katGrid.repaint();
 		searchGrid.revalidate();
 		searchGrid.repaint();
 	}
-
 
 	private class RadioLytter implements ItemListener
 	{
@@ -775,8 +786,7 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(bilKM);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
-				searchGrid.revalidate();
-				searchGrid.repaint();
+				byttTab();
 				//søkBil();
 			}
 			else if(båtKat.isSelected())
@@ -806,8 +816,7 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(båtHK);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
-				searchGrid.revalidate();
-				searchGrid.repaint();
+				byttTab();
 				//søkBåt();
 			}
 			if(husKat.isSelected())
@@ -837,8 +846,7 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(innboBeløp);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
-				searchGrid.revalidate();
-				searchGrid.repaint();
+				byttTab();
 				//søkHus();
 			}
 			if(hytKat.isSelected())
@@ -868,8 +876,7 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(innboBeløp);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
-				searchGrid.revalidate();
-				searchGrid.repaint();
+				byttTab();
 				//søkHytte();
 			}
 		}
