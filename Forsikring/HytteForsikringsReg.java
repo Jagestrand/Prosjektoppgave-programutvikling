@@ -6,7 +6,7 @@ public class HytteForsikringsReg implements Serializable
 {
 	private static final long serialVersionUID = 42L;
 
-	private TreeSet<HytteForsikring1> list;//listen
+	private TreeSet<HytteForsikring> list;//listen
 	private int nrNå;
 
 	public HytteForsikringsReg()
@@ -14,7 +14,7 @@ public class HytteForsikringsReg implements Serializable
 		list = new TreeSet<>(new ForsikringCollator() );//Oppretter forsikringslisten
 	}
 
-	public void add(HytteForsikring1 hyt)
+	public void add(HytteForsikring hyt)
 	{
 		list.add(hyt);
 	}
@@ -24,12 +24,12 @@ public class HytteForsikringsReg implements Serializable
 		return list.isEmpty();
 	}
 
-	public Iterator<HytteForsikring1> iterator()
+	public Iterator<HytteForsikring> iterator()
 	{
 		return list.iterator();
 	}
 
-	public boolean contains(HytteForsikring1 in)
+	public boolean contains(HytteForsikring in)
 	{
 		return list.contains(in);
 	}
@@ -95,8 +95,8 @@ public class HytteForsikringsReg implements Serializable
 
 	public HytteForsikringsReg finnHytteViaKundeNr(String nr)
 	{
-		Iterator<HytteForsikring1> theIterator = iterator();
-		HytteForsikring1 hytte;
+		Iterator<HytteForsikring> theIterator = iterator();
+		HytteForsikring hytte;
 		HytteForsikringsReg søktHytteReg = new HytteForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -124,8 +124,8 @@ public class HytteForsikringsReg implements Serializable
 
 	public HytteForsikringsReg finnHytteViaAdresse(String adr)
 	{
-		Iterator<HytteForsikring1> theIterator = iterator();
-		HytteForsikring1 hytte;
+		Iterator<HytteForsikring> theIterator = iterator();
+		HytteForsikring hytte;
 		HytteForsikringsReg søktHytteReg = new HytteForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -152,8 +152,8 @@ public class HytteForsikringsReg implements Serializable
 
 	public HytteForsikringsReg finnHytteViaStandard(String stand)
 	{
-		Iterator<HytteForsikring1> theIterator = iterator();
-		HytteForsikring1 hytte;
+		Iterator<HytteForsikring> theIterator = iterator();
+		HytteForsikring hytte;
 		HytteForsikringsReg søktHytteReg = new HytteForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -181,8 +181,8 @@ public class HytteForsikringsReg implements Serializable
 
 	public HytteForsikringsReg finnHytteViaType(String typ)
 	{
-		Iterator<HytteForsikring1> theIterator = iterator();
-		HytteForsikring1 hytte;
+		Iterator<HytteForsikring> theIterator = iterator();
+		HytteForsikring hytte;
 		HytteForsikringsReg søktHytteReg = new HytteForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -210,8 +210,8 @@ public class HytteForsikringsReg implements Serializable
 
 	public HytteForsikringsReg finnHytteViaMateriale(String m)
 	{
-		Iterator<HytteForsikring1> theIterator = iterator();
-		HytteForsikring1 hytte;
+		Iterator<HytteForsikring> theIterator = iterator();
+		HytteForsikring hytte;
 		HytteForsikringsReg søktHusReg = new HytteForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -239,8 +239,8 @@ public class HytteForsikringsReg implements Serializable
 
 	public HytteForsikringsReg finnHytteViaNr(int nr)
 	{
-		Iterator<HytteForsikring1> theIterator = iterator();
-		HytteForsikring1 hytte;
+		Iterator<HytteForsikring> theIterator = iterator();
+		HytteForsikring hytte;
 		HytteForsikringsReg søktHytteReg = new HytteForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -267,8 +267,8 @@ public class HytteForsikringsReg implements Serializable
 
 	public HytteForsikringsReg finnHytteViaBeløpB(int b)
 	{
-		Iterator<HytteForsikring1> theIterator = iterator();
-		HytteForsikring1 hytte;
+		Iterator<HytteForsikring> theIterator = iterator();
+		HytteForsikring hytte;
 		HytteForsikringsReg søktHytteReg = new HytteForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -296,8 +296,8 @@ public class HytteForsikringsReg implements Serializable
 
 	public HytteForsikringsReg finnHytteViaBeløpI(int i)
 	{
-		Iterator<HytteForsikring1> theIterator = iterator();
-		HytteForsikring1 hytte;
+		Iterator<HytteForsikring> theIterator = iterator();
+		HytteForsikring hytte;
 		HytteForsikringsReg søktHytteReg = new HytteForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -325,8 +325,8 @@ public class HytteForsikringsReg implements Serializable
 
 	public HytteForsikringsReg finnHytteViaÅr(int år)
 	{
-		Iterator<HytteForsikring1> theIterator = iterator();
-		HytteForsikring1 hytte;
+		Iterator<HytteForsikring> theIterator = iterator();
+		HytteForsikring hytte;
 		HytteForsikringsReg søktHytteReg = new HytteForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -354,8 +354,8 @@ public class HytteForsikringsReg implements Serializable
 
 	public HytteForsikringsReg finnHytteViaStørrelse(int s)
 	{
-		Iterator<HytteForsikring1> theIterator = iterator();
-		HytteForsikring1 hytte;
+		Iterator<HytteForsikring> theIterator = iterator();
+		HytteForsikring hytte;
 		HytteForsikringsReg søktHytteReg = new HytteForsikringsReg();
 		try{
 			while(theIterator.hasNext())
@@ -410,18 +410,18 @@ public class HytteForsikringsReg implements Serializable
 
 	public void lagreNrNå()//nødvendig for skriving/lagring til fil
 	{
-		nrNå = HytteForsikring1.getNrNå();
+		nrNå = HytteForsikring.getNrNå();
 	}
 
 	public void setNåNr()//nødvendig for skriving/lagring til fil
 	{
-		HytteForsikring1.setNrNå(nrNå);
+		HytteForsikring.setNrNå(nrNå);
 	}
 
 	public String toString()
 	{
 		StringBuilder res = new StringBuilder();
-		Iterator<HytteForsikring1> ite = list.iterator();
+		Iterator<HytteForsikring> ite = list.iterator();
 		while(ite.hasNext() )
 			res.append(ite.next().toString() );
 			res.append("\n");
