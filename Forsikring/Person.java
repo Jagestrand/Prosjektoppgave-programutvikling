@@ -7,7 +7,7 @@ public abstract class Person implements Serializable
 	protected String fornavn, etternavn, personNr, telefonNr;
 	protected static String ja = "Aktiv", nei = "Deaktivert";
 	private Calendar starta, avslutta;
-	protected ForsikringsReg1 forsikringsliste;
+	protected BilForsikringsReg billiste;
 	protected BåtForsikringsReg båtliste;
 	protected HusForsikringsReg husliste;
 	protected HytteForsikringsReg hytteliste;
@@ -20,7 +20,7 @@ public abstract class Person implements Serializable
 		etternavn = eNavn;
 		personNr = persNr;
 		telefonNr = tlfNr;
-		forsikringsliste = new ForsikringsReg1();
+		billiste = new BilForsikringsReg();
 		båtliste = new BåtForsikringsReg();
 		husliste = new HusForsikringsReg();
 		hytteliste = new HytteForsikringsReg();
@@ -105,7 +105,7 @@ public abstract class Person implements Serializable
 class Kunde extends Person implements Serializable
 {
 	static final long serialVersionUID = 42L;
-	private String adresse, postnr, poststed, passord;
+	private String adresse, postnr, poststed, passord, kundenr;
 	private int hjelpenr;
 	private static int nestenr = 0;
 	private static String kundekat = "A";
@@ -176,9 +176,25 @@ class Kunde extends Person implements Serializable
 		return kundekat;
 	}
 
-	public ForsikringsReg1 getBiler()
+	public boolean erTotalkunde()
 	{
-		return forsikringsliste;
+		if(billiste.size() + båtliste.size() + husliste.size() + hytteliste.size() >= 3)
+			return true;
+		else
+			return false;
+	}
+
+	public String getTotalkundeStatus()
+	{
+		if(erTotalkunde())
+			return "Ja";
+		else
+			return "Nei";
+	}
+
+	public BilForsikringsReg getBiler()
+	{
+		return billiste;
 	}
 	
 	public BåtForsikringsReg getBåter()
@@ -201,47 +217,47 @@ class Kunde extends Person implements Serializable
 		return skadeliste;
 	}
 
-	public Iterator<BilForsikring1> iterator()
+	public Iterator<BilForsikring> iterator()
 	{
-		return forsikringsliste.iterator();
+		return billiste.iterator();
 	}
 
-	public Iterator<BåtForsikring1> iteratorb()
+	public Iterator<BåtForsikring> iteratorb()
 	{
 		return båtliste.iterator();
 	}
 
-	public Iterator<HusForsikring1> iteratorh()
+	public Iterator<HusForsikring> iteratorh()
 	{
 		return husliste.iterator();
 	}
 
-	public Iterator<HytteForsikring1> iteratory()
+	public Iterator<HytteForsikring> iteratory()
 	{
 		return hytteliste.iterator();
 	}
 
-	public void addForsikring(BilForsikring1 forsikr)
+	public void nyForsikring(BilForsikring forsikr)
 	{
-		forsikringsliste.add(forsikr);
+		billiste.add(forsikr);
 	}
 
-	public void addForsikring(BåtForsikring1 forsikr)
+	public void nyForsikring(BåtForsikring forsikr)
 	{
 		båtliste.add(forsikr);
 	}
 
-	public void addForsikring(HusForsikring1 forsikr)
+	public void nyForsikring(HusForsikring forsikr)
 	{
 		husliste.add(forsikr);
 	}
 
-	public void addForsikring(HytteForsikring1 forsikr)
+	public void nyForsikring(HytteForsikring forsikr)
 	{
 		hytteliste.add(forsikr);
 	}
 	
-	public void addSkademelding(Skademelding skad)
+	public void nySkademelding(Skademelding skad)
 	{
 		skadeliste.add(skad);
 	}
@@ -267,9 +283,10 @@ class Kunde extends Person implements Serializable
 class Ansatt extends Person implements Serializable
 {
 	static final long serialVersionUID = 42L;
-	private String adresse, passord;
+	private String adresse, passord, ansattnr;
 	private int id;
 	private static int nesteid = 10999;
+	//private AnsattReg ans;
 
 	public Ansatt(String fNavn, String eNavn, String persNr, String tlfNr, String adr, String pord)
 	{
