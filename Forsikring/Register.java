@@ -5,7 +5,7 @@ import javax.swing.*;
 public class Register implements Serializable
 {
 	private static final long serialVersionUID = 42L;
-	private ForsikringsReg1 forReg;
+	private BilForsikringsReg forReg;
 	private Forsikring1 f;
 	private AnsattReg ansReg;
 	private KundeReg kunReg;
@@ -21,7 +21,7 @@ public class Register implements Serializable
 	{
 		data = dataer;
 		fReg = new ForsikringsReg();
-		forReg = new ForsikringsReg1();
+		forReg = new BilForsikringsReg();
 		ansReg = new AnsattReg();
 		kunReg = new KundeReg();
 		bilReg = new BilForsikringsReg();
@@ -46,29 +46,55 @@ public class Register implements Serializable
 		return forReg;
 	}*/
 
-	public void nyBil(BilForsikring1 bil)
+	public void nyBil(BilForsikring bil)
 	{
-		//pre.getKunde().addForsikring(pre);
+		bil.getKunde().nyForsikring(bil);
 		forReg.add(bil);
 	}
 
-	public void nyBåt(BåtForsikring1 båt)
+	public void nyBåt(BåtForsikring båt)
 	{
+		båt.getKunde().nyForsikring(båt);
 		båtReg.add(båt);
 	}
 
-	public void nyttHus(HusForsikring1 hus)
+	public void nyttHus(HusForsikring hus)
 	{
+		hus.getKunde().nyForsikring(hus);
 		husReg.add(hus);
 	}
 
-	public void nyHytte(HytteForsikring1 hyt)
+	public void nyHytte(HytteForsikring hyt)
 	{
+		hyt.getKunde().nyForsikring(hyt);
 		hytReg.add(hyt);
 	}
 
-	public void nySkade(Skademelding skad)		//legger inn ny skademelding
+	public void nySkade(Skademelding skad, BilForsikring bil)		//legger inn ny skademelding
 	{
+		skad.getKunde().nySkademelding(skad);
+		bil.nySkade(skad);
+		skaReg.add(skad);
+	}
+
+	public void nySkade(Skademelding skad, BåtForsikring båt)		//legger inn ny skademelding
+	{
+		skad.getKunde().nySkademelding(skad);
+		båt.nySkade(skad);
+		skaReg.add(skad);
+	}
+
+	public void nySkade(Skademelding skad, HusForsikring hus)		//legger inn ny skademelding
+	{
+		skad.getKunde().nySkademelding(skad);
+		hus.nySkade(skad);
+		skaReg.add(skad);
+	}
+
+	public void nySkade(Skademelding skad, HytteForsikring hytt)		//legger inn ny skademelding
+	{
+		skad.getKunde().nySkademelding(skad);
+		hytt.nySkade(skad);
 		skaReg.add(skad);
 	}
 
@@ -82,7 +108,7 @@ public class Register implements Serializable
 		return kunReg;
 	}
 
-	public ForsikringsReg1 getBiler()
+	public BilForsikringsReg getBiler()
 	{
 		return forReg;
 	}
@@ -186,10 +212,10 @@ public class Register implements Serializable
 		return reg.findDoctorByAnsattNr(anr);
 	}
 
-	public BilForsikring1 getBilViaNr(int nr)
+	public BilForsikring getBilViaNr(int nr)
 	{
-		BilForsikring1 rem;
-		Iterator<BilForsikring1> iter = forReg.iterator();
+		BilForsikring rem;
+		Iterator<BilForsikring> iter = forReg.iterator();
 		while(iter.hasNext())
 		{
 			rem = iter.next();
@@ -199,13 +225,13 @@ public class Register implements Serializable
 		return null;
 	}
 
-	public ForsikringsReg1 getBilViaNr(ForsikringsReg1 reg, int nr)
+	public BilForsikringsReg getBilViaNr(BilForsikringsReg reg, int nr)
 	{				//forsikringsnr
 		if(reg == null)
 			reg = forReg;
-		BilForsikring1 temp;
-		ForsikringsReg1 rem = new ForsikringsReg1();
-		Iterator<BilForsikring1> iter = reg.iterator();
+		BilForsikring temp;
+		BilForsikringsReg rem = new BilForsikringsReg();
+		Iterator<BilForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -215,13 +241,13 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public ForsikringsReg1 getBilViaKundeNr(ForsikringsReg1 reg, String knr)
+	public BilForsikringsReg getBilViaKundeNr(BilForsikringsReg reg, String knr)
 	{
 		if(reg == null)
 			reg = forReg;
-		BilForsikring1 temp;
-		ForsikringsReg1 rem = new ForsikringsReg1();
-		Iterator<BilForsikring1> iter = reg.iterator();
+		BilForsikring temp;
+		BilForsikringsReg rem = new BilForsikringsReg();
+		Iterator<BilForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -231,10 +257,10 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public BilForsikring1 getBilViaRegNr(String nr)
+	public BilForsikring getBilViaRegNr(String nr)
 	{
-		BilForsikring1 rem;
-		Iterator<BilForsikring1> iter = forReg.iterator();
+		BilForsikring rem;
+		Iterator<BilForsikring> iter = forReg.iterator();
 		while(iter.hasNext())
 		{
 			rem = iter.next();
@@ -244,13 +270,13 @@ public class Register implements Serializable
 		return null;
 	}
 
-	public ForsikringsReg1 getBilViaRegNr(ForsikringsReg1 reg, String nr)
+	public BilForsikringsReg getBilViaRegNr(BilForsikringsReg reg, String nr)
 	{
 		if(reg == null)
 			reg = forReg;
-		BilForsikring1 temp;
-		ForsikringsReg1 rem = new ForsikringsReg1();
-		Iterator<BilForsikring1> iter = reg.iterator();
+		BilForsikring temp;
+		BilForsikringsReg rem = new BilForsikringsReg();
+		Iterator<BilForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -260,13 +286,13 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public ForsikringsReg1 getBilViaEier(ForsikringsReg1 reg, String navn)
+	public BilForsikringsReg getBilViaEier(BilForsikringsReg reg, String navn)
 	{
 		if(reg == null)
 			reg = forReg;
-		BilForsikring1 temp;
-		ForsikringsReg1 rem = new ForsikringsReg1();
-		Iterator<BilForsikring1> iter = reg.iterator();
+		BilForsikring temp;
+		BilForsikringsReg rem = new BilForsikringsReg();
+		Iterator<BilForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -276,13 +302,13 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public ForsikringsReg1 getBilViaType(ForsikringsReg1 reg, String t)
+	public BilForsikringsReg getBilViaType(BilForsikringsReg reg, String t)
 	{
 		if(reg == null)
 			reg = forReg;
-		BilForsikring1 temp;
-		ForsikringsReg1 rem = new ForsikringsReg1();
-		Iterator<BilForsikring1> iter = reg.iterator();
+		BilForsikring temp;
+		BilForsikringsReg rem = new BilForsikringsReg();
+		Iterator<BilForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -292,13 +318,13 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public ForsikringsReg1 getBilViaModell(ForsikringsReg1 reg, String m)
+	public BilForsikringsReg getBilViaModell(BilForsikringsReg reg, String m)
 	{
 		if(reg == null)
 			reg = forReg;
-		BilForsikring1 temp;
-		ForsikringsReg1 rem = new ForsikringsReg1();
-		Iterator<BilForsikring1> iter = reg.iterator();
+		BilForsikring temp;
+		BilForsikringsReg rem = new BilForsikringsReg();
+		Iterator<BilForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -308,13 +334,13 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public ForsikringsReg1 getBilViaRegÅr(ForsikringsReg1 reg, int år)
+	public BilForsikringsReg getBilViaRegÅr(BilForsikringsReg reg, int år)
 	{
 		if(reg == null)
 			reg = forReg;
-		BilForsikring1 temp;
-		ForsikringsReg1 rem = new ForsikringsReg1();
-		Iterator<BilForsikring1> iter = reg.iterator();
+		BilForsikring temp;
+		BilForsikringsReg rem = new BilForsikringsReg();
+		Iterator<BilForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -324,13 +350,13 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public ForsikringsReg1 getBilViaKjørelengde(ForsikringsReg1 reg, int l)
+	public BilForsikringsReg getBilViaKjørelengde(BilForsikringsReg reg, int l)
 	{
 		if(reg == null)
 			reg = forReg;
-		BilForsikring1 temp;
-		ForsikringsReg1 rem = new ForsikringsReg1();
-		Iterator<BilForsikring1> iter = reg.iterator();
+		BilForsikring temp;
+		BilForsikringsReg rem = new BilForsikringsReg();
+		Iterator<BilForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -342,10 +368,10 @@ public class Register implements Serializable
 
 				//BÅT:
 
-	public BåtForsikring1 getBåtViaNr(int nr)
+	public BåtForsikring getBåtViaNr(int nr)
 	{
-		BåtForsikring1 rem;
-		Iterator<BåtForsikring1> iter = båtReg.iterator();
+		BåtForsikring rem;
+		Iterator<BåtForsikring> iter = båtReg.iterator();
 		while(iter.hasNext())
 		{
 			rem = iter.next();
@@ -359,9 +385,9 @@ public class Register implements Serializable
 	{				//forsikringsnr
 		if(reg == null)
 			reg = båtReg;
-		BåtForsikring1 temp;
+		BåtForsikring temp;
 		BåtForsikringsReg rem = new BåtForsikringsReg();
-		Iterator<BåtForsikring1> iter = reg.iterator();
+		Iterator<BåtForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -375,9 +401,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = båtReg;
-		BåtForsikring1 temp;
+		BåtForsikring temp;
 		BåtForsikringsReg rem = new BåtForsikringsReg();
-		Iterator<BåtForsikring1> iter = reg.iterator();
+		Iterator<BåtForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -387,10 +413,10 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public BåtForsikring1 getBåtViaRegNr(String nr)
+	public BåtForsikring getBåtViaRegNr(String nr)
 	{
-		BåtForsikring1 rem;
-		Iterator<BåtForsikring1> iter = båtReg.iterator();
+		BåtForsikring rem;
+		Iterator<BåtForsikring> iter = båtReg.iterator();
 		while(iter.hasNext())
 		{
 			rem = iter.next();
@@ -404,9 +430,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = båtReg;
-		BåtForsikring1 temp;
+		BåtForsikring temp;
 		BåtForsikringsReg rem = new BåtForsikringsReg();
-		Iterator<BåtForsikring1> iter = reg.iterator();
+		Iterator<BåtForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -420,9 +446,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = båtReg;
-		BåtForsikring1 temp;
+		BåtForsikring temp;
 		BåtForsikringsReg rem = new BåtForsikringsReg();
-		Iterator<BåtForsikring1> iter = reg.iterator();
+		Iterator<BåtForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -436,9 +462,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = båtReg;
-		BåtForsikring1 temp;
+		BåtForsikring temp;
 		BåtForsikringsReg rem = new BåtForsikringsReg();
-		Iterator<BåtForsikring1> iter = reg.iterator();
+		Iterator<BåtForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -452,9 +478,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = båtReg;
-		BåtForsikring1 temp;
+		BåtForsikring temp;
 		BåtForsikringsReg rem = new BåtForsikringsReg();
-		Iterator<BåtForsikring1> iter = reg.iterator();
+		Iterator<BåtForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -468,9 +494,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = båtReg;
-		BåtForsikring1 temp;
+		BåtForsikring temp;
 		BåtForsikringsReg rem = new BåtForsikringsReg();
-		Iterator<BåtForsikring1> iter = reg.iterator();
+		Iterator<BåtForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -484,9 +510,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = båtReg;
-		BåtForsikring1 temp;
+		BåtForsikring temp;
 		BåtForsikringsReg rem = new BåtForsikringsReg();
-		Iterator<BåtForsikring1> iter = reg.iterator();
+		Iterator<BåtForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -500,9 +526,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = båtReg;
-		BåtForsikring1 temp;
+		BåtForsikring temp;
 		BåtForsikringsReg rem = new BåtForsikringsReg();
-		Iterator<BåtForsikring1> iter = reg.iterator();
+		Iterator<BåtForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -516,9 +542,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = båtReg;
-		BåtForsikring1 temp;
+		BåtForsikring temp;
 		BåtForsikringsReg rem = new BåtForsikringsReg();
-		Iterator<BåtForsikring1> iter = reg.iterator();
+		Iterator<BåtForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -530,10 +556,10 @@ public class Register implements Serializable
 
 					//HUS:
 
-	public HusForsikring1 getHusViaNr(int nr)
+	public HusForsikring getHusViaNr(int nr)
 	{
-		HusForsikring1 rem;
-		Iterator<HusForsikring1> iter = husReg.iterator();
+		HusForsikring rem;
+		Iterator<HusForsikring> iter = husReg.iterator();
 		while(iter.hasNext())
 		{
 			rem = iter.next();
@@ -547,9 +573,9 @@ public class Register implements Serializable
 	{				//forsikringsnr
 		if(reg == null)
 			reg = husReg;
-		HusForsikring1 temp;
+		HusForsikring temp;
 		HusForsikringsReg rem = new HusForsikringsReg();
-		Iterator<HusForsikring1> iter = reg.iterator();
+		Iterator<HusForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -563,9 +589,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = husReg;
-		HusForsikring1 temp;
+		HusForsikring temp;
 		HusForsikringsReg rem = new HusForsikringsReg();
-		Iterator<HusForsikring1> iter = reg.iterator();
+		Iterator<HusForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -575,10 +601,10 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HusForsikring1 getHusViaAdresse(String adr)
+	public HusForsikring getHusViaAdresse(String adr)
 	{
-		HusForsikring1 rem;
-		Iterator<HusForsikring1> iter = husReg.iterator();
+		HusForsikring rem;
+		Iterator<HusForsikring> iter = husReg.iterator();
 		while(iter.hasNext())
 		{
 			rem = iter.next();
@@ -592,9 +618,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = husReg;
-		HusForsikring1 temp;
+		HusForsikring temp;
 		HusForsikringsReg rem = new HusForsikringsReg();
-		Iterator<HusForsikring1> iter = reg.iterator();
+		Iterator<HusForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -608,9 +634,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = husReg;
-		HusForsikring1 temp;
+		HusForsikring temp;
 		HusForsikringsReg rem = new HusForsikringsReg();
-		Iterator<HusForsikring1> iter = reg.iterator();
+		Iterator<HusForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -624,9 +650,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = husReg;
-		HusForsikring1 temp;
+		HusForsikring temp;
 		HusForsikringsReg rem = new HusForsikringsReg();
-		Iterator<HusForsikring1> iter = reg.iterator();
+		Iterator<HusForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -640,9 +666,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = husReg;
-		HusForsikring1 temp;
+		HusForsikring temp;
 		HusForsikringsReg rem = new HusForsikringsReg();
-		Iterator<HusForsikring1> iter = reg.iterator();
+		Iterator<HusForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -656,9 +682,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = husReg;
-		HusForsikring1 temp;
+		HusForsikring temp;
 		HusForsikringsReg rem = new HusForsikringsReg();
-		Iterator<HusForsikring1> iter = reg.iterator();
+		Iterator<HusForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -672,9 +698,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = husReg;
-		HusForsikring1 temp;
+		HusForsikring temp;
 		HusForsikringsReg rem = new HusForsikringsReg();
-		Iterator<HusForsikring1> iter = reg.iterator();
+		Iterator<HusForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -688,9 +714,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = husReg;
-		HusForsikring1 temp;
+		HusForsikring temp;
 		HusForsikringsReg rem = new HusForsikringsReg();
-		Iterator<HusForsikring1> iter = reg.iterator();
+		Iterator<HusForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -704,9 +730,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = husReg;
-		HusForsikring1 temp;
+		HusForsikring temp;
 		HusForsikringsReg rem = new HusForsikringsReg();
-		Iterator<HusForsikring1> iter = reg.iterator();
+		Iterator<HusForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -720,9 +746,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = husReg;
-		HusForsikring1 temp;
+		HusForsikring temp;
 		HusForsikringsReg rem = new HusForsikringsReg();
-		Iterator<HusForsikring1> iter = reg.iterator();
+		Iterator<HusForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -733,10 +759,10 @@ public class Register implements Serializable
 	}
 				//HYTTE
 
-	public HytteForsikring1 getHytteViaNr(int nr)
+	public HytteForsikring getHytteViaNr(int nr)
 	{
-		HytteForsikring1 rem;
-		Iterator<HytteForsikring1> iter = hytReg.iterator();
+		HytteForsikring rem;
+		Iterator<HytteForsikring> iter = hytReg.iterator();
 		while(iter.hasNext())
 		{
 			rem = iter.next();
@@ -750,9 +776,9 @@ public class Register implements Serializable
 	{				//forsikringsnr
 		if(reg == null)
 			reg = hytReg;
-		HytteForsikring1 temp;
+		HytteForsikring temp;
 		HytteForsikringsReg rem = new HytteForsikringsReg();
-		Iterator<HytteForsikring1> iter = reg.iterator();
+		Iterator<HytteForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -766,9 +792,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = hytReg;
-		HytteForsikring1 temp;
+		HytteForsikring temp;
 		HytteForsikringsReg rem = new HytteForsikringsReg();
-		Iterator<HytteForsikring1> iter = reg.iterator();
+		Iterator<HytteForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -778,10 +804,10 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikring1 getHytteViaAdresse(String adr)
+	public HytteForsikring getHytteViaAdresse(String adr)
 	{
-		HytteForsikring1 rem;
-		Iterator<HytteForsikring1> iter = hytReg.iterator();
+		HytteForsikring rem;
+		Iterator<HytteForsikring> iter = hytReg.iterator();
 		while(iter.hasNext())
 		{
 			rem = iter.next();
@@ -795,9 +821,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = hytReg;
-		HytteForsikring1 temp;
+		HytteForsikring temp;
 		HytteForsikringsReg rem = new HytteForsikringsReg();
-		Iterator<HytteForsikring1> iter = reg.iterator();
+		Iterator<HytteForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -811,9 +837,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = hytReg;
-		HytteForsikring1 temp;
+		HytteForsikring temp;
 		HytteForsikringsReg rem = new HytteForsikringsReg();
-		Iterator<HytteForsikring1> iter = reg.iterator();
+		Iterator<HytteForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -827,9 +853,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = hytReg;
-		HytteForsikring1 temp;
+		HytteForsikring temp;
 		HytteForsikringsReg rem = new HytteForsikringsReg();
-		Iterator<HytteForsikring1> iter = reg.iterator();
+		Iterator<HytteForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -843,9 +869,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = hytReg;
-		HytteForsikring1 temp;
+		HytteForsikring temp;
 		HytteForsikringsReg rem = new HytteForsikringsReg();
-		Iterator<HytteForsikring1> iter = reg.iterator();
+		Iterator<HytteForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -859,9 +885,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = hytReg;
-		HytteForsikring1 temp;
+		HytteForsikring temp;
 		HytteForsikringsReg rem = new HytteForsikringsReg();
-		Iterator<HytteForsikring1> iter = reg.iterator();
+		Iterator<HytteForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -875,9 +901,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = hytReg;
-		HytteForsikring1 temp;
+		HytteForsikring temp;
 		HytteForsikringsReg rem = new HytteForsikringsReg();
-		Iterator<HytteForsikring1> iter = reg.iterator();
+		Iterator<HytteForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -891,9 +917,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = hytReg;
-		HytteForsikring1 temp;
+		HytteForsikring temp;
 		HytteForsikringsReg rem = new HytteForsikringsReg();
-		Iterator<HytteForsikring1> iter = reg.iterator();
+		Iterator<HytteForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -907,9 +933,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = hytReg;
-		HytteForsikring1 temp;
+		HytteForsikring temp;
 		HytteForsikringsReg rem = new HytteForsikringsReg();
-		Iterator<HytteForsikring1> iter = reg.iterator();
+		Iterator<HytteForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
@@ -923,9 +949,9 @@ public class Register implements Serializable
 	{
 		if(reg == null)
 			reg = hytReg;
-		HytteForsikring1 temp;
+		HytteForsikring temp;
 		HytteForsikringsReg rem = new HytteForsikringsReg();
-		Iterator<HytteForsikring1> iter = reg.iterator();
+		Iterator<HytteForsikring> iter = reg.iterator();
 		while(iter.hasNext())
 		{
 			temp = iter.next();
