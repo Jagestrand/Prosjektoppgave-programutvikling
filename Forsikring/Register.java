@@ -114,13 +114,13 @@ public class Register implements Serializable
 
 	public void slettAnsatt(Ansatt anna)
 	{
-		Calendar slutt = Calendar.getInstance();
-		anna.setAvslutta(slutt);
-		deaktiverBruker(anna);
+		ansReg.remove(anna);
 	}
 
 	public void deaktiverBruker(Ansatt anna)
 	{
+		Calendar slutt = Calendar.getInstance();
+		anna.setAvslutta(slutt);
 		anna.setAktiv(false);
 	}
 
@@ -950,6 +950,23 @@ public class Register implements Serializable
 		return null;
 	}
 
+	public SkademeldingReg getSkadeViaNr( SkademeldingReg reg, String nr )	//finner skade via skadenr
+	{
+		if( reg == null || nr == "" )
+			reg = skaReg;
+		int nnr = Integer.valueOf(nr);
+		Skademelding prøv;
+		SkademeldingReg ade = new SkademeldingReg();
+		Iterator<Skademelding> iter = reg.iterator();
+		while(iter.hasNext() )
+		{
+			prøv = iter.next();
+			if(prøv.getSkadeNr() == nnr)
+				ade.add(prøv);
+		}
+		return ade;
+	}
+
 	public SkademeldingReg getSkadeViaNr( SkademeldingReg reg, int nr )	//finner skade via skadenr
 	{
 		if( reg == null )
@@ -1046,6 +1063,23 @@ public class Register implements Serializable
 		return rem;
 	}
 
+	public SkademeldingReg getSkadeViaTakst(SkademeldingReg reg, String t)
+	{
+		if(reg == null || t == "")
+			reg = skaReg;
+		int tt = Integer.valueOf(t);
+		Skademelding temp;
+		SkademeldingReg rem = new SkademeldingReg();
+		Iterator<Skademelding> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getTakst() == tt)
+				rem.add(temp);
+		}
+		return rem;
+	}
+
 	public SkademeldingReg getSkadeViaErstatning(SkademeldingReg reg, int e)
 	{
 		if(reg == null)
@@ -1057,6 +1091,23 @@ public class Register implements Serializable
 		{
 			temp = iter.next();
 			if(temp.getUtbetalt() == e)
+				rem.add(temp);
+		}
+		return rem;
+	}
+
+	public SkademeldingReg getSkadeViaErstatning(SkademeldingReg reg, String e)
+	{
+		if(reg == null || e == "")
+			reg = skaReg;
+		int ee = Integer.valueOf(e);
+		Skademelding temp;
+		SkademeldingReg rem = new SkademeldingReg();
+		Iterator<Skademelding> iter = reg.iterator();
+		while(iter.hasNext())
+		{
+			temp = iter.next();
+			if(temp.getUtbetalt() == ee)
 				rem.add(temp);
 		}
 		return rem;
@@ -1083,14 +1134,16 @@ public class Register implements Serializable
 		int kr = ska.getTakst();
 		ska.setUtbetalt(kr);
 		ska.setGodkjent(true);
-		ska.setStatus("Godkjent");
+		ska.setAvslått(false);
+		ska.setStatus("Ja");
 	}
 
 	public void avslåTakst(Skademelding ska, int kr)
 	{
 		ska.setUtbetalt(kr);
+		ska.setAvslått(true);
 		ska.setGodkjent(false);
-		ska.setStatus("Avslått");
+		ska.setStatus("Nei");
 	}
 
 
