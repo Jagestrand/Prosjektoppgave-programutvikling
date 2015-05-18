@@ -3,6 +3,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
+import java.util.*;
 
 public class Startvindu extends JPanel
 {
@@ -20,6 +21,10 @@ public class Startvindu extends JPanel
 
 	public Startvindu( Huvudvindu v )
 	{
+		/*
+		FIks sånn at alle try og catch-metoder er i GUI-ene!!
+		Legg kanskje inn en metode for å bytte resatt passord ved innlogging
+		*/
 		vindu = v;
 		passordetliksom = "123";
 		Font font1 = new Font("SansSerif", Font.BOLD, 15);		//standard font for felter
@@ -304,40 +309,46 @@ public class Startvindu extends JPanel
 	{
 		String brk = bruk;
 		String pwa = pass;
-		if( bruk.toLowerCase().equals( KUNDE ) )
-		{
-			if(Passordtest(pwa))
+		try{
+			if( bruk.toLowerCase().equals( KUNDE ) )
 			{
-				JPanel ny = new KundeGUI(vindu, null);
-				vindu.swapPanel( ny );
-				slettFelter();
-			}
-		}
-		else if( brk.length() == 11 )
-		{
-			Kunde kunn = register.getKundeViaNummer(brk);
-			if( kunn != null )
-			{
-				if(Passordtest(kunn, pwa))
+				if(Passordtest(pwa))
 				{
-					JPanel ny = new KundeGUI(vindu, kunn);
+					JPanel ny = new KundeGUI(vindu, null);
 					vindu.swapPanel( ny );
 					slettFelter();
 				}
+			}
+			else if( brk.length() == 11 )
+			{
+				Kunde kunn = register.getKundeViaNummer(brk);
+				if( kunn != null )
+				{
+					if(Passordtest(kunn, pwa))
+					{
+						JPanel ny = new KundeGUI(vindu, kunn);
+						vindu.swapPanel( ny );
+						slettFelter();
+					}
+					else
+					{
+						visFeilmelding("Feil passord!");
+						return;
+					}
+				}
 				else
 				{
-					visFeilmelding("Feil passord!");
+					visFeilmelding("Feil brukernavn!");
 					return;
 				}
 			}
 			else
-			{
-				visFeilmelding("Feil brukernavn!");
-				return;
-			}
+				visFeilmelding("Feil brukernavn");
 		}
-		else
+		catch ( NoSuchElementException nsee )
+		{
 			visFeilmelding("Feil brukernavn");
+		}
 	}
 
 
@@ -345,49 +356,55 @@ public class Startvindu extends JPanel
 	{
 		String brk = bruk;
 		String pwa = pass;
-		if( bruk.toLowerCase().equals( ANSATT ) )
-		{
-			if(Passordtest(pwa))
+		try{
+			if( bruk.toLowerCase().equals( ANSATT ) )
 			{
-				JPanel ny = new AnsattVindu(vindu);
-				vindu.swapPanel( ny );
-				slettFelter();
-			}
-		}
-
-		else if( brk.length() == 5 )
-		{
-			if( register.getAnsattViaAnsattNr(brk) != null )
-			{
-				Ansatt ansatt = register.getAnsattViaAnsattNr(brk);
-				if(ansatt.getAktiv())
+				if(Passordtest(pwa))
 				{
-					if(Passordtest(ansatt, pwa))
+					JPanel ny = new AnsattVindu(vindu, null);
+					vindu.swapPanel( ny );
+					slettFelter();
+				}
+			}
+
+			else if( brk.length() == 5 )
+			{
+				if( register.getAnsattViaAnsattNr(brk) != null )
+				{
+					Ansatt ansatt = register.getAnsattViaAnsattNr(brk);
+					if(ansatt.getAktiv())
 					{
-						JPanel ny = new AnsattVindu(vindu);
-						vindu.swapPanel( ny );
-						slettFelter();
+						if(Passordtest(ansatt, pwa))
+						{
+							JPanel ny = new AnsattVindu(vindu, ansatt);
+							vindu.swapPanel( ny );
+							slettFelter();
+						}
+						else
+						{
+							visFeilmelding("Feil passord");
+							return;
+						}
 					}
 					else
 					{
-						visFeilmelding("Feil passord");
+						visFeilmelding("Brukeren er deaktivert");
 						return;
 					}
 				}
 				else
 				{
-					visFeilmelding("Brukeren er deaktivert");
+					visFeilmelding("Feil brukernavn");
 					return;
 				}
 			}
 			else
-			{
 				visFeilmelding("Feil brukernavn");
-				return;
-			}
 		}
-		else
+		catch ( NoSuchElementException nsee )
+		{
 			visFeilmelding("Feil brukernavn");
+		}
 	}
 
 
