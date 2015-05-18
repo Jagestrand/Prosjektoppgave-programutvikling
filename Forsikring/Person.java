@@ -7,7 +7,7 @@ public abstract class Person implements Serializable
 	protected String fornavn, etternavn, personNr, telefonNr;
 	protected static String ja = "Aktiv", nei = "Deaktivert";
 	private Calendar starta, avslutta;
-	protected BilForsikringsReg billiste;
+	protected ForsikringsReg1 forsikringsliste;
 	protected BåtForsikringsReg båtliste;
 	protected HusForsikringsReg husliste;
 	protected HytteForsikringsReg hytteliste;
@@ -20,13 +20,12 @@ public abstract class Person implements Serializable
 		etternavn = eNavn;
 		personNr = persNr;
 		telefonNr = tlfNr;
-		billiste = new BilForsikringsReg();
+		forsikringsliste = new ForsikringsReg1();
 		båtliste = new BåtForsikringsReg();
 		husliste = new HusForsikringsReg();
 		hytteliste = new HytteForsikringsReg();
 		skadeliste = new SkademeldingReg();
 		starta = Calendar.getInstance();
-		//aktiv = true;
 	}
 
 	public Calendar getStarta()
@@ -48,14 +47,17 @@ public abstract class Person implements Serializable
 	{
 		return fornavn;
 	}
+	
 	public String getEtternavn()
 	{
 		return etternavn;
 	}
+	
 	public String getPersonNr()
 	{
 		return personNr;
 	}
+	
 	public String getTelefonNr()
 	{
 		return telefonNr;
@@ -65,18 +67,22 @@ public abstract class Person implements Serializable
 	{
 		fornavn = fNavn;
 	}
+	
 	public void setEtternavn(String eNavn)
 	{
 		etternavn = eNavn;
 	}
+	
 	public void setPersonNr(String persNr)
 	{
 		personNr = persNr;
 	}
+	
 	public void setTelefonNr(String tlfNr)
 	{
 		telefonNr = tlfNr;
 	}
+	
 	public boolean getAktiv()
 	{
 		return aktiv;
@@ -89,6 +95,7 @@ public abstract class Person implements Serializable
 		else
 			return nei;
 	}
+	
 	public void setAktiv(boolean ok)
 	{
 		aktiv = ok;
@@ -98,7 +105,7 @@ public abstract class Person implements Serializable
 class Kunde extends Person implements Serializable
 {
 	static final long serialVersionUID = 42L;
-	private String adresse, postnr, poststed, passord, kundenr;
+	private String adresse, postnr, poststed, passord;
 	private int hjelpenr;
 	private static int nestenr = 0;
 	private static String kundekat = "A";
@@ -169,83 +176,72 @@ class Kunde extends Person implements Serializable
 		return kundekat;
 	}
 
-	public boolean erTotalkunde()
+	public ForsikringsReg1 getBiler()
 	{
-		if(billiste.size() + båtliste.size() + husliste.size() + hytteliste.size() >= 3)
-			return true;
-		else
-			return false;
+		return forsikringsliste;
 	}
-
-	public String getTotalkundeStatus()
-	{
-		if(erTotalkunde())
-			return "Ja";
-		else
-			return "Nei";
-	}
-
-	public BilForsikringsReg getBiler()
-	{
-		return billiste;
-	}
+	
 	public BåtForsikringsReg getBåter()
 	{
 		return båtliste;
 	}
+	
 	public HusForsikringsReg getHus()
 	{
 		return husliste;
 	}
+	
 	public HytteForsikringsReg getHytter()
 	{
 		return hytteliste;
 	}
+	
 	public SkademeldingReg getSkademeldinger()
 	{
 		return skadeliste;
 	}
 
-	public Iterator<BilForsikring> iterator()
+	public Iterator<BilForsikring1> iterator()
 	{
-		return billiste.iterator();
+		return forsikringsliste.iterator();
 	}
 
-	public Iterator<BåtForsikring> iteratorb()
+	public Iterator<BåtForsikring1> iteratorb()
 	{
 		return båtliste.iterator();
 	}
 
-	public Iterator<HusForsikring> iteratorh()
+	public Iterator<HusForsikring1> iteratorh()
 	{
 		return husliste.iterator();
 	}
 
-	public Iterator<HytteForsikring> iteratory()
+	public Iterator<HytteForsikring1> iteratory()
 	{
 		return hytteliste.iterator();
 	}
 
-	public void nyForsikring(BilForsikring forsikr)
+	public void addForsikring(BilForsikring1 forsikr)
 	{
-		billiste.add(forsikr);
+		forsikringsliste.add(forsikr);
 	}
 
-	public void nyForsikring(BåtForsikring forsikr)
+	public void addForsikring(BåtForsikring1 forsikr)
 	{
 		båtliste.add(forsikr);
 	}
 
-	public void nyForsikring(HusForsikring forsikr)
+	public void addForsikring(HusForsikring1 forsikr)
 	{
 		husliste.add(forsikr);
 	}
 
-	public void nyForsikring(HytteForsikring forsikr)
+	public void addForsikring(HytteForsikring1 forsikr)
 	{
 		hytteliste.add(forsikr);
 	}
-	public void nySkademelding(Skademelding skad)
+	
+	public void addSkademelding(Skademelding skad)
 	{
 		skadeliste.add(skad);
 	}
@@ -271,11 +267,9 @@ class Kunde extends Person implements Serializable
 class Ansatt extends Person implements Serializable
 {
 	static final long serialVersionUID = 42L;
-	private String adresse, passord, ansattnr;
+	private String adresse, passord;
 	private int id;
-
 	private static int nesteid = 10999;
-	//private AnsattReg ans;
 
 	public Ansatt(String fNavn, String eNavn, String persNr, String tlfNr, String adr, String pord)
 	{
@@ -284,7 +278,6 @@ class Ansatt extends Person implements Serializable
 		passord = pord;
 		id = ++nesteid;
 		aktiv = true;
-
 	}
 
 	public String getAvdeling()
