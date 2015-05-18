@@ -7,46 +7,39 @@ import java.awt.event.*;
 public class Skademelding
 {
 	private static final long serialVersionUID = 42L;
+	private static final int BIL = 1, BÅT = 2, HUS = 3, FRITID = 4;
+	private static final String bil = "Bil", båt = "Båt", hus = "Hus", fritid = "Fritid";
 	private String kundenr, skadeadresse, skadetype, beskrivelse, status;
 	private String vitneNavn, vitneTlfNr;
-	private int hjelpenr, takstbeløp, utbetaltbeløp;
-	private boolean godkjent;
+	private int hjelpenr, takstbeløp, utbetaltbeløp, kategori;
+	private boolean godkjent, avslått;
 	private Calendar dato;
 	private Register reg;
 	private File bilrapport;
 	private static int nestenr = 80000;
+	private Kunde kunde;
 
-	public Skademelding(String kunr, Calendar date, String adresse, String type, int takstsum, String info)
+	public Skademelding(Kunde kun, Calendar date, String adresse, String type, int takstsum, String info, String vnavn, String vnr, int kat)		// , File rapport)
 	{
 		hjelpenr = nestenr;
 		nestenr++;
-		kundenr = kunr;
+		kunde = kun;
 		dato = date;
 		skadeadresse = adresse;
 		skadetype = type;
 		takstbeløp = takstsum;
 		beskrivelse = info;
-		//godkjent;
+		kategori = kat;
+		if(kategori == BIL)
+		{
+			vitneNavn = vnavn;
+			vitneTlfNr = vnr;
+			//bilrapport = rapport;
+			//lagreRapport(bilrapport);
+		}
+		godkjent = false;
+		avslått = false;
 		status = "";
-	}
-
-	public Skademelding(String kunr, Calendar date, String adresse, String type, int takstsum, String info, String vnavn, String vnr, File rapport)
-	{
-		hjelpenr = nestenr;
-		nestenr++;
-		kundenr = kunr;
-		dato = date;
-		skadeadresse = adresse;
-		skadetype = type;
-		takstbeløp = takstsum;
-		beskrivelse = info;
-		vitneNavn = vnavn;
-		vitneTlfNr = vnr;
-		bilrapport = rapport;
-		//lagreRapport(bilrapport);
-		//godkjent;
-		status = "";
-
 	}
 
 	public int getSkadeNr()
@@ -56,12 +49,17 @@ public class Skademelding
 
 	public String getKundeNr()
 	{
-		return kundenr;
+		return kunde.getKundeNr();
 	}
 
 	public Kunde getKunde()
 	{
-		return reg.getKundeViaKundeNr(kundenr);
+		return kunde;
+	}
+
+	public String getKundeAktiv()
+	{
+		return kunde.getErAktiv();
 	}
 
 	public Calendar getDato()
@@ -104,6 +102,11 @@ public class Skademelding
 		return godkjent;
 	}
 
+	public boolean getAvslått()
+	{
+		return avslått;
+	}
+
 	public String getVitneNavn()
 	{
 		return vitneNavn;
@@ -112,6 +115,20 @@ public class Skademelding
 	public String getVitneTlfNr()
 	{
 		return vitneTlfNr;
+	}
+
+	public String getKategori()
+	{
+		String k;
+		if(kategori == BIL)
+			k = bil;
+		else if(kategori == BÅT)
+			k = båt;
+		else if(kategori == HUS)
+			k = hus;
+		else
+			k = fritid;
+		return k;
 	}
 
 	public void setDato(Calendar date)
@@ -132,6 +149,11 @@ public class Skademelding
 	public void setGodkjent(boolean ok)
 	{
 		godkjent = ok;
+	}
+
+	public void setAvslått(boolean ok)
+	{
+		avslått = ok;
 	}
 
 	public void setVitneNavn(String vnavn)
@@ -157,7 +179,6 @@ public class Skademelding
 	public static int getNrNå()
 	{
 		return nestenr;
-		//Integer.toString(nesteid);
 	}
 
 	public static void setNrNå(int nr)
