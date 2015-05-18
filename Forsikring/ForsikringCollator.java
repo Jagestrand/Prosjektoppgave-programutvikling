@@ -7,7 +7,7 @@ import java.text.*;
 import javax.swing.*;
 
 
-class ForsikringCollator implements Comparator<Forsikring1>, Serializable
+class ForsikringCollator implements Comparator<Forsikring>, Serializable
 {
 	private static final long serialVersionUID = 42L;
 
@@ -30,7 +30,7 @@ class ForsikringCollator implements Comparator<Forsikring1>, Serializable
 	  }
 
 
-	public int compare(Forsikring1 a, Forsikring1 b)
+	public int compare(Forsikring a, Forsikring b)
 	{
 		if(collator == null)
 		{
@@ -67,7 +67,7 @@ class BåtForsikringCollator implements Comparator<BåtForsikring>, Serializable
 {
 	public int compare(BåtForsikring a, BåtForsikring b)
 	{
-		return a.getForsikringsID() - b.getForsikringsID();
+		return a.getForsikringsNr() - b.getForsikringsNr();
 	}
 }
 
@@ -75,7 +75,7 @@ class HusForsikringCollator implements Comparator<HusForsikring>, Serializable
 {
 	public int compare(HusForsikring a, HusForsikring b)
 	{
-		return a.getForsikringsID() - b.getForsikringsID();
+		return a.getForsikringsNr() - b.getForsikringsNr();
 	}
 }
 
@@ -83,6 +83,6 @@ class HytteForsikringCollator implements Comparator<HytteForsikring>, Serializab
 {
 	public int compare(HytteForsikring a, HytteForsikring b)
 	{
-		return a.getForsikringsID() - b.getForsikringsID();
+		return a.getForsikringsNr() - b.getForsikringsNr();
 	}
 }
