@@ -1,3 +1,7 @@
+/*
+Skrevet av Even Nerheim, s199184, sist redigert 18.05.15
+*/
+
 import java.util.*;
 import java.io.Serializable;
 import javax.swing.*;
