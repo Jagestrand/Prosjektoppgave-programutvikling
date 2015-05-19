@@ -5,14 +5,18 @@ import java.util.Calendar;
 import javax.swing.*;
 import java.text.*;
 import java.util.*;
+import java.io.File;
+import java.io.IOException;
 
 public class SkadeMeldingVindu extends JFrame
  {
-    private JPanel cardPanel, infoPanel,  jp1, jp2, jp3, jp4, buttonPanelBott;
+    private JPanel cardPanel, p,  jp1, jp2, jp3, jp4, bildGrid, buttonPanelBott;
     private JScrollPane scrollPane;
     private JPanel panel;
     private Huvudvindu vindu;
     private Kunde kunde;
+    private JButton b1, b2, b3;
+    private JLabel lab, lab2;
     private Lytterklasse Lytter;
     private Register register;
     private JTextArea informationTop;
@@ -22,7 +26,7 @@ public class SkadeMeldingVindu extends JFrame
 
 
     // Her legges JTextfield feltene inn (Bil, Båt, Hus, Fritid)
-    private JTextField  skadeStedBil, taksbelopBil, skadeTypeBil,beskrivSkadeBil, navnBil, telefonBil,
+    private JTextField   skadeStedBil, taksbelopBil, skadeTypeBil,beskrivSkadeBil, navnBil, telefonBil,
 						 skadeStedBåt,taksbelopBåt, adresseBåt, skadeTypeBåt, beskrivBåt,
     					 adresseHus, skadeTypeHus, beskrivHus, taksbelopHus,
     					 adresseFritid, skadeTypeFritid, beskrivFritid, taksbelopFritid;
@@ -31,7 +35,7 @@ public class SkadeMeldingVindu extends JFrame
     //private JLabel informationTop;
     private int DATA_FIELD_LENGTH = 15, BIL_KAT = 1, BÅT_KAT = 2, HUS_KAT = 3, FRITID_KAT = 4;
     private String vnn = " ", vnrr = " ";
-    private JLabel  skadeDatoBilLabel, skadeStedBilLabel, taksbelopBilLabel, skadeTypeBilLabel,
+    private JLabel  beskrivSkadeLabel, skadeDatoBilLabel, skadeStedBilLabel, taksbelopBilLabel, skadeTypeBilLabel,
    				    beskrivSkadeBilLabel,navnBilLabel, telefonBilLabel,
     				skadeDatoBåtLabel, skadeStedBåtLabel,taksbelopBåtLabel,
     				adresseBåtLabel, skadeTypeBåtLabel, beskrivBåtLabel,
@@ -44,30 +48,42 @@ public class SkadeMeldingVindu extends JFrame
     {
     	//Vinduets size.
     	setTitle("Fyll ut skadeskjema");
-    	setSize(600,450 );
+    	setSize(600,300 );
 		vindu = vind;
 		kunde = kunn;
 		Lytter = new Lytterklasse();
     	register = vind.getRegister();
     	setLocationRelativeTo(null);
         cardPanel = new JPanel(new BorderLayout());
+		p = new JPanel();
+
+		b1 = new JButton("Skadeskjema");
+		b2 = new JButton("Knapp");
+		b3 = new JButton("Knapp2");
+		b2.setVisible(false);
+		b3.setVisible(false);
+		lab = new JLabel ("Skadeskjema for bil ved ulykker");
 
 
 		//Cardlayout for og swappa mellom de ulike forsikringerne.
         CardLayout sm = new CardLayout();
         cardPanel.setLayout(sm);
 
-
         //Panels for de ulike forsikringsalternativene.
-        jp1 = new JPanel(new GridLayout(10,2));
-        jp2 = new JPanel(new GridLayout(10,2));
-        jp3 = new JPanel(new GridLayout(10,2));
-        jp4 = new JPanel(new GridLayout(10,2));
+        jp1 = new JPanel(new GridLayout(12,1));
+        jp2 = new JPanel(new GridLayout(9,1));
+        jp3 = new JPanel(new GridLayout(9,1));
+        jp4 = new JPanel(new GridLayout(9,1));
+        bildGrid = new JPanel(new GridLayout(1,4));
+
+        bildGrid.add(b1);
+        bildGrid.add(b2);
+        bildGrid.add(b3);
 
 
 
     	//Labels for bil.
-    	skadeDatoBilLabel = new JLabel("Skade dato (dd/mm/yyyy):");
+    	skadeDatoBilLabel = new JLabel("Skade dato (dd/MM/yyyy):");
 		skadeDatoBil = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		skadeTypeBilLabel = new JLabel ("Type skade:");
 		skadeTypeBil = new JTextField(DATA_FIELD_LENGTH);
@@ -82,8 +98,6 @@ public class SkadeMeldingVindu extends JFrame
 		telefonBilLabel = new JLabel("Vitne telefon:");
 		telefonBil = new JTextField(DATA_FIELD_LENGTH);
 
-
-
 		jp1.add(skadeDatoBilLabel);
 		jp1.add(skadeDatoBil);
 		jp1.add(skadeStedBilLabel);
@@ -96,12 +110,12 @@ public class SkadeMeldingVindu extends JFrame
 		jp1.add(navnBil);
 		jp1.add(telefonBilLabel);
 		jp1.add(telefonBil);
-
-
+		jp1.add(lab);
+		jp1.add(bildGrid);
 
 
     	//Båt
-		skadeDatoBåtLabel = new JLabel("Skade dato:");
+		skadeDatoBåtLabel = new JLabel("Skade dato: (dd/MM/yyyy)");
 		skadeDatoBåt = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		skadeStedBåtLabel = new JLabel("Skade sted:");
 		skadeStedBåt = new JTextField(DATA_FIELD_LENGTH);
@@ -111,8 +125,6 @@ public class SkadeMeldingVindu extends JFrame
 		beskrivBåt = new JTextField(DATA_FIELD_LENGTH);
     	taksbelopBåtLabel = new JLabel("Takseringsbelop av skaden:");
 		taksbelopBåt = new JTextField(DATA_FIELD_LENGTH);
-
-
 
 		jp2.add(skadeDatoBåtLabel);
 		jp2.add(skadeDatoBåt);
@@ -125,15 +137,14 @@ public class SkadeMeldingVindu extends JFrame
 		jp2.add(taksbelopBåtLabel);
 		jp2.add(taksbelopBåt);
 
-
     	//Hus
-		skadeDatoHusLabel = new JLabel("Skade dato:");
+		skadeDatoHusLabel = new JLabel("Skade dato (dd/MM/yyyy):");
 		skadeDatoHus = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		adresseHusLabel = new JLabel("Adresse:");
 		adresseHus = new JTextField(DATA_FIELD_LENGTH);
 		skadeTypeHusLabel = new JLabel("Type skade:");
 		skadeTypeHus = new JTextField(DATA_FIELD_LENGTH);
-		beskrivHusLabel = new JLabel("Beskriv skaden:");
+		beskrivHusLabel = new JLabel("Beskriv skaden kortfattet:");
 		beskrivHus = new JTextField(DATA_FIELD_LENGTH);
 		taksbelopHusLabel = new JLabel("Takseringsbelop av skaden:");
 		taksbelopHus = new JTextField(DATA_FIELD_LENGTH);
@@ -152,13 +163,13 @@ public class SkadeMeldingVindu extends JFrame
 
 
         //Fritid
-		skadeDatoFritidLabel = new JLabel("Skade dato:");
+		skadeDatoFritidLabel = new JLabel("Skade dato (dd/MM/yyyy):");
 		skadeDatoFritid = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		adresseFritidLabel = new JLabel("Adresse:");
 		adresseFritid = new JTextField(DATA_FIELD_LENGTH);
 		skadeTypeFritidLabel = new JLabel("Type skade:");
 		skadeTypeFritid = new JTextField(DATA_FIELD_LENGTH);
-		beskrivFritidLabel = new JLabel("Beskriv skaden:");
+		beskrivFritidLabel = new JLabel("Beskriv skaden kortfattet:");
 		beskrivFritid = new JTextField(DATA_FIELD_LENGTH);
 		taksbelopFritidLabel = new JLabel("Takseringsbelop av skaden:");
 		taksbelopFritid = new JTextField(DATA_FIELD_LENGTH);
@@ -174,8 +185,6 @@ public class SkadeMeldingVindu extends JFrame
 		jp4.add(beskrivFritid);
 		jp4.add(taksbelopFritidLabel);
 		jp4.add(taksbelopFritid);
-
-
 
         cardPanel.add(jp1, "1");
         cardPanel.add(jp2, "2");
@@ -197,7 +206,6 @@ public class SkadeMeldingVindu extends JFrame
         buttonPanelBott.add(lukkVindu);
         buttonPanelBott.add(registrer);
 
-
         bilKnapp.addActionListener(Lytter);
         båtKnapp.addActionListener(Lytter);
         husKnapp.addActionListener(Lytter);
@@ -205,12 +213,12 @@ public class SkadeMeldingVindu extends JFrame
         lukkVindu.addActionListener(Lytter);
         registrer.addActionListener(Lytter);
 
-
-
-        getContentPane().add(cardPanel, BorderLayout.EAST);
-        //getContentPane().add(infoPanel, BorderLayout.EAST);
-        getContentPane().add(buttonPanelBott, BorderLayout.SOUTH);
+        getContentPane().add(cardPanel, BorderLayout.LINE_START);
+        getContentPane().add(p, BorderLayout.CENTER);
+        getContentPane().add(buttonPanelBott, BorderLayout.PAGE_END);
     }
+
+
 	public void slettFelter()
 	{
 		skadeDatoBil.setText("");
@@ -443,8 +451,6 @@ public class SkadeMeldingVindu extends JFrame
             	dispose();
 		}
 	}
-
-
 
 	private JTextField JTextField(int dATA_FIELD_LENGTH2) {
 		// TODO Auto-generated method stub
