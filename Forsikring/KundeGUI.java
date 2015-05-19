@@ -10,7 +10,7 @@ public class KundeGUI extends JPanel
 	private Register register;
 	private Kunde kunde;
 	private Huvudvindu vindu;
-	//private Lytterklasse lytter;
+	private Lytterklasse lytter;
 	private int DATA_FIELD_LENGTH = 20;
 	private String printNavn, printEtternavn, printTelefon, printAdresse, printPrnmr, printPoststed, printPostNmr;
 	private JTextField navn, telefon, adresse, personnr;
@@ -26,7 +26,7 @@ public class KundeGUI extends JPanel
 		vindu = v;
 		kunde = kunn;
 		register = vindu.getRegister();
-		//lytter = new Lytterklasse();
+		lytter = new Lytterklasse();
 		mineforsikringer = new MineForsikringer(kunde.getBiler(),kunde.getBåter(),kunde.getHus(),kunde.getHytter());
 		
 		setLayout(new BorderLayout() );
@@ -83,12 +83,12 @@ public class KundeGUI extends JPanel
 		personnrLabel.setFont(new Font("Serif", Font.ITALIC, 14));
 		
 		//knappar på vänstergrid
-		regForsikring = new JButton("Registrere forsikringer");
+		
 		//båtKnapp = new JButton("Mine båtforsikringer");
 		//bilKnapp = new JButton("Mine bilforsikringer");
 		//husKnapp = new JButton("Mine husforsikringer");
 		//fritidKnapp = new JButton("Mine hytteforsikringer");*/
-		
+		regForsikring = new JButton("Registrere forsikringer");
 		registerGridRight.add(regForsikring);
 	//	registerGridLeft.add(båtKnapp);
 	//	registerGridLeft.add(bilKnapp);
@@ -97,10 +97,10 @@ public class KundeGUI extends JPanel
 	//		regForsikring.addActionListener(lytter);
 		
 		regSkademelding = new JButton("Registrere skademeldinger");
-		visSkademelding = new JButton("Se skademeldinger");
+		//visSkademelding = new JButton("Se skademeldinger");
 
-		//registerGridLeft.add(regSkademelding);
-		//registerGridLeft.add(visSkademelding);
+		registerGridRight.add(regSkademelding);
+		//registerGridRight.add(visSkademelding);
 
 	//	regSkademelding.addActionListener(lytter);
 	//	visSkademelding.addActionListener(lytter);
@@ -113,7 +113,6 @@ public class KundeGUI extends JPanel
 		registerGridRight.add(postStedLabel);
 		registerGridRight.add(postNmrLabel);
 		registerGridRight.add(personnrLabel);
-
 		
 		registerGridLeft.add(mineforsikringer);
 		
@@ -140,17 +139,47 @@ public class KundeGUI extends JPanel
 		//legger til elementer i hovedpanelet
 		
 
-		regForsikring.addActionListener (new Action1());
-	    
+		regForsikring.addActionListener (lytter);
+	//	regForsikring.addActionListener (new Action2());
+	//	visSkademelding = new JButton("Se skademeldinger");
+	//	registerGrid.add(visSkademelding);
+		regSkademelding.addActionListener(lytter);
+	//	visSkademelding.addActionListener(lytter);
+
+
 	}
-	
-	class Action1 implements ActionListener
+
+	public void nyForsikring()
 	{
-	public void actionPerformed (ActionEvent e)
+		ValgAvForsikring cl = new ValgAvForsikring(vindu, kunde);
+		cl.setVisible(true);
+	}
+
+	public void nySkademelding()
+	{
+		SkadeMeldingVindu smv = new SkadeMeldingVindu(vindu, kunde);
+		smv.setVisible(true);
+	}
+
+	/*public void seSkademelding()
+	{
+		JOptionPane.showMessageDialog(vind, kunn);
+	}
+	*/
+
+
+
+	private class Lytterklasse implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
 		{
-			ValgAvForsikring cl = new ValgAvForsikring(vindu, kunde);
-			//  cl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			cl.setVisible(true);
+			if(e.getSource() == regForsikring)
+				nyForsikring();
+			else if(e.getSource() == regSkademelding)
+				nySkademelding();
+		//	else if(e.getSource() == visSkademelding)
+		//		seSkademelding();
 		}
 	}
 }
+
