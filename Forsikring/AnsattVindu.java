@@ -23,14 +23,14 @@ public class AnsattVindu extends JPanel
 				båtforsikringsnr, båtregNr, båtType, båtModell, båtLengde, båtÅr, båtMotor, båtHK,
 				husforsikringsnr, totalbeløp, adresse, byggeÅr, husType, husMateriale, standard, KM, byggBeløp, innboBeløp,
 				hytteforsikringsnr, hytteType, hytteMateriale, skademeldingsNr, skadeType, skadeAdresse, utbetaltBeløp, skadeStatus;
-	private JFormattedTextField skadeDato, skadeFørDato, skadeEtterDato;
+	private JFormattedTextField skadeDato, førDato, etterDato;
 	private JTextArea informationTop, visForsikringInfo;
-	private JButton søkKnapp, oppdaterKnapp, statKnapp, visForsikringKnapp, deletaForsikringKnapp, lagreKnapp;
+	private JButton søkKnapp, minInfoKnapp, oppdaterKnapp, statKnapp, seKundesForsikringer, visForsikringKnapp, deletaForsikringKnapp, lagreKnapp, godkjennKnapp, avslåKnapp;
 	private JLabel søkEtterLabel, kundNrLabel, kundPersonnrLabel, kundNavnLabel, kundTelefonLabel, kundAdresseLabel, kundPostnrLabel, kundPostbyLabel,
 				bilforsikringsnrLabel, eierLabel, forsikringBeløpLabel, bilregNrLabel, bilTypeLabel, bilModellLabel, bilRegÅrLabel, bilKMLabel,
 				båtforsikringsnrLabel, båtregNrLabel, båtTypeLabel, båtModellLabel, båtLengdeLabel, båtÅrLabel, båtMotorLabel, båtHKLabel,
 				husforsikringsnrLabel, totalbeløpLabel, adresseLabel, byggeÅrLabel, husTypeLabel, husMaterialeLabel, standardLabel, KMLabel, byggBeløpLabel, innboBeløpLabel,
-				hytteforsikringsnrLabel, hytteTypeLabel, hytteMaterialeLabel, skademeldingsNrLabel, skadeDatoLabel, skadeFørDatoLabel, skadeEtterDatoLabel,
+				hytteforsikringsnrLabel, hytteTypeLabel, hytteMaterialeLabel, skademeldingsNrLabel, skadeDatoLabel, førDatoLabel, etterDatoLabel,
 				skadeTypeLabel, skadeAdresseLabel, utbetaltBeløpLabel, skadeStatusLabel;
 	private JPanel visForsikring, visForsikringFlow, searchGrid, grid, katGrid, border, flow;
 	private TModel tableModel, tableModel21, tableModel22, tableModel23, tableModel24, tableModel3;
@@ -41,13 +41,7 @@ public class AnsattVindu extends JPanel
 
 	public AnsattVindu(Huvudvindu win, Ansatt anna) //    , Ansatt ansatt
 	{
-		/*
-		Fiks det med forandre søkefelter etter tabber
-		Denne klassen må kunne se 3 faner:
-		1. Kunder (og åpne nytt vindu med mer info)!! X
-		2. Forsikringer (og åpne vindu med mer info)!!
-		3. Skademeldinger (og åpne vindu med mer info)!!
-		*/
+
 		window = win;
 		ansatt = anna;
 		register = window.getRegister();
@@ -78,7 +72,9 @@ public class AnsattVindu extends JPanel
 
 
 		border = new JPanel(new BorderLayout());
-		grid = new JPanel(new GridLayout(2,1));
+		GridLayout gridd = new GridLayout(3,1);
+		gridd.setVgap(5);
+		grid = new JPanel(gridd);
 		katGrid = new JPanel(new GridLayout(1,4));
 		GridLayout gridlayout = new GridLayout(22,1);
 		gridlayout.setVgap(5);
@@ -115,14 +111,19 @@ public class AnsattVindu extends JPanel
 		kundPostnrLabel = new JLabel("Postnr:");
 		kundPostbyLabel = new JLabel("Poststed:");
 		søkKnapp = new JButton("Søk");
+		minInfoKnapp = new JButton("Min brukerinfo");
 		oppdaterKnapp = new JButton("Oppdater");
 		statKnapp = new JButton("Statistikk");
 
 		visForsikringKnapp = new JButton("Se kundens forsikringer");
 		deletaForsikringKnapp = new JButton("Opphev forsikring");
-		//seKundesForsikringer = new JButton();
+
+		godkjennKnapp = new JButton("Godkjenn takstbeløp");
+		avslåKnapp = new JButton("Avslå takstbeløp");
+		seKundesForsikringer = new JButton("Se kundes forsikringer");
 
 		søkKnapp.addActionListener(lytter);
+		minInfoKnapp.addActionListener(lytter);
 		oppdaterKnapp.addActionListener(lytter);
 		statKnapp.addActionListener(lytter);
 		kundNr.addActionListener(lytter);
@@ -134,6 +135,9 @@ public class AnsattVindu extends JPanel
 		kundPostby.addActionListener(lytter);
 		visForsikringKnapp.addActionListener(lytter);
 		deletaForsikringKnapp.addActionListener(lytter);
+		godkjennKnapp.addActionListener(lytter);
+		avslåKnapp.addActionListener(lytter);
+		seKundesForsikringer.addActionListener(lytter);
 
 		//felt for bil
 		bilforsikringsnr = new JTextField(DATA_FIELD_LENGTH);
@@ -153,7 +157,7 @@ public class AnsattVindu extends JPanel
 		bilModellLabel = new JLabel("Modell:");
 		bilRegÅrLabel = new JLabel("Registreringsår:");
 		bilKMLabel = new JLabel("Kjørelengde:");
-		
+
 		lagreKnapp = new JButton("Updatera bonus");
 
 		bilforsikringsnr.addActionListener(lytter);
@@ -247,17 +251,17 @@ public class AnsattVindu extends JPanel
 
 
 		skademeldingsNr = new JTextField(DATA_FIELD_LENGTH);
-		skadeDato = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
-		skadeFørDato = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
-		skadeEtterDato = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
+		skadeDato = new JFormattedTextField(new SimpleDateFormat("dd.MM.yyyy"));
+		førDato = new JFormattedTextField(new SimpleDateFormat("dd.MM.yyyy"));
+		etterDato = new JFormattedTextField(new SimpleDateFormat("dd.MM.yyyy"));
 		skadeType = new JTextField(DATA_FIELD_LENGTH);
 		skadeAdresse = new JTextField(DATA_FIELD_LENGTH);
 		utbetaltBeløp = new JTextField(DATA_FIELD_LENGTH);
 		skadeStatus = new JTextField(DATA_FIELD_LENGTH);
 		skademeldingsNrLabel = new JLabel("Skademeldingsnr:");
 		skadeDatoLabel = new JLabel("Dato:");
-		skadeFørDatoLabel = new JLabel("Før dato:");
-		skadeEtterDatoLabel = new JLabel("Etter dato:");
+		førDatoLabel = new JLabel("Før dato:");
+		etterDatoLabel = new JLabel("Etter dato:");
 		skadeTypeLabel = new JLabel("Type skade:");
 		skadeAdresseLabel = new JLabel("Skadested:");
 		utbetaltBeløpLabel = new JLabel("Erstatningsbeløp:");
@@ -265,13 +269,14 @@ public class AnsattVindu extends JPanel
 
 		skademeldingsNr.addActionListener(lytter);
 		skadeDato.addActionListener(lytter);
-		skadeFørDato.addActionListener(lytter);
-		skadeEtterDato.addActionListener(lytter);
+		førDato.addActionListener(lytter);
+		etterDato.addActionListener(lytter);
 		skadeType.addActionListener(lytter);
 		utbetaltBeløp.addActionListener(lytter);
 		skadeStatus.addActionListener(lytter);
 
 
+		grid.add(minInfoKnapp);
 		grid.add(oppdaterKnapp);
 		searchGrid.add(kundNrLabel);
 		searchGrid.add(kundNr);
@@ -287,6 +292,10 @@ public class AnsattVindu extends JPanel
 		searchGrid.add(kundPostnr);
 		searchGrid.add(kundPostbyLabel);
 		searchGrid.add(kundPostby);
+		searchGrid.add(førDatoLabel);
+		searchGrid.add(førDato);
+		searchGrid.add(etterDatoLabel);
+		searchGrid.add(etterDato);
 		searchGrid.add(søkKnapp);
 		searchGrid.add(statKnapp);
 		visForsikringFlow.add(visForsikringKnapp);
@@ -362,22 +371,22 @@ public class AnsattVindu extends JPanel
 
 						else if(tabbedPane2.getSelectedIndex() == 0)
 						{
-							BilForsikring1 bilfor = register.getBilViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
-							//ForsikringsProfil vinn = new ForsikringsProfil(bilfor);
+							BilForsikring bilfor = register.getBilViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
+							ForsikringsProfil vinn = new ForsikringsProfil(bilfor);
 						}
 						else if(tabbedPane2.getSelectedIndex() == 1)
 						{
-							BåtForsikring1 båtfor = register.getBåtViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
+							BåtForsikring båtfor = register.getBåtViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
 							//ForsikringsProfil vinn = new ForsikringsProfil(båtfor);
 						}
 						else if(tabbedPane2.getSelectedIndex() == 2)
 						{
-							HusForsikring1 husfor = register.getHusViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
+							HusForsikring husfor = register.getHusViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
 							//ForsikringsProfil vinn = new ForsikringsProfil(husfor);
 						}
 						else if(tabbedPane2.getSelectedIndex() == 3)
 						{
-							HytteForsikring1 hytfor = register.getHytteViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
+							HytteForsikring hytfor = register.getHytteViaNr( (int)theTable.getValueAt(rad, TModel.FORSIKRINGS_NR) );
 							//ForsikringsProfil vinn = new ForsikringsProfil(hytfor);
 						}
 		          	}
@@ -418,13 +427,32 @@ public class AnsattVindu extends JPanel
 	{
 		KundeReg res = register.getKunder();
 
+		String knr = kundNr.getText();
 		String kn = kundNavn.getText();
 		String pn = kundPersonnr.getText();
 		String tlf = kundTelefon.getText();
 		String adr = kundAdresse.getText();
 		String pnr = kundPostnr.getText();
 		String pb = kundPostby.getText();
+		Date date = (Date) førDato.getValue();
+		Calendar før = Calendar.getInstance();
+		Date date2 = (Date) etterDato.getValue();
+		Calendar etter = Calendar.getInstance();
+		if(!(date == null))
+		{
+			før.setTime(date);
+			førDato.setValue(null);
+			res = register.getKundeFørDato(res, før);
+		}
+		if(!(date2 == null))
+		{
+			etter.setTime(date2);
+			etterDato.setValue(null);
+			res = register.getKundeEtterDato(res, etter);
+		}
 
+		if(!knr.isEmpty() )
+			res = register.getKundeViaKundeNr(res, knr);
 		if(!kn.isEmpty() )
 			res = register.getKundeViaNavn(res, kn);
 		if(!pn.isEmpty() )
@@ -437,34 +465,46 @@ public class AnsattVindu extends JPanel
 			res = register.getKundeViaPostnr(res, pnr);
 		if(!pb.isEmpty() )
 			res = register.getKundeViaBy(res, pb);
+		/*if(!(før == null))
+			res = register.getKundeFørDato(res, før);
+		if(!(etter == null))
+			res = register.getKundeEtterDato(res, etter);*/
+		//res = register.getKunderViaAktiv(res, false);
 
 		tableModel = new TModel(res);
 		table.setModel(tableModel);
 		tableModel.setTableCellEditor(table);
+		før = null;
+		etter = null;
 		return res;
 	}
 
 	public SkademeldingReg søkSkade()
 	{
-
 		SkademeldingReg res = register.getSkademeldinger();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		//dateField.setValue(new java.util.Date());
-
+		Date date = (Date) førDato.getValue();
+		Calendar før = Calendar.getInstance();
+		Date date2 = (Date) etterDato.getValue();
+		Calendar etter = Calendar.getInstance();
+		if(!(date == null))
+		{
+			før.setTime(date);
+			førDato.setValue("");
+		}
+		if(!(date2 == null))
+		{
+			etter.setTime(date2);
+			etterDato.setValue("");
+		}
 		String snr = skademeldingsNr.getText();
-		int smNr = Integer.valueOf(snr);
 		String knr = kundNr.getText();
 		String st = skadeType.getText();
 		String sa = skadeAdresse.getText();
 		String ub = utbetaltBeløp.getText();
-		int ubb = Integer.valueOf(ub);
 		String ss = skadeStatus.getText();
-		Calendar sd = (Calendar) skadeDato.getValue();
-		Calendar sfd = (Calendar) skadeFørDato.getValue();
-		Calendar sed = (Calendar) skadeEtterDato.getValue();
 
 		if(!snr.isEmpty() )
-			res = register.getSkadeViaNr(res, smNr);
+			res = register.getSkadeViaNr(res, snr);
 		if(!knr.isEmpty() )
 			res = register.getSkadeViaKundeNr(res, knr);
 		if(!st.isEmpty() )
@@ -472,15 +512,13 @@ public class AnsattVindu extends JPanel
 		if(!sa.isEmpty() )
 			res = register.getSkadeViaAdresse(res, sa);
 		if(!ub.isEmpty() )
-			res = register.getSkadeViaErstatning(res, ubb);
+			res = register.getSkadeViaErstatning(res, ub);
 		if(!ss.isEmpty() )
 			res = register.getSkadeViaStatus(res, ss);
-		if(!(sd == null) )
-			res = register.getSkadeViaDato(res, sd);
-		if(!(sfd == null))
-			res = register.getSkadeFørDato(res, sfd);
-		if(!(sed == null))
-			res = register.getSkadeEtterDato(res, sed);
+		if(!(før == null))
+			res = register.getSkadeFørDato(res, før);
+		if(!(etter == null))
+			res = register.getSkadeEtterDato(res, etter);
 
 		tableModel3 = new TModel(res);
 		table3.setModel(tableModel3);
@@ -488,33 +526,39 @@ public class AnsattVindu extends JPanel
 		return res;
 	}
 
-	public ForsikringsReg1 søkBil()
+	public BilForsikringsReg søkBil()
 	{
-		ForsikringsReg1 res = register.getBiler();
+		BilForsikringsReg res = register.getBiler();
 
 		String fnr = bilforsikringsnr.getText();
-		int bilnr = Integer.valueOf(fnr);
-		//Calendar start = inngått.getText();
+		Date date = (Date) førDato.getValue();
+		Calendar før = Calendar.getInstance();
+		Date date2 = (Date) etterDato.getValue();
+		Calendar etter = Calendar.getInstance();
+		if(!(date == null))
+		{
+			før.setTime(date);
+			førDato.setValue(null);
+		}
+		if(!(date2 == null))
+		{
+			etter.setTime(date2);
+			etterDato.setValue(null);
+		}
 		String knr = kundNr.getText();
 		//String forb = forsikringBeløp.getText();
-		//int fbl = Integer.valueOf(forb);
-		String eir = eier.getText();
 		String rnr = bilregNr.getText();
 		String tp = bilType.getText();
 		String md = bilModell.getText();
 		String årr = bilRegÅr.getText();
-		int rår = Integer.valueOf(årr);
 		String km = bilKM.getText();
-		int åkl = Integer.valueOf(km);
 
 		if(!fnr.isEmpty() )
-			res = register.getBilViaNr(res, bilnr);
+			res = register.getBilViaNr(res, fnr);
 		if(!knr.isEmpty() )
 			res = register.getBilViaKundeNr(res, knr);
 		//if(!forb.isEmpty() )
 		//	res = register.getBilViaBeløp(res, fbl);
-		if(!eir.isEmpty() )
-			res = register.getBilViaEier(res, eir);
 		if(!rnr.isEmpty() )
 			res = register.getBilViaRegNr(res, rnr);
 		if(!tp.isEmpty() )
@@ -522,9 +566,11 @@ public class AnsattVindu extends JPanel
 		if(!md.isEmpty() )
 			res = register.getBilViaModell(res, md);
 		if(!årr.isEmpty() )
-			res = register.getBilViaRegÅr(res, rår);
-		if(!km.isEmpty() )
-			res = register.getBilViaKjørelengde(res, åkl);
+			res = register.getBilViaRegÅr(res, årr);
+		if(!(før == null))
+			res = register.getBilFørDato(res, før);
+		if(!(etter == null))
+			res = register.getBilEtterDato(res, etter);
 
 		tableModel21 = new TModel(res);
 		table21.setModel(tableModel21);
@@ -537,31 +583,34 @@ public class AnsattVindu extends JPanel
 		BåtForsikringsReg res = register.getBåter();
 
 		String fnr = båtforsikringsnr.getText();
-		int nr = Integer.valueOf(fnr);
-		//Calendar start = inngått.getText();
+		Date date = (Date) førDato.getValue();
+		Calendar før = Calendar.getInstance();
+		Date date2 = (Date) etterDato.getValue();
+		Calendar etter = Calendar.getInstance();
+		if(!(date == null))
+		{
+			før.setTime(date);
+			førDato.setValue(null);
+		}
+		if(!(date2 == null))
+		{
+			etter.setTime(date2);
+			etterDato.setValue(null);
+		}
 		String knr = kundNr.getText();
 		//String bl = fbeløp.getText();
-		//int fbl = Integer.valueOf(bl);
-		String eir = eier.getText();
 		String rnr = båtregNr.getText();
 		String tp = båtType.getText();
 		String md = båtModell.getText();
 		String bårrr = båtÅr.getText();
-		int bår = Integer.valueOf(bårrr);
-		String lengd = båtLengde.getText();
-		int len = Integer.valueOf(lengd);
 		String bm = båtMotor.getText();
-		String styrk = båtHK.getText();
-		int hk = Integer.valueOf(styrk);
 
 		if(!fnr.isEmpty() )
-			res = register.getBåtViaNr(res, nr);
+			res = register.getBåtViaNr(res, fnr);
 		if(!knr.isEmpty() )
 			res = register.getBåtViaKundeNr(res, knr);
 		//if(!bl.isEmpty() )
 		//	res = register.getBåtViaBeløp(res, fbl);
-		if(!eir.isEmpty() )
-			res = register.getBåtViaEier(res, eir);
 		if(!rnr.isEmpty() )
 			res = register.getBåtViaRegNr(res, rnr);
 		if(!tp.isEmpty() )
@@ -569,17 +618,17 @@ public class AnsattVindu extends JPanel
 		if(!md.isEmpty() )
 			res = register.getBåtViaModell(res, md);
 		if(!bårrr.isEmpty() )
-			res = register.getBåtViaRegÅr(res, bår);
-		if(!lengd.isEmpty() )
-			res = register.getBåtViaLengde(res, len);
+			res = register.getBåtViaRegÅr(res, bårrr);
 		if(!bm.isEmpty() )
 			res = register.getBåtViaMotor(res, bm);
-		if(!styrk.isEmpty() )
-			res = register.getBåtViaStyrke(res, hk);
+		if(!(før == null))
+			res = register.getBåtFørDato(res, før);
+		if(!(etter == null))
+			res = register.getBåtEtterDato(res, etter);
 
 		tableModel22 = new TModel(res);
 		table22.setModel(tableModel22);
-		tableModel22.setTableCellEditor(table22);
+		//tableModel22.setTableCellEditor(table22);
 		return res;
 	}
 
@@ -588,47 +637,51 @@ public class AnsattVindu extends JPanel
 		HusForsikringsReg res = register.getHus();
 
 		String fnr = husforsikringsnr.getText();
-		int nr = Integer.valueOf(fnr);
-		//Calendar start = inngått.getText();
+		Date date = (Date) førDato.getValue();
+		Calendar før = Calendar.getInstance();
+		Date date2 = (Date) etterDato.getValue();
+		Calendar etter = Calendar.getInstance();
+		if(!(date == null))
+		{
+			før.setTime(date);
+			førDato.setValue(null);
+		}
+		if(!(date2 == null))
+		{
+			etter.setTime(date2);
+			etterDato.setValue(null);
+		}
 		String knr = kundNr.getText();
 		String tot = totalbeløp.getText();
-		int total = Integer.valueOf(tot);
 		String adr = adresse.getText();
 		String bår = byggeÅr.getText();
-		int byår = Integer.valueOf(bår);
 		String tp = husType.getText();
 		String md = husMateriale.getText();
-		String st = standard.getText();
-		int stan = Integer.valueOf(st);
-		String stør = KM.getText();
-		int km = Integer.valueOf(stør);
 		String bygg = byggBeløp.getText();
-		int byg = Integer.valueOf(bygg);
 		String inn = innboBeløp.getText();
-		int innb = Integer.valueOf(inn);
 
 		if(!fnr.isEmpty() )
-			res = register.getHusViaNr(res, nr);
+			res = register.getHusViaNr(res, fnr);
 		if(!knr.isEmpty() )
 			res = register.getHusViaKundeNr(res, knr);
 		if(!tot.isEmpty() )
-			res = register.getHusViaBeløpT(res, total);
+			res = register.getHusViaBeløpT(res, tot);
 		if(!adr.isEmpty() )
 			res = register.getHusViaAdresse(res, adr);
 		if(!bår.isEmpty() )
-			res = register.getHusViaÅr(res, byår);
+			res = register.getHusViaÅr(res, bår);
 		if(!tp.isEmpty() )
 			res = register.getHusViaType(res, tp);
 		if(!md.isEmpty() )
 			res = register.getHusViaMateriale(res, md);
-		if(!st.isEmpty() )
-			res = register.getHusViaStandard(res, st);
-		if(!stør.isEmpty() )
-			res = register.getHusViaStørrelse(res, km);
 		if(!bygg.isEmpty() )
-			res = register.getHusViaBeløpB(res, byg);
+			res = register.getHusViaBeløpB(res, bygg);
 		if(!inn.isEmpty() )
-			res = register.getHusViaBeløpI(res, innb);
+			res = register.getHusViaBeløpI(res, inn);
+		if(!(før == null))
+			res = register.getHusFørDato(res, før);
+		if(!(etter == null))
+			res = register.getHusEtterDato(res, etter);
 
 		tableModel23 = new TModel(res);
 		table23.setModel(tableModel23);
@@ -641,47 +694,51 @@ public class AnsattVindu extends JPanel
 		HytteForsikringsReg res = register.getHytter();
 
 		String fnr = hytteforsikringsnr.getText();
-		int nr = Integer.valueOf(fnr);
-		//Calendar start = inngått.getText();
+		Date date = (Date) førDato.getValue();
+		Calendar før = Calendar.getInstance();
+		Date date2 = (Date) etterDato.getValue();
+		Calendar etter = Calendar.getInstance();
+		if(!(date == null))
+		{
+			før.setTime(date);
+			førDato.setValue(null);
+		}
+		if(!(date2 == null))
+		{
+			etter.setTime(date2);
+			etterDato.setValue(null);
+		}
 		String knr = kundNr.getText();
 		String tot = totalbeløp.getText();
-		int total = Integer.valueOf(tot);
 		String adr = adresse.getText();
 		String bår = byggeÅr.getText();
-		int byår = Integer.valueOf(bår);
 		String tp = hytteType.getText();
 		String md = hytteMateriale.getText();
-		String st = standard.getText();
-		int stan = Integer.valueOf(st);
-		String stør = KM.getText();
-		int km = Integer.valueOf(stør);
 		String bygg = byggBeløp.getText();
-		int byg = Integer.valueOf(bygg);
 		String inn = innboBeløp.getText();
-		int innb = Integer.valueOf(inn);
 
 		if(!fnr.isEmpty() )
-			res = register.getHytteViaNr(res, nr);
+			res = register.getHytteViaNr(res, fnr);
 		if(!knr.isEmpty() )
 			res = register.getHytteViaKundeNr(res, knr);
 		if(!tot.isEmpty() )
-			res = register.getHytteViaBeløpT(res, total);
+			res = register.getHytteViaBeløpT(res, tot);
 		if(!adr.isEmpty() )
 			res = register.getHytteViaAdresse(res, adr);
 		if(!bår.isEmpty() )
-			res = register.getHytteViaÅr(res, byår);
+			res = register.getHytteViaÅr(res, bår);
 		if(!tp.isEmpty() )
 			res = register.getHytteViaType(res, tp);
 		if(!md.isEmpty() )
 			res = register.getHytteViaMateriale(res, md);
-		if(!st.isEmpty() )
-			res = register.getHytteViaStandard(res, st);
-		if(!stør.isEmpty() )
-			res = register.getHytteViaStørrelse(res, km);
 		if(!bygg.isEmpty() )
-			res = register.getHytteViaBeløpB(res, byg);
+			res = register.getHytteViaBeløpB(res, bygg);
 		if(!inn.isEmpty() )
-			res = register.getHytteViaBeløpI(res, innb);
+			res = register.getHytteViaBeløpI(res, inn);
+		if(!(før == null))
+			res = register.getHytteFørDato(res, før);
+		if(!(etter == null))
+			res = register.getHytteEtterDato(res, etter);
 
 		tableModel24 = new TModel(res);
 		table24.setModel(tableModel24);
@@ -689,10 +746,10 @@ public class AnsattVindu extends JPanel
 		return res;
 	}
 
-
 	public void kundePanel()
 	{
 		grid.removeAll();
+		grid.add(minInfoKnapp);
 		grid.add(oppdaterKnapp);
 		katGrid.removeAll();
 		searchGrid.removeAll();
@@ -710,6 +767,10 @@ public class AnsattVindu extends JPanel
 		searchGrid.add(kundPostnr);
 		searchGrid.add(kundPostbyLabel);
 		searchGrid.add(kundPostby);
+		searchGrid.add(førDatoLabel);
+		searchGrid.add(førDato);
+		searchGrid.add(etterDatoLabel);
+		searchGrid.add(etterDato);
 		searchGrid.add(søkKnapp);
 		searchGrid.add(statKnapp);
 		byttTab();
@@ -722,7 +783,6 @@ public class AnsattVindu extends JPanel
 		katGrid.add(båtKat);
 		katGrid.add(husKat);
 		katGrid.add(hytKat);;
-		if(bilKat.isSelected())
 		searchGrid.removeAll();
 		byttTab();
 	}
@@ -730,6 +790,7 @@ public class AnsattVindu extends JPanel
 	public void skademeldingPanel()
 	{
 		grid.removeAll();
+		grid.add(minInfoKnapp);
 		grid.add(oppdaterKnapp);
 		katGrid.removeAll();
 		searchGrid.removeAll();
@@ -743,12 +804,16 @@ public class AnsattVindu extends JPanel
 		searchGrid.add(skadeAdresse);
 		searchGrid.add(skadeStatusLabel);
 		searchGrid.add(skadeStatus);
-		searchGrid.add(skadeFørDatoLabel);
-		searchGrid.add(skadeFørDato);
-		searchGrid.add(skadeEtterDatoLabel);
-		searchGrid.add(skadeEtterDato);
+		searchGrid.add(førDatoLabel);
+		searchGrid.add(førDato);
+		searchGrid.add(etterDatoLabel);
+		searchGrid.add(etterDato);
 		searchGrid.add(utbetaltBeløpLabel);
 		searchGrid.add(utbetaltBeløp);
+		searchGrid.add(søkKnapp);
+		searchGrid.add(statKnapp);
+		searchGrid.add(godkjennKnapp);
+		searchGrid.add(avslåKnapp);
 		byttTab();
 	}
 
@@ -765,12 +830,12 @@ public class AnsattVindu extends JPanel
 	{
 		try
 		{
-			int row = table.getSelectedRow();
+			int row = table21.getSelectedRow();
 			if(row == -1)
 				return;
 
-			Kunde anna = register.getKundeViaKundeNr( (String)tableModel.getValueAt(row, TModel.KUNDE_NR) );
-			
+			BilForsikring pelle = register.getBilViaNr( (int) tableModel21.getValueAt(row, TModel.FORSIKRINGS_NR) );
+
 			String melding = "Er du sikker på at du vil endra bonus?";
 			String tittel = "Bonus";
 
@@ -778,11 +843,11 @@ public class AnsattVindu extends JPanel
 			if(svar == JOptionPane.YES_OPTION)
 			{
 				String[] bonusProcent = { "0", "10", "20", "30", "40", "50","60","70","75" };
-			    Object j =  JOptionPane.showInputDialog(null, "Endra bonus",
-			        "Bonus", JOptionPane.QUESTION_MESSAGE, null, 
+			    int bonusen = Integer.valueOf((String) JOptionPane.showInputDialog(null, "Endra bonus",
+			        "Bonus", JOptionPane.QUESTION_MESSAGE, null,
 			        bonusProcent,
-			        bonusProcent[1]); 
-			    
+			        bonusProcent[1]));
+				register.endreBilBonus(pelle, bonusen);
 			    return;
 			}
 		}
@@ -791,12 +856,117 @@ public class AnsattVindu extends JPanel
 			JOptionPane.showMessageDialog(null, "NoSuchElementException i bonusmetoden", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	public void setBonus( int b) 
-	{
-
-	} 
 
 	//sumBeløpBil()getForsikringsbeløp()
+
+	public void godkjennSkade()
+	{
+		try{
+			int row = table3.getSelectedRow();
+			if(row == -1)
+				return;
+
+			Skademelding skade = register.getSkadeViaNr( (int)tableModel3.getValueAt(row, TModel.SKADE_NR));
+			if(!skade.getGodkjent() || skade.getGodkjent())
+				return;
+			String melding = "Du er i ferd med å godkjenne dette takstbeløpet: " + skade.getTakst() + "kr.\nEr dette riktig?";
+			String tittel = "Godkjenning av skadeerstatning";
+
+			int svar = JOptionPane.showConfirmDialog(null, melding, tittel, JOptionPane.YES_NO_OPTION);
+			if(svar == JOptionPane.YES_OPTION)
+			{
+				register.godkjennTakst(skade);
+				søk();
+				return;
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "NoSuchElementException i godkjennSkade-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void avslåSkade()
+	{
+		try{
+			int row = table3.getSelectedRow();
+			if(row == -1)
+				return;
+
+			Skademelding skade = register.getSkadeViaNr( (int)tableModel3.getValueAt(row, TModel.SKADE_NR));
+			if(!skade.getGodkjent() || skade.getGodkjent())
+				return;
+			String melding = "Ønsker du å avslå dette takstbeløpet: " + skade.getTakst() + "kr?";
+			String tittel = "Godkjenning av skadeerstatning";
+
+			int svar = JOptionPane.showConfirmDialog(null, melding, tittel, JOptionPane.YES_NO_OPTION);
+			if(svar == JOptionPane.YES_OPTION)
+			{
+				int nytt = Integer.valueOf(JOptionPane.showInputDialog(null, "Skriv inn godkjent erstatningssum:", "Erstatning"));
+				register.avslåTakst(skade, nytt);
+				søk();
+				return;
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "NoSuchElementException i avslåSkade-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void visMinInfo()
+	{
+		AnsattProfil aa = new AnsattProfil(ansatt);
+	}
+
+	public void tømFelter()
+	{
+		kundNr.setText("");
+		kundPersonnr.setText("");
+		kundNavn.setText("");
+		kundTelefon.setText("");
+		kundAdresse.setText("");
+		kundPostnr.setText("");
+		kundPostby.setText("");
+		//typeForsikring.setText("");
+		bilforsikringsnr.setText("");
+		eier.setText("");
+		forsikringBeløp.setText("");
+		bilregNr.setText("");
+		bilType.setText("");
+		bilModell.setText("");
+		bilRegÅr.setText("");
+		bilKM.setText("");
+		båtforsikringsnr.setText("");
+		båtregNr.setText("");
+		båtType.setText("");
+		båtModell.setText("");
+		båtLengde.setText("");
+		båtÅr.setText("");
+		båtMotor.setText("");
+		båtHK.setText("");
+		husforsikringsnr.setText("");
+		totalbeløp.setText("");
+		adresse.setText("");
+		byggeÅr.setText("");
+		husType.setText("");
+		husMateriale.setText("");
+		standard.setText("");
+		KM.setText("");
+		byggBeløp.setText("");
+		innboBeløp.setText("");
+		hytteforsikringsnr.setText("");
+		hytteType.setText("");
+		hytteMateriale.setText("");
+		skademeldingsNr.setText("");
+		skadeType.setText("");
+		skadeAdresse.setText("");
+		utbetaltBeløp.setText("");
+		skadeStatus.setText("");
+		skadeDato.setText("");
+		førDato.setText("");
+		etterDato.setText("");
+	}
 
 
 	private class RadioLytter implements ItemListener
@@ -810,8 +980,6 @@ public class AnsattVindu extends JPanel
 				searchGrid.removeAll();
 				searchGrid.add(bilforsikringsnrLabel);
 				searchGrid.add(bilforsikringsnr);
-				searchGrid.add(eierLabel);
-				searchGrid.add(eier);
 				searchGrid.add(forsikringBeløpLabel);
 				searchGrid.add(forsikringBeløp);
 				searchGrid.add(bilregNrLabel);
@@ -822,13 +990,15 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(bilModell);
 				searchGrid.add(bilRegÅrLabel);
 				searchGrid.add(bilRegÅr);
-				searchGrid.add(bilKMLabel);
-				searchGrid.add(bilKM);
+				searchGrid.add(førDatoLabel);
+				searchGrid.add(førDato);
+				searchGrid.add(etterDatoLabel);
+				searchGrid.add(etterDato);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(lagreKnapp);
 				searchGrid.add(statKnapp);
 				byttTab();
-				//søkBil();
+				søkBil();
 			}
 			else if(båtKat.isSelected())
 			{
@@ -837,8 +1007,6 @@ public class AnsattVindu extends JPanel
 				searchGrid.removeAll();
 				searchGrid.add(båtforsikringsnrLabel);
 				searchGrid.add(båtforsikringsnr);
-				searchGrid.add(eierLabel);
-				searchGrid.add(eier);
 				searchGrid.add(forsikringBeløpLabel);
 				searchGrid.add(forsikringBeløp);
 				searchGrid.add(båtregNrLabel);
@@ -853,12 +1021,14 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(båtÅr);
 				searchGrid.add(båtMotorLabel);
 				searchGrid.add(båtMotor);
-				searchGrid.add(båtHKLabel);
-				searchGrid.add(båtHK);
+				searchGrid.add(førDatoLabel);
+				searchGrid.add(førDato);
+				searchGrid.add(etterDatoLabel);
+				searchGrid.add(etterDato);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
 				byttTab();
-				//søkBåt();
+				søkBåt();
 			}
 			if(husKat.isSelected())
 			{
@@ -877,18 +1047,18 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(husType);
 				searchGrid.add(husMaterialeLabel);
 				searchGrid.add(husMateriale);
-				searchGrid.add(standardLabel);
-				searchGrid.add(standard);
-				searchGrid.add(KMLabel);
-				searchGrid.add(KM);
 				searchGrid.add(byggBeløpLabel);
 				searchGrid.add(byggBeløp);
 				searchGrid.add(innboBeløpLabel);
 				searchGrid.add(innboBeløp);
+				searchGrid.add(førDatoLabel);
+				searchGrid.add(førDato);
+				searchGrid.add(etterDatoLabel);
+				searchGrid.add(etterDato);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
 				byttTab();
-				//søkHus();
+				søkHus();
 			}
 			if(hytKat.isSelected())
 			{
@@ -907,18 +1077,18 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(hytteType);
 				searchGrid.add(hytteMaterialeLabel);
 				searchGrid.add(hytteMateriale);
-				searchGrid.add(standardLabel);
-				searchGrid.add(standard);
-				searchGrid.add(KMLabel);
-				searchGrid.add(KM);
 				searchGrid.add(byggBeløpLabel);
 				searchGrid.add(byggBeløp);
 				searchGrid.add(innboBeløpLabel);
 				searchGrid.add(innboBeløp);
+				searchGrid.add(førDatoLabel);
+				searchGrid.add(førDato);
+				searchGrid.add(etterDatoLabel);
+				searchGrid.add(etterDato);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
 				byttTab();
-				//søkHytte();
+				søkHytte();
 			}
 		}
 	}
@@ -948,52 +1118,61 @@ public class AnsattVindu extends JPanel
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if( e.getSource() == søkKnapp || e.getSource() == kundNavn || e.getSource() == kundTelefon
-			|| e.getSource() == kundAdresse || e.getSource() == kundPersonnr || e.getSource() == kundPostnr
-			|| e.getSource() == kundPostby )
+			if( e.getSource() == søkKnapp || e.getSource() == kundNr || e.getSource() == kundNavn
+			|| e.getSource() == kundTelefon || e.getSource() == kundAdresse || e.getSource() == kundPersonnr
+			|| e.getSource() == kundPostnr || e.getSource() == kundPostby || e.getSource() == førDato
+			|| e.getSource() == etterDato )
 			{
 				if(tabbedPane.getSelectedIndex() == 0)
 					søkKunde();
 			}
+			else if(e.getSource() == søkKnapp || e.getSource() == skademeldingsNr || e.getSource() == kundNr
+			 || e.getSource() == skadeType || e.getSource() == skadeAdresse || e.getSource() == skadeStatus
+			 || e.getSource() == førDato || e.getSource() == etterDato || e.getSource() == utbetaltBeløp)
+			 {
+				 if(tabbedPane.getSelectedIndex() == 2)
+				 	søkSkade();
+			 }
 			else if(e.getSource() == søkKnapp || e.getSource() == bilforsikringsnr || e.getSource() == eier
 			|| e.getSource() == forsikringBeløp || e.getSource() == bilregNr || e.getSource() == bilType
-			|| e.getSource() == bilModell || e.getSource() == bilRegÅr || e.getSource() == bilKM)
+			|| e.getSource() == bilModell || e.getSource() == bilRegÅr || e.getSource() == førDato
+			|| e.getSource() == etterDato)
 			{
 				if(tabbedPane2.getSelectedIndex() == 0)
-					//søkBil();
-					søkKunde();
+					søkBil();
 			}
-			else if(e.getSource() == lagreKnapp)
-				endraBonus();
-			
 			else if(e.getSource() == søkKnapp || e.getSource() == båtforsikringsnr || e.getSource() == eier
 			|| e.getSource() == forsikringBeløp || e.getSource() == båtregNr || e.getSource() == båtType
-			|| e.getSource() == båtModell || e.getSource() == båtLengde || e.getSource() == båtÅr
-			|| e.getSource() == båtMotor || e.getSource() == båtHK)
+			|| e.getSource() == båtModell || e.getSource() == båtÅr || e.getSource() == båtMotor
+			|| e.getSource() == førDato || e.getSource() == etterDato)
 			{
 				if(tabbedPane2.getSelectedIndex() == 1)
-					//søkBåt();
-					søkKunde();
+					søkBåt();
 			}
 			else if(e.getSource() == søkKnapp || e.getSource() == husforsikringsnr || e.getSource() == totalbeløp
 			|| e.getSource() == adresse || e.getSource() == byggeÅr || e.getSource() == husType
-			|| e.getSource() == husMateriale || e.getSource() == standard || e.getSource() == KM
-			|| e.getSource() == byggBeløp || e.getSource() == innboBeløp)
+			|| e.getSource() == husMateriale || e.getSource() == byggBeløp || e.getSource() == innboBeløp
+			|| e.getSource() == førDato || e.getSource() == etterDato)
 			{
 				if(tabbedPane2.getSelectedIndex() == 2)
-					//søkHus();
-					søkKunde();
+					søkHus();
 			}
 			else if(e.getSource() == søkKnapp || e.getSource() == hytteforsikringsnr || e.getSource() == totalbeløp
 			|| e.getSource() == adresse || e.getSource() == byggeÅr || e.getSource() == hytteType
-			|| e.getSource() == hytteMateriale || e.getSource() == standard || e.getSource() == KM
-			|| e.getSource() == byggBeløp || e.getSource() == innboBeløp)
+			|| e.getSource() == hytteMateriale || e.getSource() == byggBeløp
+			|| e.getSource() == innboBeløp || e.getSource() == førDato || e.getSource() == etterDato)
 			{
 				if(tabbedPane2.getSelectedIndex() == 3)
-					//søkHytte();
-					søkKunde();
+					søkHytte();
 			}
-
+			else if(e.getSource() == godkjennKnapp)
+				godkjennSkade();
+			else if(e.getSource() == avslåKnapp)
+				avslåSkade();
+			else if(e.getSource() == lagreKnapp)
+				endraBonus();
+			else if(e.getSource() == minInfoKnapp)
+				visMinInfo();
 			else if(e.getSource() == oppdaterKnapp)
 				søk();
 			else if(e.getSource() == statKnapp)
