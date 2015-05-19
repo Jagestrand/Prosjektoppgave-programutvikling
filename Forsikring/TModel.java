@@ -40,15 +40,8 @@ public class TModel extends AbstractTableModel
 		data = new Object[0][0];
 		editable = false;
 	}
-
-	public TModel(KundeReg reg)//oppretter en model for en kundetabell
+	public TModel(KundeReg reg)//oppretter en model for en kunde tabell
 	{
-		if(reg == null)
-		{
-			navn = kunNavn;
-			data = new Object[0][0];
-			return;
-		}
 		navn = kunNavn;
 		int length = reg.size(), width = navn.length;
 		data = new Object[length][width];
@@ -77,7 +70,7 @@ public class TModel extends AbstractTableModel
 		editable = false;
 		searchFor = AnsattVindu.SØK_KUNDE;
 	}
-	public TModel(AnsattReg reg)//oppretter en model for en ansatttabell
+	public TModel(AnsattReg reg)//oppretter en model for en doktor tabell
 	{
 		if(reg == null)
 		{
@@ -111,7 +104,8 @@ public class TModel extends AbstractTableModel
 		searchFor = AdminGUI.SØK_ANSATT;
 	}
 
-	public TModel(BilForsikringsReg reg)//oppretter en model for en bilforsikringstabell
+	//Denne skal være en liste med alle forsikringer
+	public TModel(BilForsikringsReg reg)
 	{
 		if(reg == null)
 		{
@@ -150,7 +144,46 @@ public class TModel extends AbstractTableModel
 		searchFor = AnsattVindu.SØK_BIL;
 	}
 
-	public TModel(BåtForsikringsReg reg)//oppretter en model for en båtforsikringstabell
+	/*public TModel(BilForsikringsReg reg)
+	{
+		if(reg == null)
+		{
+			navn = bilNavn;
+			data = new Object[0][0];
+			return;
+		}
+		navn = bilNavn;
+		int length = reg.size(), width = navn.length;
+		data = new Object[length][width];
+		bil = new BilForsikring[length];
+		Iterator<BilForsikring> iter = reg.iterator();
+		BilForsikring temp;
+		DateFormat df = DateFormat.getDateInstance();
+		for(int i = 0; i < length; i++)
+		{
+			temp = iter.next();
+			int j = 0;
+			data[i][j++] = temp.getForsikringsNr();
+			data[i][j++] = df.format(temp.getInngått().getTime() );
+			data[i][j++] = temp.getAvslutta() == null ? "" : df.format(temp.getAvslutta().getTime() );
+			data[i][j++] = temp.getKunde().getKundeNr();
+			data[i][j++] = temp.getForsikringsbeløp();
+			data[i][j++] = temp.getEiernavn();
+			data[i][j++] = temp.getRegistreringsnr();
+			data[i][j++] = temp.getType();
+			data[i][j++] = temp.getModell();
+			data[i][j++] = temp.getRegistreringsår();
+			data[i][j++] = temp.getKjørelengde();
+			data[i][j++] = temp.getPrisPrKm();
+			data[i][j++] = temp.getBonus();
+			data[i][j++] = temp.getErAktiv();
+			bil[i] = temp;
+		}
+		editable = false;
+		searchFor = AnsattVindu.SØK_BIL;
+	}*/
+
+	public TModel(BåtForsikringsReg reg)
 	{
 		if(reg == null)
 		{
@@ -189,7 +222,7 @@ public class TModel extends AbstractTableModel
 		searchFor = AnsattVindu.SØK_BÅT;
 	}
 
-	public TModel(HusForsikringsReg reg)//oppretter en model for en husforsikringstabell
+	public TModel(HusForsikringsReg reg)
 	{
 		if(reg == null)
 		{
@@ -228,7 +261,7 @@ public class TModel extends AbstractTableModel
 		searchFor = AnsattVindu.SØK_HUS;
 	}
 
-	public TModel(HytteForsikringsReg reg)//oppretter en model for en hytteforsikringstabell
+	public TModel(HytteForsikringsReg reg)
 	{
 		if(reg == null)
 		{
@@ -267,7 +300,7 @@ public class TModel extends AbstractTableModel
 		searchFor = AnsattVindu.SØK_HYTTE;
 	}
 
-	public TModel(SkademeldingReg reg)//oppretter en model for en skademeldingstabell
+	public TModel(SkademeldingReg reg)//oppretter en model for en skademelding tabell
 	{
 		if(reg == null)
 		{
@@ -379,7 +412,7 @@ public class TModel extends AbstractTableModel
 					else if(c == ADR)
 						ans[r].setAvdeling( (String)getValueAt(r, c) );
 				}
-		}//end of if(søk ansatt)
+		}//end of if(search ansatt)
 		else if(searchFor == AdminGUI.SØK_KUNDE)
 		{
 			for(int r = 0; r < getRowCount(); r++)
@@ -398,7 +431,7 @@ public class TModel extends AbstractTableModel
 					else if(c == POST_STED)
 						kun[r].setPoststed( (String)getValueAt(r, c) );
 				}
-		}//end of if(søk kunde)
+		}//end of if(search kunde)
 	}
 
 	public void setTableCellEditor(JTable table)//setter JTextField som editor for String felter som kan endres
