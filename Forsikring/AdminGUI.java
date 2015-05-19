@@ -1,4 +1,4 @@
-/*Skrevet av Even Nerheim, s199184. Sist endret 15.05.2015
+/*Skrevet av Even Nerheim, s199184. Sist endret 18.05.2015
 Klassen definerer brukergrensesnittet for administrator, klassen utvider JPanel med felter og knapper for søkefunksjoner
 brukeren kan bruke til å søke seg frem til øsnket data. Panelet har også funskjoner for å endre data der dette er tillat
 */
@@ -23,7 +23,7 @@ public class AdminGUI extends JPanel
 				kundeAdresse, kundePostnr, kundePoststed, skadeNr, skadeSted, skadeType, takst, utbetalt, meldingStatus;
 	private ButtonGroup gruppeKnapper;
 	private JRadioButton ans, kun, ska;
-	private JButton søkeKnapp, nyAns, slettAns, deaktiverAns, godkjennKnapp, avslåKnapp, lagre, oppdater, visAnsattKnapp, statButton;
+	private JButton søkeKnapp, nyAns, slettAns, deaktiverAns, godkjennKnapp, avslåKnapp, lagre, oppdater, visAnsattKnapp, statButton, visKunForsikring;
 	private RadioLytter radioLytter;
 	private Lytterklasse lytter;
 	private ChangeLytter change;
@@ -128,6 +128,7 @@ public class AdminGUI extends JPanel
 		statButton = new JButton("Vis statistikk");
 		godkjennKnapp = new JButton("Godkjenn takstbeløp");
 		avslåKnapp = new JButton("Avslå takstbeløp");
+		visKunForsikring = new JButton("Vis forsikringer");
 		//Lyttere:
 
 		søkeKnapp.addActionListener(lytter);
@@ -149,6 +150,7 @@ public class AdminGUI extends JPanel
 		statButton.addActionListener(lytter);
 		godkjennKnapp.addActionListener(lytter);
 		avslåKnapp.addActionListener(lytter);
+		visKunForsikring.addActionListener(lytter);
 		//legger elementer til i GUI
 
 		grid.add(oppdater);
@@ -329,39 +331,51 @@ public class AdminGUI extends JPanel
 
 	public SkademeldingReg søkSkademelding()
 	{
-		SkademeldingReg res = register.getSkademeldinger();
+		//try{
+			SkademeldingReg res = register.getSkademeldinger();
 
-		String nrnr = skadeNr.getText().toString();
-		int skNr = Integer.valueOf(nrnr);
-		String kNr = kundeNr.getText();
-		String st = skadeType.getText();
-		String ta = takst.getText();
-		int t = Integer.valueOf(ta);
-		String ut = utbetalt.getText();
-		int ub = Integer.valueOf(ut);
-		String ms = meldingStatus.getText();
-		String sAdr = skadeSted.getText();
+			String nrnr = skadeNr.getText();
+			//int skNr = Integer.valueOf(nrnr);
+			String kNr = kundeNr.getText();
+			String st = skadeType.getText();
+			String ta = takst.getText();
+			//int t = Integer.valueOf(ta);
+			String ut = utbetalt.getText();
+			//int ub = Integer.valueOf(ut);
+			String ms = meldingStatus.getText();
+			String sAdr = skadeSted.getText();
 
-		if(!nrnr.isEmpty() )
-			res = register.getSkadeViaNr(res, skNr);
-		if(!kNr.isEmpty() )
-			res = register.getSkadeViaKundeNr(res, kNr);
-		if(!st.isEmpty() )
-			res = register.getSkadeViaType(res, st);
-		if(!ta.isEmpty() )
-			res = register.getSkadeViaTakst(res, t);
-		if(!ut.isEmpty() )
-			res = register.getSkadeViaErstatning(res, ub);
-		if(!ms.isEmpty() )
-			res = register.getSkadeViaStatus(res, ms);
-		if(!sAdr.isEmpty() )
-			res = register.getSkadeViaAdresse(res, sAdr);
+			if(!nrnr.isEmpty() )
+				//res = register.getSkadeViaNr(res, skNr);
+				res = register.getSkadeViaNr(res, nrnr);
+			if(!kNr.isEmpty() )
+				res = register.getSkadeViaKundeNr(res, kNr);
+			if(!st.isEmpty() )
+				res = register.getSkadeViaType(res, st);
+			if(!ta.isEmpty() )
+				res = register.getSkadeViaTakst(res, ta);
+			if(!ut.isEmpty() )
+				res = register.getSkadeViaErstatning(res, ut);
+			if(!ms.isEmpty() )
+				res = register.getSkadeViaStatus(res, ms);
+			if(!sAdr.isEmpty() )
+				res = register.getSkadeViaAdresse(res, sAdr);
 
-		tableModel3 = new TModel(res);
-		table3.setModel(tableModel3);
-		tableModel3.setTableCellEditor(table3);
-		tabbedPane.setSelectedIndex(2);
-		return res;
+			tableModel3 = new TModel(res);
+			table3.setModel(tableModel3);
+			tableModel3.setTableCellEditor(table3);
+			tabbedPane.setSelectedIndex(2);
+			return res;
+		/*}
+		catch(NumberFormatException nfe)
+		{
+			return JOptionPane.showMessageDialog(null, "NumberFormatException");
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "NullPointerException");
+			return res;
+		}*/
 	}
 
 	public void nyAnsatt() //
@@ -413,12 +427,51 @@ public class AdminGUI extends JPanel
 		validate();
 	}*/
 
-	public void visStatistikk()
+	/*public void visStatistikk()
 	{
 		JOptionPane.showMessageDialog(null, register.getBiler());
 		JOptionPane.showMessageDialog(null, register.getBåter());
 		JOptionPane.showMessageDialog(null, register.getHus());
 		JOptionPane.showMessageDialog(null, register.getHytter());
+	}*/
+
+	public void visKundesForsikringer()
+	{
+		try
+		{
+			int row = table2.getSelectedRow();
+			if(row == -1)
+				return;
+
+          	Kunde anna = register.getKundeViaKundeNr( (String)tableModel2.getValueAt(row, TModel.KUNDE_NR) );
+			JOptionPane.showMessageDialog(null, anna.getBiler());
+        }
+        catch(NoSuchElementException nsee)
+        {
+			JOptionPane.showMessageDialog(null, "NoSuchElementException i slettBruker-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void visStatistikk()
+	{
+		try
+		{
+			int row = table2.getSelectedRow();
+			if(row == -1)
+				return;
+          	Kunde kunne = register.getKundeViaKundeNr( (String)tableModel2.getValueAt(row, TModel.KUNDE_NR) );
+			//Forsikrings størr = kunne.getBiler();
+			JOptionPane.showMessageDialog(null, kunne.getBiler() );
+			//return;
+        }
+        /*catch(NoSuchElementException nsee)
+        {
+			JOptionPane.showMessageDialog(null, "NoSuchElementException i slettBruker-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}*/
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "bøg");
+		}
 	}
 
 	public void slettBruker()
@@ -481,7 +534,7 @@ public class AdminGUI extends JPanel
 				return;
 
 			Skademelding skade = register.getSkadeViaNr( (int)tableModel3.getValueAt(row, TModel.SKADE_NR));
-			if(!skade.getGodkjent() || skade.getGodkjent())
+			if(skade.getGodkjent() == true || skade.getAvslått() == true)
 				return;
 			String melding = "Du er i ferd med å godkjenne dette takstbeløpet: " + skade.getTakst() + "kr.\nEr dette riktig?";
 			String tittel = "Godkjenning av skadeerstatning";
@@ -508,7 +561,7 @@ public class AdminGUI extends JPanel
 				return;
 
 			Skademelding skade = register.getSkadeViaNr( (int)tableModel3.getValueAt(row, TModel.SKADE_NR));
-			if(!skade.getGodkjent() || skade.getGodkjent())
+			if(skade.getGodkjent() == true || skade.getAvslått() == true)
 				return;
 			String melding = "Ønsker du å avslå dette takstbeløpet: " + skade.getTakst() + "kr?";
 			String tittel = "Godkjenning av skadeerstatning";
@@ -577,6 +630,7 @@ public class AdminGUI extends JPanel
 				searchGrid.add(kundePoststed);
 				searchGrid.add(søkeKnapp);
 				searchGrid.add(statButton);
+				searchGrid.add(visKunForsikring);
 				searchGrid.revalidate();
 				searchGrid.repaint();
 				søkKunde();
@@ -660,6 +714,8 @@ public class AdminGUI extends JPanel
 				avslåSkade();
 			else if(e.getSource() == statButton)
 				visStatistikk();
+			else if(e.getSource() == visKunForsikring)
+				visKundesForsikringer();
 		}
 	}
 }
