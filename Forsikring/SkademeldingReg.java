@@ -326,12 +326,12 @@ public class SkademeldingReg implements Serializable
 		return collator = new SkadeCollator();
 	}
 
-	public void lagreNrNå()
+	public void lagreNåNr()
 	{
 		nrNå = Skademelding.getNrNå();
 	}
 
-	public void setNrNå()
+	public void setNåNr()
 	{
 		Skademelding.setNrNå(nrNå);
 	}
