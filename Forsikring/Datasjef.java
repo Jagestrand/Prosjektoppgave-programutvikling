@@ -19,11 +19,11 @@ public class Datasjef implements Serializable
 		Register register;
 		try (ObjectInputStream registerFil = new ObjectInputStream( new FileInputStream( "data/register.dtabse" ))){
 			register = (Register) registerFil.readObject();
-			register.setNåAnsattNr();
-			register.setNåKundeNr();
+			//register.setNåAnsattNr();
+			//register.setNåKundeNr();
+
 			register.setNåForsikringsNr();
-			//register.setNåForsikringNr();
-			//register.setNåSkadeNr();
+			register.setNåSkadeNr();
 			return register;
 		}
 		catch(ClassNotFoundException cnfe) {
