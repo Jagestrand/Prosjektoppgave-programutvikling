@@ -677,7 +677,7 @@ class BilForsikring extends Forsikring implements Serializable
 	public int sumBeløpBil()
 	{
 	    int beløp = regÅrBeløp() + bilTypeBeløp();
-	    	return beløp;
+	    return beløp;
 	}
 
 	public int getForsikringsbeløp()
@@ -770,6 +770,11 @@ class BilForsikring extends Forsikring implements Serializable
 		return bonus;
 	}
 
+	public void setBonus(int b)
+	{
+		bonus = b;
+	}
+
 
 	public static int getNrNå()
 	{
@@ -794,26 +799,8 @@ class BilForsikring extends Forsikring implements Serializable
 		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
 		return info;
 	}
-	
-	public String toString1()
-	{
-	String info = "\nForsikringsnr: " + getForsikringsNr() + " " + getType() + " " + getRegistreringsnr();
-	return info;
-	}
-	
-	public String toStringBil()
-	{
-		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
-		String info = "\nForsikringsnr: " + getForsikringsNr() + "\nKundenr: " + getKundeNr() + "\nForsikringsbeløp: "
-			+ getForsikringsbeløp() + "\nEier: " + getEiernavn() + "\nRegistreringsnr: " + getRegistreringsnr()
-			+ "\nType: " + getType() + "\nModell: " + getModell() + "\nRegistreringsår: " + getRegistreringsår()
-			+ "\nÅrlig kjørelengde: " + getKjørelengde() + "\nForsikringsbetingelser: " + "\nSkader på ting med inntil kr 10 000 000" + "\nÅrlig kjørelengde:" + " " + "12000km"
-			+ "\nBruddskade på bilens glassruter" + "\nKollisjon" + "\nUtforkjøring" + "\nTyveri";
-		if(erAvslutta())
-			info += "\nAvsluttet: " + df.format(getAvslutta().getTime());
-		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
-		return info;
-	}
+
+
 }
 
 class BåtForsikring extends Forsikring implements Serializable
@@ -1049,24 +1036,6 @@ class BåtForsikring extends Forsikring implements Serializable
 	{
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
 		String info = "\nForsikringsnr: " + getForsikringsnr() + super.toString() + "\nÅrsmodell: " + getÅrsmodell() + "\nBåtlengde(fot): " + getBåtlengde() + "\nMotortype: " + getMotortype() + "\nMotorstyrke(HK): " + getMotorstyrke();
-		if(erAvslutta())
-			info += "\nAvsluttet: " + df.format(getAvslutta().getTime());
-		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
-		return info;
-	}
-	
-	public String toString2()
-	{
-	String info = "\nForsikringsnr: " + getForsikringsNr() + " " + båttype + " " + getRegistreringsnr();
-	return info;
-	}
-	
-	public String toStringBåt()
-	{
-		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
-		String info = "\nForsikringsnr: " + getForsikringsnr() + super.toString() + "\nÅrsmodell: " + getÅrsmodell() + "\nBåtlengde(fot): " + getBåtlengde() + "\nMotortype: " + getMotortype() + "\nMotorstyrke(HK): " + getMotorstyrke()
-				+ "\nForsikringsbetingelser: " + "\nSkade på personer. " + "\nSkade på ting."
-				+ "\nFastmontert utstyr inntil kr 10 000. " + "\nBagasje om bord inntil kr 10 000. " + "\nSkade på båten som skyldes sammenstøt, kantring eller synking";
 		if(erAvslutta())
 			info += "\nAvsluttet: " + df.format(getAvslutta().getTime());
 		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
@@ -1376,23 +1345,6 @@ class HusForsikring extends Forsikring implements Serializable
 		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
 		return info;
 	}
-	
-	public String toString3()
-	{
-		String info = "\nForsikringsnr: " + getForsikringsNr() + " " + getAdresse();
-		return info;
-	}
-	
-	public String toStringHus()
-	{
-		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
-		String info = "\nForsikringsnr: " + getForsikringsnr() + super.toString() + "\nForsikringsbetingelser: " + "\nBrann och eksplosjon " + "\nLynnedslag og elektriske problem"
-				+ "\nNaturskade " + "\nVannskade på rørledning " + "\nUforutsett skade på bygning och annen plutselig skade";
-		if(erAvslutta())
-			info += "\nAvsluttet: " + df.format(getAvslutta().getTime());
-		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
-		return info;
-	}
 }//slutt på klasse HusForsikring
 
 
@@ -1691,23 +1643,6 @@ class HytteForsikring extends Forsikring implements Serializable
 	{
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
 		String info = "\nForsikringsnr: " + getForsikringsnr() + super.toString();
-		if(erAvslutta())
-			info += "\nAvsluttet: " + df.format(getAvslutta().getTime());
-		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
-		return info;
-	}
-	
-	public String toString4()
-	{
-		String info = "\nForsikringsnr: " + getForsikringsNr() + " " + getAdresse();
-		return info;
-	}
-	
-	public String toStringHytte()
-	{
-		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM);
-		String info = "\nForsikringsnr: " + getForsikringsnr() + super.toString() + "\nForsikringsbetingelser: " + "\nBrann og eksplosjon " + "\nLynnedslag og elektriske problem "
-		+ "\nNaturskade" + "\nVannskade på rørledning" + "\nUforutsett skade på bygning och annen plutselig skade"; 
 		if(erAvslutta())
 			info += "\nAvsluttet: " + df.format(getAvslutta().getTime());
 		info += "\nForsikringsinfo:\n" + getForsikringsinfo();
