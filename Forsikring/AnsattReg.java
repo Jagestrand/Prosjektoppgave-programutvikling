@@ -6,211 +6,187 @@ import javax.swing.JOptionPane;
 public class AnsattReg implements Serializable
 {
 	private static final long serialVersionUID = 42L;
-	private TreeSet<Ansatt> docList;
+	private TreeSet<Ansatt> ansliste;
 	private int nrNå;
 	private Ansatt første;
 
 	public AnsattReg()
 	{
-		docList = new TreeSet<Ansatt>(InitCollator());
+		ansliste = new TreeSet<Ansatt>(InitCollator());
 	}
 
 	public void add(Ansatt watson)
 	{
-		docList.add(watson);
+		ansliste.add(watson);
 	}
 
 	public void remove(Ansatt watson)
 	{
-		docList.remove(watson);
+		ansliste.remove(watson);
 	}
 
-	public boolean contains(Ansatt doc)
+	public boolean contains(Ansatt ans)
 	{
-		return docList.contains(doc);
+		return ansliste.contains(ans);
 	}
 
 	public boolean isEmpty()
 	{
-		return docList.isEmpty();
+		return ansliste.isEmpty();
 	}
 
 	public int size()
 	{
-		return docList.size();
+		return ansliste.size();
 	}
 
 	public Iterator<Ansatt> iterator()
 	{
-		return docList.iterator();
+		return ansliste.iterator();
 	}
 
-	public AnsattReg findDoctors(String criteria)
+	public AnsattReg finnAnsatte(String kriterie)
 	{
-		AnsattReg searchedDocList = new AnsattReg();
-		searchedDocList = findDoctorByPersonNr(criteria);
-		if(searchedDocList == null)
+		AnsattReg søktAnsListe = new AnsattReg();
+		søktAnsListe = finnAnsattAvPersonNr(kriterie);
+		if(søktAnsListe == null)
 		{
-			searchedDocList = findDoctorByName(criteria);
-			if(searchedDocList == null)
+			søktAnsListe = finnAnsattAvName(kriterie);
+			if(søktAnsListe == null)
 			{
-				searchedDocList = findDoctorByTelephone(criteria);
-				if(searchedDocList == null)
+				søktAnsListe = finnAnsattAvTelephone(kriterie);
+				if(søktAnsListe == null)
 				{
-					searchedDocList = findDoctorByAvdeling(criteria);
-					if(searchedDocList == null)
+					søktAnsListe = finnAnsattAvAvdeling(kriterie);
+					if(søktAnsListe == null)
 					{
 						return null;
 					}
 				}
 			}
 		}
-		return searchedDocList;
+		return søktAnsListe;
 	}
 
-	public AnsattReg findDoctorByPersonNr(String personNr)
+	public AnsattReg finnAnsattAvPersonNr(String personNr)
 	{
 		Iterator<Ansatt> theIterator = iterator();
-		Ansatt doc;
-		AnsattReg searchedDocReg = new AnsattReg();
+		Ansatt ans;
+		AnsattReg søktAnsReg = new AnsattReg();
 		try{
 			while(theIterator.hasNext())
 			{
-				doc = theIterator.next();
-				if(doc.getPersonNr().matches(personNr))
+				ans = theIterator.next();
+				if(ans.getPersonNr().matches(personNr))
 				{
-					searchedDocReg.add(doc);
-					return searchedDocReg;
+					søktAnsReg.add(ans);
+					return søktAnsReg;
 				}
 			}
 		}
 		catch(NoSuchElementException nsee)
 		{
-			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (finnAnsattAvPersonNr): No Such Element Exception.",
 											"FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		/*catch(NullPointerException npe)
 		{
-			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i AnsattReg findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i AnsattReg finnAnsattAvPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}*/
 		return null;
 	}
 
-	public AnsattReg findDoctorByName(String name)
+	public AnsattReg finnAnsattAvName(String name)
 	{
 		Iterator<Ansatt> theIterator = iterator();
-		Ansatt doc;
-		AnsattReg searchedDocReg = new AnsattReg();
+		Ansatt ans;
+		AnsattReg søktAnsReg = new AnsattReg();
 		try{
 			while(theIterator.hasNext())
 			{
-				doc = theIterator.next();
-				if(doc.getFornavn().equals(name) || doc.getEtternavn().equals(name))
+				ans = theIterator.next();
+				if(ans.getFornavn().equals(name) || ans.getEtternavn().equals(name))
 				{
-					searchedDocReg.add(doc);
+					søktAnsReg.add(ans);
 				}
 			}
-			return searchedDocReg;
+			return søktAnsReg;
 		}
 		catch(NoSuchElementException nsee){
-			JOptionPane.showMessageDialog(null, "Feil i DoctorReg (findDoctorByName): No Such Element Exception.",
+			JOptionPane.showMessageDialog(null, "Feil i DoctorReg (finnAnsattAvName): No Such Element Exception.",
 					"FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
 
-	public AnsattReg findDoctorByTelephone(String telephone)
+	public AnsattReg finnAnsattAvTelephone(String telephone)
 	{
 		Iterator<Ansatt> theIterator = iterator();
-		Ansatt doc;
-		AnsattReg searchedDocReg = new AnsattReg();
+		Ansatt ans;
+		AnsattReg søktAnsReg = new AnsattReg();
 		try{
 			while(theIterator.hasNext())
 			{
-				doc = theIterator.next();
-				if(doc.getTelefonNr().matches(telephone))
+				ans = theIterator.next();
+				if(ans.getTelefonNr().matches(telephone))
 				{
-					searchedDocReg.add(doc);
+					søktAnsReg.add(ans);
 				}
 			}
-			return searchedDocReg;
+			return søktAnsReg;
 		}
 		catch(NoSuchElementException nsee){
-			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByTelephone): No Such Element Exception.",
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (finnAnsattAvTelephone): No Such Element Exception.",
 					"FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
 
-	public AnsattReg findDoctorByAvdeling(String avdeling)
+	public AnsattReg finnAnsattAvAvdeling(String avdeling)
 	{
 		Iterator<Ansatt> theIterator = iterator();
-		Ansatt doc;
-		AnsattReg searchedDocReg = new AnsattReg();
+		Ansatt ans;
+		AnsattReg søktAnsReg = new AnsattReg();
 		try{
 			while(theIterator.hasNext())
 			{
-				doc = theIterator.next();
-				if(doc.getAvdeling().matches(avdeling))
+				ans = theIterator.next();
+				if(ans.getAvdeling().matches(avdeling))
 				{
-					searchedDocReg.add(doc);
+					søktAnsReg.add(ans);
 				}
 			}
-			return searchedDocReg;
+			return søktAnsReg;
 		}
 		catch(NoSuchElementException nsee){
-			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByAvdeling): No Such Element Exception.",
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (finnAnsattAvAvdeling): No Such Element Exception.",
 					"FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
 
-	public AnsattReg findDoctorByAnsattNr(String ansattnr)
+	public AnsattReg finnAnsattAvAnsattNr(String ansattnr)
 	{
 		Iterator<Ansatt> theIterator = iterator();
-		Ansatt doc;
-		AnsattReg searchedDocReg = new AnsattReg();
+		Ansatt ans;
+		AnsattReg søktAnsReg = new AnsattReg();
 		try{
 			while(theIterator.hasNext())
 			{
-				doc = theIterator.next();
-				if(doc.getAnsattNr().matches(ansattnr))
+				ans = theIterator.next();
+				if(ans.getAnsattNr().matches(ansattnr))
 				{
-					searchedDocReg.add(doc);
+					søktAnsReg.add(ans);
 				}
 			}
-			return searchedDocReg;
+			return søktAnsReg;
 		}
 		catch(NoSuchElementException nsee){
-			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByAnsattNr): No Such Element Exception.",
+			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (finnAnsattAvAnsattNr): No Such Element Exception.",
 					"FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
-
-
-	/*public AnsattReg findDoctorByAnsattNr(int ansattnr)
-	{
-		Iterator<Ansatt> theIterator = iterator();
-		Ansatt doc;
-		AnsattReg searchedDocReg = new AnsattReg();
-		try{
-			while(theIterator.hasNext())
-			{
-				doc = theIterator.next();
-				if(doc.getAnsattNr() == ansattnr)
-				{
-					searchedDocReg.add(doc);
-				}
-			}
-			return searchedDocReg;
-		}
-		catch(NoSuchElementException nsee){
-			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByTelephone): No Such Element Exception.",
-					"FEIL", JOptionPane.ERROR_MESSAGE);
-		}
-		return null;
-	}*/
 
 	public Comparator<Person> InitCollator()
 	{ // Initialiserer kollator
@@ -218,7 +194,7 @@ public class AnsattReg implements Serializable
 		return collator = new PersonCollator();
 	}
 
-	public void lagreNrNå()
+	public void lagreNåNr()
 	{
 		nrNå = Ansatt.getNrNå();
 	}
