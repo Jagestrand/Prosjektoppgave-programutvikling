@@ -35,9 +35,9 @@ public class ValgAvForsikring extends JFrame
     private String[] bilmerke = {"Velg bilmerke", "Audi", "BMW", "Chevrolet",
     	      "Chrysler", "Ford", "Lexus", "Maserati", "Mercedes-Benz", "Porsche", "Saab", "Volvo" };
     private String[] regÅr = {"Velg registreringsår", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000",
-  	      "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014","2015" };
+  	      "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014" };
     private String[] regÅrBåt = { "Velg byggeår","1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000",
-    	      "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014","2015" };
+    	      "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014" };
     private String[] båtMerke = {"Velg","Seilbåt", "Motorbåt med innenbordsmotor", "Motorbåt med utenbordsmotor", "Robåt, Kano" };
     private String[] båtfører = { "Velg","Båtfører < 23 år", "Båtførere mellom 23-25 år","Alle båtførere > 25 år" };
     private String[] boligType = { "Velg byggningstype","Enebolig","Tomannsbolig","Rekkehus", "Tremannsbolig", "Firemannsbolig" };
@@ -135,7 +135,7 @@ public class ValgAvForsikring extends JFrame
     	navnBåtLabel = new JLabel("Navn:");
     	fakturaadresseBåtLabel = new JLabel("Fakturaadresse:");
     	eierPersonNrBåtLabel = new JLabel("Fødselsdato(DD-MM-YY-XXXXX):");
-    	regNmrBåtLabel = new JLabel("Produksjonsår:");
+    	regNmrBåtLabel = new JLabel("Registreringsår (første gang):");
     	båtModellLabel = new JLabel("Båttype:");
     	båtFotLabel = new JLabel("Skrolengde i fot:");
     	båtRegLabel = new JLabel("Registreringsnummer:");
@@ -276,67 +276,6 @@ public class ValgAvForsikring extends JFrame
         buttonPanel.add(fritidKnapp);
         buttonPanel.add(registrer);
 
-        /*bilKnapp.addActionListener(new ActionListener()
-        {
-        	public void actionPerformed(ActionEvent arg0)
-        	{
-        		CardLayout cl = (CardLayout) cardPanel.getLayout();
-                cl.show(cardPanel, "1");
-            }
-        });
-
-        båtKnapp.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent arg0)
-            {
-            	CardLayout cl = (CardLayout) cardPanel.getLayout();
-                cl.show(cardPanel, "2");
-            }
-        });
-
-        husKnapp.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent arg0)
-            {
-            	CardLayout cl = (CardLayout) cardPanel.getLayout();
-                cl.show(cardPanel, "3");
-            }
-        });
-
-        fritidKnapp.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent arg0)
-            {
-            	CardLayout cl = (CardLayout) cardPanel.getLayout();
-                cl.show(cardPanel, "4");
-            }
-        });
-
-
-
-        lukkVindu.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-            	if(e.getSource() == lukkVindu)
-    				dispose();
-
-            }
-        });
-
-
-        /*registrer.addActionListener(new ActionListener()
-        {
-			public void actionPerformed(ActionEvent e)
-			{
-				if(e.getSource() == registrer || e.getSource() == navnBil || e.getSource() == fakturaadresseBil
-				 || e.getSource() == eierPersonNr || e.getSource() == bil || e.getSource() == reg
-				 || e.getSource() == bilModell || e.getSource() == regNmr || e.getSource() == kmÅr)
-					nyForsikringBil();
-			}
-		});*/
-
-
      	getContentPane().add(informationTop, BorderLayout.NORTH);
         getContentPane().add(cardPanel, BorderLayout.CENTER);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
@@ -398,22 +337,10 @@ public class ValgAvForsikring extends JFrame
 			registrår = reg.getSelectedItem().toString();
 			Object obj = reg.getSelectedItem();
 			regår = Integer.valueOf( registrår);
-			//reg2 = Integer.valueOf(reg1);
 			merke = String.valueOf(bil.getSelectedItem());
-			/*eiernavn = "Hans";
-			adresse = "Hansgata";
-			personnr = "01010199887";
-			modell = "Golf";
-			regnr = "AA11111";
-			kå = "h";
-			kmårlig = 11;
-			reg1 = "H";
-			regår = 1999;
-			merke = "Merce";*/
 			String forsikringsinfo = "Hallo";
 			int beløp = 100;
 			int kategori = 1;
-			kundepersnr = kunde.getKundeNr();
 
 			if(eiernavn.equals("") || adresse.equals("") || modell.equals("") || personnr.equals("") || regnr.equals("") || kå.equals("") || merke.equals("") || registrår.equals("") )
 				informationTop.setText("Alle feltene må fylles ut");
@@ -421,7 +348,7 @@ public class ValgAvForsikring extends JFrame
 				informationTop.setText("Personnummeret er ikke gyldig");
 			else
 			{
-				BilForsikring1 ennybil = new BilForsikring1(kundepersnr, forsikringsinfo, kategori, eiernavn, regnr, merke, modell, regår, kmårlig, beløp);
+				BilForsikring ennybil = new BilForsikring(kunde, forsikringsinfo, kategori, eiernavn, regnr, merke, modell, regår, kmårlig, beløp);
 				register.nyBil(ennybil);
 				JOptionPane.showMessageDialog(null, "Bil registrert");
 			}
@@ -443,7 +370,7 @@ public class ValgAvForsikring extends JFrame
 		try{
 			String eiernavn, adresse, personnr, regnr, regexPattern, båttype,
 				kundenr, forsikringsinfo, regåret, båtmodell, motortype, yngstebåtfører;
-			int båtlengde, båtregistreringsår, beløp, kategori, motorstyrke;
+			int båtlengde, båtregistreringsår, motorstyrke;
 			regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 			eiernavn = navnBåt.getText();
 			adresse = fakturaadresseBåt.getText();
@@ -454,11 +381,10 @@ public class ValgAvForsikring extends JFrame
 			regåret = båtReg.getSelectedItem().toString();
 			båtregistreringsår = Integer.valueOf(regåret);
 			yngstebåtfører = båtKapten.getSelectedItem().toString();
-			//yngstebåtfører = String.valueOf(båtKapten.getSelectedItem());
 			båttype = String.valueOf(båt.getSelectedItem());
 			forsikringsinfo = "Hallo";
-			beløp = 100;
-			kategori = 2;
+			int beløp = 100;
+			int kategori = 2;
 			kundenr = kunde.getKundeNr();
 			båtmodell = "Nimbus";
 			motortype = "Bensin";
@@ -470,7 +396,7 @@ public class ValgAvForsikring extends JFrame
 				informationTop.setText("Personnummeret er ikke gyldig");
 			else
 			{
-				BåtForsikring1 båt = new BåtForsikring1(kundenr, beløp, forsikringsinfo, eiernavn, regnr, båttype , båtmodell, båtregistreringsår, båtlengde, motortype, motorstyrke, kategori);
+				BåtForsikring båt = new BåtForsikring(kunde, beløp, forsikringsinfo, eiernavn, regnr, båttype , båtmodell, båtregistreringsår, båtlengde, motortype, motorstyrke, kategori, yngstebåtfører);
 				register.nyBåt(båt);
 				JOptionPane.showMessageDialog(null, "Båt registrert");
 			}
@@ -515,7 +441,7 @@ public class ValgAvForsikring extends JFrame
 				informationTop.setText("Alle feltene må fylles ut");
 			else
 			{
-				HusForsikring1 hus = new HusForsikring1(kundenr, beløpbygg, innboverdi, forsikringsinfo, husadresse,
+				HusForsikring hus = new HusForsikring(kunde, beløpbygg, innboverdi, forsikringsinfo, husadresse,
 						boligtype, byggemateriale, standard, byggeår, husareal, kategori);
 				register.nyttHus(hus);
 				JOptionPane.showMessageDialog(null, "Hus registrert" );
@@ -562,7 +488,7 @@ public class ValgAvForsikring extends JFrame
 				informationTop.setText("Alle feltene må fylles ut");
 			else
 			{
-				HytteForsikring1 hyt = new HytteForsikring1(kundenr, beløpbygg, innboverdi, forsikringsinfo, hytteadresse,
+				HytteForsikring hyt = new HytteForsikring(kunde, beløpbygg, innboverdi, forsikringsinfo, hytteadresse,
 						boligtype, byggemateriale, standarden, byggeår, hytteareal, kategori);
 				register.nyHytte(hyt);
 				JOptionPane.showMessageDialog(null, "Hytte registrert" );
@@ -608,7 +534,6 @@ public class ValgAvForsikring extends JFrame
             {
             	CardLayout cl = (CardLayout) cardPanel.getLayout();
                 cl.show(cardPanel, "2");
-           		//informationTop.setText("");
            		informationTop.setText("Båtforsikring");
                 informationTop.revalidate();
                 informationTop.repaint();
