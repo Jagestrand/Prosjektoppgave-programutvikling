@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.event.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
@@ -24,7 +25,7 @@ public class AnsattVindu extends JPanel
 				hytteforsikringsnr, hytteType, hytteMateriale, skademeldingsNr, skadeType, skadeAdresse, utbetaltBeløp, skadeStatus;
 	private JFormattedTextField skadeDato, skadeFørDato, skadeEtterDato;
 	private JTextArea informationTop, visForsikringInfo;
-	private JButton søkKnapp, oppdaterKnapp, statKnapp, visForsikringKnapp, deletaForsikringKnapp;
+	private JButton søkKnapp, oppdaterKnapp, statKnapp, visForsikringKnapp, deletaForsikringKnapp, lagreKnapp;
 	private JLabel søkEtterLabel, kundNrLabel, kundPersonnrLabel, kundNavnLabel, kundTelefonLabel, kundAdresseLabel, kundPostnrLabel, kundPostbyLabel,
 				bilforsikringsnrLabel, eierLabel, forsikringBeløpLabel, bilregNrLabel, bilTypeLabel, bilModellLabel, bilRegÅrLabel, bilKMLabel,
 				båtforsikringsnrLabel, båtregNrLabel, båtTypeLabel, båtModellLabel, båtLengdeLabel, båtÅrLabel, båtMotorLabel, båtHKLabel,
@@ -42,7 +43,6 @@ public class AnsattVindu extends JPanel
 	{
 		/*
 		Fiks det med forandre søkefelter etter tabber
-
 		Denne klassen må kunne se 3 faner:
 		1. Kunder (og åpne nytt vindu med mer info)!! X
 		2. Forsikringer (og åpne vindu med mer info)!!
@@ -153,6 +153,8 @@ public class AnsattVindu extends JPanel
 		bilModellLabel = new JLabel("Modell:");
 		bilRegÅrLabel = new JLabel("Registreringsår:");
 		bilKMLabel = new JLabel("Kjørelengde:");
+		
+		lagreKnapp = new JButton("Updatera bonus");
 
 		bilforsikringsnr.addActionListener(lytter);
 		eier.addActionListener(lytter);
@@ -162,6 +164,7 @@ public class AnsattVindu extends JPanel
 		bilModell.addActionListener(lytter);
 		bilRegÅr.addActionListener(lytter);
 		bilKM.addActionListener(lytter);
+		lagreKnapp.addActionListener(lytter);
 
 		//felt for båt
 		båtforsikringsnr = new JTextField(DATA_FIELD_LENGTH);
@@ -758,6 +761,43 @@ public class AnsattVindu extends JPanel
 		searchGrid.revalidate();
 		searchGrid.repaint();
 	}
+	public void endraBonus()
+	{
+		try
+		{
+			int row = table.getSelectedRow();
+			if(row == -1)
+				return;
+
+			Kunde anna = register.getKundeViaKundeNr( (String)tableModel.getValueAt(row, TModel.KUNDE_NR) );
+			
+			String melding = "Er du sikker på at du vil endra bonus?";
+			String tittel = "Bonus";
+
+			int svar = JOptionPane.showConfirmDialog(null, melding, tittel, JOptionPane.YES_NO_OPTION);
+			if(svar == JOptionPane.YES_OPTION)
+			{
+				String[] bonusProcent = { "0", "10", "20", "30", "40", "50","60","70","75" };
+			    Object j =  JOptionPane.showInputDialog(null, "Endra bonus",
+			        "Bonus", JOptionPane.QUESTION_MESSAGE, null, 
+			        bonusProcent,
+			        bonusProcent[1]); 
+			    
+			    return;
+			}
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "NoSuchElementException i bonusmetoden", "FEIL", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	public void setBonus( int b) 
+	{
+
+	} 
+
+	//sumBeløpBil()getForsikringsbeløp()
+
 
 	private class RadioLytter implements ItemListener
 	{
@@ -785,6 +825,7 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(bilKMLabel);
 				searchGrid.add(bilKM);
 				searchGrid.add(søkKnapp);
+				searchGrid.add(lagreKnapp);
 				searchGrid.add(statKnapp);
 				byttTab();
 				//søkBil();
@@ -922,6 +963,9 @@ public class AnsattVindu extends JPanel
 					//søkBil();
 					søkKunde();
 			}
+			else if(e.getSource() == lagreKnapp)
+				endraBonus();
+			
 			else if(e.getSource() == søkKnapp || e.getSource() == båtforsikringsnr || e.getSource() == eier
 			|| e.getSource() == forsikringBeløp || e.getSource() == båtregNr || e.getSource() == båtType
 			|| e.getSource() == båtModell || e.getSource() == båtLengde || e.getSource() == båtÅr
