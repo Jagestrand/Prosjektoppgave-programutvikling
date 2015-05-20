@@ -1,5 +1,5 @@
-/*Skrevet av Even Nerheim, s199184, sist redigert 19.05.15
-Standardvindu for visning av ansattprofil, både for ansatte selv og for admin
+/*
+Skrevet av Even Nerheim, s199184, sist redigert 18.05.15
 */
 
 import javax.swing.*;
@@ -16,11 +16,11 @@ public class AnsattProfil extends JFrame
     private Container c;
     private Font font, font2, errorfont;
     private JButton rediger, lagre, aktiver;
-    private JLabel deaktivLabel, navn, bilde, navnLabel, idLabel, nrLabel,
+    private JLabel deaktivLabel, navn, bilde, fnLab, navnLabel, idLabel, nrLabel,
     		tlfLabel, avdLabel, persnr, ansid, tlf, avd;
     private String aid, penr, navn1, navn2, tlfnr, avdeling;
     private JTextField fnavn, enavn, telf, avde;
-    private JPanel editPanel, savePanel, aktiverPanel, knappePanel, bildePanel, profilen, info, navnPanel, flyt;
+    private JPanel editPanel, savePanel, aktiverPanel, knappePanel, bildePanel, endaPanel, profilen, info, navnPanel, flyt;
 
     public AnsattProfil(Ansatt anna)
     {
@@ -31,6 +31,7 @@ public class AnsattProfil extends JFrame
         font2 = new Font("SansSerif", Font.BOLD, 15);
         errorfont = new Font("SansSerif", Font.BOLD, 30);
 
+		//knappepanel på toppen
         editPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         rediger = new JButton("Rediger");
         rediger.setFont(font2);
@@ -62,13 +63,11 @@ public class AnsattProfil extends JFrame
         c.setLayout(layout);
         c.setBackground(Color.white);
 
-		//bilde = new JPanel(new ImageIcon( getClass().getResource("bilder/" + dyrenavn[dyrevelger.getSelectedIndex()] + ".gif")));
         bilde = new JLabel(new ImageIcon( getClass().getResource("bilder/bilde.png")));
 		bildePanel = new JPanel(new BorderLayout());
 		bildePanel.add(bilde, BorderLayout.PAGE_START);
 		bildePanel.setPreferredSize(new Dimension(130,130));
 		bildePanel.setMaximumSize(new Dimension(130,130));
-
 
 		aid = ansatt.getAnsattNr();
         penr = ansatt.getPersonNr();
@@ -77,6 +76,7 @@ public class AnsattProfil extends JFrame
 		tlfnr = ansatt.getTelefonNr();
 		avdeling = ansatt.getAvdeling();
 
+		//felter for informasjonen
 		deaktivLabel = new JLabel("Brukeren er deaktivert");
 		deaktivLabel.setFont(errorfont);
 		deaktivLabel.setForeground(Color.red);
@@ -114,6 +114,7 @@ public class AnsattProfil extends JFrame
 		navnPanel.add(fnavn);
 		navnPanel.add(enavn);
 
+		//legger inn feltene
         info = new JPanel(new GridLayout(11,1));
         info.add(idLabel);
 		info.add(ansid);
@@ -136,7 +137,9 @@ public class AnsattProfil extends JFrame
         profilen.add(info, BorderLayout.CENTER);
 
         flyt = new JPanel( new FlowLayout(FlowLayout.CENTER));
-        if(!ansatt.getAktiv())
+
+        if(!ansatt.getAktiv())	//hvis ansattbruker er deaktivert vil beskjed vises på toppen av siden
+     							//og profil ikke kunne redigeres
         {
 			knappePanel.removeAll();
 			knappePanel.add(aktiverPanel, BorderLayout.CENTER);
@@ -152,13 +155,13 @@ public class AnsattProfil extends JFrame
         setVisible(true);
 
     }
-    private void setDimensjon()
+    private void setDimensjon()		//setter størrelse på vinduet
     {
         int bredde = 400, høyde = 650;
         setSize(bredde, høyde);
     }
 
-    public void redigerProfil()
+    public void redigerProfil()			//bytter ut felter så informasjon kan redigeres
     {
 		rediger.setEnabled(false);
         lagre.setEnabled(true);
@@ -178,7 +181,7 @@ public class AnsattProfil extends JFrame
 		info.repaint();
     }
 
-    public void lagreProfil()
+    public void lagreProfil()			//lagrer det redigerte feltene og setter dem lesbare
     {
 		ansatt.setFornavn(fnavn.getText());
 		ansatt.setEtternavn(enavn.getText());
@@ -209,7 +212,7 @@ public class AnsattProfil extends JFrame
 		info.repaint();
 	}
 
-	public void aktiverBruker()
+	public void aktiverBruker()			//metode for å reaktivere en ansattbruker, kun brukelig for admin
 	{
 		String melding = "Vil du reaktivere denne brukeren?";
 		String tittel = "Validering";
@@ -228,7 +231,7 @@ public class AnsattProfil extends JFrame
 		}
 	}
 
-    private class MainListener implements ActionListener
+    private class MainListener implements ActionListener	//lytter etter knappebruk
     {
         public void actionPerformed(ActionEvent e)
         {
@@ -241,7 +244,7 @@ public class AnsattProfil extends JFrame
         }
     }
 
-    private class WinListener extends WindowAdapter
+    private class WinListener extends WindowAdapter		//lytter etter lukking av vindu
     {
         public void windowClosing(WindowEvent e)
         {
