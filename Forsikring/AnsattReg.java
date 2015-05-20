@@ -1,8 +1,6 @@
-/*SKrevet av Even Nerheim, s199184, sist redigert 20.05.2015
-Klasse for registrering av ansatte, sette dem i registeret, finne dem og fjerne dem
-*/
 import java.util.*;
 import java.io.Serializable;
+
 import javax.swing.JOptionPane;
 
 public class AnsattReg implements Serializable
@@ -14,25 +12,25 @@ public class AnsattReg implements Serializable
 
 	public AnsattReg()
 	{
-		ansliste = new TreeSet<Ansatt>(InitCollator());
+		ansliste = new TreeSet<Ansatt>(InitCollator());		//setter ansatte i register i rekkefølge
 	}
 
-	public void add(Ansatt watson)
+	public void add(Ansatt watson)		//legger til ny ansatt
 	{
 		ansliste.add(watson);
 	}
 
-	public void remove(Ansatt watson)
+	public void remove(Ansatt watson)	//fjerner ansatt
 	{
 		ansliste.remove(watson);
 	}
 
-	public boolean contains(Ansatt ans)
+	public boolean contains(Ansatt ans)		//ser etter ansatt
 	{
 		return ansliste.contains(ans);
 	}
 
-	public boolean isEmpty()
+	public boolean isEmpty()			//hvis ansattregisteret er tomt
 	{
 		return ansliste.isEmpty();
 	}
@@ -47,7 +45,7 @@ public class AnsattReg implements Serializable
 		return ansliste.iterator();
 	}
 
-	public AnsattReg finnAnsatte(String kriterie)
+	public AnsattReg finnAnsatte(String kriterie)		//finner ansatt via kriteriet gitt
 	{
 		AnsattReg søktAnsListe = new AnsattReg();
 		søktAnsListe = finnAnsattAvPersonNr(kriterie);
@@ -70,7 +68,7 @@ public class AnsattReg implements Serializable
 		return søktAnsListe;
 	}
 
-	public AnsattReg finnAnsattAvPersonNr(String personNr)
+	public AnsattReg finnAnsattAvPersonNr(String personNr)		//finenr ansatt via personnummeret
 	{
 		Iterator<Ansatt> theIterator = iterator();
 		Ansatt ans;
@@ -91,14 +89,14 @@ public class AnsattReg implements Serializable
 			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (finnAnsattAvPersonNr): No Such Element Exception.",
 											"FEIL", JOptionPane.ERROR_MESSAGE);
 		}
-		/*catch(NullPointerException npe)
+		catch(NullPointerException npe)
 		{
 			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i AnsattReg finnAnsattAvPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
-		}*/
+		}
 		return null;
 	}
 
-	public AnsattReg finnAnsattAvName(String name)
+	public AnsattReg finnAnsattAvName(String name)			//via navn
 	{
 		Iterator<Ansatt> theIterator = iterator();
 		Ansatt ans;
@@ -121,7 +119,7 @@ public class AnsattReg implements Serializable
 		return null;
 	}
 
-	public AnsattReg finnAnsattAvTelephone(String telephone)
+	public AnsattReg finnAnsattAvTelephone(String telephone)	//via tlfnummer
 	{
 		Iterator<Ansatt> theIterator = iterator();
 		Ansatt ans;
@@ -144,7 +142,7 @@ public class AnsattReg implements Serializable
 		return null;
 	}
 
-	public AnsattReg finnAnsattAvAvdeling(String avdeling)
+	public AnsattReg finnAnsattAvAvdeling(String avdeling)	//via avdeling
 	{
 		Iterator<Ansatt> theIterator = iterator();
 		Ansatt ans;
@@ -167,7 +165,7 @@ public class AnsattReg implements Serializable
 		return null;
 	}
 
-	public AnsattReg finnAnsattAvAnsattNr(String ansattnr)
+	public AnsattReg finnAnsattAvAnsattNr(String ansattnr)	//via ansattnr
 	{
 		Iterator<Ansatt> theIterator = iterator();
 		Ansatt ans;
@@ -190,18 +188,18 @@ public class AnsattReg implements Serializable
 		return null;
 	}
 
-	public Comparator<Person> InitCollator()
+	public Comparator<Person> InitCollator()		//setter opp ny sammenligner og rekkefølgesetter
 	{ // Initialiserer kollator
 		Comparator<Person> collator;
 		return collator = new PersonCollator();
 	}
 
-	public void lagreNåNr()
+	public void lagreNåNr()		//til skriving/lagring av fil
 	{
 		nrNå = Ansatt.getNrNå();
 	}
 
-	public void setNåNr()
+	public void setNåNr()		//til skriving/lagring av fil
 	{
 		Ansatt.setNrNå(nrNå);
 	}
