@@ -1,3 +1,7 @@
+/*Skrevet av Even Nerheim, s199184, sist redigert 18.05.2015
+Klassen håndterer husforsikringer, setter dem i register og søker i registeret
+*/
+
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.*;
@@ -112,12 +116,12 @@ public class HusForsikringsReg implements Serializable
 		}
 		catch(NoSuchElementException nsee)
 		{
-			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
-											"FEIL", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Feil i HusForsikringsReg (findDoctorByPersonNr): No Such Element Exception.",
+			//								"FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		catch(NullPointerException npe)
 		{
-			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
@@ -140,12 +144,11 @@ public class HusForsikringsReg implements Serializable
 		}
 		catch(NoSuchElementException nsee)
 		{
-			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
-											"FEIL", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		catch(NullPointerException npe)
 		{
-			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
@@ -169,12 +172,11 @@ public class HusForsikringsReg implements Serializable
 		}
 		catch(NoSuchElementException nsee)
 		{
-			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
-											"FEIL", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		catch(NullPointerException npe)
 		{
-			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
@@ -198,12 +200,11 @@ public class HusForsikringsReg implements Serializable
 		}
 		catch(NoSuchElementException nsee)
 		{
-			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
-											"FEIL", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		catch(NullPointerException npe)
 		{
-			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
@@ -227,12 +228,11 @@ public class HusForsikringsReg implements Serializable
 		}
 		catch(NoSuchElementException nsee)
 		{
-			JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.",
-											"FEIL", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Feil i AnsattReg (findDoctorByPersonNr): No Such Element Exception.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		catch(NullPointerException npe)
 		{
-			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i ForsikringsReg1 findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}
@@ -377,39 +377,12 @@ public class HusForsikringsReg implements Serializable
 		return null;
 	}
 
-	/*public static int getGroupInt(String in)//metode gjør om en String til int for medikamentgruppene
-	{
-		if(in.equals("Bil") || in.equals("BIL") || in.equals("bil") )
-			return Forsikring.TYPE_BIL;
-		else if(in.equals("Båt") || in.equals("BÅT") || in.equals("båt") )
-			return Forsikring.TYPE_BÅT;
-		else if(in.equals("Hus") || in.equals("HUS") || in.equals("hus") )
-			return Forsikring.TYPE_HUS;
-		else if(in.equals("Hytte") || in.equals("HYTTE") || in.equals("hytte") )
-			return Forsikring.TYPE_HYTTE;
-		JOptionPane.showMessageDialog(null, "Ugyldig forsikringstype");
-		return -1;
-	}
-
-	public static String getGroupString(int in)//metode gjør om en int til String for medikamentgruppene
-	{
-		if(in == Forsikring.TYPE_BIL)
-			return "BIL";
-		else if(in == Forsikring.TYPE_BÅT)
-			return "BÅT";
-		else if(in == Forsikring.TYPE_HUS)
-			return "HUS";
-		else if(in == Forsikring.TYPE_HYTTE)
-			return "HYTTE";
-		return "Error";
-	}*/
-
-	public void lagreNrNå()//nødvendig for skriving/lagring til fil
+	public void lagreNåNr()//nødvendig for skriving/lagring til fil
 	{
 		nrNå = HusForsikring.getNrNå();
 	}
 
-	public void setCurrentNumber()//nødvendig for skriving/lagring til fil
+	public void setNåNr()//nødvendig for skriving/lagring til fil
 	{
 		HusForsikring.setNrNå(nrNå);
 	}
