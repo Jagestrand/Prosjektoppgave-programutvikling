@@ -1,3 +1,7 @@
+/*Skrevet av Even Nerheim, s199184, sist redigert 20.05.2015
+Klassen setter opp listen over bilforsikringer og tar seg av søking, legge til og annet i listen
+*/
+
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.*;
@@ -11,15 +15,15 @@ public class BilForsikringsReg implements Serializable
 
 	public BilForsikringsReg()
 	{
-		list = new TreeSet<>(new ForsikringCollator());//Oppretter forsikringslisten
+		list = new TreeSet<>(new ForsikringCollator());//Oppretter bilforsikringslisten
 	}
 
-	public void add(BilForsikring pre)	//public boolean add(Forsikring pre)
+	public void add(BilForsikring pre)	//legger til bilforsikring i bilforsikringslista
 	{
-		list.add(pre);		//return list.add(pre);
+		list.add(pre);
 	}
 
-	public boolean isEmpty()
+	public boolean isEmpty()		//returnerer om lista er tom eller ikke
 	{
 		return list.isEmpty();
 	}
@@ -39,7 +43,7 @@ public class BilForsikringsReg implements Serializable
 		return list.size();
 	}
 
-	public BilForsikringsReg finnBiler(String kriterie)
+	public BilForsikringsReg finnBiler(String kriterie)		//går gjennom alle søkemetoder for å finne kriteriet
 	{
 		BilForsikringsReg søktBilListe = new BilForsikringsReg();
 		søktBilListe = finnBilViaKundeNr(kriterie);
@@ -66,7 +70,7 @@ public class BilForsikringsReg implements Serializable
 		return søktBilListe;
 	}
 
-	public BilForsikringsReg finnBiler(int kriterie)
+	public BilForsikringsReg finnBiler(int kriterie)		//går gjennom alle søkemetoder for å finne kriteriet
 	{
 		BilForsikringsReg søktBilListe = new BilForsikringsReg();
 		søktBilListe = finnBilViaNr(kriterie);
@@ -85,7 +89,7 @@ public class BilForsikringsReg implements Serializable
 		return søktBilListe;
 	}
 
-	public BilForsikringsReg finnBilViaKundeNr(String nr)
+	public BilForsikringsReg finnBilViaKundeNr(String nr)		//finner bil mha kundenr
 	{
 		Iterator<BilForsikring> theIterator = iterator();
 		BilForsikring bil;
@@ -114,7 +118,7 @@ public class BilForsikringsReg implements Serializable
 		return null;
 	}
 
-	public BilForsikringsReg finnBilViaEier(String eier)
+	public BilForsikringsReg finnBilViaEier(String eier)	//finner bilforsikring mha eiernavn
 	{
 		Iterator<BilForsikring> theIterator = iterator();
 		BilForsikring bil;
@@ -143,7 +147,7 @@ public class BilForsikringsReg implements Serializable
 		return null;
 	}
 
-	public BilForsikringsReg finnBilViaType(String type)
+	public BilForsikringsReg finnBilViaType(String type)	//finner bilforsikring mha bilens type/merke
 	{
 		Iterator<BilForsikring> theIterator = iterator();
 		BilForsikring bil;
@@ -172,7 +176,7 @@ public class BilForsikringsReg implements Serializable
 		return null;
 	}
 
-	public BilForsikringsReg finnBilViaModell(String m)
+	public BilForsikringsReg finnBilViaModell(String m)	//finner bilforsikringen mha bilens modell
 	{
 		Iterator<BilForsikring> theIterator = iterator();
 		BilForsikring bil;
@@ -201,7 +205,7 @@ public class BilForsikringsReg implements Serializable
 		return null;
 	}
 
-	public BilForsikringsReg finnBilViaRegNr(String nr)
+	public BilForsikringsReg finnBilViaRegNr(String nr)		//finner bilforsikringen mha bilens registreringsnr
 	{
 		Iterator<BilForsikring> theIterator = iterator();
 		BilForsikring bil;
@@ -229,7 +233,7 @@ public class BilForsikringsReg implements Serializable
 		return null;
 	}
 
-	public BilForsikringsReg finnBilViaNr(int nr)
+	public BilForsikringsReg finnBilViaNr(int nr)		//finner bilforsikringen mha forsikringsnummeret
 	{
 		Iterator<BilForsikring> theIterator = iterator();
 		BilForsikring bil;
@@ -257,7 +261,7 @@ public class BilForsikringsReg implements Serializable
 		return null;
 	}
 
-	public BilForsikringsReg finnBilViaÅr(int år)
+	public BilForsikringsReg finnBilViaÅr(int år)		//finner bilforsikringen mha bilens årsmodell
 	{
 		Iterator<BilForsikring> theIterator = iterator();
 		BilForsikring bil;
@@ -286,7 +290,7 @@ public class BilForsikringsReg implements Serializable
 		return null;
 	}
 
-	public BilForsikringsReg finnBilViaKjøring(int km)
+	public BilForsikringsReg finnBilViaKjøring(int km)		//finner bilforsikring mha årlige kjørelengden
 	{
 		Iterator<BilForsikring> theIterator = iterator();
 		BilForsikring bil;
@@ -313,34 +317,6 @@ public class BilForsikringsReg implements Serializable
 			JOptionPane.showMessageDialog(null, "Det skjedde en NullPointerException i BilForsikringsReg findDoctorByPersonNr.", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
-	}
-
-
-	public static int getGroupInt(String in)//metode gjør om en String til int for medikamentgruppene
-	{
-		if(in.equals("Bil") || in.equals("BIL") || in.equals("bil") )
-			return BilForsikring.TYPE_BIL;
-		else if(in.equals("Båt") || in.equals("BÅT") || in.equals("båt") )
-			return BilForsikring.TYPE_BÅT;
-		else if(in.equals("Hus") || in.equals("HUS") || in.equals("hus") )
-			return BilForsikring.TYPE_HUS;
-		else if(in.equals("Hytte") || in.equals("HYTTE") || in.equals("hytte") )
-			return BilForsikring.TYPE_HYTTE;
-		JOptionPane.showMessageDialog(null, "Ugyldig forsikringstype");
-		return -1;
-	}
-
-	public static String getGroupString(int in)//metode gjør om en int til String for medikamentgruppene
-	{
-		if(in == BilForsikring.TYPE_BIL)
-			return "BIL";
-		else if(in == BilForsikring.TYPE_BÅT)
-			return "BÅT";
-		else if(in == BilForsikring.TYPE_HUS)
-			return "HUS";
-		else if(in == BilForsikring.TYPE_HYTTE)
-			return "HYTTE";
-		return "Error";
 	}
 
 	public Comparator<Forsikring> InitCollator()
