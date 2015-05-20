@@ -1,6 +1,10 @@
+/*Skrevet av Even Nerheim, s199184, sist redigert 20.05.2015
+GUI for ansatte ved forsikringsselskapet. Her kan ansatte se en oversikt over registrerte kunder,
+forskjellige forsikringer og skademeldinger, i tillegg til å kunne godkjenne eller avslå erstatningskrav
+og oppsigelser
+*/
 import javax.swing.*;
 import javax.swing.event.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
@@ -18,7 +22,7 @@ public class AnsattVindu extends JPanel
 	public static final int SØK_KUNDE = 1, SØK_BIL = 21, SØK_BÅT = 22, SØK_HUS = 23, SØK_HYTTE = 24, SØK_SKADE = 3;
 	private int søkFor;
 	private String innlogget;
-	private JTextField kundNr, kundPersonnr, kundNavn, kundTelefon, kundAdresse, kundPostnr, kundPostby, typeForsikring,
+	private JTextField kundNr, kundPersonnr, kundNavn, kundTelefon, kundAdresse, kundPostnr, kundPostby,
 				bilforsikringsnr, eier, forsikringBeløp, bilregNr, bilType, bilModell, bilRegÅr, bilKM,
 				båtforsikringsnr, båtregNr, båtType, båtModell, båtLengde, båtÅr, båtMotor, båtHK,
 				husforsikringsnr, totalbeløp, adresse, byggeÅr, husType, husMateriale, standard, KM, byggBeløp, innboBeløp,
@@ -27,19 +31,19 @@ public class AnsattVindu extends JPanel
 	private JTextArea informationTop, visForsikringInfo;
 	private JButton søkKnapp, minInfoKnapp, oppdaterKnapp, statKnapp, seKundesForsikringer, visForsikringKnapp, deletaForsikringKnapp, lagreKnapp, godkjennKnapp, avslåKnapp;
 	private JLabel søkEtterLabel, kundNrLabel, kundPersonnrLabel, kundNavnLabel, kundTelefonLabel, kundAdresseLabel, kundPostnrLabel, kundPostbyLabel,
-				bilforsikringsnrLabel, eierLabel, forsikringBeløpLabel, bilregNrLabel, bilTypeLabel, bilModellLabel, bilRegÅrLabel, bilKMLabel,
-				båtforsikringsnrLabel, båtregNrLabel, båtTypeLabel, båtModellLabel, båtLengdeLabel, båtÅrLabel, båtMotorLabel, båtHKLabel,
-				husforsikringsnrLabel, totalbeløpLabel, adresseLabel, byggeÅrLabel, husTypeLabel, husMaterialeLabel, standardLabel, KMLabel, byggBeløpLabel, innboBeløpLabel,
-				hytteforsikringsnrLabel, hytteTypeLabel, hytteMaterialeLabel, skademeldingsNrLabel, skadeDatoLabel, førDatoLabel, etterDatoLabel,
+				bilforsikringsnrLabel, forsikringBeløpLabel, bilregNrLabel, bilTypeLabel, bilModellLabel, bilRegÅrLabel,
+				båtforsikringsnrLabel, båtregNrLabel, båtTypeLabel, båtModellLabel, båtLengdeLabel, båtÅrLabel, båtMotorLabel,
+				husforsikringsnrLabel, totalbeløpLabel, adresseLabel, byggeÅrLabel, husTypeLabel, husMaterialeLabel, byggBeløpLabel, innboBeløpLabel,
+				hytteforsikringsnrLabel, hytteTypeLabel, hytteMaterialeLabel, skademeldingsNrLabel, førDatoLabel, etterDatoLabel,
 				skadeTypeLabel, skadeAdresseLabel, utbetaltBeløpLabel, skadeStatusLabel;
 	private JPanel visForsikring, visForsikringFlow, searchGrid, grid, katGrid, border, flow;
 	private TModel tableModel, tableModel21, tableModel22, tableModel23, tableModel24, tableModel3;
 	private ButtonGroup kategoriKnapper;
 	private JTable table, table21, table22, table23, table24, table3;
-	private JTabbedPane tabbedPane, tabbedPane2, tabbedPane3;
+	private JTabbedPane tabbedPane, tabbedPane2;
 	private JRadioButton bilKat, båtKat, husKat, hytKat;
 
-	public AnsattVindu(Huvudvindu win, Ansatt anna) //    , Ansatt ansatt
+	public AnsattVindu(Huvudvindu win, Ansatt anna)
 	{
 
 		window = win;
@@ -150,13 +154,11 @@ public class AnsattVindu extends JPanel
 		bilKM = new JTextField(DATA_FIELD_LENGTH);
 
 		bilforsikringsnrLabel = new JLabel("Forsikringsnr:");
-		eierLabel = new JLabel("Eier:");
 		forsikringBeløpLabel = new JLabel("Forsikringsbeløp:");
 		bilregNrLabel = new JLabel("Registreringsnr:");
 		bilTypeLabel = new JLabel("Type:");
 		bilModellLabel = new JLabel("Modell:");
 		bilRegÅrLabel = new JLabel("Registreringsår:");
-		bilKMLabel = new JLabel("Kjørelengde:");
 
 		lagreKnapp = new JButton("Updatera bonus");
 
@@ -187,7 +189,6 @@ public class AnsattVindu extends JPanel
 		båtLengdeLabel = new JLabel("Lengde(fot):");
 		båtÅrLabel = new JLabel("Årsmodell:");
 		båtMotorLabel = new JLabel("Motortype:");
-		båtHKLabel = new JLabel("Motorstyrke(HK):");
 
 		båtforsikringsnr.addActionListener(lytter);
 		båtregNr.addActionListener(lytter);
@@ -216,8 +217,6 @@ public class AnsattVindu extends JPanel
 		byggeÅrLabel = new JLabel("Byggeår:");
 		husTypeLabel = new JLabel("Boligtype:");
 		husMaterialeLabel = new JLabel("Byggemateriale");
-		standardLabel = new JLabel("Standard:");
-		KMLabel = new JLabel("Kvadratmeter:");
 		byggBeløpLabel = new JLabel("Forsikringsbeløp(bygg):");
 		innboBeløpLabel = new JLabel("Forsikringsbeløp(innbo):");
 
@@ -259,7 +258,6 @@ public class AnsattVindu extends JPanel
 		utbetaltBeløp = new JTextField(DATA_FIELD_LENGTH);
 		skadeStatus = new JTextField(DATA_FIELD_LENGTH);
 		skademeldingsNrLabel = new JLabel("Skademeldingsnr:");
-		skadeDatoLabel = new JLabel("Dato:");
 		førDatoLabel = new JLabel("Før dato:");
 		etterDatoLabel = new JLabel("Etter dato:");
 		skadeTypeLabel = new JLabel("Type skade:");
@@ -531,7 +529,12 @@ public class AnsattVindu extends JPanel
 		BilForsikringsReg res = register.getBiler();
 
 		String fnr = bilforsikringsnr.getText();
-		Date date = (Date) førDato.getValue();
+		String knr = kundNr.getText();
+		String rnr = bilregNr.getText();
+		String tp = bilType.getText();
+		String md = bilModell.getText();
+		String årr = bilRegÅr.getText();
+		/*Date date = (Date) førDato.getValue();
 		Calendar før = Calendar.getInstance();
 		Date date2 = (Date) etterDato.getValue();
 		Calendar etter = Calendar.getInstance();
@@ -545,20 +548,15 @@ public class AnsattVindu extends JPanel
 			etter.setTime(date2);
 			etterDato.setValue(null);
 		}
-		String knr = kundNr.getText();
-		//String forb = forsikringBeløp.getText();
-		String rnr = bilregNr.getText();
-		String tp = bilType.getText();
-		String md = bilModell.getText();
-		String årr = bilRegÅr.getText();
-		String km = bilKM.getText();
 
+		if(!(før == null))
+			res = register.getBilFørDato(res, før);
+		if(!(etter == null))
+			res = register.getBilEtterDato(res, etter);*/
 		if(!fnr.isEmpty() )
 			res = register.getBilViaNr(res, fnr);
 		if(!knr.isEmpty() )
 			res = register.getBilViaKundeNr(res, knr);
-		//if(!forb.isEmpty() )
-		//	res = register.getBilViaBeløp(res, fbl);
 		if(!rnr.isEmpty() )
 			res = register.getBilViaRegNr(res, rnr);
 		if(!tp.isEmpty() )
@@ -567,10 +565,6 @@ public class AnsattVindu extends JPanel
 			res = register.getBilViaModell(res, md);
 		if(!årr.isEmpty() )
 			res = register.getBilViaRegÅr(res, årr);
-		if(!(før == null))
-			res = register.getBilFørDato(res, før);
-		if(!(etter == null))
-			res = register.getBilEtterDato(res, etter);
 
 		tableModel21 = new TModel(res);
 		table21.setModel(tableModel21);
@@ -583,7 +577,7 @@ public class AnsattVindu extends JPanel
 		BåtForsikringsReg res = register.getBåter();
 
 		String fnr = båtforsikringsnr.getText();
-		Date date = (Date) førDato.getValue();
+		/*Date date = (Date) førDato.getValue();
 		Calendar før = Calendar.getInstance();
 		Date date2 = (Date) etterDato.getValue();
 		Calendar etter = Calendar.getInstance();
@@ -596,7 +590,7 @@ public class AnsattVindu extends JPanel
 		{
 			etter.setTime(date2);
 			etterDato.setValue(null);
-		}
+		}*/
 		String knr = kundNr.getText();
 		//String bl = fbeløp.getText();
 		String rnr = båtregNr.getText();
@@ -621,14 +615,16 @@ public class AnsattVindu extends JPanel
 			res = register.getBåtViaRegÅr(res, bårrr);
 		if(!bm.isEmpty() )
 			res = register.getBåtViaMotor(res, bm);
-		if(!(før == null))
+		/*if(!(før == null))
 			res = register.getBåtFørDato(res, før);
 		if(!(etter == null))
-			res = register.getBåtEtterDato(res, etter);
+			res = register.getBåtEtterDato(res, etter);*/
 
 		tableModel22 = new TModel(res);
 		table22.setModel(tableModel22);
 		//tableModel22.setTableCellEditor(table22);
+		//før = null;
+		//etter = null;
 		return res;
 	}
 
@@ -916,7 +912,7 @@ public class AnsattVindu extends JPanel
 
 	public void visMinInfo()
 	{
-		AnsattProfil aa = new AnsattProfil(ansatt);
+		new AnsattProfil(ansatt);
 	}
 
 	public void tømFelter()
