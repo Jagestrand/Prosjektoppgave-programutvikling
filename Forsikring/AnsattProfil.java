@@ -1,3 +1,7 @@
+/*
+Skrevet av Even Nerheim, s199184, sist redigert 18.05.15
+*/
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
@@ -128,13 +132,9 @@ public class AnsattProfil extends JFrame
         profilen = new JPanel(new BorderLayout(10,10));
         profilen.setPreferredSize(new Dimension(200, 500));
         profilen.setMaximumSize(new Dimension(200, 500));
-        //profilen.add(bildePanel, BorderLayout.WEST);
-        //profilen.add(endaPanel, BorderLayout.WEST);
         profilen.add(bildePanel, BorderLayout.PAGE_START);
         profilen.add(info, BorderLayout.CENTER);
-        //profilen.setBackground(Color.white);
 
-        //c.add(profilen, BorderLayout.CENTER);
         flyt = new JPanel( new FlowLayout(FlowLayout.CENTER));
         if(!ansatt.getAktiv())
         {
@@ -154,21 +154,9 @@ public class AnsattProfil extends JFrame
     }
     private void setDimensjon()
     {
-        /*Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize();
-        int høyde = screenSize.height;
-        int bredde = screenSize.width;
-        double hReduction = 0.40, vReduction = 0.30;
-        setSize((int)(bredde*vReduction), (int)(høyde*hReduction) );*/
         int bredde = 400, høyde = 650;
         setSize(bredde, høyde);
     }
-
-    /*public void byttLabels(JLabel l1, JLabel l2)
-    {
-		l1.setVisible(false);
-		l2.setVisible(true);
-	}*/
 
     public void redigerProfil()
     {
