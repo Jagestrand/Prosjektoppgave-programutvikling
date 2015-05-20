@@ -1,4 +1,7 @@
-//Klassen sorterer forsikringer på forsikringsnummeret
+/*Skrevet av Even Nerheim, s199184, sist redigert 18.05.2015
+Klassen sorterer forsikringer på forsikringsnummeret og sjekker at
+det ikke dobbellagres
+*/
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -52,14 +55,14 @@ class ForsikringCollator implements Comparator<Forsikring>, Serializable
 		return sammenlignNr;
 	}
 }
-/*
-class BilForsikringCollator implements Comparator<BilForsikring>, Serializable
+
+/*class BilForsikringCollator implements Comparator<BilForsikring>, Serializable
 {
 	public int compare(BilForsikring a, BilForsikring b)
 	{
-		return a.getForsikringsID() - b.getForsikringsID();
+		return a.getRegistreringsnr() - b.getRegistreringsnr();
 	}
-}*/
+}
 
 
 
@@ -67,7 +70,7 @@ class BåtForsikringCollator implements Comparator<BåtForsikring>, Serializable
 {
 	public int compare(BåtForsikring a, BåtForsikring b)
 	{
-		return a.getForsikringsNr() - b.getForsikringsNr();
+		return a.getRegistreringsnr() - b.getRegistreringsnr();
 	}
 }
 
@@ -75,7 +78,7 @@ class HusForsikringCollator implements Comparator<HusForsikring>, Serializable
 {
 	public int compare(HusForsikring a, HusForsikring b)
 	{
-		return a.getForsikringsNr() - b.getForsikringsNr();
+		return a.getAdresse() - b.getAdresse();
 	}
 }
 
@@ -83,6 +86,6 @@ class HytteForsikringCollator implements Comparator<HytteForsikring>, Serializab
 {
 	public int compare(HytteForsikring a, HytteForsikring b)
 	{
-		return a.getForsikringsNr() - b.getForsikringsNr();
+		return a.getAdresse() - b.getAdresse();
 	}
-}
+}*/
