@@ -1,3 +1,8 @@
+/*Skrevet av Even Nerheim, s199184, sist redigert 20.05.2015
+Register for alle metoder som har noe med ansatte, kunder, forsikringer, skademeldinger,
+lagring, henting av informasjon og søking i registere
+*/
+
 import java.util.*;
 import java.io.*;
 import javax.swing.*;
@@ -5,7 +10,6 @@ import javax.swing.*;
 public class Register implements Serializable
 {
 	private static final long serialVersionUID = 42L;
-	private BilForsikringsReg forReg;
 	private Forsikring1 f;
 	private AnsattReg ansReg;
 	private KundeReg kunReg;
@@ -19,9 +23,10 @@ public class Register implements Serializable
 
 	public Register( Datasjef dataer )
 	{
-		data = dataer;
-		fReg = new ForsikringsReg();
+		data = dataer; //henter data som allerede er der
 
+		//åpner nye registere
+		fReg = new ForsikringsReg();
 		ansReg = new AnsattReg();
 		kunReg = new KundeReg();
 		bilReg = new BilForsikringsReg();
@@ -41,25 +46,25 @@ public class Register implements Serializable
 		kunReg.add(kun);
 	}
 
-	public void nyBil(BilForsikring bil)
+	public void nyBil(BilForsikring bil)	//legger til ny bil
 	{
 		bilReg.add(bil);
 		bil.getKunde().nyForsikring(bil);
 	}
 
-	public void nyBåt(BåtForsikring båt)
+	public void nyBåt(BåtForsikring båt)	//legger til ny båt
 	{
 		båt.getKunde().nyForsikring(båt);
 		båtReg.add(båt);
 	}
 
-	public void nyttHus(HusForsikring hus)
+	public void nyttHus(HusForsikring hus)	//legger til nytt hus
 	{
 		hus.getKunde().nyForsikring(hus);
 		husReg.add(hus);
 	}
 
-	public void nyHytte(HytteForsikring hyt)
+	public void nyHytte(HytteForsikring hyt)	//legger til ny fritidsbolig
 	{
 		hyt.getKunde().nyForsikring(hyt);
 		hytReg.add(hyt);
@@ -93,59 +98,61 @@ public class Register implements Serializable
 		skaReg.add(skad);
 	}
 
-	public AnsattReg getAnsatte()
+	public AnsattReg getAnsatte()		//henter ansatte
 	{
 		return ansReg;
 	}
 
-	public KundeReg getKunder()
+	public KundeReg getKunder()		//henter kunder
 	{
 		return kunReg;
 	}
 
-	public BilForsikringsReg getBiler()
+	public BilForsikringsReg getBiler()		//henter biler
 	{
 		return bilReg;
 	}
 
-	public BåtForsikringsReg getBåter()
+	public BåtForsikringsReg getBåter()		//henter båter
 	{
 		return båtReg;
 	}
 
-	public HusForsikringsReg getHus()
+	public HusForsikringsReg getHus()		//henter hus
 	{
 		return husReg;
 	}
 
-	public HytteForsikringsReg getHytter()
+	public HytteForsikringsReg getHytter()		//henter fritidsboliger
 	{
 		return hytReg;
 	}
 
-	public ForsikringsReg getForsikringer()
+	public ForsikringsReg getForsikringer()		//henter forsikringer
 	{
 		return fReg;
 	}
 
-	public SkademeldingReg getSkademeldinger()
+	public SkademeldingReg getSkademeldinger()		//henter skademeldinger
 	{
 		return skaReg;
 	}
 
-	public void slettAnsatt(Ansatt anna)
+	public void slettAnsatt(Ansatt anna)			//sletter ansattbruker for alltid
 	{
 		ansReg.remove(anna);
 	}
 
-	public void deaktiverBruker(Ansatt anna)
+	public void deaktiverBruker(Ansatt anna)		//deakitverer ansattbruker
 	{
 		Calendar slutt = Calendar.getInstance();
 		anna.setAvslutta(slutt);
 		anna.setAktiv(false);
 	}
 
-	public Ansatt getAnsattViaNr(int nr)
+	//Metoder for å finne ansatte:
+
+	public Ansatt getAnsattViaNr(int nr)		//sjekker om personnummeret allerede finnes
 	{
 		String mnr = Integer.toString(nr);
 		AnsattReg aReg = ansReg.finnAnsattAvPersonNr(mnr);
@@ -155,7 +162,7 @@ public class Register implements Serializable
 		return iter.next();
 	}
 
-	public Ansatt getAnsattViaNr(String nr)
+	public Ansatt getAnsattViaNr(String nr)		//via personnummeret
 	{
 		String mnr = nr;
 		AnsattReg aReg = ansReg.finnAnsattAvPersonNr(mnr);
@@ -167,7 +174,6 @@ public class Register implements Serializable
 
 	public Ansatt getAnsattViaAnsattNr(String nr)
 	{
-		//String anr = nr;
 		AnsattReg aReg = ansReg.finnAnsattAvAnsattNr(nr);
 		if(aReg == null)
 			return null;
@@ -207,7 +213,9 @@ public class Register implements Serializable
 		return reg.finnAnsattAvAnsattNr(anr);
 	}
 
-	public BilForsikring getBilViaNr(int nr)
+	//metoder for å finne bilforsikringer:
+
+	public BilForsikring getBilViaNr(int nr)		//via forsikringsnummeret
 	{
 		BilForsikring rem;
 		Iterator<BilForsikring> iter = bilReg.iterator();
@@ -220,8 +228,8 @@ public class Register implements Serializable
 		return null;
 	}
 
-	public BilForsikringsReg getBilViaNr(BilForsikringsReg reg, int nr)
-	{				//forsikringsnr
+	public BilForsikringsReg getBilViaNr(BilForsikringsReg reg, int nr)		//via forsikringsnummeret
+	{
 		if(reg == null)
 			reg = bilReg;
 		BilForsikring temp;
@@ -269,7 +277,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public BilForsikring getBilViaRegNr(String nr)
+	public BilForsikring getBilViaRegNr(String nr)		//sjekker om nummeret allerede finnes
 	{
 		BilForsikring rem;
 		Iterator<BilForsikring> iter = bilReg.iterator();
@@ -282,7 +290,7 @@ public class Register implements Serializable
 		return null;
 	}
 
-	public BilForsikringsReg getBilViaRegNr(BilForsikringsReg reg, String nr)
+	public BilForsikringsReg getBilViaRegNr(BilForsikringsReg reg, String nr)	//via registeringsnummeret
 	{
 		if(reg == null)
 			reg = bilReg;
@@ -395,7 +403,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public BilForsikringsReg getBilFørDato(BilForsikringsReg reg, Calendar dato)	//finner skademeldinger registrert før dato
+	public BilForsikringsReg getBilFørDato(BilForsikringsReg reg, Calendar dato)	//finner bilforsikringer registrert før dato
 	{
 		if( reg == null )
 			reg = bilReg;
@@ -413,7 +421,7 @@ public class Register implements Serializable
 		return biler;
 	}
 
-	public BilForsikringsReg getBilEtterDato(BilForsikringsReg reg, Calendar dato)	//finner skademeldinger registrert før dato
+	public BilForsikringsReg getBilEtterDato(BilForsikringsReg reg, Calendar dato)	//finner bilforsikringer registrert før dato
 	{
 		if( reg == null )
 			reg = bilReg;
@@ -436,9 +444,9 @@ public class Register implements Serializable
 		bil.setBonus(bonus);
 	}
 
-				//BÅT:
+				//metoder for å finne båtforsikringer
 
-	public BåtForsikring getBåtViaNr(int nr)
+	public BåtForsikring getBåtViaNr(int nr)		//via forsikringsnr
 	{
 		BåtForsikring rem;
 		Iterator<BåtForsikring> iter = båtReg.iterator();
@@ -451,7 +459,7 @@ public class Register implements Serializable
 		return null;
 	}
 
-	public BåtForsikringsReg getBåtViaNr(BåtForsikringsReg reg, int nr)
+	public BåtForsikringsReg getBåtViaNr(BåtForsikringsReg reg, int nr)	//via forsikringsnr
 	{				//forsikringsnr
 		if(reg == null)
 			reg = båtReg;
@@ -467,7 +475,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public BåtForsikringsReg getBåtViaNr(BåtForsikringsReg reg, String nrr)
+	public BåtForsikringsReg getBåtViaNr(BåtForsikringsReg reg, String nrr)	//via forsikringsnr
 	{				//forsikringsnr
 		if(reg == null || nrr.equals(""))
 			reg = båtReg;
@@ -500,7 +508,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public BåtForsikring getBåtViaRegNr(String nr)
+	public BåtForsikring getBåtViaRegNr(String nr)		//sjekker om registreringsnr allerede finnes
 	{
 		BåtForsikring rem;
 		Iterator<BåtForsikring> iter = båtReg.iterator();
@@ -577,7 +585,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public BåtForsikringsReg getBåtViaRegÅr(BåtForsikringsReg reg, int år)
+	public BåtForsikringsReg getBåtViaRegÅr(BåtForsikringsReg reg, int år)		//via båtens registreringsår
 	{
 		if(reg == null)
 			reg = båtReg;
@@ -610,7 +618,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public BåtForsikringsReg getBåtViaLengde(BåtForsikringsReg reg, int l)
+	public BåtForsikringsReg getBåtViaLengde(BåtForsikringsReg reg, int l)		//via båtens lengde
 	{
 		if(reg == null)
 			reg = båtReg;
@@ -626,7 +634,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public BåtForsikringsReg getBåtViaMotor(BåtForsikringsReg reg, String m)
+	public BåtForsikringsReg getBåtViaMotor(BåtForsikringsReg reg, String m)		//via motoren
 	{
 		if(reg == null)
 			reg = båtReg;
@@ -642,7 +650,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public BåtForsikringsReg getBåtViaStyrke(BåtForsikringsReg reg, int s)
+	public BåtForsikringsReg getBåtViaStyrke(BåtForsikringsReg reg, int s)		//via båtmotorens styrke (hk)
 	{
 		if(reg == null)
 			reg = båtReg;
@@ -676,7 +684,7 @@ public class Register implements Serializable
 	}
 
 
-	public BåtForsikringsReg getBåtFørDato(BåtForsikringsReg reg, Calendar dato)	//finner skademeldinger registrert før dato
+	public BåtForsikringsReg getBåtFørDato(BåtForsikringsReg reg, Calendar dato)	//finner båtforsikringer registrert før dato
 	{
 		if( reg == null )
 			reg = båtReg;
@@ -694,7 +702,7 @@ public class Register implements Serializable
 		return båter;
 	}
 
-	public BåtForsikringsReg getBåtEtterDato(BåtForsikringsReg reg, Calendar dato)	//finner skademeldinger registrert før dato
+	public BåtForsikringsReg getBåtEtterDato(BåtForsikringsReg reg, Calendar dato)	//finner båtforsikringer registrert før dato
 	{
 		if( reg == null )
 			reg = båtReg;
@@ -712,9 +720,9 @@ public class Register implements Serializable
 		return båter;
 	}
 
-					//HUS:
+					//metoder for å finne husforsikringer:
 
-	public HusForsikring getHusViaNr(int nr)
+	public HusForsikring getHusViaNr(int nr)		//via forsikringsnr
 	{
 		HusForsikring rem;
 		Iterator<HusForsikring> iter = husReg.iterator();
@@ -727,8 +735,8 @@ public class Register implements Serializable
 		return null;
 	}
 
-	public HusForsikringsReg getHusViaNr(HusForsikringsReg reg, int nr)
-	{				//forsikringsnr
+	public HusForsikringsReg getHusViaNr(HusForsikringsReg reg, int nr)	//via forsikringsnr
+	{
 		if(reg == null)
 			reg = husReg;
 		HusForsikring temp;
@@ -776,7 +784,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HusForsikring getHusViaAdresse(String adr)
+	public HusForsikring getHusViaAdresse(String adr)	//sjekker om adressen allerede finnes
 	{
 		HusForsikring rem;
 		Iterator<HusForsikring> iter = husReg.iterator();
@@ -837,7 +845,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HusForsikringsReg getHusViaMateriale(HusForsikringsReg reg, String m)
+	public HusForsikringsReg getHusViaMateriale(HusForsikringsReg reg, String m)	//via hva huset er av
 	{
 		if(reg == null)
 			reg = husReg;
@@ -853,7 +861,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HusForsikringsReg getHusViaBeløpB(HusForsikringsReg reg, int b)
+	public HusForsikringsReg getHusViaBeløpB(HusForsikringsReg reg, int b)		//via byggforsikringsbeløp
 	{
 		if(reg == null)
 			reg = husReg;
@@ -886,7 +894,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HusForsikringsReg getHusViaBeløpI(HusForsikringsReg reg, int i)
+	public HusForsikringsReg getHusViaBeløpI(HusForsikringsReg reg, int i)	//via innboforsikringsbeløp
 	{
 		if(reg == null)
 			reg = husReg;
@@ -919,7 +927,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HusForsikringsReg getHusViaBeløpT(HusForsikringsReg reg, int t)
+	public HusForsikringsReg getHusViaBeløpT(HusForsikringsReg reg, int t)		//via total forsikringsbeløp
 	{
 		if(reg == null)
 			reg = husReg;
@@ -952,7 +960,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HusForsikringsReg getHusViaÅr(HusForsikringsReg reg, int år)
+	public HusForsikringsReg getHusViaÅr(HusForsikringsReg reg, int år)			//via år bygget
 	{
 		if(reg == null)
 			reg = husReg;
@@ -985,7 +993,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HusForsikringsReg getHusViaStørrelse(HusForsikringsReg reg, int s)
+	public HusForsikringsReg getHusViaStørrelse(HusForsikringsReg reg, int s)		//via husets størrelse
 	{
 		if(reg == null)
 			reg = husReg;
@@ -1018,7 +1026,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HusForsikringsReg getHusFørDato(HusForsikringsReg reg, Calendar dato)	//finner skademeldinger registrert før dato
+	public HusForsikringsReg getHusFørDato(HusForsikringsReg reg, Calendar dato)	//finner husforsikring registrert før dato
 	{
 		if( reg == null )
 			reg = husReg;
@@ -1036,7 +1044,7 @@ public class Register implements Serializable
 		return huser;
 	}
 
-	public HusForsikringsReg getHusEtterDato(HusForsikringsReg reg, Calendar dato)	//finner skademeldinger registrert før dato
+	public HusForsikringsReg getHusEtterDato(HusForsikringsReg reg, Calendar dato)	//finner husforsikring registrert før dato
 	{
 		if( reg == null )
 			reg = husReg;
@@ -1053,9 +1061,9 @@ public class Register implements Serializable
 		}
 		return huser;
 	}
-				//HYTTE
+				//metoder for å finne hytteforsikringer
 
-	public HytteForsikring getHytteViaNr(int nr)
+	public HytteForsikring getHytteViaNr(int nr)		//via forsikringsnr
 	{
 		HytteForsikring rem;
 		Iterator<HytteForsikring> iter = hytReg.iterator();
@@ -1101,7 +1109,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikringsReg getHytteViaKundeNr(HytteForsikringsReg reg, String knr)
+	public HytteForsikringsReg getHytteViaKundeNr(HytteForsikringsReg reg, String knr)	//via kundenr
 	{
 		if(reg == null)
 			reg = hytReg;
@@ -1117,7 +1125,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikring getHytteViaAdresse(String adr)
+	public HytteForsikring getHytteViaAdresse(String adr)		//sjekker om adressen allerede finnes
 	{
 		HytteForsikring rem;
 		Iterator<HytteForsikring> iter = hytReg.iterator();
@@ -1146,7 +1154,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikringsReg getHytteViaStandard(HytteForsikringsReg reg, String stand)
+	public HytteForsikringsReg getHytteViaStandard(HytteForsikringsReg reg, String stand)		//via boligens standard
 	{
 		if(reg == null)
 			reg = hytReg;
@@ -1162,7 +1170,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikringsReg getHytteViaType(HytteForsikringsReg reg, String t)
+	public HytteForsikringsReg getHytteViaType(HytteForsikringsReg reg, String t)		//via boligtypen
 	{
 		if(reg == null)
 			reg = hytReg;
@@ -1178,7 +1186,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikringsReg getHytteViaMateriale(HytteForsikringsReg reg, String m)
+	public HytteForsikringsReg getHytteViaMateriale(HytteForsikringsReg reg, String m)	//via byggematerialet
 	{
 		if(reg == null)
 			reg = hytReg;
@@ -1194,7 +1202,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikringsReg getHytteViaBeløpB(HytteForsikringsReg reg, int b)
+	public HytteForsikringsReg getHytteViaBeløpB(HytteForsikringsReg reg, int b)		//via byggforsikringsbeløp
 	{
 		if(reg == null)
 			reg = hytReg;
@@ -1227,7 +1235,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikringsReg getHytteViaBeløpI(HytteForsikringsReg reg, int i)
+	public HytteForsikringsReg getHytteViaBeløpI(HytteForsikringsReg reg, int i)		//via innboforsikringsbeløp
 	{
 		if(reg == null)
 			reg = hytReg;
@@ -1260,7 +1268,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikringsReg getHytteViaBeløpT(HytteForsikringsReg reg, int t)
+	public HytteForsikringsReg getHytteViaBeløpT(HytteForsikringsReg reg, int t)		//via total forsikringsbeløp
 	{
 		if(reg == null)
 			reg = hytReg;
@@ -1293,7 +1301,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikringsReg getHytteViaÅr(HytteForsikringsReg reg, int år)
+	public HytteForsikringsReg getHytteViaÅr(HytteForsikringsReg reg, int år)		//via år bygget
 	{
 		if(reg == null)
 			reg = hytReg;
@@ -1326,7 +1334,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikringsReg getHytteViaStørrelse(HytteForsikringsReg reg, int s)
+	public HytteForsikringsReg getHytteViaStørrelse(HytteForsikringsReg reg, int s)		//via boligens størrelse
 	{
 		if(reg == null)
 			reg = hytReg;
@@ -1342,7 +1350,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public HytteForsikringsReg getHytteFørDato(HytteForsikringsReg reg, Calendar dato)	//finner skademeldinger registrert før dato
+	public HytteForsikringsReg getHytteFørDato(HytteForsikringsReg reg, Calendar dato)	//finner fritidsboligforsikringer registrert før dato
 	{
 		if( reg == null )
 			reg = hytReg;
@@ -1360,7 +1368,7 @@ public class Register implements Serializable
 		return hytter;
 	}
 
-	public HytteForsikringsReg getHytteEtterDato(HytteForsikringsReg reg, Calendar dato)	//finner skademeldinger registrert før dato
+	public HytteForsikringsReg getHytteEtterDato(HytteForsikringsReg reg, Calendar dato)	//finner fritidsboliger registrert før dato
 	{
 		if( reg == null )
 			reg = hytReg;
@@ -1378,7 +1386,7 @@ public class Register implements Serializable
 		return hytter;
 	}
 
-	//SKADEMELDINGER
+	//metoder for å finne skademeldinger
 
 	public Skademelding getSkadeViaNr( int nr )		//finner skade via skadenr
 	{
@@ -1426,7 +1434,7 @@ public class Register implements Serializable
 		return ade;
 	}
 
-	public SkademeldingReg getSkadeViaKundeNr(SkademeldingReg reg, String nr)
+	public SkademeldingReg getSkadeViaKundeNr(SkademeldingReg reg, String nr)		//via kundenr
 	{
 		if(reg == null)
 			reg = skaReg;
@@ -1442,7 +1450,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public SkademeldingReg getSkadeViaType(SkademeldingReg reg, String t)
+	public SkademeldingReg getSkadeViaType(SkademeldingReg reg, String t)		//via type skade
 	{
 		if(reg == null)
 			reg = skaReg;
@@ -1458,7 +1466,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public SkademeldingReg getSkadeViaAdresse(SkademeldingReg reg, String adr)
+	public SkademeldingReg getSkadeViaAdresse(SkademeldingReg reg, String adr)		//via hvor skaden skjedde
 	{
 		if(reg == null)
 			reg = skaReg;
@@ -1474,7 +1482,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public SkademeldingReg getSkadeViaStatus(SkademeldingReg reg, String s)
+	public SkademeldingReg getSkadeViaStatus(SkademeldingReg reg, String s)		//via status på erstatningsvurderingen
 	{
 		if(reg == null)
 			reg = skaReg;
@@ -1490,7 +1498,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public SkademeldingReg getSkadeViaTakst(SkademeldingReg reg, int t)
+	public SkademeldingReg getSkadeViaTakst(SkademeldingReg reg, int t)		//via takstbeløp for skaden
 	{
 		if(reg == null)
 			reg = skaReg;
@@ -1523,7 +1531,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public SkademeldingReg getSkadeViaErstatning(SkademeldingReg reg, int e)
+	public SkademeldingReg getSkadeViaErstatning(SkademeldingReg reg, int e)		//via utbetalt erstatning for skaden
 	{
 		if(reg == null)
 			reg = skaReg;
@@ -1556,7 +1564,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public SkademeldingReg getSkadeViaDato(SkademeldingReg reg, Calendar d)
+	public SkademeldingReg getSkadeViaDato(SkademeldingReg reg, Calendar d)		//via når skaden skjedde
 	{
 		if(reg == null)
 			reg = skaReg;
@@ -1572,7 +1580,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public void godkjennTakst(Skademelding ska)
+	public void godkjennTakst(Skademelding ska)			//godkjenner foreslått takstbeløp som erstatningsbeløp
 	{
 		int kr = ska.getTakst();
 		ska.setUtbetalt(kr);
@@ -1581,30 +1589,13 @@ public class Register implements Serializable
 		ska.setStatus("Ja");
 	}
 
-	public void avslåTakst(Skademelding ska, int kr)
+	public void avslåTakst(Skademelding ska, int kr)	//avslåt foreslått takstbeløp og setter eget erstatningsbeløp
 	{
 		ska.setUtbetalt(kr);
 		ska.setAvslått(true);
 		ska.setGodkjent(false);
 		ska.setStatus("Nei");
 	}
-
-
-	/*public ForsikringsReg getForsikringFørDato(ForsikringsReg reg, Calendar dato)	//finner forsikringer kjøpt før dato
-	{
-		if( reg == null )
-			reg = bilReg;
-		Iterator<Forsikring> iter = reg.iterator();
-		ForsikringsReg fors = new ForsikringsReg();
-		Forsikring prøv;
-		while(iter.hasNext() )
-		{
-			prøv = iter.next();
-			if(prøv.getKjøpt().before(date) )
-				fors.add(prøv);
-		}
-		return fors;
-	}*/
 
 	public SkademeldingReg getSkadeFørDato(SkademeldingReg reg, Calendar dato)	//finner skademeldinger registrert før dato
 	{
@@ -1667,65 +1658,11 @@ public class Register implements Serializable
 				ade.add(prøv);
 		}
 		return ade;
-	}/*
-	//Denne må sees mer på, fungerer mest sannsynlig ikke:
-	public KundeReg getKunderPerForsikringKategori(ForsikringsReg reg, boolean bil, boolean båt, boolean hus, boolean innbo, boolean hytte, boolean innbo2)
-	{															//finner kunde med den type forsikring
-		if(reg == null)
-			reg = bilReg;
-		if(!(bil || båt || hus || innbo || hytte || innbo2) )
-			return reg;
-		Iterator<Forsikring> iter = reg.iterator();
-		ForsikringsReg frs = new ForsikringsReg();
-		Forsikring prøv;
-		while(iterator.hasNext())
-		{
-			prøv = iter.next();
-			if(bil && prøv.getType() == Forsikring.TYPE_BI)
-				frs.add(prøv);
-			if(båt && prøv.getType() == Forsikring.TYPE_BA)
-				frs.add(prøv);
-			if(hus && prøv.getType() == Forsikring.TYPE_HU)
-				frs.add(prøv);
-			if(innbo && prøv.getType() == Forsikring.TYPE_IN)
-				frs.add(prøv);
-			if(hytte && prøv.getType() == Forsikring.TYPE_HY)
-				frs.add(prøv);
-			if(innbo2 && prøv.getType() == Forsikring.TYPE_IN2)
-				frs.add(prøv);
-		}
-		return frs;
 	}
-	//Se mer på
-	public ForsikringsReg getForsikringViaKategori( ForsikringsReg reg, boolean bil, boolean båt, boolean hus, boolean innbo, boolean hytte, boolean innbo2)
-	{									//finner forsikringer av den kategori
-		if(reg == null)
-			reg = bilReg;
-		if(!(bil || båt || hus || innbo || hytte || innbo2) )
-			return reg;
-		Iterator<Forsikring> iter = reg.iterator();
-		ForsikringsReg frs = new ForsikringsReg();
-		Forsikring prøv;
-		while(iterator.hasNext())
-		{
-			prøv = iter.next();
-			if(bil && prøv.getType() == Forsikring.TYPE_BI)
-				frs.add(prøv);
-			if(båt && prøv.getType() == Forsikring.TYPE_BA)
-				frs.add(prøv);
-			if(hus && prøv.getType() == Forsikring.TYPE_HU)
-				frs.add(prøv);
-			if(innbo && prøv.getType() == Forsikring.TYPE_IN)
-				frs.add(prøv);
-			if(hytte && prøv.getType() == Forsikring.TYPE_HY)
-				frs.add(prøv);
-			if(innbo2 && prøv.getType() == Forsikring.TYPE_IN2)
-				frs.add(prøv);
-		}
-		return frs;
-	}*/
 
-	public Kunde getKundeViaNummer(String nr)
+	//metoder for å finne kunder
+
+	public Kunde getKundeViaNummer(String nr)		//sjekker om personnummeret allerede finnes
 	{
 		String mnr = nr;
 		KundeReg kReg = kunReg.finnKundeViaNr(mnr);
@@ -1735,7 +1672,7 @@ public class Register implements Serializable
 		return iter.next();
 	}
 
-	public KundeReg getKundeViaNummer(KundeReg reg, String nr)
+	public KundeReg getKundeViaNummer(KundeReg reg, String nr)		//finner kunde via personnr
 	{
 		if(reg == null)
 			reg = kunReg;
@@ -1751,7 +1688,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public Kunde getKundeViaKundeNr(String nr)
+	public Kunde getKundeViaKundeNr(String nr)		// via kundenummer
 	{
 		String anr = nr;
 		KundeReg kReg = kunReg.finnKundeViaKundenr(anr);
@@ -1764,7 +1701,7 @@ public class Register implements Serializable
 		}
 	}
 
-	public KundeReg getKundeViaKundeNr(KundeReg reg, String knr)
+	public KundeReg getKundeViaKundeNr(KundeReg reg, String knr)	//via kundenr
 	{
 		if(reg == null)
 			reg = kunReg;
@@ -1780,7 +1717,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public KundeReg getKunderViaAktiv(KundeReg reg, boolean a)
+	public KundeReg getKunderViaAktiv(KundeReg reg, boolean a)		//via om kunden fortsatt er kunde eller ikke
 	{
 		if(reg == null)
 			reg = kunReg;
@@ -1801,7 +1738,7 @@ public class Register implements Serializable
 	}
 
 
-	public KundeReg getKundeViaNavn(KundeReg reg, String navn)	//åpenbar
+	public KundeReg getKundeViaNavn(KundeReg reg, String navn)	//via kundens navn
 	{
 		if(reg == null)
 			reg = kunReg;
@@ -1818,7 +1755,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public KundeReg getKundeViaTelefon(KundeReg reg, String tlf)
+	public KundeReg getKundeViaTelefon(KundeReg reg, String tlf)	//via kundens tlfnummer
 	{
 		if(reg == null)
 			reg = kunReg;
@@ -1834,7 +1771,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public KundeReg getKundeViaAdresse(KundeReg reg, String adr)
+	public KundeReg getKundeViaAdresse(KundeReg reg, String adr)	//via kundens adresse
 	{
 		if(reg == null)
 			reg = kunReg;
@@ -1850,7 +1787,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public KundeReg getKundeViaPostnr(KundeReg reg, String pnr)
+	public KundeReg getKundeViaPostnr(KundeReg reg, String pnr)		//Via kundens postnummer
 	{
 		if(reg == null)
 			reg = kunReg;
@@ -1866,7 +1803,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public KundeReg getKundeViaBy(KundeReg reg, String by)
+	public KundeReg getKundeViaBy(KundeReg reg, String by)		//via kundens poststed
 	{
 		if(reg == null)
 			reg = kunReg;
@@ -1882,7 +1819,7 @@ public class Register implements Serializable
 		return rem;
 	}
 
-	public KundeReg getKundeFørDato(KundeReg reg, Calendar dato)	//finner skademeldinger registrert før dato
+	public KundeReg getKundeFørDato(KundeReg reg, Calendar dato)	//finner kunder registrert før dato
 	{
 		if( reg == null)
 			reg = kunReg;
@@ -1900,7 +1837,7 @@ public class Register implements Serializable
 		return kunder;
 	}
 
-	public KundeReg getKundeEtterDato(KundeReg reg, Calendar dato)	//finner skademeldinger registrert før dato
+	public KundeReg getKundeEtterDato(KundeReg reg, Calendar dato)	//finner kunder registrert før dato
 	{
 		if( reg == null )
 			reg = kunReg;
@@ -1918,22 +1855,22 @@ public class Register implements Serializable
 		return kunder;
 	}
 
-	public void setNåSkadeNr()
+	public void setNåSkadeNr()		//for skrive/lesing til fil
 	{
 		skaReg.setNåNr();
 	}
 
-	public void setNåAnsattNr()
+	public void setNåAnsattNr()		//for skrive/lesing til fil
 	{
 		ansReg.setNåNr();
 	}
 
-	public void setNåKundeNr()
+	public void setNåKundeNr()		//for skrive/lesing til fil
 	{
 		kunReg.setNåNr();
 	}
 
-	public void setNåForsikringsNr()
+	public void setNåForsikringsNr()		//for skrive/lesing til fil
 	{
 		bilReg.setNåNr();
 		båtReg.setNåNr();
