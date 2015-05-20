@@ -1,3 +1,8 @@
+/*Skrevet av Even Nerheim, s199184, sist redigert 20.05.2015
+Startvindu, det første vinduet en bruker vil se ved oppstart av programmet.
+Herfra kan man logge inn på sin bruker eller registrere seg som ny kunde
+*/
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -7,9 +12,8 @@ import java.util.*;
 
 public class Startvindu extends JPanel
 {
-	private final String ADMIN = "admin", KUNDE = "kunde", ANSATT = "ansatt"; //default brukernavn
-	private final String passordetliksom;	//default passord
-	//private String adminPass;
+	private final String ADMIN = "admin"; //default brukernavn
+	private final String passordetliksom = "123";	//default passord
 	private Huvudvindu vindu;
 	private JLabel brukerLabel, passLabel, fNavnLabel, eNavnLabel, passord1Label, passord2Label, tlfNrLabel, persNrLabel, adrLabel, postLabel, stedLabel;
 	private JTextField bruker, passord, fNavn, eNavn, persNr, passord1, passord2, tlfNr, adress, postnr, posted;
@@ -21,12 +25,7 @@ public class Startvindu extends JPanel
 
 	public Startvindu( Huvudvindu v )
 	{
-		/*
-		FIks sånn at alle try og catch-metoder er i GUI-ene!!
-		Legg kanskje inn en metode for å bytte resatt passord ved innlogging
-		*/
 		vindu = v;
-		passordetliksom = "123";
 		Font font1 = new Font("SansSerif", Font.BOLD, 15);		//standard font for felter
 		URL loggbilde = Startvindu.class.getResource("DAFF Forsikring");	//bakgrunnsbilde
 
@@ -34,7 +33,7 @@ public class Startvindu extends JPanel
 		register = v.getRegister();
 
 		//Info-felt
-		info = new JTextArea( "Velkommen!\nSkriv inn ditt brukernavn og passord. Hvis du ikke har bruker kan du registrere deg." );
+		info = new JTextArea( "Velkommen!\nSkriv inn ditt brukernavn og passord. Ansattes brukernavn er deres ansattnr.\nHvis du ikke har bruker kan du registrere deg." );
 
 		info.setEditable( false );
 		info.setLineWrap( true );
@@ -106,7 +105,7 @@ public class Startvindu extends JPanel
 		fNavnLabel.setFont(font1);
 		eNavnLabel = new JLabel( "Etternavn:" );
 		eNavnLabel.setFont(font1);
-		persNrLabel = new JLabel( "Personnummer:" );
+		persNrLabel = new JLabel( "Personnummer(blir ditt brukernavn):" );
 		persNrLabel.setFont(font1);
 		tlfNrLabel = new JLabel( "Telefonnummer:" );
 		tlfNrLabel.setFont(font1);
@@ -251,7 +250,7 @@ public class Startvindu extends JPanel
 		else if( bruk.toLowerCase().equals( ADMIN ) )
 			LogginnAdmin( pass );
 
-		else if( bruk.toLowerCase().equals( KUNDE ) || bruk.length() == 11 )
+		else if( bruk.length() == 11 )
 			LogginnKunde( bruk, pass );
 
 		else
@@ -283,7 +282,7 @@ public class Startvindu extends JPanel
 		else if(pnr.length() != 4)
 			visFeilmelding("Ugyldig postnr");
 		else
-		{
+		{		//hvis det er ingen feil vil kunden bli registrert som ny kunde
 			Kunde asa = new Kunde(fon, etn, penr, telf, adrrr, pnr, ps, pass);
 			register.nyKunde(asa);
 			JOptionPane.showMessageDialog(null, "Du er registrert" );
@@ -310,16 +309,7 @@ public class Startvindu extends JPanel
 		String brk = bruk;
 		String pwa = pass;
 		try{
-			if( bruk.toLowerCase().equals( KUNDE ) )
-			{
-				if(Passordtest(pwa))
-				{
-					JPanel ny = new KundeGUI(vindu, null);
-					vindu.swapPanel( ny );
-					slettFelter();
-				}
-			}
-			else if( brk.length() == 11 )
+			if( brk.length() == 11 )
 			{
 				Kunde kunn = register.getKundeViaNummer(brk);
 				if( kunn != null )
@@ -351,23 +341,12 @@ public class Startvindu extends JPanel
 		}
 	}
 
-
 	public void LogginnAnsatt( String bruk, String pass )	//logger inn ansatt
 	{
 		String brk = bruk;
 		String pwa = pass;
 		try{
-			if( bruk.toLowerCase().equals( ANSATT ) )
-			{
-				if(Passordtest(pwa))
-				{
-					JPanel ny = new AnsattVindu(vindu, null);
-					vindu.swapPanel( ny );
-					slettFelter();
-				}
-			}
-
-			else if( brk.length() == 5 )
+			if( brk.length() == 5 )
 			{
 				if( register.getAnsattViaAnsattNr(brk) != null )
 				{
