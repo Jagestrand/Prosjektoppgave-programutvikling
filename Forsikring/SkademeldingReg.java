@@ -1,3 +1,8 @@
+/*Skrevet av Even Nerheim, s199184, sist rediger 20.05.2015
+Klassen tar seg av registrering av skademelding og håndtering av skademeldinger
+samt søking og endring i skademeldingslisten
+*/
+
 import java.util.*;
 import java.io.Serializable;
 import javax.swing.*;
