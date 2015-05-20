@@ -150,6 +150,34 @@ public class Register implements Serializable
 		anna.setAktiv(false);
 	}
 
+	//avslutter forsikringer
+
+	public void avsluttForsikring(BilForsikring bil)
+	{
+		Calendar slutt = Calendar.getInstance();
+		bil.setAvslutta(slutt);
+		bil.setAktiv(false);
+	}
+	public void avsluttForsikring(BåtForsikring båt)
+	{
+		Calendar slutt = Calendar.getInstance();
+		båt.setAvslutta(slutt);
+		båt.setAktiv(false);
+	}
+	public void avsluttForsikring(HusForsikring hus)
+	{
+		Calendar slutt = Calendar.getInstance();
+		hus.setAvslutta(slutt);
+		hus.setAktiv(false);
+	}
+	public void avsluttForsikring(HytteForsikring hyt)
+	{
+		Calendar slutt = Calendar.getInstance();
+		hyt.setAvslutta(slutt);
+		hyt.setAktiv(false);
+	}
+
+
 	//Metoder for å finne ansatte:
 
 	public Ansatt getAnsattViaNr(int nr)		//sjekker om personnummeret allerede finnes
