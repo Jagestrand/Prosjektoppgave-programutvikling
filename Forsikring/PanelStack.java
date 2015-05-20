@@ -1,3 +1,7 @@
+/*Skrevet av William Jagestrand, s , sist redigert 25.04.2015
+Håndterer det å bytte mellom paneler i hovedvinduet og sørger for at knappene fungerer
+*/
+
 import javax.swing.*;
 import java.util.*;
 
@@ -17,7 +21,7 @@ public class PanelStack
 		framPanel = new LinkedList<JPanel>();
 		tilbakePanel.addFirst(s);
 	}
-	public void add(JPanel in)
+	public void add(JPanel in)		//legger inn nytt panel i hovedvinduet
 	{
 		aktuellPanel = in;
 		tilbakePanel.addFirst(in);
@@ -29,21 +33,21 @@ public class PanelStack
 		if(tilbakePanel.size()>MAX_SIZE)
 			tilbakePanel.removeLast();
 	}
-	public void clear()
+	public void clear()					//klarerer panel
 	{
 		tilbakePanel.clear();
 		framPanel.clear();
 		tilbakeIterator = tilbakePanel.listIterator();
 		framIterator = framPanel.listIterator();
 	}
-// Rader hasTilbake senare i huvudvindu och här. kollar om det är möjligt att navigera framöver
-	public boolean hasTilbake()
+
+	public boolean hasTilbake()			//sjekker om det er mulig å gå tilbake til forrige panel
 	{
 		if(tilbakeIterator.hasNext())
 			return true;
-		return false; 
+		return false;
 	}
-	public JPanel tilbake()
+	public JPanel tilbake()			//går tilbake til forrige panel
 	{
 		tilbakeIterator.remove();
 		JPanel res = tilbakeIterator.next();
@@ -54,14 +58,4 @@ public class PanelStack
 		clear = false;
 		return res;
 	}
-	public JPanel fram()
-	{
-		clear = false;
-		JPanel res = framIterator.next();
-		return res;
-	}
-
-
-
-
 }
