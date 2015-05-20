@@ -1,9 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import java.awt.image.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.NoSuchElementException;
@@ -11,23 +6,16 @@ import java.util.NoSuchElementException;
 
 public class KundeGUI extends JPanel
 {
+	private static final long serialVersionUID = 42L;
 	private Register register;
 	private Kunde kunde;
-	private boolean aktiv;
 	private Huvudvindu vindu;
 	private Lytterklasse lytter;
-	private int DATA_FIELD_LENGTH = 20;
 	private String printNavn, printEtternavn, printTelefon, printAdresse, printPrnmr, printPoststed, printPostNmr;
-	private JTextField navn, telefon, adresse, personnr;
-	private JTextArea informationTop, visForsikringInfo;
-	private JButton visSkademelding, regSkademelding, regForsikring, deaktiverF, båtKnapp, bilKnapp, husKnapp, fritidKnapp;
+	private JButton regSkademelding, regForsikring, deaktiverF;
 	private JLabel inloggadSom, navnLabel, etternavnLabel, telefonLabel, adresseLabel, postStedLabel, postNmrLabel, personnrLabel;
 	private JPanel border, borderLeft, borderRight, flow, flowLeft, flowRight,registerGrid, registerGridLeft, registerGridRight;
-	private ButtonGroup kategoriKnapper;
-	private JRadioButton bilKat, båtKat, husKat, hytKat, skadeKat;
-//	private RadioLytter radiolytter;
-	private ChangeLytter changeLytter;
-	private JTabbedPane tabbedPane, tabbedPane2;
+	private JTabbedPane tabbedPane2;
 	private JTable table, table21, table22, table23, table24, table25;
 	private TModel tableModel, tableModel21, tableModel22, tableModel23, tableModel24, tableModel25;
 
@@ -36,32 +24,31 @@ public class KundeGUI extends JPanel
 		vindu = v;
 		kunde = kunn;
 		register = vindu.getRegister();
-		lytter = new Lytterklasse();
-		aktiv = true;
 		
+		//Oppretter lyttere
+		lytter = new Lytterklasse();
+		
+		//Setter layout
 		setLayout(new BorderLayout() );
 		border = new JPanel(new BorderLayout());
 		GridLayout gridlayout = new GridLayout(12, 1);
 		
-		//Top
+		//oppretter JPaneler med ulike LayoutManagere
 		registerGrid = new JPanel(gridlayout);
 		flow = new JPanel( new FlowLayout());	
-		
-		//Panes vänster
+		//Panes til WEST
 		borderLeft = new JPanel(new BorderLayout());
 		GridLayout gridlayoutLeft = new GridLayout(12, 1);
-		
 		registerGridLeft = new JPanel(gridlayoutLeft);
 		flowLeft = new JPanel( new FlowLayout());
-		
-		//Panels höger
+		//Panels til EAST
 		borderRight = new JPanel(new BorderLayout());
 		GridLayout gridlayoutRight = new GridLayout(12, 1);
 		
 		registerGridRight = new JPanel(gridlayoutRight);
 		flowRight = new JPanel( new FlowLayout());
 
-		//Kund info högerpanel
+		//Finner kundens personinformation
 		printNavn = kunde.getFornavn();
 		printEtternavn = kunde.getEtternavn();
 		printTelefon = kunde.getTelefonNr();
@@ -70,6 +57,7 @@ public class KundeGUI extends JPanel
 		printPostNmr = kunde.getPostnr();
 		printPrnmr = kunde.getPersonNr();
 		
+		//Setter informationen till en Jlabel for visning
 		inloggadSom = new JLabel("Kund information: ");
 		navnLabel = new JLabel("Navn: " + " " + printNavn);
 		etternavnLabel = new JLabel("Etternavn: " + " " + printEtternavn);
@@ -79,6 +67,7 @@ public class KundeGUI extends JPanel
 		postNmrLabel = new JLabel("Postnummer: " + " " + printPostNmr);
 		personnrLabel = new JLabel("Personnummer:" + " " + printPrnmr);
 		
+		//Setter fontstyle och ferg på den printade teksten
 		inloggadSom.setFont(new Font("Serif", Font.BOLD, 14));
 		inloggadSom.setForeground(Color.RED);
 		navnLabel.setFont(new Font("Serif", Font.ITALIC, 14));
@@ -89,28 +78,7 @@ public class KundeGUI extends JPanel
 		postNmrLabel.setFont(new Font("Serif", Font.ITALIC, 14));
 		personnrLabel.setFont(new Font("Serif", Font.ITALIC, 14));
 		
-		//knappar på vänstergrid
-		deaktiverF = new JButton ("Deaktiver forsikring");
-		regForsikring = new JButton("Registrere forsikring");
-		regSkademelding = new JButton("Registrere skademeldinger");
-
-		registerGridLeft.add(regForsikring);
-		registerGridLeft.add(deaktiverF);
-		
-		deaktiverF.addActionListener(lytter);
-	//	registerGridLeft.add(båtKnapp);
-	//	registerGridLeft.add(bilKnapp);
-	//	registerGridLeft.add(husKnapp);
-	//	registerGridLeft.add(fritidKnapp);
-	//		regForsikring.addActionListener(lytter);
-		
-		//visSkademelding = new JButton("Se skademeldinger");
-
-		registerGridLeft.add(regSkademelding);
-	//registerGridRight.add(visSkademelding);
-	//	regSkademelding.addActionListener(lytter);
-	//	visSkademelding.addActionListener(lytter);
-		
+		//legger elementer til i GUI
 		registerGridRight.add(inloggadSom);
 		registerGridRight.add(navnLabel);
 		registerGridRight.add(etternavnLabel);
@@ -120,30 +88,33 @@ public class KundeGUI extends JPanel
 		registerGridRight.add(postNmrLabel);
 		registerGridRight.add(personnrLabel);
 		
+		//Skapar knapparna till panelen på venster sida
+		deaktiverF = new JButton ("Deaktiver forsikring");
+		regForsikring = new JButton("Registrere forsikring");
+		regSkademelding = new JButton("Registrere skademeldinger");
+		
+		//Legger in knapparna till panelen på venster sida
+		registerGridLeft.add(regForsikring);
+		registerGridLeft.add(deaktiverF);	
+		registerGridLeft.add(regSkademelding);
+		
+		//Legger til elementer i hovedpanelet
 		border.add(registerGrid, BorderLayout.LINE_START);
 		flow.add(registerGrid);
-
 		add( new JScrollPane(flow, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER)
 		,BorderLayout.NORTH);
-		//legger til elementer i hovedpanelet
 		add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
-		
 		borderLeft.add(registerGridLeft, BorderLayout.WEST);
 		flowLeft.add(borderLeft);
-		
 		add( new JScrollPane(flowLeft, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER)
-		,BorderLayout.WEST);
-		//legger til elementer i hovedpanelet
-		
+		,BorderLayout.WEST);		
 		borderRight.add(registerGridRight, BorderLayout.EAST);
 		flowRight.add(borderRight);
-		
 		add( new JScrollPane(flowRight, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER)
 		,BorderLayout.EAST);
-		//legger til elementer i hovedpanelet
 		
-		
-		tableModel21 = new TModel(kunde.getBiler());	//HER
+		//Oppretter tabellen for visning
+		tableModel21 = new TModel(kunde.getBiler());
 		table21 = new JTable(tableModel21);
 		tableModel22 = new TModel(kunde.getBåter());
 		table22 = new JTable(tableModel22);
@@ -166,33 +137,23 @@ public class KundeGUI extends JPanel
 		tabbedPane2.setMnemonicAt(3, KeyEvent.VK_4);
 		tabbedPane2.addTab("Skademelding", null, (new JScrollPane(table25, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED)), "Liste over skader");
 		tabbedPane2.setMnemonicAt(3, KeyEvent.VK_4);
-		tabbedPane2.addChangeListener(changeLytter);
 		
-		regForsikring.addActionListener (lytter);
-
-		regSkademelding.addActionListener(lytter);
-
-
 		add(new JScrollPane(tabbedPane2, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), BorderLayout.CENTER);
+		
+		//Binder lytter till knappar
+		regForsikring.addActionListener (lytter);
+		regSkademelding.addActionListener(lytter);
+		deaktiverF.addActionListener(lytter);	
 	}
-
+	
+	//Kallar på registrerings GUI 
 	public void nyForsikring()
 	{
 		ValgAvForsikring cl = new ValgAvForsikring(vindu, kunde);
 		cl.setVisible(true);
 	}
-
-	/*public void nySkademelding()
-	{
-		SkadeMeldingVindu smv = new SkadeMeldingVindu(vindu, kunde);
-		smv.setVisible(true);
-	}*/
-
-	/*public void seSkademelding()
-	{
-		JOptionPane.showMessageDialog(vind, kunn);
-	}
-	*/
+	
+	//Metode for og deaktivera forsikring
 	public void deaktiverF()
 	{
 		try
@@ -220,24 +181,8 @@ public class KundeGUI extends JPanel
 			JOptionPane.showMessageDialog(null, "NoSuchElementException i deaktiverBruker-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	private class ChangeLytter implements ChangeListener
-	{
-		public void stateChanged(ChangeEvent e)
-		{
-			if(tabbedPane2.getSelectedIndex() == 0)
-				bilKat.setSelected(true);
-			else if(tabbedPane2.getSelectedIndex() == 1)
-				båtKat.setSelected(true);
-			else if(tabbedPane2.getSelectedIndex() == 2)
-				husKat.setSelected(true);
-			else if(tabbedPane2.getSelectedIndex() == 3)
-				hytKat.setSelected(true);
-			else if(tabbedPane2.getSelectedIndex() == 4)
-				skadeKat.setSelected(true);
-		}
-	}
 
-
+	//LytterKlasse for alla knappar
 	private class Lytterklasse implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
