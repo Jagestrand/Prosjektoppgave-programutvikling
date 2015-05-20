@@ -109,7 +109,7 @@ public abstract class Forsikring implements Serializable	//superklasse
 		forsikringsinfo = info;
 	}
 
-	public boolean erAktiv()			//returnerer om forsikringen ennå er aktiv
+	public boolean getAktiv()			//returnerer om forsikringen ennå er aktiv
 	{
 		return aktiv;
 	}
