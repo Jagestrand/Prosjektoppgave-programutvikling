@@ -1,7 +1,10 @@
+/*Skrevet av Even Nerheim, s199184, sist redigert 17.05.2015
+Håndterer registrering av nye kunder, sletting av kunder, søking i kunderegister
+*/
+
 import java.util.*;
 import java.io.Serializable;
-
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 public class KundeReg implements Serializable
 {
@@ -24,9 +27,9 @@ public class KundeReg implements Serializable
 		kundeListe.remove(holmes);
 	}
 
-	public boolean contains(Kunde patient)
+	public boolean contains(Kunde kunde)
 	{
-		return kundeListe.contains(patient);
+		return kundeListe.contains(kunde);
 	}
 
 	public boolean isEmpty()
@@ -302,7 +305,7 @@ public class KundeReg implements Serializable
 		return collator = new PersonCollator();
 	}
 
-	public void lagreNrNå()
+	public void lagreNåNr()
 	{
 		nrNå = Kunde.getNrNå();
 	}
