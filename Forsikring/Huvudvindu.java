@@ -1,3 +1,8 @@
+/*Skrevet av William Jagestrand, s , sist redigert 10.05.2015
+Klassen fungerer som bakgrunnsvinduet for alle GUIene med standardknapper
+på bunnen av skjermen
+*/
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -20,6 +25,7 @@ public class Huvudvindu extends JFrame
         wLytter = new WinListener();
         lytter = new MainListener();
 
+		//legger inn knapper
         tilbakePos = new JPanel(new FlowLayout(FlowLayout.LEFT));
         tilbake = new JButton("Tilbake");
         tilbake.addActionListener(lytter);
@@ -40,6 +46,7 @@ public class Huvudvindu extends JFrame
         layout = new BorderLayout();
         container.setLayout(layout);
 
+		//Startvindu er første vinduet som blir hentet opp og tar opp nesten hele vinduet
         mittenPos = new Startvindu(this);
         panel = new PanelStack(mittenPos);
 
@@ -52,7 +59,7 @@ public class Huvudvindu extends JFrame
         setVisible(true);
 
     }
-    private void setDimensjon()
+    private void setDimensjon()					//setter størrelse for bakgrunnsvinduet
     {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
@@ -67,7 +74,7 @@ public class Huvudvindu extends JFrame
 		setSize(mittenPos.getPreferredSize() );
 	}
 
-    public void loggaut()
+    public void loggaut()			//logger ut brukeren
     {
         panel.clear();
         swapPanel(new Startvindu(this) );
@@ -81,7 +88,7 @@ public class Huvudvindu extends JFrame
     {
         return panel;
     }
-    public void swapPanel(JPanel in)
+    public void swapPanel(JPanel in)		//bytter heldekkende panel uten å bytte vindu
     {
         panel.add(in);
         tilbake.setEnabled(panel.hasTilbake());
@@ -93,12 +100,12 @@ public class Huvudvindu extends JFrame
         repaint();
     }
 
-    public void tilbake()
+    public void tilbake()		//går tilbake til forrige side brukeren var på
     {
         swapPanel(panel.tilbake());
     }
 
-    private class MainListener implements ActionListener
+    private class MainListener implements ActionListener		//lytter til når knappene brukes
     {
         public void actionPerformed(ActionEvent e)
         {
@@ -109,7 +116,7 @@ public class Huvudvindu extends JFrame
         }
     }
 
-    private class WinListener extends WindowAdapter
+    private class WinListener extends WindowAdapter		//når programmet lukkes lagres ale
     {
         public void windowClosing(WindowEvent e)
         {
