@@ -1,3 +1,7 @@
+/*Skrevet av Even Nerheim, s199184, sist rediger 20.05.2015
+Klasse for skademeldinger hvor data lagres og hentes for alle skademeldinger
+*/
+
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -7,35 +11,34 @@ import java.awt.event.*;
 public class Skademelding
 {
 	private static final long serialVersionUID = 42L;
-	private static final int BIL = 1, BÅT = 2, HUS = 3, FRITID = 4;
-	private static final String bil = "Bil", båt = "Båt", hus = "Hus", fritid = "Fritid";
+	private static final int BIL = 1, BÅT = 2, HUS = 3, FRITID = 4;			//for skademeldingkategori
+	private static final String bil = "Bil", båt = "Båt", hus = "Hus", fritid = "Fritid";	//skademeldingkategorier
 	private String kundenr, skadeadresse, skadetype, beskrivelse, status;
 	private String vitneNavn, vitneTlfNr;
 	private int hjelpenr, takstbeløp, utbetaltbeløp, kategori;
 	private boolean godkjent, avslått;
 	private Calendar dato;
 	private Register reg;
-	private File bilrapport;
-	private static int nestenr = 80000;
+	private static int nestenr = 80000;		//skadenummere starter på 80000
 	private Kunde kunde;
 
-	public Skademelding(Kunde kun, Calendar date, String adresse, String type, int takstsum, String info, String vnavn, String vnr, int kat)		// , File rapport)
+	//samme paramtere for alle skader
+	public Skademelding(Kunde kun, Calendar date, String adresse, String type, int takstsum, String info, String vnavn, String vnr, int kat)
 	{
 		hjelpenr = nestenr;
-		nestenr++;
+		nestenr++;				//gir unikt skadenr for hver skademelding
 		kunde = kun;
 		dato = date;
 		skadeadresse = adresse;
 		skadetype = type;
 		takstbeløp = takstsum;
 		beskrivelse = info;
-		kategori = kat;
-		if(kategori == BIL)
+		kategori = kat;			//henter hvilken type skademelding det er
+
+		if(kategori == BIL)		//hvis det er skademelding fro bil vil vitneinformasjon lagres
 		{
 			vitneNavn = vnavn;
 			vitneTlfNr = vnr;
-			//bilrapport = rapport;
-			//lagreRapport(bilrapport);
 		}
 		godkjent = false;
 		avslått = false;
@@ -87,7 +90,7 @@ public class Skademelding
 		return utbetaltbeløp;
 	}
 
-	public String getStatus()
+	public String getStatus()		//returnerer status for takstkravet
 	{
 		if(status.equals(""))
 			return "Ikke behandlet";
@@ -97,17 +100,17 @@ public class Skademelding
 			return "Avslått";
 	}
 
-	public boolean getGodkjent()
+	public boolean getGodkjent()	//returnerer om taksten er godkjent
 	{
 		return godkjent;
 	}
 
-	public boolean getAvslått()
+	public boolean getAvslått()		//returnerer om taksten er avslått
 	{
 		return avslått;
 	}
 
-	public String getVitneNavn()
+	public String getVitneNavn()		//vitneinformasjon
 	{
 		return vitneNavn;
 	}
@@ -117,7 +120,7 @@ public class Skademelding
 		return vitneTlfNr;
 	}
 
-	public String getKategori()
+	public String getKategori()		//returnerer skademeldingskategori
 	{
 		String k;
 		if(kategori == BIL)
@@ -131,17 +134,17 @@ public class Skademelding
 		return k;
 	}
 
-	public void setDato(Calendar date)
+	public void setDato(Calendar date)		//setter dato for skaden
 	{
 		dato = date;
 	}
 
-	public void setUtbetalt(int kr)
+	public void setUtbetalt(int kr)		//setter godkjent erstatningsbeløp
 	{
 		utbetaltbeløp = kr;
 	}
 
-	public void setStatus(String ok)
+	public void setStatus(String ok)		//forandrer statusen på takstkravet
 	{
 		status = ok;
 	}
@@ -166,22 +169,17 @@ public class Skademelding
 		vitneTlfNr = vnr;
 	}
 
-	public File getRapport()
-	{
-	return bilrapport;
-	}
-
-	public String ikkeGodkjentEnnå()
+	public String ikkeGodkjentEnnå()			//forteller at erstatningskravet ikke er godkjent ennå
 	{
 		return "Erstatningsbeløp er ikke godkjent ennå";
 	}
 
-	public static int getNrNå()
+	public static int getNrNå()		//for skriving til/fra fil
 	{
 		return nestenr;
 	}
 
-	public static void setNrNå(int nr)
+	public static void setNrNå(int nr)		//for skriving til/fra fil
 	{
 		if(nr>nestenr)
 			nestenr = nr;
