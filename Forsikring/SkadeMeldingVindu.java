@@ -1,3 +1,8 @@
+/*Skrevet av Rebwar Eliassi, s183736, inneholder vinduet for skademeldinger plassert i KUNDEGUI.
+I vinduet registres det skademelding for Bil, Båt, Hus og Fritidsbolig.
+Sist forandret 19.05.2015*/
+
+//importering av nødvendige pakker
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +12,9 @@ import java.text.*;
 import java.util.*;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 public class SkadeMeldingVindu extends JFrame
  {
@@ -25,14 +33,14 @@ public class SkadeMeldingVindu extends JFrame
     private CardLayout sm;
 
 
-    // Her legges JTextfield feltene inn (Bil, Båt, Hus, Fritid)
+    // Her legges teksfel inn for Bil, Båt, Hus, Fritid)
     private JTextField   skadeStedBil, taksbelopBil, skadeTypeBil,beskrivSkadeBil, navnBil, telefonBil,
 						 skadeStedBåt,taksbelopBåt, adresseBåt, skadeTypeBåt, beskrivBåt,
     					 adresseHus, skadeTypeHus, beskrivHus, taksbelopHus,
     					 adresseFritid, skadeTypeFritid, beskrivFritid, taksbelopFritid;
 
 
-    //private JLabel informationTop;
+    //Labels for skademelding felter
     private int DATA_FIELD_LENGTH = 15, BIL_KAT = 1, BÅT_KAT = 2, HUS_KAT = 3, FRITID_KAT = 4;
     private String vnn = " ", vnrr = " ";
     private JLabel  beskrivSkadeLabel, skadeDatoBilLabel, skadeStedBilLabel, taksbelopBilLabel, skadeTypeBilLabel,
@@ -43,7 +51,7 @@ public class SkadeMeldingVindu extends JFrame
     				skadeDatoFritidLabel, adresseFritidLabel, skadeTypeFritidLabel, beskrivFritidLabel, taksbelopFritidLabel;
 
 
-
+	//Vindu med innhold av panel, tekstfelt, labels
     public SkadeMeldingVindu(Huvudvindu vind, Kunde kunn)
     {
     	//Vinduets size.
@@ -57,6 +65,7 @@ public class SkadeMeldingVindu extends JFrame
         cardPanel = new JPanel(new BorderLayout());
 		p = new JPanel();
 
+		//Knapp for Skademeldingskjema(b1)
 		b1 = new JButton("Skadeskjema");
 		b2 = new JButton("Knapp");
 		b3 = new JButton("Knapp2");
@@ -114,7 +123,7 @@ public class SkadeMeldingVindu extends JFrame
 		jp1.add(bildGrid);
 
 
-    	//Båt
+    	//Labels for Båt
 		skadeDatoBåtLabel = new JLabel("Skade dato: (dd/MM/yyyy)");
 		skadeDatoBåt = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		skadeStedBåtLabel = new JLabel("Skade sted:");
@@ -137,7 +146,7 @@ public class SkadeMeldingVindu extends JFrame
 		jp2.add(taksbelopBåtLabel);
 		jp2.add(taksbelopBåt);
 
-    	//Hus
+    	//Labels for Hus
 		skadeDatoHusLabel = new JLabel("Skade dato (dd/MM/yyyy):");
 		skadeDatoHus = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		adresseHusLabel = new JLabel("Adresse:");
@@ -162,7 +171,7 @@ public class SkadeMeldingVindu extends JFrame
 		jp3.add(taksbelopHus);
 
 
-        //Fritid
+        //Labels for Fritid
 		skadeDatoFritidLabel = new JLabel("Skade dato (dd/MM/yyyy):");
 		skadeDatoFritid = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		adresseFritidLabel = new JLabel("Adresse:");
@@ -192,13 +201,13 @@ public class SkadeMeldingVindu extends JFrame
         cardPanel.add(jp4, "4");
 
 
-         buttonPanelBott = new JPanel();
-         bilKnapp = new JButton("Bil");
-         båtKnapp = new JButton("Båt");
-         husKnapp = new JButton("Hus");
-         fritidKnapp = new JButton("Fritid");
-         registrer = new JButton("Registrer");
-         lukkVindu = new JButton("Lukk");
+        buttonPanelBott = new JPanel();
+        bilKnapp = new JButton("Bil");
+        båtKnapp = new JButton("Båt");
+        husKnapp = new JButton("Hus");
+        fritidKnapp = new JButton("Fritid");
+        registrer = new JButton("Registrer");
+        lukkVindu = new JButton("Lukk");
         buttonPanelBott.add(bilKnapp);
         buttonPanelBott.add(båtKnapp);
         buttonPanelBott.add(husKnapp);
@@ -213,12 +222,13 @@ public class SkadeMeldingVindu extends JFrame
         lukkVindu.addActionListener(Lytter);
         registrer.addActionListener(Lytter);
 
+		//Plassering av panelene på vinduet
         getContentPane().add(cardPanel, BorderLayout.LINE_START);
         getContentPane().add(p, BorderLayout.CENTER);
         getContentPane().add(buttonPanelBott, BorderLayout.PAGE_END);
     }
 
-
+	//Sletter skrevet tekst ved registering
 	public void slettFelter()
 	{
 		skadeDatoBil.setText("");
@@ -243,11 +253,12 @@ public class SkadeMeldingVindu extends JFrame
 		taksbelopFritid.setText("");
 	}
 
+	//Feilmelding
 	public void visFeilmelding(String melding)
 	{
 		JOptionPane.showMessageDialog(null, melding, "FEIL", JOptionPane.ERROR_MESSAGE);
 	}
-
+	//Registering av ny skademelding for bil
 	public void nySkademeldingBil ()
 	{
 		try{
@@ -273,20 +284,14 @@ public class SkadeMeldingVindu extends JFrame
 				register.nySkade(skadebil);
 				JOptionPane.showMessageDialog(null, "Skademelding registrert");
 			}
-
 		}
-		/*catch(NullPointerException npe)
-		{
-			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
-			return;
-		}*/
 		catch(NumberFormatException nfe)
 		{
 			JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 	}
-
+		//Registering av ny skademelding for Båt
 	public void nySkademeldingBåt()
 	{
 		try{
@@ -304,26 +309,20 @@ public class SkadeMeldingVindu extends JFrame
 			if(dato == null || sted.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
 				informationTop.setText("Alle feltene må fylles ut");
 			else
-			{
+				{
 				Skademelding skadebåt = new Skademelding(kunde, dato, sted, type, takst, beskriv, null, null, BÅT_KAT);
 				register.nySkade(skadebåt);
 				JOptionPane.showMessageDialog(null, "Skademelding registrert");
+				}
 			}
-
 		}
-
-		/*catch(NullPointerException npe)
-		{
-			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
-			return;
-		}*/
 		catch(NumberFormatException nfe)
 		{
 			JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 	}
-
+	//Registering av ny skademelding for Hus
 	public void nySkademeldingHus()
 	{
 		try{
@@ -341,17 +340,12 @@ public class SkadeMeldingVindu extends JFrame
 			if(dato == null || adresse.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
 				informationTop.setText("Alle feltene må fylles ut");
 			else
-			{
+				{
 				Skademelding skadehus = new Skademelding(kunde, dato, adresse, type, takst, beskriv, null, null, HUS_KAT);
 				register.nySkade(skadehus);
 				JOptionPane.showMessageDialog(null, "Skademelding registrert");
-			}
+				}
 		}
-		/*catch(NullPointerException npe)
-		{
-			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
-			return;
-		}*/
 		catch(NumberFormatException nfe)
 		{
 			JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -359,7 +353,7 @@ public class SkadeMeldingVindu extends JFrame
 		}
 	}
 
-
+	//Registering av ny skademelding for Fritidsbolig
 	public void nySkademeldingFritid()
 	{
 		try{
@@ -383,11 +377,7 @@ public class SkadeMeldingVindu extends JFrame
 				JOptionPane.showMessageDialog(null, "Skademelding registrert");
 			}
 		}
-		/*catch(NullPointerException npe)
-		{
-			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
-			return;
-		}*/
+
 		catch(NumberFormatException nfe)
 		{
 			JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -395,7 +385,7 @@ public class SkadeMeldingVindu extends JFrame
 		}
 	}
 
-
+	//Lytterklasse for skademelding,knappar
 	private class Lytterklasse implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -440,7 +430,7 @@ public class SkadeMeldingVindu extends JFrame
             }
 
             else if(e.getSource() == fritidKnapp)
-            {
+           	{
             	CardLayout sm = (CardLayout) cardPanel.getLayout();
                 sm.show(cardPanel, "4");
            		/*informationTop.setText("Skademelding Fritid");
