@@ -1,6 +1,8 @@
+/*SKrevet av Even Nerheim, s199184, sist redigert 20.05.2015
+Klasse for registrering av ansatte, sette dem i registeret, finne dem og fjerne dem
+*/
 import java.util.*;
 import java.io.Serializable;
-
 import javax.swing.JOptionPane;
 
 public class AnsattReg implements Serializable
