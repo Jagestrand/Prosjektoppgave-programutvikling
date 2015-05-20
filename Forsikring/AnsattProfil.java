@@ -1,5 +1,5 @@
-/*
-Skrevet av Even Nerheim, s199184, sist redigert 18.05.15
+/*Skrevet av Even Nerheim, s199184, sist redigert 19.05.15
+Standardvindu for visning av ansattprofil, både for ansatte selv og for admin
 */
 
 import javax.swing.*;
@@ -16,11 +16,11 @@ public class AnsattProfil extends JFrame
     private Container c;
     private Font font, font2, errorfont;
     private JButton rediger, lagre, aktiver;
-    private JLabel deaktivLabel, navn, bilde, fnLab, navnLabel, idLabel, nrLabel,
+    private JLabel deaktivLabel, navn, bilde, navnLabel, idLabel, nrLabel,
     		tlfLabel, avdLabel, persnr, ansid, tlf, avd;
     private String aid, penr, navn1, navn2, tlfnr, avdeling;
     private JTextField fnavn, enavn, telf, avde;
-    private JPanel editPanel, savePanel, aktiverPanel, knappePanel, bildePanel, endaPanel, profilen, info, navnPanel, flyt;
+    private JPanel editPanel, savePanel, aktiverPanel, knappePanel, bildePanel, profilen, info, navnPanel, flyt;
 
     public AnsattProfil(Ansatt anna)
     {
