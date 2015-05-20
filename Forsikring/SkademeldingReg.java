@@ -15,7 +15,7 @@ public class SkademeldingReg implements Serializable
 
 	public SkademeldingReg()
 	{
-		skadeliste = new TreeSet<>(new SkadeCollator() );
+		skadeliste = new TreeSet<>(new SkadeCollator() );	//oppretter nytt skademeldingregister og sorterer det
 	}
 
 	public void add(Skademelding ska)
@@ -43,7 +43,7 @@ public class SkademeldingReg implements Serializable
 		return skadeliste.size();
 	}
 
-	public SkademeldingReg finnSkader(String kriterie)
+	public SkademeldingReg finnSkader(String kriterie)		//finner skademelding via kriterie gitt
 	{
 		SkademeldingReg søktSkadeListe = new SkademeldingReg();
 		søktSkadeListe = finnSkadeViaKundeNr(kriterie);
@@ -331,12 +331,12 @@ public class SkademeldingReg implements Serializable
 		return collator = new SkadeCollator();
 	}
 
-	public void lagreNåNr()
+	public void lagreNåNr()	//for skriving/lesing til fil
 	{
 		nrNå = Skademelding.getNrNå();
 	}
 
-	public void setNåNr()
+	public void setNåNr()	//for skriving/lesing til fil
 	{
 		Skademelding.setNrNå(nrNå);
 	}
