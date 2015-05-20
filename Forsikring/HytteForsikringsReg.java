@@ -1,3 +1,7 @@
+/*Skrevet av Even Nerheim, s199184, sist redigert 18.05.2015
+Klassen håndterer hytteforsikringer, setter dem i register og søker i registeret
+*/
+
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.*;
@@ -14,7 +18,7 @@ public class HytteForsikringsReg implements Serializable
 		list = new TreeSet<>(new ForsikringCollator() );//Oppretter forsikringslisten
 	}
 
-	public void add(HytteForsikring hyt)
+	public void add(HytteForsikring hyt)		//legger til ny hytte
 	{
 		list.add(hyt);
 	}
@@ -39,7 +43,7 @@ public class HytteForsikringsReg implements Serializable
 		return list.size();
 	}
 
-	public HytteForsikringsReg finnHytter(String kriterie)
+	public HytteForsikringsReg finnHytter(String kriterie)		//finner hytter via kriteriet gitt
 	{
 		HytteForsikringsReg søktHytteListe = new HytteForsikringsReg();
 		søktHytteListe = finnHytteViaKundeNr(kriterie);
@@ -93,7 +97,7 @@ public class HytteForsikringsReg implements Serializable
 		return søktHytteListe;
 	}
 
-	public HytteForsikringsReg finnHytteViaKundeNr(String nr)
+	public HytteForsikringsReg finnHytteViaKundeNr(String nr)		//finner hytte via kudenr
 	{
 		Iterator<HytteForsikring> theIterator = iterator();
 		HytteForsikring hytte;
@@ -122,7 +126,7 @@ public class HytteForsikringsReg implements Serializable
 		return null;
 	}
 
-	public HytteForsikringsReg finnHytteViaAdresse(String adr)
+	public HytteForsikringsReg finnHytteViaAdresse(String adr)		//via adresse
 	{
 		Iterator<HytteForsikring> theIterator = iterator();
 		HytteForsikring hytte;
@@ -150,7 +154,7 @@ public class HytteForsikringsReg implements Serializable
 		return null;
 	}
 
-	public HytteForsikringsReg finnHytteViaStandard(String stand)
+	public HytteForsikringsReg finnHytteViaStandard(String stand)		//via hyttestanbdard
 	{
 		Iterator<HytteForsikring> theIterator = iterator();
 		HytteForsikring hytte;
@@ -179,7 +183,7 @@ public class HytteForsikringsReg implements Serializable
 		return null;
 	}
 
-	public HytteForsikringsReg finnHytteViaType(String typ)
+	public HytteForsikringsReg finnHytteViaType(String typ)			//via boligtype
 	{
 		Iterator<HytteForsikring> theIterator = iterator();
 		HytteForsikring hytte;
@@ -208,7 +212,7 @@ public class HytteForsikringsReg implements Serializable
 		return null;
 	}
 
-	public HytteForsikringsReg finnHytteViaMateriale(String m)
+	public HytteForsikringsReg finnHytteViaMateriale(String m)		//via byggemateriale
 	{
 		Iterator<HytteForsikring> theIterator = iterator();
 		HytteForsikring hytte;
@@ -237,7 +241,7 @@ public class HytteForsikringsReg implements Serializable
 		return null;
 	}
 
-	public HytteForsikringsReg finnHytteViaNr(int nr)
+	public HytteForsikringsReg finnHytteViaNr(int nr)		//via forsikringsnr
 	{
 		Iterator<HytteForsikring> theIterator = iterator();
 		HytteForsikring hytte;
@@ -265,7 +269,7 @@ public class HytteForsikringsReg implements Serializable
 		return null;
 	}
 
-	public HytteForsikringsReg finnHytteViaBeløpB(int b)
+	public HytteForsikringsReg finnHytteViaBeløpB(int b)		//Via byggforsikringsbeløp
 	{
 		Iterator<HytteForsikring> theIterator = iterator();
 		HytteForsikring hytte;
@@ -294,7 +298,7 @@ public class HytteForsikringsReg implements Serializable
 		return null;
 	}
 
-	public HytteForsikringsReg finnHytteViaBeløpI(int i)
+	public HytteForsikringsReg finnHytteViaBeløpI(int i)		//via innboforsikringsbeløp
 	{
 		Iterator<HytteForsikring> theIterator = iterator();
 		HytteForsikring hytte;
@@ -323,7 +327,7 @@ public class HytteForsikringsReg implements Serializable
 		return null;
 	}
 
-	public HytteForsikringsReg finnHytteViaÅr(int år)
+	public HytteForsikringsReg finnHytteViaÅr(int år)			//via byggeår
 	{
 		Iterator<HytteForsikring> theIterator = iterator();
 		HytteForsikring hytte;
@@ -381,34 +385,7 @@ public class HytteForsikringsReg implements Serializable
 		return null;
 	}
 
-	/*public static int getGroupInt(String in)//metode gjør om en String til int for medikamentgruppene
-	{
-		if(in.equals("Bil") || in.equals("BIL") || in.equals("bil") )
-			return Forsikring.TYPE_BIL;
-		else if(in.equals("Båt") || in.equals("BÅT") || in.equals("båt") )
-			return Forsikring.TYPE_BÅT;
-		else if(in.equals("Hus") || in.equals("HUS") || in.equals("hus") )
-			return Forsikring.TYPE_HUS;
-		else if(in.equals("Hytte") || in.equals("HYTTE") || in.equals("hytte") )
-			return Forsikring.TYPE_HYTTE;
-		JOptionPane.showMessageDialog(null, "Ugyldig forsikringstype");
-		return -1;
-	}
-
-	public static String getGroupString(int in)//metode gjør om en int til String for medikamentgruppene
-	{
-		if(in == Forsikring.TYPE_BIL)
-			return "BIL";
-		else if(in == Forsikring.TYPE_BÅT)
-			return "BÅT";
-		else if(in == Forsikring.TYPE_HUS)
-			return "HUS";
-		else if(in == Forsikring.TYPE_HYTTE)
-			return "HYTTE";
-		return "Error";
-	}*/
-
-	public void lagreNrNå()//nødvendig for skriving/lagring til fil
+	public void lagreNåNr()//nødvendig for skriving/lagring til fil
 	{
 		nrNå = HytteForsikring.getNrNå();
 	}
