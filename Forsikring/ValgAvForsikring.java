@@ -1,4 +1,7 @@
-
+/*
+GUI for forsikringer ved forsikringsselskapet. Her kan du registrere en bil,båt,hus,eller hytte forsikring.
+Sidan er skapad med hjelp av en cardLayout
+*/
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
