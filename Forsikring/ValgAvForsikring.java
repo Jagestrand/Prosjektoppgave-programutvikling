@@ -1,30 +1,25 @@
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import javax.swing.*;
-
 import javax.swing.*;
 
 public class ValgAvForsikring extends JFrame
 {
-    private JPanel cardPanel, buttonPanel, jp1, jp2, jp3, jp4;
+
+	private static final long serialVersionUID = 42;
+	private JPanel cardPanel, buttonPanel, jp1, jp2, jp3, jp4;
     private Lytterklasse lytter;
 	private Kunde kunde;
 	private Huvudvindu vindu;
 	private Register register;
-    private JButton lukkVindu, registrer, lukkVinduBåt, lukkVinduHus, lukkVinduFritid, registrerBåt, registrerHus, registrerFritid, bilKnapp, båtKnapp, husKnapp, fritidKnapp;
+    private JButton lukkVindu, registrer, bilKnapp, båtKnapp, husKnapp, fritidKnapp;
     private CardLayout cl;
     private JTextField navnBil, fakturaadresseBil, eierPersonNr, regNmr, bilModell, kmÅr,
     					navnBåt, fakturaadresseBåt, personNrBåt, regNmrBåt, båtFot, båtMotor,
-    					husNavn, fakturaadresseHus, husAdresse, husByggeÅr, byggMaterial, m2,
+    					husNavn, fakturaadresseHus, husAdresse, husByggeÅr, m2,
     					fritidNavn, fakturaadresseFritid, fritidAdresse, fritidByggeÅr, m2fritid;
     private JTextArea informationTop;
     private int DATA_FIELD_LENGTH = 20;
@@ -56,35 +51,33 @@ public class ValgAvForsikring extends JFrame
 		vindu = vin;
 		register = vin.getRegister();
 		kunde = kunn;
+		
+		//Oppretter lyttere
 		lytter = new Lytterklasse();
-    	//Vinduets size.
+    	
+		//Setter vinduets
     	setTitle("Tegning av forsikringer");
     	setSize(600,600 );
     	setLocationRelativeTo(null);
+    	
+    	//Skapar panel som panelerna ska läggas in på
         cardPanel = new JPanel(new BorderLayout());
 
-        //Informationen som visas i vinduets topp.
-     	informationTop = new JTextArea("");
-     	informationTop.setLineWrap(true);
-     	informationTop.setWrapStyleWord(true);
-     	informationTop.setEditable(false);
-
-		//Cardlayout for og swappa mellan de olika forsikringarna.
+		//Cardlayout for og swappa mellan de olika forsikringarna
         CardLayout cl = new CardLayout();
         cardPanel.setLayout(cl);
 
-        //Panels for de olika forsikringsalternativen.
+        //Skapar panels for de olika forsikringsalternativen.
         jp1 = new JPanel(new GridLayout(14,1));
         jp2 = new JPanel(new GridLayout(14,1));
         jp3 = new JPanel(new GridLayout(14,1));
         jp4 = new JPanel(new GridLayout(14,1));
 
-		//Bil
-    	//JComboBox<String> bil = new JComboBox<>(bilmerke);
+		//JComboBox for og skapa dropdown inputfelt
     	bil = new JComboBox<>(bilmerke);
-    	//JComboBox<String> reg = new JComboBox<>(regÅr);
     	reg = new JComboBox<>(regÅr);
-
+    	
+    	//JLabels for teksten till bilforsikringens inputfelt
     	navnBilLabel = new JLabel("Navn:");
     	fakturaadresseBilLabel = new JLabel("Fakturaadresse:");
     	eierPersonNrLabel = new JLabel("Fødselsdato(DD-MM-YY-XXXXX):");
@@ -93,14 +86,16 @@ public class ValgAvForsikring extends JFrame
 		bilModellLabel = new JLabel("Modell:");
 		regNmrLabel = new JLabel("Registreringsnummer:");
 		kmÅrLabel = new JLabel("Kjørelengde pr.år i antall km:");
-
+		
+		//Inputfelt för bilforsikring
 		navnBil = new JTextField(DATA_FIELD_LENGTH);
 		fakturaadresseBil = new JTextField(DATA_FIELD_LENGTH);
     	eierPersonNr = new JTextField(DATA_FIELD_LENGTH);
 		regNmr = new JTextField(DATA_FIELD_LENGTH);
 		bilModell= new JTextField(DATA_FIELD_LENGTH);
 		kmÅr = new JTextField(DATA_FIELD_LENGTH);
-
+		
+		//Binder lytter till inputfelten
 		navnBil.addActionListener(lytter);
 		fakturaadresseBil.addActionListener(lytter);
 		eierPersonNr.addActionListener(lytter);
@@ -109,7 +104,8 @@ public class ValgAvForsikring extends JFrame
 		kmÅr.addActionListener(lytter);
      	bil.addActionListener(lytter);
     	reg.addActionListener(lytter);
-
+    	
+    	//Legger till tekstfelt og inputfelt på bilpanelen 
 		jp1.add(navnBilLabel);
 		jp1.add(navnBil);
 		jp1.add(fakturaadresseBilLabel);
@@ -126,12 +122,14 @@ public class ValgAvForsikring extends JFrame
     	jp1.add(regNmr);
     	jp1.add(kmÅrLabel);
     	jp1.add(kmÅr);
-    	//bil.getSelectedItem();
+    	
     	//Båt
+    	//JcomboBox for dropdown input i båtpanelen
     	båt = new JComboBox<>(båtMerke);
     	båtReg = new JComboBox<>(regÅrBåt);
     	båtKapten = new JComboBox<>(båtfører);
-
+    	
+    	//Tekst till inputfelten på båtpanelen
     	navnBåtLabel = new JLabel("Navn:");
     	fakturaadresseBåtLabel = new JLabel("Fakturaadresse:");
     	eierPersonNrBåtLabel = new JLabel("Fødselsdato(DD-MM-YY-XXXXX):");
@@ -141,14 +139,16 @@ public class ValgAvForsikring extends JFrame
     	båtRegLabel = new JLabel("Registreringsnummer:");
     	båtMotorLabel = new JLabel("Motorstyrke HK:");
     	båtførerLabel = new JLabel("Yngste båtførers alder");
-
+    	
+    	//Inputfelt till tekstfelten på båtpanelen
     	navnBåt = new JTextField(DATA_FIELD_LENGTH);
     	fakturaadresseBåt = new JTextField(DATA_FIELD_LENGTH);
     	personNrBåt = new JTextField(DATA_FIELD_LENGTH);
     	regNmrBåt = new JTextField(DATA_FIELD_LENGTH);
     	båtFot = new JTextField(DATA_FIELD_LENGTH);
     	båtMotor = new JTextField(DATA_FIELD_LENGTH);
-
+    	
+    	//Legger in tekstfelt og inputfelt på båtpanelen
     	jp2.add(navnBåtLabel);
     	jp2.add(navnBåt);
     	jp2.add(fakturaadresseBåtLabel);
@@ -169,11 +169,13 @@ public class ValgAvForsikring extends JFrame
     	jp2.add(båtMotor);
 
     	//Hus
+    	//JComboBox for dropdown inputfelten på huspanelen
     	bolig = new JComboBox<>(boligType);
     	materiale = new JComboBox<>(byggemateriale);
     	forsikringssum = new JComboBox<>(innbo);
     	standard1 = new JComboBox<>(s1);
-
+    	
+    	//Teksten till inputfelten
     	navnHusLabel = new JLabel("Navn:");
     	fakturaadresseHusLabel = new JLabel("Fakturaadresse:");
     	husAdresseLabel = new JLabel("Boligens adresse:");
@@ -183,13 +185,15 @@ public class ValgAvForsikring extends JFrame
     	standardHusLabel = new JLabel("Standard:");
     	m2Label = new JLabel("Areal:");
     	innboLabel = new JLabel("Forsikringssum innbo:");
-
+    	
+    	//Inputfelten till JLabel
     	husNavn = new JTextField(DATA_FIELD_LENGTH);
     	fakturaadresseHus = new JTextField(DATA_FIELD_LENGTH);
     	husAdresse = new JTextField(DATA_FIELD_LENGTH);
     	husByggeÅr = new JTextField(DATA_FIELD_LENGTH);
     	m2 = new JTextField(DATA_FIELD_LENGTH);
-
+    	
+    	//Legger in tekst och inputfelt för båt på sin panel
     	jp3.add(navnHusLabel);
     	jp3.add(husNavn);
     	jp3.add(fakturaadresseHusLabel);
@@ -208,18 +212,21 @@ public class ValgAvForsikring extends JFrame
     	jp3.add(m2);
     	jp3.add(innboLabel);
     	jp3.add(forsikringssum);
-
+    	
+    	//Legger in forsikringernas paneler på panelen cardpanel med en siffra för att kunna binda lytter
         cardPanel.add(jp1, "1");
         cardPanel.add(jp2, "2");
         cardPanel.add(jp3, "3");
         cardPanel.add(jp4, "4");
 
         //Fritid
+        //JComboBox for dropdown alternativ till panelen för hytte
         materialeFritid = new JComboBox<>(byggeMaterialeFritid);
         typeFritid = new JComboBox<>(boligTypeFritid);
         standard = new JComboBox<>(s);
         innbo1 = new JComboBox<>(innboFritid);
-
+        
+        //Tekst till inputfelten på hyttepanelen
         fritidNavnLabel = new JLabel("Navn:");
         fakturaadresseFritidLabel = new JLabel("Fakturaadresse:");
         fritidAdresseLabel = new JLabel("Boligens adresse:");
@@ -229,13 +236,15 @@ public class ValgAvForsikring extends JFrame
     	standardLabel = new JLabel("Standard:");
     	m2FritidLabel = new JLabel("Areal");
     	innboFritidLabel = new JLabel("Forsikringssum innbo:");
-
+    	
+    	//Inputfelt till teksten på hyttepanelen
     	fritidNavn = new JTextField(DATA_FIELD_LENGTH);
     	fakturaadresseFritid = new JTextField(DATA_FIELD_LENGTH);
     	fritidAdresse = new JTextField(DATA_FIELD_LENGTH);
     	fritidByggeÅr = new JTextField(DATA_FIELD_LENGTH);
     	m2fritid = new JTextField(DATA_FIELD_LENGTH);
-
+    	
+    	//Legger in tekst og inputfelt på hyttepanelen
     	jp4.add(fritidNavnLabel);
     	jp4.add(fritidNavn);
     	jp4.add(fakturaadresseFritidLabel);
@@ -254,7 +263,8 @@ public class ValgAvForsikring extends JFrame
     	jp4.add(fritidByggeÅr);
     	jp4.add(m2FritidLabel);
     	jp4.add(m2fritid);
-
+    	
+    	//Skapar en panel för att lägga in alla forsikringsknapparna på
         buttonPanel = new JPanel();
         bilKnapp = new JButton("Bil");
         båtKnapp = new JButton("Båt");
@@ -262,27 +272,31 @@ public class ValgAvForsikring extends JFrame
         fritidKnapp = new JButton("Fritid");
         registrer = new JButton("Registrer");
         lukkVindu = new JButton("Lukk");
+        
+        //Legger in lytter på knapparna
         registrer.addActionListener(lytter);
         bilKnapp.addActionListener(lytter);
         båtKnapp.addActionListener(lytter);
         husKnapp.addActionListener(lytter);
         fritidKnapp.addActionListener(lytter);
         lukkVindu.addActionListener(lytter);
-
+        
+        //Legger in knapparna på samma panel
         buttonPanel.add(lukkVindu);
         buttonPanel.add(bilKnapp);
         buttonPanel.add(båtKnapp);
         buttonPanel.add(husKnapp);
         buttonPanel.add(fritidKnapp);
         buttonPanel.add(registrer);
-
-     	getContentPane().add(informationTop, BorderLayout.NORTH);
+        
+        //Setter position till panelerna på cardlayouten
         getContentPane().add(cardPanel, BorderLayout.CENTER);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
 	}
-
-	public void slettFelter()
+    
+    //Kan implementeras om man vill, efter registrering ska den sletta inputfelten.
+	/*public void slettFelter()
 	{
 		navnBil.setText("");
 		fakturaadresseBil.setText("");
@@ -317,14 +331,14 @@ public class ValgAvForsikring extends JFrame
     	materiale.setSelectedIndex(0);
     	standard1.setSelectedIndex(0);
     	forsikringssum.setSelectedIndex(0);
-	}
+	}*/
 
 
-
+  //Tar in informationen som har angets i inputfelten for registrering
 	public void nyForsikringBil()
 	{
 		try{
-			String eiernavn, adresse, personnr, modell,regnr,kå, regexPattern, registrår, merke, kundepersnr;
+			String eiernavn, adresse, personnr, modell,regnr,kå, regexPattern, registrår, merke;
 			int regår, kmårlig;
 			regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 			eiernavn = navnBil.getText();
@@ -335,13 +349,14 @@ public class ValgAvForsikring extends JFrame
 			kå = kmÅr.getText();
 			kmårlig = Integer.valueOf(kmÅr.getText());
 			registrår = reg.getSelectedItem().toString();
-			Object obj = reg.getSelectedItem();
 			regår = Integer.valueOf( registrår);
 			merke = String.valueOf(bil.getSelectedItem());
 			String forsikringsinfo = "Hallo";
 			int beløp = 100;
 			int kategori = 1;
-
+			//kundepersnr = kunde.getKundeNr();
+			
+			//Checkar så att alla felten inputfelten har fyllt ut för bil och personnummer och registrerar forsikringen
 			if(eiernavn.equals("") || adresse.equals("") || modell.equals("") || personnr.equals("") || regnr.equals("") || kå.equals("") || merke.equals("") || registrår.equals("") )
 				informationTop.setText("Alle feltene må fylles ut");
 			else if(!personnr.matches(regexPattern) )
@@ -365,11 +380,13 @@ public class ValgAvForsikring extends JFrame
 			return;
 		}
 	}
+	
+	//Tar in informationen som har angets i inputfelten for registrering
 	public void nyForsikringBåt()
 	{
 		try{
 			String eiernavn, adresse, personnr, regnr, regexPattern, båttype,
-				kundenr, forsikringsinfo, regåret, båtmodell, motortype, yngstebåtfører;
+				forsikringsinfo, regåret, båtmodell, motortype, yngstebåtfører;
 			int båtlengde, båtregistreringsår, motorstyrke;
 			regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 			eiernavn = navnBåt.getText();
@@ -385,10 +402,10 @@ public class ValgAvForsikring extends JFrame
 			forsikringsinfo = "Hallo";
 			int beløp = 100;
 			int kategori = 2;
-			kundenr = kunde.getKundeNr();
 			båtmodell = "Nimbus";
 			motortype = "Bensin";
-
+			
+			//Checkar så att alla felten inputfelten har fyllt ut för båt och personnummer och registrerar forsikringen
 			if(eiernavn.equals("") || adresse.equals("") || personnr.equals("") || regnr.equals("") || båtlengde == 0 || motorstyrke == 0 || båtregistreringsår == 0 || yngstebåtfører.equals("Velg")
 					|| båttype.equals("") )
 				informationTop.setText("Alle feltene må fylles ut");
@@ -412,16 +429,15 @@ public class ValgAvForsikring extends JFrame
 			return;
 		}
 	}
-
+	
+	//Tar in informationen som har angets i inputfelten for registrering
 	public void nyForsikringHus()
 	{
 		try{
-			String eiernavn, adresse, husadresse, boligtype, byggemateriale,
-					standard, regexPattern, kundenr, husår, husm2, verdiinne;
+			String eiernavn, husadresse, boligtype, byggemateriale,
+					standard, husår, husm2, verdiinne;
 			int byggeår, husareal, innboverdi;
-			regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 			eiernavn = husNavn.getText();
-			adresse = fakturaadresseHus.getText();
 			husadresse = husAdresse.getText();
 			husår = husByggeÅr.getText().toString();
 			byggeår = Integer.valueOf(husår);
@@ -435,8 +451,8 @@ public class ValgAvForsikring extends JFrame
 			String forsikringsinfo = "Hallo";
 			int beløpbygg = 100;
 			int kategori = 3;
-			kundenr = kunde.getKundeNr();
-
+			
+			//Checkar så att alla felten inputfelten har fyllt ut för hus och personnummer och registrerar forsikringen
 			if(eiernavn.equals("") || husadresse.equals("") || boligtype.equals("Velg bygningstype") || byggemateriale.equals("Velg byggemateriale") || standard.equals("Velg") || husår.equals("") || husm2.equals("") || verdiinne.equals("Velg forsikringssum") )
 				informationTop.setText("Alle feltene må fylles ut");
 			else
@@ -458,16 +474,15 @@ public class ValgAvForsikring extends JFrame
 			return;
 		}
 	}
-
+	
+	//Tar in informationen som har angets i inputfelten for registrering
 	public void nyForsikringHytte()
 	{
 		try{
-			String eiernavn, adresse, hytteadresse, boligtype, byggemateriale,
-					standarden, regexPattern, kundenr, hytteår, hyttem2, verdiinne;
+			String eiernavn, hytteadresse, boligtype, byggemateriale,
+					standarden, hytteår, hyttem2, verdiinne;
 			int byggeår, hytteareal, innboverdi;
-			regexPattern = "(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])(\\d{7})";
 			eiernavn = fritidNavn.getText();
-			adresse = fakturaadresseHus.getText();
 			hytteadresse = fritidAdresse.getText();
 			hytteår = fritidByggeÅr.getText().toString();
 			byggeår = Integer.valueOf(hytteår);
@@ -481,8 +496,8 @@ public class ValgAvForsikring extends JFrame
 			String forsikringsinfo = "Hallo";
 			int beløpbygg = 100;
 			int kategori = 4;
-			kundenr = kunde.getKundeNr();
-
+			
+			//Checkar så att alla felten inputfelten har fyllt ut för hytte och personnummer och registrerar forsikringen
 			if(eiernavn.equals("") || hytteadresse.equals("") || boligtype.equals("Velg bygningstype") || byggemateriale.equals("Velg byggemateriale")
 			|| standard.equals("Velg") || hytteår.equals("") || hyttem2.equals("") || verdiinne.equals("Velg forsikringssum") )
 				informationTop.setText("Alle feltene må fylles ut");
@@ -505,7 +520,8 @@ public class ValgAvForsikring extends JFrame
 			return;
 		}
 	}
-
+	
+	//Lytterklass for alla knapparna, får tag i forsikringspanelerna med hjelp av siffran de blivit tillgivna
 	private class Lytterklasse implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -526,34 +542,21 @@ public class ValgAvForsikring extends JFrame
 			{
 				cl = (CardLayout) cardPanel.getLayout();
                 cl.show(cardPanel, "1");
-           		informationTop.setText("Bilforsikring");
-                informationTop.revalidate();
-                informationTop.repaint();
 			}
 			else if(e.getSource() == båtKnapp)
             {
             	CardLayout cl = (CardLayout) cardPanel.getLayout();
                 cl.show(cardPanel, "2");
-           		informationTop.setText("Båtforsikring");
-                informationTop.revalidate();
-                informationTop.repaint();
             }
             else if(e.getSource() == husKnapp)
             {
             	CardLayout cl = (CardLayout) cardPanel.getLayout();
                 cl.show(cardPanel, "3");
-           		informationTop.removeAll();
-           		informationTop.setText("Husforsikring");
-                informationTop.revalidate();
-                informationTop.repaint();
             }
             else if(e.getSource() == fritidKnapp)
             {
             	CardLayout cl = (CardLayout) cardPanel.getLayout();
                 cl.show(cardPanel, "4");
-           		informationTop.setText("Fritidforsikring");
-                informationTop.revalidate();
-                informationTop.repaint();
             }
             else if(e.getSource() == lukkVindu)
             	dispose();
