@@ -87,6 +87,11 @@ public abstract class Forsikring implements Serializable	//superklasse
 		return avslutta;
 	}
 
+	public void setAvslutta(Calendar avslutt)
+	{
+		avslutta = avslutt;
+	}
+
 	public boolean erAvslutta()		//sjekker om forsikringen er avsluttet
 	{
 		if(avslutta == null)
@@ -104,7 +109,7 @@ public abstract class Forsikring implements Serializable	//superklasse
 		forsikringsinfo = info;
 	}
 
-	public boolean getAktiv()			//returnerer om forsikringen ennå er aktiv
+	public boolean erAktiv()			//returnerer om forsikringen ennå er aktiv
 	{
 		return aktiv;
 	}
