@@ -1,3 +1,7 @@
+/*Skrevet av Even Nerheim, s199184, sist rediger 20.05.2015
+Registeret for ansatte, søker i registeret og legger til ansatte
+*/
+
 import java.util.*;
 import java.io.Serializable;
 
