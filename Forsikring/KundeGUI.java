@@ -153,7 +153,8 @@ public class KundeGUI extends JPanel
 		cl.setVisible(true);
 	}
 
-	public void nySkademeldingBil()
+	//registrerer ny skademelding på valgt forsikring
+	public void nySkademelding()
 	{
 		try
 		{
@@ -161,62 +162,48 @@ public class KundeGUI extends JPanel
 			if(row == -1)
 				return;
 
-          	BilForsikring bill = register.getBilViaNr( (int)tableModel21.getValueAt(row, TModel.FORSIKRINGS_NR) );
-          	new SkadeMeldingVindu(vindu, kunde, bill, null, null, null);
-        }
-        catch(NoSuchElementException nsee)
-        {
-			JOptionPane.showMessageDialog(null, "NoSuchElementException i nySkademeldingBil-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-	public void nySkademeldingBåt()
-	{
-		try
-		{
-			int row = table22.getSelectedRow();
+			if(!(register.getBilViaNr( (int)tableModel21.getValueAt(row, TModel.FORSIKRINGS_NR) ) == null))
+			{
+				BilForsikring bill = register.getBilViaNr( (int)tableModel21.getValueAt(row, TModel.FORSIKRINGS_NR) );
+				SkadeMeldingVindu bb = new SkadeMeldingVindu(vindu, kunde, bill, null, null, null);
+				bb.setVisible(true);
+				return;
+			}
+			row = table22.getSelectedRow();
 			if(row == -1)
 				return;
 
-          	BåtForsikring bått = register.getBåtViaNr( (int)tableModel22.getValueAt(row, TModel.FORSIKRINGS_NR) );
-          	new SkadeMeldingVindu(vindu, kunde, null, bått, null, null);
-        }
-        catch(NoSuchElementException nsee)
-        {
-			JOptionPane.showMessageDialog(null, "NoSuchElementException i nySkademeldingBåt-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-	public void nySkademeldingHus()
-	{
-		try
-		{
-			int row = table23.getSelectedRow();
+			else if(!(register.getBåtViaNr( (int)tableModel22.getValueAt(row, TModel.FORSIKRINGS_NR) ) == null))
+			{
+				BåtForsikring bått = register.getBåtViaNr( (int)tableModel22.getValueAt(row, TModel.FORSIKRINGS_NR) );
+				new SkadeMeldingVindu(vindu, kunde, null, bått, null, null);
+			}
+			row = table23.getSelectedRow();
 			if(row == -1)
 				return;
 
-          	HusForsikring huss = register.getHusViaNr( (int)tableModel23.getValueAt(row, TModel.FORSIKRINGS_NR) );
-          	new SkadeMeldingVindu(vindu, kunde, null, null, huss, null);
-        }
-        catch(NoSuchElementException nsee)
-        {
-			JOptionPane.showMessageDialog(null, "NoSuchElementException i nySkademeldingHus-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-	public void nySkademeldingHytte()
-	{
-		try
-		{
-			int row = table24.getSelectedRow();
+			else if(!(register.getHusViaNr( (int)tableModel23.getValueAt(row, TModel.FORSIKRINGS_NR) ) == null))
+			{
+				HusForsikring huss = register.getHusViaNr( (int)tableModel23.getValueAt(row, TModel.FORSIKRINGS_NR) );
+				new SkadeMeldingVindu(vindu, kunde, null, null, huss, null);
+			}
+			row = table24.getSelectedRow();
 			if(row == -1)
 				return;
 
-          	HytteForsikring hyttt = register.getHytteViaNr( (int)tableModel24.getValueAt(row, TModel.FORSIKRINGS_NR) );
-          	new SkadeMeldingVindu(vindu, kunde, null, null, null, hyttt);
-        }
-        catch(NoSuchElementException nsee)
-        {
-			JOptionPane.showMessageDialog(null, "NoSuchElementException i nySkademeldingBil-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
+			else if(!(register.getHytteViaNr( (int)tableModel24.getValueAt(row, TModel.FORSIKRINGS_NR) ) == null))
+			{
+				HytteForsikring hyttt = register.getHytteViaNr( (int)tableModel24.getValueAt(row, TModel.FORSIKRINGS_NR) );
+				new SkadeMeldingVindu(vindu, kunde, null, null, null, hyttt);
+			}
+
+		}
+		catch(NoSuchElementException nsee)
+		{
+			JOptionPane.showMessageDialog(null, "NoSuchElementException i deaktiverBruker-metoden", "FEIL", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
 
 	//Metode for og deaktivera forsikring
 	public void deaktiverF()
@@ -307,28 +294,10 @@ public class KundeGUI extends JPanel
 				nyForsikring();
 			else if(e.getSource() == regSkademelding)
 			{
-				if(tabbedPane2.getSelectedIndex() == 0)
-					nySkademeldingBil();
-				else if(tabbedPane2.getSelectedIndex() == 1)
-					nySkademeldingBåt();
-				else if(tabbedPane2.getSelectedIndex() == 2)
-					nySkademeldingHus();
-				else if(tabbedPane2.getSelectedIndex() == 3)
-					nySkademeldingHytte();
+				nySkademelding();
 			}
 			else if(e.getSource() == deaktiverF)
 				deaktiverF();
-			/*else if(e.getSource() == visSkademelding)
-			{
-				if(tabbedPane2.getSelectedIndex() == 0)
-					seSkademeldingBil();
-				else if(tabbedPane2.getSelectedIndex() == 1)
-					seSkademeldingBåt();
-				else if(tabbedPane2.getSelectedIndex() == 2)
-					seSkademeldingHus();
-				else if(tabbedPane2.getSelectedIndex() == 3)
-					seSkademeldingHytte();
-			}*/
 		}
 	}
 }
