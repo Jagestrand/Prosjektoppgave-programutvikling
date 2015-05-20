@@ -258,9 +258,9 @@ public class AnsattVindu extends JPanel
 
 
 		skademeldingsNr = new JTextField(DATA_FIELD_LENGTH);
-		skadeDato = new JFormattedTextField(new SimpleDateFormat("dd.MM.yyyy"));
-		førDato = new JFormattedTextField(new SimpleDateFormat("dd.MM.yyyy"));
-		etterDato = new JFormattedTextField(new SimpleDateFormat("dd.MM.yyyy"));
+		//skadeDato = new JFormattedTextField(new SimpleDateFormat("dd.MM.yyyy"));
+		//førDato = new JFormattedTextField(new SimpleDateFormat("dd.MM.yyyy"));
+		//etterDato = new JFormattedTextField(new SimpleDateFormat("dd.MM.yyyy"));
 		skadeType = new JTextField(DATA_FIELD_LENGTH);
 		skadeAdresse = new JTextField(DATA_FIELD_LENGTH);
 		utbetaltBeløp = new JTextField(DATA_FIELD_LENGTH);
@@ -275,9 +275,9 @@ public class AnsattVindu extends JPanel
 		skadeStatusLabel = new JLabel("Skademelding status:");
 
 		skademeldingsNr.addActionListener(lytter);
-		skadeDato.addActionListener(lytter);
-		førDato.addActionListener(lytter);
-		etterDato.addActionListener(lytter);
+		//skadeDato.addActionListener(lytter);
+		//førDato.addActionListener(lytter);
+		//etterDato.addActionListener(lytter);
 		skadeType.addActionListener(lytter);
 		utbetaltBeløp.addActionListener(lytter);
 		skadeStatus.addActionListener(lytter);
@@ -300,10 +300,10 @@ public class AnsattVindu extends JPanel
 		searchGrid.add(kundPostnr);
 		searchGrid.add(kundPostbyLabel);
 		searchGrid.add(kundPostby);
-		searchGrid.add(førDatoLabel);
-		searchGrid.add(førDato);
-		searchGrid.add(etterDatoLabel);
-		searchGrid.add(etterDato);
+		//searchGrid.add(førDatoLabel);
+		//searchGrid.add(førDato);
+		//searchGrid.add(etterDatoLabel);
+		//searchGrid.add(etterDato);
 		searchGrid.add(søkKnapp);
 		searchGrid.add(statKnapp);
 		visForsikringFlow.add(visForsikringKnapp);
@@ -402,7 +402,7 @@ public class AnsattVindu extends JPanel
 		          	}
 		        }
 		      }
-		};¨
+		};
 		//setter tabellene responsive til klikking
 		table.addMouseListener(mouseListener);
 		table21.addMouseListener(mouseListener);
@@ -778,10 +778,10 @@ public class AnsattVindu extends JPanel
 		searchGrid.add(kundPostnr);
 		searchGrid.add(kundPostbyLabel);
 		searchGrid.add(kundPostby);
-		searchGrid.add(førDatoLabel);
-		searchGrid.add(førDato);
-		searchGrid.add(etterDatoLabel);
-		searchGrid.add(etterDato);
+		//searchGrid.add(førDatoLabel);
+		//searchGrid.add(førDato);
+		//searchGrid.add(etterDatoLabel);
+		//searchGrid.add(etterDato);
 		searchGrid.add(søkKnapp);
 		searchGrid.add(statKnapp);
 		byttTab();
@@ -815,10 +815,10 @@ public class AnsattVindu extends JPanel
 		searchGrid.add(skadeAdresse);
 		searchGrid.add(skadeStatusLabel);
 		searchGrid.add(skadeStatus);
-		searchGrid.add(førDatoLabel);
-		searchGrid.add(førDato);
-		searchGrid.add(etterDatoLabel);
-		searchGrid.add(etterDato);
+		//searchGrid.add(førDatoLabel);
+		//searchGrid.add(førDato);
+		//searchGrid.add(etterDatoLabel);
+		//searchGrid.add(etterDato);
 		searchGrid.add(utbetaltBeløpLabel);
 		searchGrid.add(utbetaltBeløp);
 		searchGrid.add(søkKnapp);
@@ -971,9 +971,9 @@ public class AnsattVindu extends JPanel
 		skadeAdresse.setText("");
 		utbetaltBeløp.setText("");
 		skadeStatus.setText("");
-		skadeDato.setText("");
-		førDato.setText("");
-		etterDato.setText("");
+		//skadeDato.setText("");
+		//førDato.setText("");
+		//etterDato.setText("");
 	}
 
 
@@ -998,10 +998,10 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(bilModell);
 				searchGrid.add(bilRegÅrLabel);
 				searchGrid.add(bilRegÅr);
-				searchGrid.add(førDatoLabel);
-				searchGrid.add(førDato);
-				searchGrid.add(etterDatoLabel);
-				searchGrid.add(etterDato);
+				//searchGrid.add(førDatoLabel);
+				//searchGrid.add(førDato);
+				//searchGrid.add(etterDatoLabel);
+				//searchGrid.add(etterDato);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(lagreKnapp);
 				searchGrid.add(statKnapp);
@@ -1029,10 +1029,10 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(båtÅr);
 				searchGrid.add(båtMotorLabel);
 				searchGrid.add(båtMotor);
-				searchGrid.add(førDatoLabel);
-				searchGrid.add(førDato);
-				searchGrid.add(etterDatoLabel);
-				searchGrid.add(etterDato);
+				//searchGrid.add(førDatoLabel);
+				//searchGrid.add(førDato);
+				//searchGrid.add(etterDatoLabel);
+				//searchGrid.add(etterDato);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
 				byttTab();
@@ -1059,10 +1059,10 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(byggBeløp);
 				searchGrid.add(innboBeløpLabel);
 				searchGrid.add(innboBeløp);
-				searchGrid.add(førDatoLabel);
-				searchGrid.add(førDato);
-				searchGrid.add(etterDatoLabel);
-				searchGrid.add(etterDato);
+				//searchGrid.add(førDatoLabel);
+				//searchGrid.add(førDato);
+				//searchGrid.add(etterDatoLabel);
+				//searchGrid.add(etterDato);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
 				byttTab();
@@ -1089,10 +1089,10 @@ public class AnsattVindu extends JPanel
 				searchGrid.add(byggBeløp);
 				searchGrid.add(innboBeløpLabel);
 				searchGrid.add(innboBeløp);
-				searchGrid.add(førDatoLabel);
-				searchGrid.add(førDato);
-				searchGrid.add(etterDatoLabel);
-				searchGrid.add(etterDato);
+				//searchGrid.add(førDatoLabel);
+				//searchGrid.add(førDato);
+				//searchGrid.add(etterDatoLabel);
+				//searchGrid.add(etterDato);
 				searchGrid.add(søkKnapp);
 				searchGrid.add(statKnapp);
 				byttTab();
@@ -1128,39 +1128,35 @@ public class AnsattVindu extends JPanel
 		{
 			if( e.getSource() == søkKnapp || e.getSource() == kundNr || e.getSource() == kundNavn
 			|| e.getSource() == kundTelefon || e.getSource() == kundAdresse || e.getSource() == kundPersonnr
-			|| e.getSource() == kundPostnr || e.getSource() == kundPostby || e.getSource() == førDato
-			|| e.getSource() == etterDato )
+			|| e.getSource() == kundPostnr || e.getSource() == kundPostby)
 			{
 				if(tabbedPane.getSelectedIndex() == 0)
 					søkKunde();
 			}
 			else if(e.getSource() == søkKnapp || e.getSource() == skademeldingsNr || e.getSource() == kundNr
 			 || e.getSource() == skadeType || e.getSource() == skadeAdresse || e.getSource() == skadeStatus
-			 || e.getSource() == førDato || e.getSource() == etterDato || e.getSource() == utbetaltBeløp)
+			 || e.getSource() == utbetaltBeløp)
 			 {
 				 if(tabbedPane.getSelectedIndex() == 2)
 				 	søkSkade();
 			 }
 			else if(e.getSource() == søkKnapp || e.getSource() == bilforsikringsnr || e.getSource() == eier
 			|| e.getSource() == forsikringBeløp || e.getSource() == bilregNr || e.getSource() == bilType
-			|| e.getSource() == bilModell || e.getSource() == bilRegÅr || e.getSource() == førDato
-			|| e.getSource() == etterDato)
+			|| e.getSource() == bilModell || e.getSource() == bilRegÅr)
 			{
 				if(tabbedPane2.getSelectedIndex() == 0)
 					søkBil();
 			}
 			else if(e.getSource() == søkKnapp || e.getSource() == båtforsikringsnr || e.getSource() == eier
 			|| e.getSource() == forsikringBeløp || e.getSource() == båtregNr || e.getSource() == båtType
-			|| e.getSource() == båtModell || e.getSource() == båtÅr || e.getSource() == båtMotor
-			|| e.getSource() == førDato || e.getSource() == etterDato)
+			|| e.getSource() == båtModell || e.getSource() == båtÅr || e.getSource() == båtMotor)
 			{
 				if(tabbedPane2.getSelectedIndex() == 1)
 					søkBåt();
 			}
 			else if(e.getSource() == søkKnapp || e.getSource() == husforsikringsnr || e.getSource() == totalbeløp
 			|| e.getSource() == adresse || e.getSource() == byggeÅr || e.getSource() == husType
-			|| e.getSource() == husMateriale || e.getSource() == byggBeløp || e.getSource() == innboBeløp
-			|| e.getSource() == førDato || e.getSource() == etterDato)
+			|| e.getSource() == husMateriale || e.getSource() == byggBeløp || e.getSource() == innboBeløp)
 			{
 				if(tabbedPane2.getSelectedIndex() == 2)
 					søkHus();
@@ -1168,7 +1164,7 @@ public class AnsattVindu extends JPanel
 			else if(e.getSource() == søkKnapp || e.getSource() == hytteforsikringsnr || e.getSource() == totalbeløp
 			|| e.getSource() == adresse || e.getSource() == byggeÅr || e.getSource() == hytteType
 			|| e.getSource() == hytteMateriale || e.getSource() == byggBeløp
-			|| e.getSource() == innboBeløp || e.getSource() == førDato || e.getSource() == etterDato)
+			|| e.getSource() == innboBeløp)
 			{
 				if(tabbedPane2.getSelectedIndex() == 3)
 					søkHytte();
