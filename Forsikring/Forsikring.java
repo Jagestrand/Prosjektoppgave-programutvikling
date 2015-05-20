@@ -1,8 +1,12 @@
+/*Skrevet av Even Nerheim, s199184, og William Jagestrand, s9, sist redigert 19.05.2015
+Klassen har alle metoder for å finne, lagre og forandre informasjon om forsikringer
+av forskjellige typer
+*/
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Calendar;
 
-public abstract class Forsikring implements Serializable
+public abstract class Forsikring implements Serializable	//superklasse
 {
 
 	private static final long serialVersionUID = 42L;
@@ -18,7 +22,7 @@ public abstract class Forsikring implements Serializable
 	private int hjelpenr, kategori;
 	private boolean aktiv;
 
-	public Forsikring(Kunde kun, String info, int kat)
+	public Forsikring(Kunde kun, String info, int kat)	//superkonstruktør
 	{
 		kunde = kun;
 		forsikringsinfo = info;
@@ -26,10 +30,10 @@ public abstract class Forsikring implements Serializable
 		setForsikringsNr(kat);
 		aktiv = true;
 		inngått = Calendar.getInstance();
-		skadeliste = new SkademeldingReg();
+		skadeliste = new SkademeldingReg();		//liste for skademeldinger for alle forsikringer
 	}
 
-	public void setForsikringsNr(int kat)
+	public void setForsikringsNr(int kat)	//gir riktig forsikringsnr etter type fosikring
 	{
 		if(kat == TYPE_BIL)
 		{
@@ -58,7 +62,7 @@ public abstract class Forsikring implements Serializable
 		return kunde.getPersonNr();
 	}
 
-	public Kunde getKunde()
+	public Kunde getKunde()		//returnerer kunden
 	{
 		return kunde;
 	}
@@ -68,22 +72,22 @@ public abstract class Forsikring implements Serializable
 		return hjelpenr;
 	}
 
-	public String getForsikringsinfo()
+	public String getForsikringsinfo()		//returnerer ekstra forsikringsinformasjon
 	{
 		return forsikringsinfo;
 	}
 
-	public Calendar getInngått()
+	public Calendar getInngått()		//returnerer når forsikringen startet
 	{
 		return inngått;
 	}
 
-	public Calendar getAvslutta()
+	public Calendar getAvslutta()		//returnerer når forsikringen ble avsluttet
 	{
 		return avslutta;
 	}
 
-	public boolean erAvslutta()
+	public boolean erAvslutta()		//sjekker om forsikringen er avsluttet
 	{
 		if(avslutta == null)
 			return false;
@@ -100,7 +104,7 @@ public abstract class Forsikring implements Serializable
 		forsikringsinfo = info;
 	}
 
-	public boolean getAktiv()
+	public boolean getAktiv()			//returnerer om forsikringen ennå er aktiv
 	{
 		return aktiv;
 	}
@@ -113,22 +117,22 @@ public abstract class Forsikring implements Serializable
 			return nei;
 	}
 
-	public void setAktiv(boolean ok)
+	public void setAktiv(boolean ok)		//setter forsikringen til inaktiv
 	{
 		aktiv = ok;
 	}
-	public void nySkade(Skademelding skad)
+	public void nySkade(Skademelding skad)	//registrerer ny skademelding på forsikringen
 	{
 		skadeliste.add(skad);
 	}
 
-	public SkademeldingReg getSkader()
+	public SkademeldingReg getSkader()		//returnerer alle skader på forsikringen
 	{
 		return skadeliste;
 	}
 
 }
-class BilForsikring extends Forsikring implements Serializable
+class BilForsikring extends Forsikring implements Serializable	//bilforsikring
 {
 	public static final int TYPE_BIL = 1, TYPE_BÅT = 2, TYPE_HUS = 3, TYPE_HYTTE = 4, TYPE_INNBO1 = 5, TYPE_INNBO2 = 6;
 	private static int nyNr, bilnr = 30000, båtnr = 40000, husnr = 50000, hytnr = 60000;
@@ -157,10 +161,10 @@ class BilForsikring extends Forsikring implements Serializable
 		forsikringsbeløp = fobeløp;
 		hjelpenr = nestenr;
 		nestenr++;
-		bonus = 0;
+		bonus = 0;				//setter bilbonus lik 0 fra start
 	}
 
-	public int bilTypeBeløp()
+	public int bilTypeBeløp()		//setter noe av forsikringsbeløpet etter bilmerke
 	{
 		if(type.equals("Volvo"))
 			return 1000;
@@ -185,7 +189,7 @@ class BilForsikring extends Forsikring implements Serializable
 		else
 			return 1000;
 	}
-	public int regÅrBeløp()
+	public int regÅrBeløp()			//setter noe av forsikringsbeløpet etter registreringsåret til bilen
 	{
 		int beløp = 0;
 		if(registreringsår == 1993 )
@@ -674,7 +678,7 @@ class BilForsikring extends Forsikring implements Serializable
 		return beløp;
 	}
 
-	public int sumBeløpBil()
+	public int sumBeløpBil()		//summerer sammen forsikringsbeløpet for bilen
 	{
 	    int beløp = regÅrBeløp() + bilTypeBeløp();
 	    return beløp;
@@ -685,7 +689,7 @@ class BilForsikring extends Forsikring implements Serializable
 		return sumBeløpBil();
 	}
 
-	public String getEiernavn()
+	public String getEiernavn()			//returnerer navnet på registrerte eier av bilen
 	{
 		return eiernavn;
 	}
@@ -695,7 +699,7 @@ class BilForsikring extends Forsikring implements Serializable
 		eiernavn = eier;
 	}
 
-	public String getRegistreringsnr()
+	public String getRegistreringsnr()		//bilens registreringsnr
 	{
 		return registreringsnr;
 	}
@@ -705,7 +709,7 @@ class BilForsikring extends Forsikring implements Serializable
 		registreringsnr = regnr;
 	}
 
-	public String getType()
+	public String getType()			//bilens merke
 	{
 		return type;
 	}
@@ -735,7 +739,7 @@ class BilForsikring extends Forsikring implements Serializable
 		registreringsår = regår;
 	}
 
-	public int getKjørelengde()
+	public int getKjørelengde()			//bilens årlige kjørelengde
 	{
 		return kjørelengde;
 	}
@@ -745,7 +749,7 @@ class BilForsikring extends Forsikring implements Serializable
 		kjørelengde = lengde;
 	}
 
-	public int getPrisPrKm()
+	public int getPrisPrKm()			//pris per km for bilen (denne ble ikke gjort noe med)
 	{
 		return prisPrKm;
 	}
@@ -770,18 +774,18 @@ class BilForsikring extends Forsikring implements Serializable
 		return bonus;
 	}
 
-	public void setBonus(int b)
+	public void setBonus(int b)			//forandrer på bilens bonus
 	{
 		bonus = b;
 	}
 
 
-	public static int getNrNå()
+	public static int getNrNå()		//for skriving til/fra fil
 	{
 		return nestenr;
 	}
 
-	public static void setNrNå(int nr)
+	public static void setNrNå(int nr)		//for skriving til/fra fil
 	{
 		if(nr>nestenr)
 			nestenr = nr;
@@ -803,7 +807,7 @@ class BilForsikring extends Forsikring implements Serializable
 
 }
 
-class BåtForsikring extends Forsikring implements Serializable
+class BåtForsikring extends Forsikring implements Serializable	//båtforsikring
 {
 	static final long serialVersionUID = 42L;
 	private String eiernavn, registreringsnr, båttype, modell, båtfornr, motortype, alder;
@@ -829,7 +833,7 @@ class BåtForsikring extends Forsikring implements Serializable
 		alder = al;
 	}
 
-	public int regÅrBeløp()
+	public int regÅrBeløp()		//beregner forsikringsbeløp etter båtens alder
 	{
 		if(årsmodell == 1993)
 			return 2650;
@@ -879,7 +883,7 @@ class BåtForsikring extends Forsikring implements Serializable
 			return 450;
 	}
 
-	public int båtTypeBeløp()
+	public int båtTypeBeløp()		//beregner båtens forsikringssum etter type båt
 	{
 		if(båttype.equals("Seilbåt"))
 			return 1500;
@@ -891,7 +895,7 @@ class BåtForsikring extends Forsikring implements Serializable
 			return 500;
 	}
 
-	public int alderBeløp()
+	public int alderBeløp()					//beregner forsikringssum etter alder på yngste båtfører
 	{
 		if(alder.equals("Båtfører < 23 år"))
 			return 3000;
@@ -901,7 +905,7 @@ class BåtForsikring extends Forsikring implements Serializable
 			return 2000;
 	}
 
-	public int sumBeløpBåt()
+	public int sumBeløpBåt()			//summerer sammen forsikringsbeløpet til båten
 	{
 	    int beløp = regÅrBeløp() + båtTypeBeløp() + alderBeløp();
 	    	return beløp;
@@ -913,7 +917,7 @@ class BåtForsikring extends Forsikring implements Serializable
 		return forsikringsbeløp;
 	}
 
-	public String getEiernavn()
+	public String getEiernavn()			//registrert eier av båten
 	{
 		return eiernavn;
 	}
@@ -923,7 +927,7 @@ class BåtForsikring extends Forsikring implements Serializable
 		eiernavn = eier;
 	}
 
-	public String getRegistreringsnr()
+	public String getRegistreringsnr()		//båtens registreringsnr
 	{
 		return registreringsnr;
 	}
@@ -963,7 +967,7 @@ class BåtForsikring extends Forsikring implements Serializable
 		årsmodell = modellår;
 	}
 
-	public int getBåtlengde()
+	public int getBåtlengde()			//lengde på båten
 	{
 		return båtlengde;
 	}
@@ -983,7 +987,7 @@ class BåtForsikring extends Forsikring implements Serializable
 		motortype = motortyp;
 	}
 
-	public int getMotorstyrke()
+	public int getMotorstyrke()		//hvor sterk motoren er
 	{
 		return motorstyrke;
 	}
@@ -1003,12 +1007,12 @@ class BåtForsikring extends Forsikring implements Serializable
 		return hjelpenr;
 	}
 
-	public boolean getAktiv()
+	public boolean getAktiv()		//returnerer om forsikringen ennå er aktiv
 	{
 		return aktiv;
 	}
 
-	public String getErAktiv()
+	public String getErAktiv()		//sjekker om forsikringen er avsluttet
 	{
 		if(aktiv)
 			return ja;
@@ -1021,12 +1025,12 @@ class BåtForsikring extends Forsikring implements Serializable
 		aktiv = ok;
 	}
 
-	public static int getNrNå()
+	public static int getNrNå()		//for skriving til/fra fil
 	{
 		return nestenr;
 	}
 
-	public static void setNrNå(int nr)
+	public static void setNrNå(int nr)		//for skriving til/fra fil
 	{
 		if(nr>nestenr)
 			nestenr = nr;
@@ -1044,7 +1048,7 @@ class BåtForsikring extends Forsikring implements Serializable
 }//slutt på klasse BåtForsikring
 
 
-class HusForsikring extends Forsikring implements Serializable
+class HusForsikring extends Forsikring implements Serializable //husforsikring
 {
 	static final long serialVersionUID = 42L;
 	private String husfornr, adresse, boligtype, byggemateriale, standard;
@@ -1068,7 +1072,7 @@ class HusForsikring extends Forsikring implements Serializable
 		aktiv = true;
 	}
 
-	public int byggeårBeløp()
+	public int byggeårBeløp()			//beregner forsikringsbeløp etter byggeåret til huset
 	{
 		if(byggeår >= 2010 && byggeår < 2016)
 			return 200;
@@ -1098,7 +1102,7 @@ class HusForsikring extends Forsikring implements Serializable
 			return 440;
 	}
 
-	public int byggematerialeBeløp()
+	public int byggematerialeBeløp()		//beregner forsikringsbeløp etter husets byggemateriale
 	{
 		if(byggemateriale.equals("Mur"))
 			return 200;
@@ -1110,7 +1114,7 @@ class HusForsikring extends Forsikring implements Serializable
 			return 500;
 	}
 
-	public int standardBeløp()
+	public int standardBeløp()		//beregner forsikringsbeløp etter husets standard
 	{
 		if(standard.equals("Normal standard"))
 			return 220;
@@ -1120,7 +1124,7 @@ class HusForsikring extends Forsikring implements Serializable
 			return 620;
 	}
 
-	public int boligtypeBeløp()
+	public int boligtypeBeløp()		//beregner beløp etter boligtypen
 	{
 		if(boligtype.equals("Enebolig"))
 			return 300;
@@ -1134,7 +1138,7 @@ class HusForsikring extends Forsikring implements Serializable
 			return 50;
 	}
 
-	public int kvadratmeterBeløp()
+	public int kvadratmeterBeløp()		//beregner beløp etter husets størrelse
 	{
 		if(kvadratmeter <= 24)
 			return 250;
@@ -1184,7 +1188,7 @@ class HusForsikring extends Forsikring implements Serializable
 			return 12000;
 	}
 
-	public int beløpInnBeløp()
+	public int beløpInnBeløp()			//beregner beløp for innbo
 	{
 		if(beløpInn == 150000 )
 			return 150;
@@ -1204,7 +1208,7 @@ class HusForsikring extends Forsikring implements Serializable
 			return 1200;
 	}
 
-	public int sumBeløpHus()
+	public int sumBeløpHus()		//summerer sammen forsikringsbeløpet
 	{
 	    int beløp = byggeårBeløp() + byggematerialeBeløp() + standardBeløp() + boligtypeBeløp() + kvadratmeterBeløp() + beløpInnBeløp();
 	    	return beløp;
@@ -1325,12 +1329,12 @@ class HusForsikring extends Forsikring implements Serializable
 		aktiv = ok;
 	}
 
-	public static int getNrNå()
+	public static int getNrNå()		//for skriving til/fra fil
 	{
 		return nestenr;
 	}
 
-	public static void setNrNå(int nr)
+	public static void setNrNå(int nr)		//for skriving til/fra fil
 	{
 		if(nr>nestenr)
 			nestenr = nr;
@@ -1348,7 +1352,7 @@ class HusForsikring extends Forsikring implements Serializable
 }//slutt på klasse HusForsikring
 
 
-class HytteForsikring extends Forsikring implements Serializable
+class HytteForsikring extends Forsikring implements Serializable	//fritidsforsikring
 {
 	static final long serialVersionUID = 42L;
 	private String hyttefornr, adresse, boligtype, byggemateriale, standard;
@@ -1371,6 +1375,8 @@ class HytteForsikring extends Forsikring implements Serializable
 		nestenr++;
 		aktiv = true;
 	}
+
+//Beregner forsikringsbeløpet etter fritidsboligens faktorer:
 
 	public int byggematerialeBeløp()
 	{
@@ -1508,7 +1514,9 @@ class HytteForsikring extends Forsikring implements Serializable
 			return 440;
 	}
 
-	public int sumBeløpHytte()
+//slutt på beregning av forsikringsbeløp
+
+	public int sumBeløpHytte()	//summerer sammen forsikringsbeløp for fritidsbolig
 	{
 	    int beløp = standardBeløp() + boligtypeBeløp() + byggematerialeBeløp() + kvadratmeterBeløp() + beløpInnBeløp() + byggeårBeløp();
 	    	return beløp;
@@ -1628,12 +1636,12 @@ class HytteForsikring extends Forsikring implements Serializable
 		aktiv = ok;
 	}
 
-	public static int getNrNå()
+	public static int getNrNå()		//for skriving til/fra fil
 	{
 		return nestenr;
 	}
 
-	public static void setNrNå(int nr)
+	public static void setNrNå(int nr)		//for skriving til/fra fil
 	{
 		if(nr>nestenr)
 			nestenr = nr;
