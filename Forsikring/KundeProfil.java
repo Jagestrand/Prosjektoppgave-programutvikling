@@ -1,3 +1,7 @@
+/*Skrevet av Even Nerheim, s199184, sist rediger 19.05.2015
+Et vindu for informasjon om enkeltkunden som både kunden, ansatt og admin kan se og redigere på
+*/
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
@@ -27,6 +31,7 @@ public class KundeProfil extends JFrame
         font2 = new Font("SansSerif", Font.BOLD, 15);
         errorfont = new Font("SansSerif", Font.BOLD, 30);
 
+		//lite knappepanel på toppen
         editPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         rediger = new JButton("Rediger");
         rediger.setFont(font2);
@@ -58,7 +63,7 @@ public class KundeProfil extends JFrame
         c.setLayout(layout);
         c.setBackground(Color.white);
 
-		//bilde = new JPanel(new ImageIcon( getClass().getResource("bilder/" + dyrenavn[dyrevelger.getSelectedIndex()] + ".gif")));
+		//selve profilen:
         bilde = new JLabel(new ImageIcon( getClass().getResource("bilder/bilde.png")));
 		bildePanel = new JPanel(new BorderLayout());
 		bildePanel.add(bilde, BorderLayout.PAGE_START);
@@ -145,16 +150,13 @@ public class KundeProfil extends JFrame
         profilen = new JPanel(new BorderLayout(10,10));
         profilen.setPreferredSize(new Dimension(200, 550));
         profilen.setMaximumSize(new Dimension(200, 550));
-        //profilen.add(bildePanel, BorderLayout.WEST);
-        //profilen.add(endaPanel, BorderLayout.WEST);
         profilen.add(bildePanel, BorderLayout.PAGE_START);
         profilen.add(info, BorderLayout.CENTER);
-        //profilen.setBackground(Color.white);
 
-        //c.add(profilen, BorderLayout.CENTER);
         flyt = new JPanel( new FlowLayout(FlowLayout.CENTER));
-        if(!kunde.getAktiv())
-        {
+
+        if(!kunde.getAktiv())			//hvis kunden ikke er kunde lenger vil det stå på toppen av profilen
+        {								// og profilen kan ikke lenger redigeres
 			knappePanel.removeAll();
 			knappePanel.add(aktiverPanel, BorderLayout.CENTER);
 			flyt.add(deaktivLabel, BorderLayout.PAGE_START);
@@ -170,25 +172,13 @@ public class KundeProfil extends JFrame
         setVisible(true);
 
     }
-    private void setDimensjon()
+    private void setDimensjon()					//setter størrelse på vinduet
     {
-        /*Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize();
-        int høyde = screenSize.height;
-        int bredde = screenSize.width;
-        double hReduction = 0.40, vReduction = 0.30;
-        setSize((int)(bredde*vReduction), (int)(høyde*hReduction) );*/
         int høyde = 650, bredde = 400;
         setSize(bredde, høyde);
     }
 
-    /*public void byttLabels(JLabel l1, JLabel l2)
-    {
-		l1.setVisible(false);
-		l2.setVisible(true);
-	}*/
-
-    public void redigerProfil()
+    public void redigerProfil()					//setter inn textfield for å redigere informajson
     {
 		rediger.setEnabled(false);
         lagre.setEnabled(true);
@@ -212,7 +202,7 @@ public class KundeProfil extends JFrame
 		info.repaint();
     }
 
-    public void lagreProfil()
+    public void lagreProfil()			//lagrer informasjonen skrevet i feltene og henter de fram
     {
 		kunde.setFornavn(fnavn.getText());
 		kunde.setEtternavn(enavn.getText());
@@ -253,7 +243,7 @@ public class KundeProfil extends JFrame
 		info.repaint();
 	}
 
-	public void aktiverBruker()
+	public void aktiverBruker()					//metode for å reaktivere en bruker
 	{
 		kunde.setAktiv(true);
 		knappePanel.remove(aktiverPanel);
@@ -266,7 +256,7 @@ public class KundeProfil extends JFrame
 		flyt.repaint();
 	}
 
-    private class MainListener implements ActionListener
+    private class MainListener implements ActionListener		//lytter til bruk av knapper
     {
         public void actionPerformed(ActionEvent e)
         {
@@ -279,7 +269,7 @@ public class KundeProfil extends JFrame
         }
     }
 
-    private class WinListener extends WindowAdapter
+    private class WinListener extends WindowAdapter		//lagrer data når vinduet lukkes
     {
         public void windowClosing(WindowEvent e)
         {
