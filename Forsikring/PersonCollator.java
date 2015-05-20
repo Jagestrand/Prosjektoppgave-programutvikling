@@ -1,3 +1,8 @@
+/*
+Skrevet av Even Nerheim, s199184, sist redigert 19.05.2015
+Sorterer personer etter navn og sjekker at ingen blir lagret to ganger
+*/
+
 import java.util.*;
 import java.io.Serializable;
 import java.text.*;
