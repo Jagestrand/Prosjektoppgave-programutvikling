@@ -8,23 +8,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import javax.swing.*;
+import java.io.*;
 import java.text.*;
 import java.util.*;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 public class SkadeMeldingVindu extends JFrame
  {
-    private JPanel cardPanel, p,  jp1, jp2, jp3, jp4, bildGrid, buttonPanelBott;
+    private JPanel cardPanel, infoPanel,  jp1, jp2, jp3, jp4, buttonPanelBott;
     private JScrollPane scrollPane;
     private JPanel panel;
     private Huvudvindu vindu;
     private Kunde kunde;
-    private JButton b1, b2, b3;
-    private JLabel lab, lab2;
+    private BilForsikring bil1;
+    private BåtForsikring båt1;
+    private HusForsikring hus1;
+    private HytteForsikring hyt1;
     private Lytterklasse Lytter;
     private Register register;
     private JTextArea informationTop;
@@ -33,17 +31,18 @@ public class SkadeMeldingVindu extends JFrame
     private CardLayout sm;
 
 
-    // Her legges teksfel inn for Bil, Båt, Hus, Fritid)
-    private JTextField   skadeStedBil, taksbelopBil, skadeTypeBil,beskrivSkadeBil, navnBil, telefonBil,
+    // Her legges JTextfield feltene inn (Bil, Båt, Hus, Fritid)
+    private JTextField  skadeStedBil, taksbelopBil, skadeTypeBil,beskrivSkadeBil, navnBil, telefonBil,
 						 skadeStedBåt,taksbelopBåt, adresseBåt, skadeTypeBåt, beskrivBåt,
     					 adresseHus, skadeTypeHus, beskrivHus, taksbelopHus,
     					 adresseFritid, skadeTypeFritid, beskrivFritid, taksbelopFritid;
 
-
     //Labels for skademelding felter
     private int DATA_FIELD_LENGTH = 15, BIL_KAT = 1, BÅT_KAT = 2, HUS_KAT = 3, FRITID_KAT = 4;
     private String vnn = " ", vnrr = " ";
-    private JLabel  beskrivSkadeLabel, skadeDatoBilLabel, skadeStedBilLabel, taksbelopBilLabel, skadeTypeBilLabel,
+
+    // Her legges teksfel inn for Bil, Båt, Hus, Fritid)
+    private JLabel  skadeDatoBilLabel, skadeStedBilLabel, taksbelopBilLabel, skadeTypeBilLabel,
    				    beskrivSkadeBilLabel,navnBilLabel, telefonBilLabel,
     				skadeDatoBåtLabel, skadeStedBåtLabel,taksbelopBåtLabel,
     				adresseBåtLabel, skadeTypeBåtLabel, beskrivBåtLabel,
@@ -52,47 +51,67 @@ public class SkadeMeldingVindu extends JFrame
 
 
 	//Vindu med innhold av panel, tekstfelt, labels
-    public SkadeMeldingVindu(Huvudvindu vind, Kunde kunn)
+    public SkadeMeldingVindu(Huvudvindu vind, Kunde kunn, BilForsikring bilf, BåtForsikring båtf, HusForsikring husf, HytteForsikring hytf)
     {
     	//Vinduets size.
     	setTitle("Fyll ut skadeskjema");
-    	setSize(600,300 );
+    	setSize(600,450 );
 		vindu = vind;
 		kunde = kunn;
 		Lytter = new Lytterklasse();
     	register = vind.getRegister();
+
+		//sjekker og setter hvilken type skademedling som fylles ut:
+
+    	if(!(bilf == null))
+    	{
+    		bil1 = bilf;
+    		båt1 = null;
+    		hus1 = null;
+    		hyt1 = null;
+		}
+    	else if(!(båtf == null))
+    	{
+    		båt1 = båtf;
+    		bil1 = null;
+    		hus1 = null;
+    		hyt1 = null;
+		}
+    	else if(!(husf == null))
+    	{
+    		hus1 = husf;
+    		bil1 = null;
+    		båt1 = null;
+    		hyt1 = null;
+		}
+    	else if(!(hytf == null))
+    	{
+    		hyt1 = hytf;
+    		bil1 = null;
+    		båt1 = null;
+    		hus1 = null;
+		}
+
+
     	setLocationRelativeTo(null);
         cardPanel = new JPanel(new BorderLayout());
-		p = new JPanel();
-
-		//Knapp for Skademeldingskjema(b1)
-		b1 = new JButton("Skadeskjema");
-		b2 = new JButton("Knapp");
-		b3 = new JButton("Knapp2");
-		b2.setVisible(false);
-		b3.setVisible(false);
-		lab = new JLabel ("Skadeskjema for bil ved ulykker");
 
 
 		//Cardlayout for og swappa mellom de ulike forsikringerne.
         CardLayout sm = new CardLayout();
         cardPanel.setLayout(sm);
 
-        //Panels for de ulike forsikringsalternativene.
-        jp1 = new JPanel(new GridLayout(12,1));
-        jp2 = new JPanel(new GridLayout(9,1));
-        jp3 = new JPanel(new GridLayout(9,1));
-        jp4 = new JPanel(new GridLayout(9,1));
-        bildGrid = new JPanel(new GridLayout(1,4));
 
-        bildGrid.add(b1);
-        bildGrid.add(b2);
-        bildGrid.add(b3);
+        //Panels for de ulike forsikringsalternativene.
+        jp1 = new JPanel(new GridLayout(10,2));
+        jp2 = new JPanel(new GridLayout(10,2));
+        jp3 = new JPanel(new GridLayout(10,2));
+        jp4 = new JPanel(new GridLayout(10,2));
 
 
 
     	//Labels for bil.
-    	skadeDatoBilLabel = new JLabel("Skade dato (dd/MM/yyyy):");
+    	skadeDatoBilLabel = new JLabel("Skade dato (dd/mm/yyyy):");
 		skadeDatoBil = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		skadeTypeBilLabel = new JLabel ("Type skade:");
 		skadeTypeBil = new JTextField(DATA_FIELD_LENGTH);
@@ -107,6 +126,8 @@ public class SkadeMeldingVindu extends JFrame
 		telefonBilLabel = new JLabel("Vitne telefon:");
 		telefonBil = new JTextField(DATA_FIELD_LENGTH);
 
+
+
 		jp1.add(skadeDatoBilLabel);
 		jp1.add(skadeDatoBil);
 		jp1.add(skadeStedBilLabel);
@@ -119,12 +140,12 @@ public class SkadeMeldingVindu extends JFrame
 		jp1.add(navnBil);
 		jp1.add(telefonBilLabel);
 		jp1.add(telefonBil);
-		jp1.add(lab);
-		jp1.add(bildGrid);
+
+
 
 
     	//Labels for Båt
-		skadeDatoBåtLabel = new JLabel("Skade dato: (dd/MM/yyyy)");
+		skadeDatoBåtLabel = new JLabel("Skade dato:");
 		skadeDatoBåt = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		skadeStedBåtLabel = new JLabel("Skade sted:");
 		skadeStedBåt = new JTextField(DATA_FIELD_LENGTH);
@@ -134,6 +155,8 @@ public class SkadeMeldingVindu extends JFrame
 		beskrivBåt = new JTextField(DATA_FIELD_LENGTH);
     	taksbelopBåtLabel = new JLabel("Takseringsbelop av skaden:");
 		taksbelopBåt = new JTextField(DATA_FIELD_LENGTH);
+
+
 
 		jp2.add(skadeDatoBåtLabel);
 		jp2.add(skadeDatoBåt);
@@ -146,14 +169,15 @@ public class SkadeMeldingVindu extends JFrame
 		jp2.add(taksbelopBåtLabel);
 		jp2.add(taksbelopBåt);
 
+
     	//Labels for Hus
-		skadeDatoHusLabel = new JLabel("Skade dato (dd/MM/yyyy):");
+		skadeDatoHusLabel = new JLabel("Skade dato:");
 		skadeDatoHus = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		adresseHusLabel = new JLabel("Adresse:");
 		adresseHus = new JTextField(DATA_FIELD_LENGTH);
 		skadeTypeHusLabel = new JLabel("Type skade:");
 		skadeTypeHus = new JTextField(DATA_FIELD_LENGTH);
-		beskrivHusLabel = new JLabel("Beskriv skaden kortfattet:");
+		beskrivHusLabel = new JLabel("Beskriv skaden:");
 		beskrivHus = new JTextField(DATA_FIELD_LENGTH);
 		taksbelopHusLabel = new JLabel("Takseringsbelop av skaden:");
 		taksbelopHus = new JTextField(DATA_FIELD_LENGTH);
@@ -172,13 +196,13 @@ public class SkadeMeldingVindu extends JFrame
 
 
         //Labels for Fritid
-		skadeDatoFritidLabel = new JLabel("Skade dato (dd/MM/yyyy):");
+		skadeDatoFritidLabel = new JLabel("Skade dato:");
 		skadeDatoFritid = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
 		adresseFritidLabel = new JLabel("Adresse:");
 		adresseFritid = new JTextField(DATA_FIELD_LENGTH);
 		skadeTypeFritidLabel = new JLabel("Type skade:");
 		skadeTypeFritid = new JTextField(DATA_FIELD_LENGTH);
-		beskrivFritidLabel = new JLabel("Beskriv skaden kortfattet:");
+		beskrivFritidLabel = new JLabel("Beskriv skaden:");
 		beskrivFritid = new JTextField(DATA_FIELD_LENGTH);
 		taksbelopFritidLabel = new JLabel("Takseringsbelop av skaden:");
 		taksbelopFritid = new JTextField(DATA_FIELD_LENGTH);
@@ -195,25 +219,24 @@ public class SkadeMeldingVindu extends JFrame
 		jp4.add(taksbelopFritidLabel);
 		jp4.add(taksbelopFritid);
 
+
+
         cardPanel.add(jp1, "1");
         cardPanel.add(jp2, "2");
         cardPanel.add(jp3, "3");
         cardPanel.add(jp4, "4");
 
 
-        buttonPanelBott = new JPanel();
-        bilKnapp = new JButton("Bil");
-        båtKnapp = new JButton("Båt");
-        husKnapp = new JButton("Hus");
-        fritidKnapp = new JButton("Fritid");
-        registrer = new JButton("Registrer");
-        lukkVindu = new JButton("Lukk");
-        buttonPanelBott.add(bilKnapp);
-        buttonPanelBott.add(båtKnapp);
-        buttonPanelBott.add(husKnapp);
-        buttonPanelBott.add(fritidKnapp);
-        buttonPanelBott.add(lukkVindu);
-        buttonPanelBott.add(registrer);
+         buttonPanelBott = new JPanel();
+         bilKnapp = new JButton("Bil");
+         båtKnapp = new JButton("Båt");
+         husKnapp = new JButton("Hus");
+         fritidKnapp = new JButton("Fritid");
+         registrer = new JButton("Registrer");
+         lukkVindu = new JButton("Lukk");
+        buttonPanelBott.add(lukkVindu, BorderLayout.LINE_START);
+        buttonPanelBott.add(registrer, BorderLayout.LINE_END);
+
 
         bilKnapp.addActionListener(Lytter);
         båtKnapp.addActionListener(Lytter);
@@ -222,14 +245,12 @@ public class SkadeMeldingVindu extends JFrame
         lukkVindu.addActionListener(Lytter);
         registrer.addActionListener(Lytter);
 
-		//Plassering av panelene på vinduet
-        getContentPane().add(cardPanel, BorderLayout.LINE_START);
-        getContentPane().add(p, BorderLayout.CENTER);
-        getContentPane().add(buttonPanelBott, BorderLayout.PAGE_END);
-    }
 
-	//Sletter skrevet tekst ved registering
-	public void slettFelter()
+		//Plassering av panelene på vinduet
+        getContentPane().add(cardPanel, BorderLayout.EAST);
+        getContentPane().add(buttonPanelBott, BorderLayout.SOUTH);
+    }
+	public void slettFelter()			//setter alle felter tomme etter registrering
 	{
 		skadeDatoBil.setText("");
 		skadeStedBil.setText("");
@@ -253,13 +274,12 @@ public class SkadeMeldingVindu extends JFrame
 		taksbelopFritid.setText("");
 	}
 
-	//Feilmelding
-	public void visFeilmelding(String melding)
+	public void visFeilmelding(String melding)		//standard feilmedling
 	{
 		JOptionPane.showMessageDialog(null, melding, "FEIL", JOptionPane.ERROR_MESSAGE);
 	}
-	//Registering av ny skademelding for bil
-	public void nySkademeldingBil ()
+
+	public void nySkademeldingBil ()		//registrerer ny skademelding på bil hvis alle felter er riktige
 	{
 		try{
 			String kundenr, sted, taks, beskriv, skadetype, navn, telefon, registernr;
@@ -276,14 +296,19 @@ public class SkadeMeldingVindu extends JFrame
 			telefon = telefonBil.getText();
 
 			if(dato == null || sted.equals("")|| taks.equals("") || beskriv.equals("") || navn.equals("") || telefon.equals("") )
-				//informationTop.setText("Alle feltene må fylles ut");
 				visFeilmelding("Alle feltene må fylles ut");
 			else
 			{
 				Skademelding skadebil = new Skademelding(kunde, dato, sted, skadetype, takst, beskriv, navn, telefon, BIL_KAT);
-				register.nySkade(skadebil);
+				register.nySkade(skadebil, bil1);
 				JOptionPane.showMessageDialog(null, "Skademelding registrert");
 			}
+
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 		catch(NumberFormatException nfe)
 		{
@@ -291,8 +316,8 @@ public class SkadeMeldingVindu extends JFrame
 			return;
 		}
 	}
-		//Registering av ny skademelding for Båt
-	public void nySkademeldingBåt()
+
+	public void nySkademeldingBåt()		//registrerer ny skademelding på båt hvis alle felter er riktige
 	{
 		try{
 			String kundenr, adresse, sted, type, taks;
@@ -309,12 +334,18 @@ public class SkadeMeldingVindu extends JFrame
 			if(dato == null || sted.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
 				informationTop.setText("Alle feltene må fylles ut");
 			else
-				{
+			{
 				Skademelding skadebåt = new Skademelding(kunde, dato, sted, type, takst, beskriv, null, null, BÅT_KAT);
-				register.nySkade(skadebåt);
+				register.nySkade(skadebåt, båt1);
 				JOptionPane.showMessageDialog(null, "Skademelding registrert");
-				}
 			}
+
+		}
+
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 		catch(NumberFormatException nfe)
 		{
@@ -322,8 +353,8 @@ public class SkadeMeldingVindu extends JFrame
 			return;
 		}
 	}
-	//Registering av ny skademelding for Hus
-	public void nySkademeldingHus()
+
+	public void nySkademeldingHus()		//registrerer ny skademelding på hus hvis alle felter er riktige
 	{
 		try{
 			String type, beskriv, taks, navn, kundenr, adresse;
@@ -340,11 +371,16 @@ public class SkadeMeldingVindu extends JFrame
 			if(dato == null || adresse.equals("")|| type.equals("") || taks.equals("") || beskriv.equals(""))
 				informationTop.setText("Alle feltene må fylles ut");
 			else
-				{
+			{
 				Skademelding skadehus = new Skademelding(kunde, dato, adresse, type, takst, beskriv, null, null, HUS_KAT);
-				register.nySkade(skadehus);
+				register.nySkade(skadehus, hus1);
 				JOptionPane.showMessageDialog(null, "Skademelding registrert");
-				}
+			}
+		}
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 		catch(NumberFormatException nfe)
 		{
@@ -353,8 +389,8 @@ public class SkadeMeldingVindu extends JFrame
 		}
 	}
 
-	//Registering av ny skademelding for Fritidsbolig
-	public void nySkademeldingFritid()
+
+	public void nySkademeldingFritid()		//registrerer ny skademelding på fritidbolig hvis alle felter er riktige
 	{
 		try{
 			String type, beskriv, taks, navn, kundenr, adresse;
@@ -373,11 +409,15 @@ public class SkadeMeldingVindu extends JFrame
 			else
 			{
 				Skademelding skadefritid = new Skademelding(kunde, dato, adresse, type, takst, beskriv, null, null, FRITID_KAT);
-				register.nySkade(skadefritid);
+				register.nySkade(skadefritid, hyt1);
 				JOptionPane.showMessageDialog(null, "Skademelding registrert");
 			}
 		}
-
+		catch(NullPointerException npe)
+		{
+			JOptionPane.showMessageDialog(null, "NullPointerException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		catch(NumberFormatException nfe)
 		{
 			JOptionPane.showMessageDialog(null, "NumberFormatException i nySkademeldingBil i SkadeMeldingVindu", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -385,8 +425,8 @@ public class SkadeMeldingVindu extends JFrame
 		}
 	}
 
-	//Lytterklasse for skademelding,knappar
-	private class Lytterklasse implements ActionListener
+
+	private class Lytterklasse implements ActionListener		//lytterklasse forr knapper og paneler
 	{
 		public void actionPerformed(ActionEvent e)
 		{
@@ -406,43 +446,34 @@ public class SkadeMeldingVindu extends JFrame
 			{
 				sm = (CardLayout) cardPanel.getLayout();
                 sm.show(cardPanel, "1");
-           		/*informationTop.setText("Skademelding Bil");
-                informationTop.revalidate();
-                informationTop.repaint();*/
 			}
 
 			else if(e.getSource() == båtKnapp)
             {
             	CardLayout sm = (CardLayout) cardPanel.getLayout();
                 sm.show(cardPanel, "2");
-           		/*informationTop.setText("Skademelding Båt");
-                informationTop.revalidate();
-                informationTop.repaint();*/
             }
 
             else if(e.getSource() == husKnapp)
             {
             	CardLayout sm = (CardLayout) cardPanel.getLayout();
                 sm.show(cardPanel, "3");
-           		/*informationTop.setText("Skademelding Hus");
-                informationTop.revalidate();
-                informationTop.repaint();*/
             }
 
             else if(e.getSource() == fritidKnapp)
-           	{
+            {
             	CardLayout sm = (CardLayout) cardPanel.getLayout();
                 sm.show(cardPanel, "4");
-           		/*informationTop.setText("Skademelding Fritid");
-                informationTop.revalidate();
-                informationTop.repaint();*/
             }
-            else if(e.getSource() == lukkVindu)
+            else if(e.getSource() == lukkVindu)		//lukker vinduet
             	dispose();
 		}
 	}
 
-	private JTextField JTextField(int dATA_FIELD_LENGTH2) {
+
+
+	private JTextField JTextField(int dATA_FIELD_LENGTH2)		//?
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
